@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
 
   return (
-    <nav className="max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
+    <nav className="max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4 ">
       <Link href="/" className="justify-center flex items-center">
         <Image
           src="/logo-main.svg"
@@ -29,7 +30,8 @@ const Navbar = () => {
           </span>
         </div>
       </button>
-<SearchBar/>
+      <SearchBar />
+      <ContactList/>
     </nav>
   );
 }

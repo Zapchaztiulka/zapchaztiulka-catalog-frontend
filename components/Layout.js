@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Zapchaztiulki</title>
       </Head>
-      <header>
+      <header className="border-b border-border-default">
         <Navbar />
       </header>
       <main className="main-container">
