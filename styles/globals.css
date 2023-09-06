@@ -32,4 +32,8 @@ a {
   text-decoration: none;
 }
 
-
+.layout {
+padding: 0 120px;
+width: 1400px;
+margin: auto;
+}

@@ -6,8 +6,8 @@ import SearchBar from "./SearchBar";
 const Navbar = () => {
 
   return (
-    <nav className="max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4 ">
-      <Link href="/" className="justify-center flex items-center">
+    <nav className="flex items-center py-4 ">
+      <Link href="/" className="justify-center flex items-center mr-[93px]">
         <Image
           src="/logo-main.svg"
           alt="logo"
@@ -16,7 +16,7 @@ const Navbar = () => {
           height={56}
         />
       </Link>
-      <button className="rounded-lg">
+      <button className="rounded-lg mr-[15px]">
         <div className="flex gap-2 items-center px-7 py-3.5 bg-default-blue rounded-lg">
           <Image
             src="/catalog-icon.svg"
@@ -31,7 +31,19 @@ const Navbar = () => {
         </div>
       </button>
       <SearchBar />
-      <ContactList/>
+      <ContactList />
+      <Link legacyBehavior href={{ pathname: "/cart" }}>
+        <div className="coursor-pointer p-2 flex gap-2 text-base text-text-primary">
+          <p>Кошик</p>
+          <Image
+            src="/cart-icon.svg"
+            alt="cart-icon"
+            className="object-contain"
+            width={24}
+            height={24}
+          />
+        </div>
+      </Link>
     </nav>
   );
 }

@@ -1,9 +1,10 @@
+"use client";
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { Combobox, Transition } from "@headlessui/react";
 
-function SearchBar() {
+const SearchBar=() =>{
   const product = [
     { id: 1, name: "Кришка радіатора" },
     { id: 2, name: "Корпус термостата" },
@@ -52,7 +53,7 @@ function SearchBar() {
   return (
     <form
       onSubmit={handleSearch}
-      className="flex items-center justify-start max-sm:flex-col relative max-sm:gap-4 max-w-3xl gap-4"
+      className="flex items-center justify-start max-sm:flex-col relative max-sm:gap-4 max-w-3xl gap-4 mr-[69px]"
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
         <Combobox value={selectedProduct} onChange={setSelectedProduct}>
@@ -120,6 +121,5 @@ function SearchBar() {
     </form>
   );
 }
-
 
 export default SearchBar;

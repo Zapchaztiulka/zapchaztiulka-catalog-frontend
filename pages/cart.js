@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Basket = () => {
+const Cart = () => {
   return (
     <div className="text-red-600">
-      new Basket
+      new cart
     </div>
   )
 }
 
-export default Basket
+export default Cart

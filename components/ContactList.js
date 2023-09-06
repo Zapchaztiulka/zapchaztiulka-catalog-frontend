@@ -1,5 +1,7 @@
+"use client";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+import Image from "next/image";
 
 const phone = [
   { tel: "(050) 810 48 82" },
@@ -11,12 +13,28 @@ const ContactList = () => {
   const [selected, setSelected] = useState(phone[0]);
 
   return (
-    <div className="top-16 w-72">
-      <Listbox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected.tel}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
+     <div className="w-200 mr-[24px]">
+        
+        <Listbox value={selected} onChange={setSelected}>
+        <div className="relative">
+          <Listbox.Button className="flex w-200 cursor-pointer p-2 text-left focus:outline-none  text-text-primary focus-visible:ring-offset-orange-300 text-base">
+           <span className="pointer-events-none inset-y-0 left-0 flex items-center">
+                 <Image
+            src="/phone-icon.svg"
+            alt="phone-icon"
+            className="object-contain"
+            width={24}
+            height={24}/>   
+            </span>
+                 <span className="block overflow-hidden text-ellipsis"><p className="ml-2">{selected.tel}</p></span>
+                 <span className="pointer-events-none inset-y-0 right-0 flex items-center">
+                 <Image
+            src="/arrow-down-icon.svg"
+            alt="arrow-icon"
+            className="object-contain"
+            width={24}
+            height={24}/>   
+            </span>
           </Listbox.Button>
           <Transition
             as={Fragment}
@@ -24,8 +42,8 @@ const ContactList = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {phone.map((item, itemIdx) => (
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              {phone?.map((item, itemIdx) => (
                 <Listbox.Option
                   key={itemIdx}
                   className={({ active }) =>
@@ -46,7 +64,7 @@ const ContactList = () => {
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          bb
+                          -
                         </span>
                       ) : null}
                     </>
