@@ -15,6 +15,8 @@ module.exports = {
         "border-default": "#C6CACD",
         "text-input-default": "#6B7075",
         "text-primary": "#1C1F23",
+        "tertiary": "#6B7075",
+        "text-secondary": "#41464C",
       },
       width: {
         272: "17rem",

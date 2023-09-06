@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
       <main className="main-container">
         {children}
       </main>
-      <footer>
+      <footer className="border-е border-border-default">
         <Footer />
       </footer>
     </div>
