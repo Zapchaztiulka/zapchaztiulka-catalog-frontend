@@ -53,7 +53,7 @@ const SearchBar=() =>{
   return (
     <form
       onSubmit={handleSearch}
-      className="flex items-center justify-start max-sm:flex-col relative max-sm:gap-4 max-w-3xl gap-4 mr-[69px]"
+      className="hidden md:flex items-center justify-start max-sm:flex-col relative max-sm:gap-4 max-w-3xl gap-4 mr-[69px]"
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
         <Combobox value={selectedProduct} onChange={setSelectedProduct}>

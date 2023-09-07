@@ -32,6 +32,12 @@ a {
 
 }
 
+.navbar {
+@apply flex items-center md:py-4 pt-2 pb-1 md:pr-[120px] md:pl-[120px] px-4 bg-brand-light3 md:bg-white ;
+
+
+}
+
 .footer-items {
 padding: 10px 4px;
 
