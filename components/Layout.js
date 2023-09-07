@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Head from "next/head";
 
 import Navbar from "./Navbar";
@@ -14,7 +16,7 @@ const Layout = ({ children }) => {
         <Navbar />
       </header>
       <main className="main-container">{children}</main>
-      <footer className="border-t border-border-default pt-[42px] pl-[120px] pr-[120px]">
+      <footer className="border-t border-border-default lg:pt-[42px] px-4 xl:pr-[120px] xl:pl-[120px] py-6 ">
         <Footer />
       </footer>
     </div>

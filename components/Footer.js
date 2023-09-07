@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,7 +8,7 @@ const Footer = () => {
 
   return (
     <div className="flex flex-col justify-between gap-3">
-      <Link href="/" className=" flex items-center">
+      <Link href="/" className=" md:flex  hidden items-center">
         <Image
           src="/logo-main.svg"
           alt="logo"
@@ -15,7 +17,16 @@ const Footer = () => {
           height={56}
         />
       </Link>
-      <div className="flex justify-between">
+       <Link href="/" className="flex md:hidden items-center">
+          <Image
+            src="/logo-blue.svg"
+            alt="logo"
+            className="object-contain"
+            width={44}
+            height={44}
+          />
+        </Link>
+      <div className="footer-lists">
         <div className="flex flex-col gap-3">
           <h4 className="text-tertiary text-lg">Каталог</h4>
           <ul className="text-text-primary text-base">

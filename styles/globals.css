@@ -44,3 +44,14 @@ a {
 padding: 10px 4px;
 
 }
+
+.footer-lists {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 24px 0 16px;
+
+  @media (min-width: 1170px) {
+	flex-direction: row;
+}
+}

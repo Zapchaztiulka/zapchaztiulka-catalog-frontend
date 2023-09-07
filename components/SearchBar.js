@@ -1,5 +1,7 @@
 "use client";
 import Image from "next/image";
+import React from "react";
+
 import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { Combobox, Transition } from "@headlessui/react";
@@ -33,6 +35,8 @@ const SearchBar=() =>{
     updateSearchParams(filteredProduct.toLowerCase());
     setSelectedProduct("");
   };
+
+  console.log(query)
 
   const updateSearchParams = (filteredProduct) => {
     const searchParams = new URLSearchParams(window.location.search);

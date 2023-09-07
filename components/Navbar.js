@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import React from 'react'
+
 import { useEffect, useState } from 'react';
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
@@ -27,6 +29,8 @@ const Navbar = () => {
           src="/logo-main.svg"
           alt="logo"
           className="object-contain"
+          priority={true}
+          quality={80}
           width={width < 1024 ? "150" : "210"}
           height={width < 1024 ? "45" : "56"}
         />
