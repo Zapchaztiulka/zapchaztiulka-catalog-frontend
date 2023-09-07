@@ -33,9 +33,11 @@ a {
 }
 
 .navbar {
-@apply flex items-center md:py-4 pt-2 pb-1 md:pr-[120px] md:pl-[120px] px-4 bg-brand-light3 md:bg-white ;
+@apply flex justify-between items-center md:py-4 pt-2 pb-1 xl:pr-[120px] xl:pl-[120px] px-4 bg-brand-light3 md:bg-white ;
+}
 
-
+.main-container {
+@apply pr-[120px] pl-[120px];
 }
 
 .footer-items {

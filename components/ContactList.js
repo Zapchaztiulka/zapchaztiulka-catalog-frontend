@@ -13,7 +13,7 @@ const ContactList = () => {
   const [selected, setSelected] = useState(phone[0]);
 
   return (
-     <div className="w-200 mr-[24px] md:block hidden">
+     <div className="w-200 md:block hidden">
         
         <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
