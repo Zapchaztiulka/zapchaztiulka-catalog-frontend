@@ -107,16 +107,16 @@ const SearchBar=() =>{
               </Combobox.Options>
             </Transition>
           </div>
+          <div className="border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer">
+            <Image
+              src="/search-icon.svg"
+              alt="search-icon"
+              className="object-contain"
+              width={24}
+              height={24}
+            />
+          </div>
         </Combobox>
-        <div className="border border-border-default rounded-r p-3 absolute right-0 top-0">
-          <Image
-            src="/search-icon.svg"
-            alt="search-icon"
-            className="object-contain"
-            width={24}
-            height={24}
-          />
-        </div>
       </div>
     </form>
   );

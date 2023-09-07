@@ -17,10 +17,14 @@ module.exports = {
         "text-primary": "#1C1F23",
         "tertiary": "#6B7075",
         "text-secondary": "#41464C",
+        "brand-light3": "#2E90FA"
       },
       width: {
         272: "17rem",
         200: "12.3rem",
+      },
+      screens: {
+        xs: "375px",
       },
     },
   },

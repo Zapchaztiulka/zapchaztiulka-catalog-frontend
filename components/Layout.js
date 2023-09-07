@@ -8,6 +8,10 @@ const Layout = ({ children }) => {
     <div className="layout">
       <Head>
         <title>Zapchaztiulki</title>
+                        <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                />
       </Head>
       <header className="border-b border-border-default">
         <Navbar />
@@ -15,7 +19,7 @@ const Layout = ({ children }) => {
       <main className="main-container">
         {children}
       </main>
-      <footer className="border-е border-border-default">
+      <footer className="border-t border-border-default pt-[42px] pl-[120px] pr-[120px]">
         <Footer />
       </footer>
     </div>

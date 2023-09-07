@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 const Navbar = () => {
 
   return (
-    <nav className="flex items-center py-4 ">
+    <nav className="flex items-center py-4 pr-[120px] pl-[120px] md:flex-row">
       <Link href="/" className="justify-center flex items-center mr-[93px]">
         <Image
           src="/logo-main.svg"
@@ -17,7 +17,7 @@ const Navbar = () => {
         />
       </Link>
       <button className="rounded-lg mr-[15px]">
-        <div className="flex gap-2 items-center px-7 py-3.5 bg-default-blue rounded-lg">
+        <div className="flex gap-2 items-center px-7 py-3 bg-default-blue rounded-lg ">
           <Image
             src="/catalog-icon.svg"
             alt="catalog-icon"

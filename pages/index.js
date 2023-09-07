@@ -1,5 +1,5 @@
 const Catalog = () => {
-  return <div>всі продукти</div>;
+  return <div className="h-[50vh] mt-[100px]">всі продукти</div>;
 };
 
 export default Catalog;
