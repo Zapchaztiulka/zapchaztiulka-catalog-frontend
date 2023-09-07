@@ -110,7 +110,7 @@ const Navbar = () => {
 
       <div className="md:flex hidden">
         <button className="rounded-lg mr-[15px] hidden md:block">
-          <div className="flex gap-2 items-center px-7 py-3 bg-default-blue rounded-lg ">
+          <div className="flex justify-between items-center lg:px-6 px-3 py-3 bg-default-blue rounded-lg ">
             <Image
               src="/catalog-icon.svg"
               alt="catalog-icon"
