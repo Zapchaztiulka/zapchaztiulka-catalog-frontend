@@ -22,8 +22,8 @@ const Footer = () => {
             src="/logo-blue.svg"
             alt="logo"
             className="object-contain"
-            width={44}
-            height={44}
+            width={50}
+            height={48}
           />
         </Link>
       <div className="footer-lists">
