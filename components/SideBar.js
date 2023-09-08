@@ -9,7 +9,7 @@ const Sidebar = ({
   return (
     <>
       <div
-        className="sidebar-container fixed md:hidden w-full h-full overflow-hidden bg-white grid pt-[24px] z-10 pr-[16px] pl-[53px]"
+        className="flex flex-col fixed md:hidden w-full h-full overflow-hidden bg-white pt-[24px] z-10 pr-[16px] pl-[53px]"
         style={{
           opacity: `${isOpen ? "1" : "0"}`,
           top: ` ${isOpen ? "0" : "-100%"}`,
