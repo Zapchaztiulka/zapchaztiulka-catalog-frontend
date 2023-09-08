@@ -49,9 +49,11 @@ padding: 10px 4px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding: 24px 0 16px;
+  gap: 32px;
+ 
 
   @media (min-width: 1170px) {
 	flex-direction: row;
+   padding: 24px 0 16px;
 }
 }

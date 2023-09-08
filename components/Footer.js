@@ -7,7 +7,7 @@ const Footer = () => {
   const current_year = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col justify-between gap-3">
+    <div className="flex flex-col justify-between md:gap-3 gap-8">
       <Link href="/" className=" md:flex  hidden items-center">
         <Image
           src="/logo-main.svg"
