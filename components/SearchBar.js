@@ -113,7 +113,7 @@ const SearchBar=() =>{
           </div>
           <div className="border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer">
             <Image
-              src="/search-icon.svg"
+              src="/icons/search-icon.svg"
               alt="search-icon"
               className="object-contain"
               width={24}

@@ -17,7 +17,8 @@ module.exports = {
         "text-primary": "#1C1F23",
         "tertiary": "#6B7075",
         "text-secondary": "#41464C",
-        "brand-light3": "#2E90FA"
+        "brand-light3": "#2E90FA",
+        "secondary":"#888D92"
       },
       width: {
         272: "17rem",

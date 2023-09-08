@@ -22,7 +22,7 @@ const ContactList = () => {
           <Listbox.Button className="flex w-200 cursor-pointer p-2 text-left focus:outline-none  text-text-primary focus-visible:ring-offset-orange-300 text-base">
            <span className="pointer-events-none inset-y-0 left-0 flex items-center">
                  <Image
-            src="/phone-icon.svg"
+            src="/icons/phone-icon.svg"
             alt="phone-icon"
             className="object-contain"
             width={24}
@@ -31,7 +31,7 @@ const ContactList = () => {
                  <span className="block overflow-hidden text-ellipsis"><p className="ml-2">{selected.tel}</p></span>
                  <span className="pointer-events-none inset-y-0 right-0 flex items-center">
                  <Image
-            src="/arrow-down-icon.svg"
+            src="/icons/arrow-down-icon.svg"
             alt="arrow-icon"
             className="object-contain"
             width={24}

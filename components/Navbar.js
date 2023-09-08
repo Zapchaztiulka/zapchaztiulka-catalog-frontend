@@ -1,26 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from 'react'
+import { useEffect, useState, useRef } from "react";
 
-import { useEffect, useState } from 'react';
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
+import Sidebar from "./SideBar";
 
 const Navbar = () => {
+  const [width, setWidth] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
 
-  const [navbar, setNavbar] = useState(false);
-    const [width, setWidth] = useState(0);
+  const updateWidth = () => {
+    const newWidth = window.innerWidth;
+    setWidth(newWidth);
+  };
 
-    const updateWidth = () => {
-      const newWidth = window.innerWidth;
-      setWidth(newWidth);
-    };
-
-    useEffect(() => {
-      window.addEventListener("resize", updateWidth);
-      updateWidth();
-    }, []);
-
+  useEffect(() => {
+    window.addEventListener("resize", updateWidth);
+    updateWidth();
+  }, []);
 
   return (
     <nav className="navbar">
@@ -35,7 +36,10 @@ const Navbar = () => {
           height={width < 1024 ? "45" : "56"}
         />
       </Link>
-      <Link href="/" className="justify-center md:flex hidden lg:hidden items-center">
+      <Link
+        href="/"
+        className="justify-center md:flex hidden lg:hidden items-center"
+      >
         <Image
           src="/logo-blue.svg"
           alt="logo"
@@ -54,30 +58,21 @@ const Navbar = () => {
             height={44}
           />
         </Link>
+        <Sidebar isOpen={isOpen} toggle={toggle} />
 
         {/* mobile menu */}
         <div className="md:hidden">
           <button
             className="flex item-center outline-none text-gray-700 rounded-md focus:border-gray-400"
-            onClick={() => setNavbar(!navbar)}
+            onClick={toggle}
           >
-            {navbar ? (
-              <Image
-                src="/close-icon.svg"
-                alt="close"
-                className="object-contain"
-                width={44}
-                height={44}
-              />
-            ) : (
-              <Image
-                src="/menu-icon.svg"
-                alt="close"
-                className="object-contain"
-                width={44}
-                height={44}
-              />
-            )}
+            <Image
+            src="/icons/menu-icon.svg"
+            alt="menu"
+            className="object-contain"
+            width={44}
+            height={44}
+          />
           </button>
         </div>
       </div>
@@ -85,7 +80,7 @@ const Navbar = () => {
       <div className="flex">
         <Link href="/" className="justify-center flex md:hidden items-center">
           <Image
-            src="/search-icon-menu.svg"
+            src="/icons/search-icon-menu.svg"
             alt="search"
             className="object-contain"
             width={44}
@@ -94,7 +89,7 @@ const Navbar = () => {
         </Link>
         <Link href="/" className="justify-center flex md:hidden items-center">
           <Image
-            src="/phone-icon-menu.svg"
+            src="/icons/phone-icon-menu.svg"
             alt="phone"
             className="object-contain"
             width={44}
@@ -103,7 +98,7 @@ const Navbar = () => {
         </Link>
         <Link href="/" className="justify-center flex md:hidden items-center">
           <Image
-            src="/cart-icon-menu.svg"
+            src="/icons/cart-icon-menu.svg"
             alt="cart"
             className="object-contain"
             width={44}
@@ -116,7 +111,7 @@ const Navbar = () => {
         <button className="rounded-lg mr-[15px] hidden md:block">
           <div className="flex justify-between items-center lg:px-6 px-3 py-3 bg-default-blue rounded-lg ">
             <Image
-              src="/catalog-icon.svg"
+              src="/icons/catalog-icon.svg"
               alt="catalog-icon"
               className="object-contain"
               width={24}
@@ -136,7 +131,7 @@ const Navbar = () => {
           <div className="coursor-pointer p-2 flex gap-2 text-base text-text-primary">
             <p>Кошик</p>
             <Image
-              src="/cart-icon.svg"
+              src="/icons/cart-icon.svg"
               alt="cart-icon"
               className="object-contain"
               width={24}
@@ -147,6 +142,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 
-export default Navbar
+export default Navbar;
