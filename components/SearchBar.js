@@ -61,13 +61,24 @@ const SearchBar=() =>{
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
         <Combobox value={selectedProduct} onChange={setSelectedProduct}>
-          <div className="relative w-full">
-            <Combobox.Input
+          <div className=" w-full">
+            <div className="search">
+                <Combobox.Input
               onChange={(event) => setQuery(event.target.value)}
               displayValue={(item) => item.name}
               placeholder="Я шукаю.."
-              className="p-3 w-272 rounded-lg border border-border-default cursor-pointer text-base text-text-input-default focus:outline-none"
+              className="search-input"
             />
+            <div className="search-icon">
+              <Image
+                src="/icons/search-icon.svg"
+                alt="search-icon"
+                className="object-contain"
+                width={24}
+                height={24}
+              />
+            </div>
+</div>          
             <Transition
               as={Fragment}
               leave="transition ease-in duration-100"
@@ -110,15 +121,6 @@ const SearchBar=() =>{
                 ))}
               </Combobox.Options>
             </Transition>
-          </div>
-          <div className="border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer">
-            <Image
-              src="/icons/search-icon.svg"
-              alt="search-icon"
-              className="object-contain"
-              width={24}
-              height={24}
-            />
           </div>
         </Combobox>
       </div>

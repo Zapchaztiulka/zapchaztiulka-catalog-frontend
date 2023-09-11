@@ -18,7 +18,10 @@ module.exports = {
         "tertiary": "#6B7075",
         "text-secondary": "#41464C",
         "brand-light3": "#2E90FA",
-        "secondary":"#888D92"
+        "secondary":"#888D92",
+        "hover-blue": "#1849A9",
+        "hover-grey": "#EFF8FF",
+        "input-active": "#1C1F23"
       },
       width: {
         272: "17rem",
@@ -27,6 +30,9 @@ module.exports = {
       screens: {
         xs: "375px",
       },
+      boxShadow: {
+        'button-shadow': "0px 0px 0px 4px #2E90FA"
+      }
     },
   },
   plugins: [],

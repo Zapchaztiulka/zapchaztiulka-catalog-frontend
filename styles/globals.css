@@ -57,8 +57,35 @@ padding: 10px 4px;
    padding: 24px 0 16px;
 }
 }
-/* 
-.sidebar-container {
-  display: flex;
-  flex-direction: column;
-} */
+
+.state-button {
+@apply hover:bg-hover-blue focus:shadow-button-shadow;
+}
+
+.search-input {
+  @apply relative p-3 w-272 rounded-lg border border-border-default text-base placeholder:text-text-input-default ;
+}
+
+.search-icon {
+  @apply border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer ;
+}
+
+.search:hover input {
+@apply bg-hover-grey placeholder:text-input-active;
+}
+
+.search:active input {
+@apply bg-hover-grey placeholder:text-input-active;
+}
+
+.search:hover .search-icon {
+    @apply bg-default-blue border border-default-blue ;
+}
+
+.search:focus-within input {
+  @apply focus:outline-none focus:border-default-blue placeholder:text-input-active;
+}
+
+.search:focus-within .search-icon {
+      @apply bg-default-blue border border-default-blue ;
+}
