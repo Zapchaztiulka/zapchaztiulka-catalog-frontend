@@ -26,9 +26,6 @@ a {
   text-decoration: none;
 }
 
-.layout {
-}
-
 .navbar {
   @apply flex justify-between items-center md:py-4 pt-2 pb-1 xl:pr-[120px] xl:pl-[120px] px-4 bg-brand-light3 md:bg-white;
 }
@@ -87,6 +84,6 @@ a {
   @apply focus:outline-none focus:border-default-blue placeholder:text-input-active;
 }
 
-.sidebar-menu:hover .sidebar-icon {
+.sidebar-menu:hover .sidebar-icon, .sidebar-menu:focus .sidebar-icon {
   @apply fill-hover-blue;
 }
