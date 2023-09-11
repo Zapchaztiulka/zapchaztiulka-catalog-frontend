@@ -21,7 +21,8 @@ module.exports = {
         "secondary":"#888D92",
         "hover-blue": "#1849A9",
         "hover-grey": "#EFF8FF",
-        "input-active": "#1C1F23"
+        "input-active": "#1C1F23",
+        "white": "#fff"
       },
       width: {
         272: "17rem",

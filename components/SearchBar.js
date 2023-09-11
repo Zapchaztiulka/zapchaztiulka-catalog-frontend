@@ -5,8 +5,9 @@ import React from "react";
 import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { Combobox, Transition } from "@headlessui/react";
+import { SearchIcon } from "@/public/icons";
 
-const SearchBar=() =>{
+const SearchBar = () => {
   const product = [
     { id: 1, name: "Кришка радіатора" },
     { id: 2, name: "Корпус термостата" },
@@ -36,7 +37,7 @@ const SearchBar=() =>{
     setSelectedProduct("");
   };
 
-  console.log(query)
+  console.log(query);
 
   const updateSearchParams = (filteredProduct) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -63,16 +64,16 @@ const SearchBar=() =>{
         <Combobox value={selectedProduct} onChange={setSelectedProduct}>
           <div className=" w-full">
             <div className="search">
-                <Combobox.Input
-              onChange={(event) => setQuery(event.target.value)}
-              displayValue={(item) => item.name}
-              placeholder="Я шукаю.."
-              className="search-input"
-            />
-            <div className="search-icon">               
-                <svg className="stroke-secondary icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11.25 19.5a8.25 8.25 0 1 0 0-16.5 8.25 8.25 0 0 0 0 16.5ZM21 21l-3.75-3.75"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <Combobox.Input
+                onChange={(event) => setQuery(event.target.value)}
+                displayValue={(item) => item.name}
+                placeholder="Я шукаю.."
+                className="search-input"
+              />
+              <div className="search-icon">
+                <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
+              </div>
             </div>
-</div>          
             <Transition
               as={Fragment}
               leave="transition ease-in duration-100"
@@ -120,6 +121,6 @@ const SearchBar=() =>{
       </div>
     </form>
   );
-}
+};
 
 export default SearchBar;

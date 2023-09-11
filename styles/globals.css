@@ -6,20 +6,19 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  }
+}
 
 html,
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   height: 100%;
   margin: 0 auto;
 }
 
-
 body {
-max-width: 1440px;
-margin: 0 auto;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 a {
@@ -28,20 +27,18 @@ a {
 }
 
 .layout {
-
-
 }
 
 .navbar {
-@apply flex justify-between items-center md:py-4 pt-2 pb-1 xl:pr-[120px] xl:pl-[120px] px-4 bg-brand-light3 md:bg-white ;
+  @apply flex justify-between items-center md:py-4 pt-2 pb-1 xl:pr-[120px] xl:pl-[120px] px-4 bg-brand-light3 md:bg-white;
 }
 
 .main-container {
-@apply pr-[120px] pl-[120px];
+  @apply pr-[120px] pl-[120px];
 }
 
 .footer-items {
-@apply py-[10px] px-[4px] hover:text-hover-blue hover:underline;
+  @apply py-[10px] px-[4px] hover:text-hover-blue hover:underline;
 }
 
 .footer-lists {
@@ -49,43 +46,47 @@ a {
   justify-content: space-between;
   flex-direction: column;
   gap: 32px;
- 
 
   @media (min-width: 1170px) {
-	flex-direction: row;
-   padding: 24px 0 16px;
-}
+    flex-direction: row;
+    padding: 24px 0 16px;
+  }
 }
 
 .state-button {
-@apply hover:bg-hover-blue focus:shadow-button-shadow;
+  @apply hover:bg-hover-blue focus:shadow-button-shadow;
 }
 
 .search-input {
-  @apply relative p-3 w-272 rounded-lg border border-border-default text-base placeholder:text-text-input-default ;
+  @apply relative p-3 w-272 rounded-lg border border-border-default text-base placeholder:text-text-input-default;
 }
 
 .search-icon {
-  @apply border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer ;
+  @apply border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer;
 }
 
 .search:hover input {
-@apply bg-hover-grey placeholder:text-input-active;
+  @apply bg-hover-grey placeholder:text-input-active;
 }
 
 .search:active input {
-@apply bg-hover-grey placeholder:text-input-active;
+  @apply bg-hover-grey placeholder:text-input-active;
 }
 
-.search:hover .search-icon, .search:focus-within .search-icon {
-    @apply bg-default-blue border border-default-blue;
+.search:hover .search-icon,
+.search:focus-within .search-icon {
+  @apply bg-default-blue border border-default-blue;
 }
 
- .search:hover .icon, .search:focus-within .icon {
- stroke: #fff;
+.search:hover .icon,
+.search:focus-within .icon {
+  @apply stroke-white fill-default-blue;
 }
 
 .search:focus-within input {
   @apply focus:outline-none focus:border-default-blue placeholder:text-input-active;
 }
 
+.sidebar-menu:hover .sidebar-icon {
+  @apply fill-hover-blue;
+}
