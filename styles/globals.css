@@ -41,8 +41,7 @@ a {
 }
 
 .footer-items {
-padding: 10px 4px;
-
+@apply py-[10px] px-[4px] hover:text-hover-blue hover:underline;
 }
 
 .footer-lists {
@@ -78,14 +77,15 @@ padding: 10px 4px;
 @apply bg-hover-grey placeholder:text-input-active;
 }
 
-.search:hover .search-icon {
-    @apply bg-default-blue border border-default-blue ;
+.search:hover .search-icon, .search:focus-within .search-icon {
+    @apply bg-default-blue border border-default-blue;
+}
+
+ .search:hover .icon, .search:focus-within .icon {
+ stroke: #fff;
 }
 
 .search:focus-within input {
   @apply focus:outline-none focus:border-default-blue placeholder:text-input-active;
 }
 
-.search:focus-within .search-icon {
-      @apply bg-default-blue border border-default-blue ;
-}
