@@ -2,6 +2,9 @@ import React from 'react'
 import { Layout } from '@/components';
 import '../styles/globals.css';
 import { Inter } from "next/font/google";
+// import  { wrapper } from '../redux/store';
+import store from '../redux/store'
+import { Provider } from 'react-redux';
 
 const inter = Inter({ subsets: ["latin"], weight: ['400', '700'],
   style: ['normal'], });
@@ -9,10 +12,15 @@ const inter = Inter({ subsets: ["latin"], weight: ['400', '700'],
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout className={inter.className}>
+    <Provider store={store}>
+                <Layout className={inter.className}>
       <Component {...pageProps} />
     </Layout>
+</Provider>
+
+
+
   );
 }
 
-export default MyApp
+export default MyApp;
