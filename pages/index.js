@@ -11,7 +11,13 @@ const Catalog = () => {
 
   return (
     <div className="h-[50vh] mt-[100px]">
-mm 
+      {(isFetching || isLoading) && <p>Тут буде лоадер</p>}
+      {error && <p>Тут буде повідомлення про помилку</p>}
+      {data && data.products.map(({ name, _id }) => {
+        return (<ul key={_id}>
+          <li>{name}</li>
+        </ul>)
+      })}
     </div>
   );
 };
