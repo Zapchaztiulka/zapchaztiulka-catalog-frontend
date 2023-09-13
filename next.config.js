@@ -7,7 +7,15 @@ const nextConfig = {
          use: [{ loader:'@svgr/webpack', options:{icon:true}}],
       })
       return config
-   }
+   },
+images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig
