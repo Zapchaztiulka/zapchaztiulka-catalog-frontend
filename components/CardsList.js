@@ -10,13 +10,12 @@ const CardsList = () => {
    console.log(data.products)
 
   return (
-    <ul  className="flex flex-wrap gap-5">
+    <ul  className="flex flex-wrap md:gap-5 gap-2 justify-center">
         {data && data.products.map(({ name, _id, photo, price }) => {
-         
-           
+               
            return (
              <li
-               className="w-[285px] border border-border-default rounded-lg"
+               className="md:w-[285px] w-[168px] border border-border-default rounded-lg"
                key={_id}
              >
                <div className="">
@@ -29,15 +28,15 @@ const CardsList = () => {
                      height="190"
                    />
                  </div>
-                 <div className="px-3 pt-2 pb-3">
-                   <p className="mb-1 text-sm text-tertiary">Артикул:</p>
-                   <h3 className="mb-6 h-12 overflow-hidden text-xl/[24px] font-medium text-text-primary">
+                 <div className="md:px-3 md:pt-2 md:pb-3 p-2">
+                   <p className="mb-1 md:text-sm text-[10px] text-tertiary">Артикул:</p>
+                   <h3 className="md:mb-6 mb-4 md:h-12 h-4 overflow-hidden md:text-xl/[24px] text-sm/[18.2px] md:font-medium text-text-primary">
                      {name}
                    </h3>
-                   <p className="mb-2 font-medium text-text-primary text-2xl">
+                   <p className="md:mb-2 mb-1 font-medium text-text-primary md:text-2xl text-lg">
                      {price.value} &#8372;
                    </p>
-                   <button className="px-6 py-3 w-full text-white text-base text-center font-medium state-button ">
+                   <button className=" md:px-6 md:py-3 py-2 w-full text-white md:text-base text-sm md:font-medium state-button ">
                      Додати в кошик
                    </button>
                  </div>

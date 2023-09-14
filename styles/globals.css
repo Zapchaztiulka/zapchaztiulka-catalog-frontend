@@ -31,7 +31,7 @@ a {
 }
 
 .main-container {
-  @apply pr-[120px] pl-[120px] mb-6;
+  @apply md:pr-[120px] md:pl-[120px] pr-[15.5px] pl-[15.5px] mb-6;
 }
 
 .footer-items {
@@ -89,5 +89,5 @@ a {
 }
 
 .product-img {
-@apply h-[190px] rounded-t-lg;
+@apply md:h-[190px] h-[112px] rounded-t-lg w-[168px] md:w-[285px];
 }
