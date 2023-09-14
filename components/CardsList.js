@@ -10,32 +10,42 @@ const CardsList = () => {
    console.log(data.products)
 
   return (
-    <div>
+    <ul  className="flex flex-wrap gap-5">
         {data && data.products.map(({ name, _id, photo, price }) => {
          
            
            return (
-             <ul key={_id}>
-               <li>
+             <li
+               className="w-[285px] border border-border-default rounded-lg"
+               key={_id}
+             >
+               <div className="">
                  <div>
-                   <div>
-                     <div>
-                       <Image
-                         src="/placeholder-img.webp"
-                         alt="ddd"
-                                className="object-cover object-center"
-                                width="295"
-                                height="190"
-                       />
-                     </div>
-                   </div>
+                   <Image
+                     src="/placeholder-img.webp"
+                     alt={photo[0].alt}
+                     className="object-cover object-center product-img"
+                     width="285"
+                     height="190"
+                   />
                  </div>
-                 {name}
-               </li>
-             </ul>
+                 <div className="px-3 pt-2 pb-3">
+                   <p className="mb-1 text-sm text-tertiary">Артикул:</p>
+                   <h3 className="mb-6 h-12 overflow-hidden text-xl font-medium text-text-primary">
+                     {name}
+                   </h3>
+                   <p className="mb-2 font-medium text-text-primary text-2xl">
+                     {price.value} &#8372;
+                   </p>
+                   <button className="px-[68px] py-[13px] text-center border rounded-lg bg-default-blue text-white text-base font-medium hover:bg-hover-blue focus:bg-hover-blue">
+                     Додати в кошик
+                   </button>
+                 </div>
+               </div>
+             </li>
            );
         })}
-    </div>
+    </ul>
   )
 }
 

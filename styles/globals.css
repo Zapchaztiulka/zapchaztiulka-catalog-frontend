@@ -31,11 +31,11 @@ a {
 }
 
 .main-container {
-  @apply pr-[120px] pl-[120px];
+  @apply pr-[120px] pl-[120px] mb-6;
 }
 
 .footer-items {
-  @apply py-[10px] px-[4px] hover:text-hover-blue hover:underline;
+  @apply py-[10px] px-[4px] hover:text-hover-blue hover:underline focus:text-hover-blue focus:underline;
 }
 
 .footer-lists {
@@ -86,4 +86,8 @@ a {
 
 .sidebar-menu:hover .sidebar-icon, .sidebar-menu:focus .sidebar-icon {
   @apply fill-hover-blue;
+}
+
+.product-img {
+@apply h-[190px] rounded-t-lg;
 }
