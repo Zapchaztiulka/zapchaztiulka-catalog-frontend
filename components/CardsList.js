@@ -31,7 +31,7 @@ const CardsList = () => {
                  </div>
                  <div className="px-3 pt-2 pb-3">
                    <p className="mb-1 text-sm text-tertiary">Артикул:</p>
-                   <h3 className="mb-6 h-12 overflow-hidden text-xl font-medium text-text-primary">
+                   <h3 className="mb-6 h-12 overflow-hidden text-xl/[24px] font-medium text-text-primary">
                      {name}
                    </h3>
                    <p className="mb-2 font-medium text-text-primary text-2xl">
