@@ -37,7 +37,7 @@ const CardsList = () => {
                    <p className="mb-2 font-medium text-text-primary text-2xl">
                      {price.value} &#8372;
                    </p>
-                   <button className="px-[68px] py-[13px] text-center border rounded-lg bg-default-blue text-white text-base font-medium hover:bg-hover-blue focus:bg-hover-blue">
+                   <button className="px-6 py-3 w-full text-white text-base text-center font-medium state-button ">
                      Додати в кошик
                    </button>
                  </div>

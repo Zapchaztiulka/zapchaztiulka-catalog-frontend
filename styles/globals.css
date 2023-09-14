@@ -51,7 +51,7 @@ a {
 }
 
 .state-button {
-  @apply hover:bg-hover-blue focus:shadow-button-shadow;
+  @apply hover:bg-hover-blue focus:shadow-button-shadow rounded-lg bg-default-blue;
 }
 
 .search-input {
