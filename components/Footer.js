@@ -13,8 +13,8 @@ const Footer = () => {
           src="/logo-main.svg"
           alt="logo"
           className="object-contain"
-          width={210}
-          height={56}
+          width={248}
+          height={60}
         />
       </Link>
        <Link href="/" className="flex md:hidden items-center">

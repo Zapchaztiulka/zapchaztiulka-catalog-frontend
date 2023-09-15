@@ -26,10 +26,14 @@ const CardsList = () => {
                      className="object-cover object-center product-img"
                      width="285"
                      height="190"
+                     priority={true}
+                     placeholder="empty"
                    />
                  </div>
                  <div className="md:px-3 md:pt-2 md:pb-3 p-2">
-                   <p className="mb-1 md:text-sm text-[10px] text-tertiary">Артикул:</p>
+                   <p className="mb-1 md:text-sm text-[10px] text-tertiary">
+                     Артикул:
+                   </p>
                    <h3 className="md:mb-6 mb-4 md:h-12 h-4 overflow-hidden md:text-xl/[24px] text-sm/[18.2px] md:font-medium text-text-primary">
                      {name}
                    </h3>
