@@ -127,8 +127,8 @@ const Navbar = () => {
 
       <div className="md:flex hidden">
         <ContactList />
-        <Link legacyBehavior href={{ pathname: "/cart" }}>
-          <div className="coursor-pointer p-2 flex gap-2 text-base text-text-primary">
+        <Link legacyBehavior href={{ pathname: "/cart" }} >
+          <div className="cursor-pointer p-2 flex gap-2 text-base text-text-primary">
             <p>Кошик</p>
             <Image
               src="/icons/cart-icon.svg"

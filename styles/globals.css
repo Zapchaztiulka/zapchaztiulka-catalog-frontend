@@ -35,7 +35,7 @@ a {
 }
 
 .footer-items {
-  @apply py-[10px] px-[4px] hover:text-hover-blue hover:underline focus:text-hover-blue focus:underline;
+  @apply py-[10px] px-[4px] cursor-pointer hover:text-hover-blue hover:underline focus:text-hover-blue focus:underline;
 }
 
 .footer-lists {
