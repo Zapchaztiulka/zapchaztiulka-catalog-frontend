@@ -21,7 +21,7 @@ const CardsList = () => {
               <div className="">
                 <div>
                   <Image
-                    src="/placeholder-img.webp"
+                    src={photo[0].url}
                     alt={photo[0].alt}
                     className="object-cover object-center product-img"
                     width="285"
