@@ -18,7 +18,7 @@ const Sidebar = ({
         }}
       >
         <div className="flex justify-between items-center mb-6">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center" as={'image'}>
             <Image
               src="/logo-blue.svg"
               alt="logo"

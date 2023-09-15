@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <div className="flex flex-col justify-between md:gap-3 gap-8">
-      <Link href="/" className=" md:flex  hidden items-center">
+      <Link href="/" className=" md:flex  hidden items-center" as={"image"}>
         <Image
           src="/logo-main.svg"
           alt="logo"
@@ -17,15 +17,15 @@ const Footer = () => {
           height={60}
         />
       </Link>
-       <Link href="/" className="flex md:hidden items-center">
-          <Image
-            src="/logo-blue.svg"
-            alt="logo"
-            className="object-contain"
-            width={50}
-            height={48}
-          />
-        </Link>
+      <Link href="/" className="flex md:hidden items-center" as={"image"}>
+        <Image
+          src="/logo-blue.svg"
+          alt="logo"
+          className="object-contain"
+          width={50}
+          height={48}
+        />
+      </Link>
       <div className="footer-lists">
         <div className="flex flex-col gap-3">
           <h4 className="text-tertiary text-lg">Каталог</h4>
@@ -96,7 +96,8 @@ const Footer = () => {
       <div>
         {" "}
         <p className="text-sm text-text-secondary">
-          <br />&copy;{current_year} Всі права захищені
+          <br />
+          &copy;{current_year} Всі права захищені
         </p>
       </div>
     </div>
