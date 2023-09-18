@@ -1,39 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
 import Sidebar from "./SideBar";
 
 const Navbar = () => {
-  const [width, setWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const updateWidth = () => {
-    const newWidth = window.innerWidth;
-    setWidth(newWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", updateWidth);
-    updateWidth();
-  }, []);
 
   return (
     <nav className="navbar">
-      <Link href="/" className="justify-center lg:flex hidden items-center" as={'image'}>
+      <Link href="/" className="justify-center lg:flex hidden items-center mr-[15px]" as={'image'}>
         <Image
           src="/logo-main.svg"
           alt="logo"
-          className="object-contain"
+         
           priority={true}
           quality={80}
-          width={width < 1220 ? "200" : "248"}
-          height={width < 1220 ? "55" : "60"}
+        width={248}
+        height={60}
+
         />
       </Link>
       <Link
@@ -109,8 +100,8 @@ const Navbar = () => {
       </div>
 
       <div className="md:flex hidden">
-        <button className="mr-[15px] hidden md:block state-button lg:px-6 px-3 py-3 ">
-          <div className="flex justify-between items-center  ">
+        <button className="mr-[15px] hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
+          <div className="flex justify-center items-center  ">
             <Image
               src="/icons/catalog-icon.svg"
               alt="catalog-icon"

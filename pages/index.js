@@ -7,7 +7,7 @@ import CardsList from '@/components/CardsList';
 
 const Catalog = () => {
 
-  const { isLoading, isFetching, data, error } = useGetProductsQuery(null);
+  const { isLoading, isFetching, error } = useGetProductsQuery(null);
   
 
   return (
@@ -17,7 +17,7 @@ const Catalog = () => {
       </div>
       {(isFetching || isLoading) && <p>Тут буде лоадер</p>}
       {error && <p>Тут буде повідомлення про помилку</p>}
-      {data && <CardsList />}
+       <CardsList />
     </div>
   );
 };

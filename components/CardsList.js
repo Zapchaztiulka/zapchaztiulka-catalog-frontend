@@ -6,8 +6,7 @@ import React from 'react'
 
 const CardsList = () => {
 
-   const { data } = useGetProductsQuery(null);
-  
+   const { data } = useGetProductsQuery([]);
 
   return (
     <ul className="flex flex-wrap md:gap-5 gap-2 justify-center">
@@ -19,15 +18,14 @@ const CardsList = () => {
               key={_id}
             >
               <div className="">
-                <div>
+                <div className="md:h-[190px] h-[112px] w-[168px] md:w-[285px]">
                   <Image
                     src={photo[0].url}
                     alt={photo[0].alt}
-                    className="object-cover object-center product-img"
-                    width="285"
-                    height="190"
-                    priority={true}
-                    placeholder="empty"
+                    className="product-img object-cover object-center"
+                    loading={"lazy"}
+                    width={285}
+                    height={190}
                   />
                 </div>
                 <div className="md:px-3 md:pt-2 md:pb-3 p-2">
