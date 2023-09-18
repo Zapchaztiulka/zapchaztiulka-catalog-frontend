@@ -92,5 +92,5 @@ a {
 }
 
 .product-img {
-@apply md:h-[190px] h-[112px] rounded-t-lg w-[168px] md:w-[285px];
+@apply md:h-[190px] h-[112px] rounded-t-lg w-[165px] md:w-[283px];
 }
