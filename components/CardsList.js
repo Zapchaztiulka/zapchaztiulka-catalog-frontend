@@ -6,7 +6,8 @@ import React from 'react'
 
 const CardsList = () => {
 
-   const { data } = useGetProductsQuery([]);
+  const { data } = useGetProductsQuery([]);
+  console.log(data)
 
   return (
     <ul className="flex flex-wrap md:gap-5 gap-2 justify-center">
@@ -39,7 +40,9 @@ const CardsList = () => {
                     {price.value} &#8372;
                   </p>
                   <button className=" md:px-6 md:py-3 py-2 w-full text-white md:text-base text-sm md:font-medium state-button ">
-                    Додати в кошик
+                   <Link legacyBehavior href={{ pathname: `/${_id}` }}>
+        Додати в кошик
+      </Link>
                   </button>
                 </div>
               </div>
