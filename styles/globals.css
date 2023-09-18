@@ -25,9 +25,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.container {
+  @apply fixed border-b top-0 border-border-default max-w-[1440px] mx-auto lg:px-[120px] py-4 px-4 md:px-12  bg-brand-light3 md:bg-white;
+}
 
 .navbar {
-  @apply flex justify-between items-center md:py-4 pt-2 pb-1 xl:pr-[120px] xl:pl-[120px] px-4 bg-brand-light3 md:bg-white;
+  @apply flex justify-between items-center;
 }
 
 .main-container {

@@ -32,8 +32,8 @@ const Navbar = () => {
           className="object-contain"
           priority={true}
           quality={80}
-          width={width < 1024 ? "150" : "248"}
-          height={width < 1024 ? "45" : "60"}
+          width={width < 1220 ? "200" : "248"}
+          height={width < 1220 ? "55" : "60"}
         />
       </Link>
       <Link

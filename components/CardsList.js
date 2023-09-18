@@ -7,7 +7,7 @@ import React from 'react'
 const CardsList = () => {
 
    const { data } = useGetProductsQuery(null);
-   console.log(data.products)
+  
 
   return (
     <ul className="flex flex-wrap md:gap-5 gap-2 justify-center">

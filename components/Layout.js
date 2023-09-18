@@ -12,10 +12,12 @@ const Layout = ({ children }) => {
         <title>Zapchaztiulki</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <header className="border-b border-border-default">
+      <header className="container">
         <Navbar />
       </header>
-      <main className="main-container">{children}</main>
+      <main className="main-container mt-[50px]">
+        {children}
+      </main>
       <footer className="border-t border-border-default lg:pt-[42px] px-4 xl:pr-[120px] xl:pl-[120px] py-6 ">
         <Footer />
       </footer>
