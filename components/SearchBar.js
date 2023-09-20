@@ -3,61 +3,52 @@ import Image from "next/image";
 import React from "react";
 
 import { useState, Fragment } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { Combobox, Transition } from "@headlessui/react";
 import { SearchIcon } from "@/public/icons";
+import { useGetProductsQuery } from "@/redux/services/productApi";
 
 const SearchBar = () => {
-  const product = [
-    { id: 1, name: "Кришка радіатора" },
-    { id: 2, name: "Корпус термостата" },
-    { id: 3, name: "Випарник" },
-    { id: 4, name: "Патрубок радіатора" },
-    { id: 5, name: "Шків помпи" },
-  ];
 
-  const [selectedProduct, setSelectedProduct] = useState([]);
-  const [query, setQuery] = useState("");
 
   const router = useRouter();
+  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
 
-  const filteredProduct =
-    query === ""
-      ? product
-      : product.filter((item) => {
-          return item.name.toLowerCase().includes(query.toLowerCase());
-        });
+    const { data } = useGetProductsQuery();
 
-  const handleSearch = (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (filteredProduct === "") {
-      return console.log("Please fill in the searchbar!");
-    }
-    updateSearchParams(filteredProduct.toLowerCase());
-    setSelectedProduct("");
+    router.push({
+      pathname: '/',
+      query: `query=${searchTerm}`
+    })
   };
 
-  console.log(query);
+      const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setSearchTerm(searchWord);
+    const newFilter = data.products.filter((value) => {
+      return value.name.toLowerCase().includes(searchWord.toLowerCase());
+    });
 
-  const updateSearchParams = (filteredProduct) => {
-    const searchParams = new URLSearchParams(window.location.search);
-
-    if (filteredProduct) {
-      searchParams.set("filteredProduct", filteredProduct);
+    if (searchWord === "") {
+      setFilteredData([]);
     } else {
-      searchParams.delete("filteredProduct");
+      setFilteredData(newFilter);
     }
+  };
 
-    const newPathName = `${
-      window.location.pathname
-    }?${searchParams.toString()}`;
-
-    router.push(newPathName);
+  const clearInput = () => {
+    setFilteredData([]);
+    setSearchTerm("");
   };
 
   return (
     <form
-      onSubmit={handleSearch}
+      onClick={handleSubmit}
       className="hidden md:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
@@ -65,26 +56,26 @@ const SearchBar = () => {
           <div className=" w-full">
             <div className="search">
               <Combobox.Input
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={handleFilter}
                 displayValue={(item) => item.name}
                 placeholder="Я шукаю.."
                 className="search-input"
               />
-              <div className="search-icon">
+              <button className="search-icon" onClick={handleSubmit}>
                 <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
-              </div>
+              </button>
             </div>
             <Transition
               as={Fragment}
               leave="transition ease-in duration-100"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
-              afterLeave={() => setQuery("")}
+              afterLeave={() => setSearchTerm("")}
             >
               <Combobox.Options className="absolute mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
-                {filteredProduct?.map((item) => (
+                {filteredData.slice(0, 15).map((item) => (
                   <Combobox.Option
-                    key={item.id}
+                    key={item._id}
                     value={item}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-10 pr-4 ${

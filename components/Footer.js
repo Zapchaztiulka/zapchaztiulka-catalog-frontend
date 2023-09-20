@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <div className="flex flex-col justify-between md:gap-3 gap-8">
-      <Link href="/" className=" md:flex  hidden items-center" as={"image"}>
+      <Link href="/" className=" md:flex  hidden items-center" >
         <Image
           src="/logo-main.svg"
           alt="logo"
@@ -17,7 +17,7 @@ const Footer = () => {
           height={60}
         />
       </Link>
-      <Link href="/" className="flex md:hidden items-center" as={"image"}>
+      <Link href="/" className="flex md:hidden items-center" >
         <Image
           src="/logo-blue.svg"
           alt="logo"

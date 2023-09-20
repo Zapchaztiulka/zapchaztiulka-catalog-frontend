@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link href="/" className="justify-center lg:flex hidden items-center mr-[15px]" as={'image'}>
+      <Link href="/" className="justify-center lg:flex hidden items-center mr-[15px]">
         <Image
           src="/logo-main.svg"
           alt="logo"
@@ -30,7 +30,6 @@ const Navbar = () => {
       <Link
         href="/"
         className="justify-center md:flex hidden lg:hidden items-center"
-        as={'image'}
       >
         <Image
           src="/logo-blue.svg"
@@ -41,7 +40,7 @@ const Navbar = () => {
         />
       </Link>
       <div className="flex">
-        <Link href="/" className="justify-center flex md:hidden items-center" as={'image'}>
+        <Link href="/" className="justify-center flex md:hidden items-center" >
           <Image
             src="/logo-white.svg"
             alt="logo"
@@ -70,7 +69,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex">
-        <Link href="/" className="justify-center flex md:hidden items-center" as={'image'}>
+        <Link href="/" className="justify-center flex md:hidden items-center" >
           <Image
             src="/icons/search-icon-menu.svg"
             alt="search"
@@ -79,7 +78,7 @@ const Navbar = () => {
             height={44}
           />
         </Link>
-        <Link href="/" className="justify-center flex md:hidden items-center" as={'image'}>
+        <Link href="/" className="justify-center flex md:hidden items-center" >
           <Image
             src="/icons/phone-icon-menu.svg"
             alt="phone"
@@ -88,7 +87,7 @@ const Navbar = () => {
             height={44}
           />
         </Link>
-        <Link href="/" className="justify-center flex md:hidden items-center" as={'image'}>
+        <Link href="/" className="justify-center flex md:hidden items-center" >
           <Image
             src="/icons/cart-icon-menu.svg"
             alt="cart"

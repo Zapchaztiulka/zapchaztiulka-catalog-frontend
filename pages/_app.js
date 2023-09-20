@@ -2,7 +2,6 @@ import React from 'react'
 import { Layout } from '@/components';
 import '../styles/globals.css';
 import { Inter } from "next/font/google";
-// import  { wrapper } from '../redux/store';
 import store from '../redux/store'
 import { Provider } from 'react-redux';
 

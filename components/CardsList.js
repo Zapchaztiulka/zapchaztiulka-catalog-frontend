@@ -1,16 +1,21 @@
 "use client";
-import { useGetProductsQuery } from '@/redux/services/productApi';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react'
+import { useGetProductsBySearchQuery, useGetProductsQuery } from "@/redux/services/productApi";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
 
 const CardsList = () => {
+    
+  const router = useRouter()
 
-  const { data } = useGetProductsQuery([]);
-  console.log(data)
+  const serachValue = router.query.query
+
+  const { data } = useGetProductsBySearchQuery(serachValue || "")
 
   return (
     <ul className="flex flex-wrap md:gap-5 gap-2 justify-center">
+
       {data &&
         data.products.map(({ name, _id, photo, price, vendorCode }) => {
           return (
@@ -40,9 +45,9 @@ const CardsList = () => {
                     {price.value} &#8372;
                   </p>
                   <button className=" md:px-6 md:py-3 py-2 w-full text-white md:text-base text-sm md:font-medium state-button ">
-                   <Link legacyBehavior href={{ pathname: `/${_id}` }}>
-        Додати в кошик
-      </Link>
+                    <Link legacyBehavior href={{ pathname: `/${_id}` }}>
+                      Додати в кошик
+                    </Link>
                   </button>
                 </div>
               </div>
@@ -51,6 +56,6 @@ const CardsList = () => {
         })}
     </ul>
   );
-}
+};
 
-export default CardsList
+export default CardsList;
