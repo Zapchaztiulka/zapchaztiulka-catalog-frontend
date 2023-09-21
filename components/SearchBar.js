@@ -1,9 +1,11 @@
- "use client";
+"use client";
 import Image from "next/image";
 import React from "react";
 
 import { useState, Fragment } from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Combobox, Transition } from "@headlessui/react";
 import { SearchIcon } from "@/public/icons";
@@ -15,8 +17,22 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
+  const updateSearchParams = (searchTerm) => {
+    const searchParams = new URLSearchParams("./");
+
+    if (searchTerm) {
+      searchParams.set("query", searchTerm);
+    } else {
+      searchParams.delete("query");
+    }
+
+    const newPathName = `./?${searchParams.toString()}`;
+
+    router.push(newPathName);
+  };
+
   const handleFilter = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
     const newFilter = data.products.filter((value) => {
@@ -28,22 +44,24 @@ const SearchBar = () => {
     } else {
       setFilteredData(newFilter);
     }
-           router.push({
-             pathname: "/",
-             query: `query=${searchTerm}`,
-           });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    updateSearchParams(searchTerm.toLowerCase());
+    setFilteredData([]);
+    setSearchTerm("");
+  };
 
-    setFilteredData([])
-    setSearchTerm('')
+  const onKeyDownHandler = (e) => {
+    if (e.keyCode === 13) {
+      updateSearchParams(searchTerm.toLowerCase());
+    }
   };
 
   return (
     <form
-      onClick={handleSubmit}
+      onSubmit={handleSubmit}
       className="hidden md:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
@@ -52,11 +70,12 @@ const SearchBar = () => {
             <div className="search">
               <Combobox.Input
                 onChange={handleFilter}
+                onKeyDown={onKeyDownHandler}
                 displayValue={(item) => item.name}
                 placeholder="Я шукаю.."
                 className="search-input"
               />
-              <button className="search-icon">
+              <button className="search-icon" type="submit">
                 <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
               </button>
             </div>
@@ -115,4 +134,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-
