@@ -1,33 +1,22 @@
-"use client";
+ "use client";
 import Image from "next/image";
 import React from "react";
 
 import { useState, Fragment } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Combobox, Transition } from "@headlessui/react";
 import { SearchIcon } from "@/public/icons";
 import { useGetProductsQuery } from "@/redux/services/productApi";
 
 const SearchBar = () => {
-
-
+  const { data } = useGetProductsQuery();
   const router = useRouter();
-  const [selectedProduct, setSelectedProduct] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
-    const { data } = useGetProductsQuery();
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    router.push({
-      pathname: '/',
-      query: `query=${searchTerm}`
-    })
-  };
-
-      const handleFilter = (event) => {
+  const handleFilter = (event) => {
+    event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
     const newFilter = data.products.filter((value) => {
@@ -39,11 +28,17 @@ const SearchBar = () => {
     } else {
       setFilteredData(newFilter);
     }
+           router.push({
+             pathname: "/",
+             query: `query=${searchTerm}`,
+           });
   };
 
-  const clearInput = () => {
-    setFilteredData([]);
-    setSearchTerm("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setFilteredData([])
+    setSearchTerm('')
   };
 
   return (
@@ -52,7 +47,7 @@ const SearchBar = () => {
       className="hidden md:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
     >
       <div className="flex max-sm:w-full justify-start items-center relative z-40">
-        <Combobox value={selectedProduct} onChange={setSelectedProduct}>
+        <Combobox value={searchTerm} onChange={setSearchTerm}>
           <div className=" w-full">
             <div className="search">
               <Combobox.Input
@@ -61,7 +56,7 @@ const SearchBar = () => {
                 placeholder="Я шукаю.."
                 className="search-input"
               />
-              <button className="search-icon" onClick={handleSubmit}>
+              <button className="search-icon">
                 <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
               </button>
             </div>
@@ -85,13 +80,18 @@ const SearchBar = () => {
                   >
                     {({ selected, active }) => (
                       <>
-                        <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
+                        <Link
+                          legacyBehavior
+                          href={{ pathname: `/${item._id}` }}
                         >
-                          {item.name}
-                        </span>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {item.name}
+                          </span>
+                        </Link>
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
@@ -115,3 +115,4 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+

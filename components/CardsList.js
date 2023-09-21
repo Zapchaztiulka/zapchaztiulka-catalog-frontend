@@ -9,9 +9,9 @@ const CardsList = () => {
     
   const router = useRouter()
 
-  const serachValue = router.query.query
+  const searchValue = router.query.query
 
-  const { data } = useGetProductsBySearchQuery(serachValue || "")
+  const { data } = useGetProductsBySearchQuery(searchValue || "")
 
   return (
     <ul className="flex flex-wrap md:gap-5 gap-2 justify-center">
