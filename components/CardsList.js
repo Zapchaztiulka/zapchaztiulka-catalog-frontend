@@ -44,11 +44,12 @@ const CardsList = () => {
                   <p className="md:mb-2 mb-1 font-medium text-text-primary md:text-2xl text-lg">
                     {price.value} &#8372;
                   </p>
-                  <button className=" md:px-6 md:py-3 py-2 w-full text-white md:text-base text-sm md:font-medium state-button ">
-                    <Link legacyBehavior href={{ pathname: `/${_id}` }}>
+
+                    <Link legacyBehavior href={{ pathname: `/${_id}` }} >
+                      <button className=" md:px-6 md:py-3 py-2 w-full text-white md:text-base text-sm md:font-medium state-button ">
                       Додати в кошик
+                    </button>                  
                     </Link>
-                  </button>
                 </div>
               </div>
             </li>

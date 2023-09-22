@@ -3,8 +3,6 @@ import Image from "next/image";
 import React from "react";
 
 import { useState, Fragment } from "react";
-// import { useRouter } from "next/router";
-
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Combobox, Transition } from "@headlessui/react";
@@ -16,20 +14,23 @@ const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");
-
-    if (searchTerm) {
+    if (!errorMessage && filteredData.length !== 0) {
       searchParams.set("query", searchTerm);
+    } else if (errorMessage &&  searchParams.has("query", searchTerm)) {
+      searchParams.set("query")
     } else {
+     
       searchParams.delete("query");
     }
-
     const newPathName = `./?${searchParams.toString()}`;
-
     router.push(newPathName);
   };
+
+  console.log(filteredData)
 
   const handleFilter = (event) => {
     // event.preventDefault();
@@ -39,8 +40,10 @@ const SearchBar = () => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
 
-    if (searchWord === "") {
+    if (newFilter.length === 0 || searchWord==='' ) {
       setFilteredData([]);
+      console.log("aaaaa");
+      setErrorMessage(true);
     } else {
       setFilteredData(newFilter);
     }
@@ -49,6 +52,12 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateSearchParams(searchTerm.toLowerCase());
+
+    if (searchTerm === '') {
+      // setFilteredData([]);
+      console.log("noooo");
+      setErrorMessage(true);
+    }
     setFilteredData([]);
     setSearchTerm("");
   };
@@ -58,6 +67,8 @@ const SearchBar = () => {
       updateSearchParams(searchTerm.toLowerCase());
     }
   };
+
+  console.log(errorMessage);
 
   return (
     <form
@@ -79,6 +90,7 @@ const SearchBar = () => {
                 <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
               </button>
             </div>
+
             <Transition
               as={Fragment}
               leave="transition ease-in duration-100"
@@ -86,45 +98,57 @@ const SearchBar = () => {
               leaveTo="opacity-0"
               afterLeave={() => setSearchTerm("")}
             >
-              <Combobox.Options className="absolute mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
-                {filteredData.slice(0, 15).map((item) => (
-                  <Combobox.Option
-                    key={item._id}
-                    value={item}
-                    className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-default-blue text-white" : "text-gray-900"
-                      }`
-                    }
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <Link
-                          legacyBehavior
-                          href={{ pathname: `/${item._id}` }}
-                        >
-                          <span
+                {/* {!errorMessage && (
+                  <Combobox.Options>
+                    <Combobox.Option value={searchTerm}>
+                      <span>Nooo</span>
+                    </Combobox.Option>
+                  </Combobox.Options>
+                )} */}
+
+            
+                <Combobox.Options className="absolute mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
+                  {filteredData.slice(0, 15).map((item) => (
+                    <Combobox.Option
+                      key={item._id}
+                      value={item}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                          active
+                            ? "bg-default-blue text-white"
+                            : "text-gray-900"
+                        }`
+                      }
+                    >
+                      {({ selected, active }) => (
+                        <>
+                          {" "}
+                          (
+                          <Link
+                            legacyBehavior
+                            href={{ pathname: `/${item._id}` }}
                             className={`block truncate ${
                               selected ? "font-medium" : "font-normal"
                             }`}
                           >
                             {item.name}
-                          </span>
-                        </Link>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active
-                                ? "text-white"
-                                : "text-pribg-primary-purple"
-                            }`}
-                          ></span>
-                        ) : null}
-                      </>
-                    )}
-                  </Combobox.Option>
-                ))}
-              </Combobox.Options>
+                          </Link>
+                          )
+                          {selected ? (
+                            <span
+                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                active
+                                  ? "text-white"
+                                  : "text-pribg-primary-purple"
+                              }`}
+                            ></span>
+                          ) : null}
+                        </>
+                      )}
+                    </Combobox.Option>
+                  ))}
+                </Combobox.Options>
+              
             </Transition>
           </div>
         </Combobox>
