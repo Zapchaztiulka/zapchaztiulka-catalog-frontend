@@ -1,13 +1,13 @@
 "use client";
 
 import React from 'react'
-import { useGetProductsQuery } from '@/redux/services/productApi';
+import { useGetProductsBySearchQuery } from '@/redux/services/productApi';
 import CardsList from '@/components/CardsList';
 
 
 const Catalog = () => {
 
-  const { isLoading, isFetching, error } = useGetProductsQuery(null);
+  const { isLoading, isFetching, error } = useGetProductsBySearchQuery('');
   
 
   return (

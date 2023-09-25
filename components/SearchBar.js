@@ -1,160 +1,109 @@
 "use client";
-import Image from "next/image";
-import React from "react";
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 import Link from "next/link";
-import { Combobox, Transition } from "@headlessui/react";
 import { SearchIcon } from "@/public/icons";
-import { useGetProductsQuery } from "@/redux/services/productApi";
+import {  useGetProductsBySearchQuery } from "@/redux/services/productApi";
 
 const SearchBar = () => {
-  const { data } = useGetProductsQuery();
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [empty, setEmpty]=useState(false)
+   const { data } = useGetProductsBySearchQuery(searchTerm);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");
     if (!errorMessage && filteredData.length !== 0) {
       searchParams.set("query", searchTerm);
-    } else if (errorMessage &&  searchParams.has("query", searchTerm)) {
-      searchParams.set("query")
+      // } else if (errorMessage &&  searchParams.has("query", searchTerm)) {
+      //   searchParams.set("query")
     } else {
-     
       searchParams.delete("query");
     }
     const newPathName = `./?${searchParams.toString()}`;
     router.push(newPathName);
   };
 
-  console.log(filteredData)
-
   const handleFilter = (event) => {
-    // event.preventDefault();
+     setErrorMessage(true);
+    event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
     const newFilter = data.products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
 
-    if (newFilter.length === 0 || searchWord==='' ) {
-      setFilteredData([]);
-      console.log("aaaaa");
-      setErrorMessage(true);
+    if (searchTerm === "") { 
+      setFilteredData([])
+       setErrorMessage(true);
     } else {
       setFilteredData(newFilter);
+     setErrorMessage(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     updateSearchParams(searchTerm.toLowerCase());
-
-    if (searchTerm === '') {
-      // setFilteredData([]);
-      console.log("noooo");
-      setErrorMessage(true);
+    if (searchTerm === "" || filteredData.length === 0) {
+       setEmpty(true);
     }
+    setEmpty(false);
+    clearFields();
+  };
+
+  const clearFields = () => {
     setFilteredData([]);
     setSearchTerm("");
-  };
-
-  const onKeyDownHandler = (e) => {
-    if (e.keyCode === 13) {
-      updateSearchParams(searchTerm.toLowerCase());
-    }
-  };
-
-  console.log(errorMessage);
+  }
 
   return (
     <form
       onSubmit={handleSubmit}
       className="hidden md:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
     >
-      <div className="flex max-sm:w-full justify-start items-center relative z-40">
-        <Combobox value={searchTerm} onChange={setSearchTerm}>
-          <div className=" w-full">
-            <div className="search">
-              <Combobox.Input
-                onChange={handleFilter}
-                onKeyDown={onKeyDownHandler}
-                displayValue={(item) => item.name}
-                placeholder="Я шукаю.."
-                className="search-input"
-              />
-              <button className="search-icon" type="submit">
-                <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
-              </button>
-            </div>
-
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-              afterLeave={() => setSearchTerm("")}
-            >
-                {/* {!errorMessage && (
-                  <Combobox.Options>
-                    <Combobox.Option value={searchTerm}>
-                      <span>Nooo</span>
-                    </Combobox.Option>
-                  </Combobox.Options>
-                )} */}
-
-            
-                <Combobox.Options className="absolute mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
-                  {filteredData.slice(0, 15).map((item) => (
-                    <Combobox.Option
-                      key={item._id}
-                      value={item}
-                      className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                          active
-                            ? "bg-default-blue text-white"
-                            : "text-gray-900"
-                        }`
-                      }
-                    >
-                      {({ selected, active }) => (
-                        <>
-                          {" "}
-                          (
-                          <Link
-                            legacyBehavior
-                            href={{ pathname: `/${item._id}` }}
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
-                          >
-                            {item.name}
-                          </Link>
-                          )
-                          {selected ? (
-                            <span
-                              className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                active
-                                  ? "text-white"
-                                  : "text-pribg-primary-purple"
-                              }`}
-                            ></span>
-                          ) : null}
-                        </>
-                      )}
-                    </Combobox.Option>
-                  ))}
-                </Combobox.Options>
-              
-            </Transition>
-          </div>
-        </Combobox>
+      <div className="search">
+        <input
+          onChange={handleFilter}
+          placeholder="Я шукаю.."
+          className="search-input"
+          value={searchTerm}
+        />
+        <button className="search-icon" type="submit">
+          <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
+        </button>
       </div>
+      {filteredData.length !== 0 && searchTerm.length !== 0 && (
+        <ul className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
+          {filteredData.slice(0, 15).map((item) => (
+            <li
+              key={item._id}
+              onClick={clearFields}
+              className="relative cursor-pointer hover:bg-default-blue hover:text-white select-none "
+            >
+              <Link
+                legacyBehavior
+                href={{ pathname: `/${item._id}` }}
+                passHref
+              >
+                <a  className="py-2 pl-10 pr-4 w-full block">{item.name}</a>              
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      {empty && (
+        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
+          No results
+        </div>
+      )}
     </form>
   );
 };
 
 export default SearchBar;
+

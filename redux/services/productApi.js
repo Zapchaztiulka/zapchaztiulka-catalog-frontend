@@ -7,9 +7,9 @@ export const productApi = createApi({
     baseUrl: "https://spares-backend-i2mq.onrender.com/api/",
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: () => "products",
-    }),
+    // getProducts: builder.query({
+    //   query: () => "products",
+    // }),
     getProductById: builder.query({
       query: (id) => `products/${id}`,
     }),
@@ -26,4 +26,4 @@ export const productApi = createApi({
   })
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery, useGetCategoryQuery, useGetCategoryByIdQuery, useGetProductsBySearchQuery} = productApi;
+export const {  useGetProductByIdQuery, useGetCategoryQuery, useGetCategoryByIdQuery, useGetProductsBySearchQuery} = productApi;

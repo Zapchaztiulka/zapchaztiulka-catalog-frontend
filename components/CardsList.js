@@ -1,5 +1,5 @@
 "use client";
-import { useGetProductsBySearchQuery, useGetProductsQuery } from "@/redux/services/productApi";
+import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
