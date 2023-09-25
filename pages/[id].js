@@ -14,22 +14,18 @@ const { id } = router.query;
   console.log(data)
 
   return (
-    <div className="mt-[130px] mb-[50px] flex">
-      <div className="md:w-[285px] w-[168px] border border-border-default rounded-lg">
+    <div className="mt-[130px] mb-[50px] flex gap-5 border border-border-default rounded-lg py-8 px-5">
+      <div className="md:h-[382px] md:w-[570px] ">
         {data && (
           <>
-            {" "}
-            <p className="md:mb-6 mb-4 md:h-12 h-4 overflow-hidden md:text-xl/[24px] text-sm/[18.2px] md:font-medium text-text-primary">
-              {data.name}
-            </p>
-            <div className="md:h-[190px] h-[112px] w-[168px] md:w-[285px]">
+            <div className="md:h-[382px] md:w-[570px]">
               <Image
                 src={data.photo[0].url}
                 alt={data.photo[0].alt}
-                className="product-img object-cover object-center"
+                className="product-details object-cover object-center"
                 loading={"lazy"}
-                width={285}
-                height={190}
+                width={570}
+                height={382}
               />
             </div>
             <Link legacyBehavior href={{ pathname: "/cart" }}>
@@ -37,6 +33,34 @@ const { id } = router.query;
             </Link>
           </>
         )}
+      </div>
+      <div>
+        <h1 className="mb-3">{data?.name}</h1>
+        <p className="mb-8 md:text-sm text-[10px] text-tertiary">
+          Артикул: {data?.vendorCode}
+        </p>
+        <p className="md:mb-8 mb-1 font-medium text-text-primary md:text-2xl text-lg">
+          {data?.price.value} &#8372;
+        </p>
+        <button className="min-w-{237px] mb-3 hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
+          <div className="flex justify-center items-center  ">
+            <Image
+              src="/icons/cart-icon-menu.svg"
+              alt="cart"
+              className="object-contain"
+              width={24}
+              height={24}
+            />
+            <span className="text-white text-sm tracking-[-0.21px]">
+              Додати в кошик
+            </span>
+          </div>
+        </button>
+        <button className="min-w-{237px] mb-3 hidden md:flex md:justify-between button-secondary lg:px-6 px-3 py-3 ">
+          <span className="text-hover-blue text-base font-medium tracking-[-0.24px]">
+            Купити в 1 клик
+          </span>
+        </button>
       </div>
     </div>
   );

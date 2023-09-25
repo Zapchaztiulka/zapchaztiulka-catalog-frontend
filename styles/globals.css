@@ -57,6 +57,10 @@ a {
   @apply hover:bg-hover-blue active:bg-pressed-blue rounded-lg bg-default-blue;
 }
 
+.button-secondary {
+  @apply hover:bg-color-bg-hover-grey active:bg-color-bg-pressed-grey rounded-lg border border-default-blue;
+}
+
 .search-input {
   @apply relative p-3 w-272 rounded-lg border border-border-default text-base placeholder:text-text-input-default;
 }
@@ -93,4 +97,8 @@ a {
 
 .product-img {
 @apply md:h-[190px] h-[112px] rounded-t-lg w-[165px] md:w-[283px];
+}
+
+.product-details {
+@apply md:h-[382px] md:w-[570px];
 }

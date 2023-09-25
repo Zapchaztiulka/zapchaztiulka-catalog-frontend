@@ -23,7 +23,9 @@ module.exports = {
         "hover-grey": "#EFF8FF",
         "input-active": "#1C1F23",
         "white": "#fff",
-        "pressed-blue": "#53B1FD"
+        "pressed-blue": "#53B1FD",
+        "color-bg-hover-grey": "#FAFDFF",
+        "color-bg-pressed-grey":"#D1E9FF"
       },
       width: {
         272: "17rem",
