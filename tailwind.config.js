@@ -35,6 +35,7 @@ module.exports = {
       boxShadow: {
         'button-shadow': "0px 0px 0px 4px #2E90FA"
       }
+     
     },
   },
   plugins: [],

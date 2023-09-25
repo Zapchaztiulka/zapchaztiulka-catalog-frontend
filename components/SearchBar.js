@@ -2,34 +2,28 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
 import Link from "next/link";
 import { SearchIcon } from "@/public/icons";
-import {  useGetProductsBySearchQuery } from "@/redux/services/productApi";
+import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
 
 const SearchBar = () => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [empty, setEmpty]=useState(false)
-   const { data } = useGetProductsBySearchQuery(searchTerm);
+  const { data } = useGetProductsBySearchQuery(searchTerm);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");
-    if (!errorMessage && filteredData.length !== 0) {
+    if (filteredData.length !== 0 && searchTerm.length!==0) {
       searchParams.set("query", searchTerm);
-      // } else if (errorMessage &&  searchParams.has("query", searchTerm)) {
-      //   searchParams.set("query")
     } else {
       searchParams.delete("query");
     }
     const newPathName = `./?${searchParams.toString()}`;
-    router.push(newPathName);
+    router.push(newPathName);   
   };
 
   const handleFilter = (event) => {
-     setErrorMessage(true);
     event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
@@ -37,29 +31,25 @@ const SearchBar = () => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
 
-    if (searchTerm === "") { 
-      setFilteredData([])
-       setErrorMessage(true);
+    if (searchTerm === "") {
+      setFilteredData([]);
     } else {
       setFilteredData(newFilter);
-     setErrorMessage(false);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateSearchParams(searchTerm.toLowerCase());
-    if (searchTerm === "" || filteredData.length === 0) {
-       setEmpty(true);
-    }
-    setEmpty(false);
+    if (searchTerm !== "") {  
+      updateSearchParams(searchTerm.toLowerCase());}
+  
     clearFields();
   };
 
   const clearFields = () => {
     setFilteredData([]);
     setSearchTerm("");
-  }
+  };
 
   return (
     <form
@@ -85,20 +75,24 @@ const SearchBar = () => {
               onClick={clearFields}
               className="relative cursor-pointer hover:bg-default-blue hover:text-white select-none "
             >
-              <Link
-                legacyBehavior
-                href={{ pathname: `/${item._id}` }}
-                passHref
-              >
-                <a  className="py-2 pl-10 pr-4 w-full block">{item.name}</a>              
+              <Link legacyBehavior href={{ pathname: `/${item._id}` }} passHref>
+                <a className="py-2 pl-10 pr-4 w-full block">{item.name}</a>
               </Link>
             </li>
           ))}
         </ul>
       )}
-      {empty && (
-        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm">
-          No results
+      {filteredData.length === 0 && searchTerm.length !== 0 && (
+        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm p-4">
+          <p className="text-input-active text-lg font-medium mb-2">
+            На жаль, за вашим {`${searchTerm}`} запитом нічого не знайдено
+          </p>
+          <p className="text-text-secondary text-[15px] mb-4 ">
+            Перевірте та змініть запит або пошукайте товар в каталозі.
+          </p>
+          <button className="state-button hidden md:flex md:justify-between lg:px-6 px-3 py-3 text-white text-base">
+            Перейти до каталогу
+          </button>
         </div>
       )}
     </form>
@@ -106,4 +100,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-

@@ -6,6 +6,7 @@ export const productApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://spares-backend-i2mq.onrender.com/api/",
   }),
+refetchOnFocus: false,
   endpoints: (builder) => ({
     // getProducts: builder.query({
     //   query: () => "products",
