@@ -6,6 +6,7 @@ import Link from "next/link";
 import { SearchIcon } from "@/public/icons";
 import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
 
+
 const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,8 +41,9 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm !== "") {  
-      updateSearchParams(searchTerm.toLowerCase());}
+    if (searchTerm !== "" && filteredData.length !== 0) {
+      updateSearchParams(searchTerm.toLowerCase());
+    }
   
     clearFields();
   };

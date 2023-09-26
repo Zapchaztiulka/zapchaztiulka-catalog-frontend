@@ -4,6 +4,7 @@ import React from 'react'
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import Image from "next/image";
+ import {ArrowDown} from "@/public/icons";
 
 const phone = [
   { tel: "(050) 810 48 82" },
@@ -30,12 +31,7 @@ const ContactList = () => {
             </span>
                  <span className="block overflow-hidden text-ellipsis"><p className="ml-2">{selected.tel}</p></span>
                  <span className="pointer-events-none inset-y-0 right-0 flex items-center">
-                 <Image
-            src="/icons/arrow-down-icon.svg"
-            alt="arrow-icon"
-            className="object-contain"
-            width={24}
-            height={24}/>   
+                 <ArrowDown className="w-[24px] h-[24px] fill-none stroke-secondary"/>   
             </span>
           </Listbox.Button>
           <Transition

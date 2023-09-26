@@ -102,3 +102,23 @@ a {
 .product-details {
 @apply md:h-[382px] md:w-[570px];
 }
+
+
+
+.dotted-line {
+@apply after:flex-1 after:relative after:bottom-[3px] after:content-[''] after:border-dotted after:border-b after:border-border-default after:mx-2;
+}
+
+.characteristic {
+@apply flex items-center text-[15px]/[19.5px] py-4;
+}
+
+.characteristic-label {
+@apply  text-text-secondary flex flex-1 w-[73%] after:flex-1 after:relative after:bottom-[3px] after:content-[''] after:border-dotted after:border-b after:border-border-default after:mx-2;
+}
+
+.characteristic-value {
+@apply text-text-primary w-[27%];
+}
+
+
