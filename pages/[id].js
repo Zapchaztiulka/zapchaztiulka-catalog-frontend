@@ -1,10 +1,11 @@
+"use client";
+
 import { useGetProductByIdQuery } from "@/redux/services/productApi";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { ArrowDown } from "@/public/icons";
-import { AllCharacteristics } from "@/components";
+import { ArrowDown, ArrowUp } from "@/public/icons";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -89,17 +90,51 @@ const ProductDetails = () => {
             <span className="characteristic-label">Країна:</span>
             <span className="characteristic-value">{data?.weight}</span>
           </div>
-          <AllCharacteristics isOpen={isOpen} toggle={toggle}/>
-          <button
+
+          {isOpen && (
+            <>
+              <div className="characteristic">
+                <span className="characteristic-label">Вага (кг):</span>
+                <span className="characteristic-value">nnn</span>
+              </div>
+              <div className="characteristic">
+                <span className=" characteristic-label">Код:</span>
+                <span className="characteristic-value">bbb</span>
+              </div>
+              <div className="characteristic">
+                <span className="characteristic-label">Виробник:</span>
+                <span className="characteristic-value">ddd</span>
+              </div>
+              <div className="characteristic">
+                <span className="characteristic-label">Країна:</span>
+                <span className="characteristic-value">ddd</span>
+              </div>
+            </>
+          )}
+          {!isOpen ?
+            (<button
             type="button"
             onClick={toggle}
             className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
           >
+          
             <span className="text-base text-default-blue font-medium">
               Усі характеристик
             </span>
             <ArrowDown className="w-[24px] h-[24px] stroke-default-blue fill-none" />
-          </button>
+          </button>) :
+            (<button
+            type="button"
+            onClick={toggle}
+            className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
+          >
+          
+            <span className="text-base text-default-blue font-medium">
+              Приховати
+            </span>
+            <ArrowUp className="w-[24px] h-[24px] stroke-default-blue fill-none" />
+          </button>)}
+          
         </section>
 
         <h4 className="mb-3">Опис</h4>

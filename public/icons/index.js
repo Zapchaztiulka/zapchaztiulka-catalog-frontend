@@ -5,3 +5,4 @@ export { default as CompanyIcon } from './company-icon.svg';
 export { default as CartIcon } from './cart-icon-sidebar.svg';
 export { default as SearchIcon } from './search-icon.svg';
 export { default as ArrowDown } from './arrow-down-icon.svg';
+export { default as ArrowUp } from './arrow-up.svg';
