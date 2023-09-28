@@ -36,10 +36,29 @@ module.exports = {
       },
       boxShadow: {
         'button-shadow': "0px 0px 0px 4px #2E90FA"
-      }
+      },
+      screens: {
+      mobile375: "375px",
+      mobile480: "480px",
+      tablet600: "600px",
+      tablet768: "768px",
+      tablet1024: "1024px",
+      desktop1200: "1200px",
+      desktop1400: "1400px",
+    },
      
     },
   },
   plugins: [],
 };
 
+
+// 320
+// 375
+// 480
+// 600
+// 768
+// 1024
+// 1200
+// 1440
+// 1920

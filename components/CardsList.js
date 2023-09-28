@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Pagination from "@mui/material/Pagination";
+import { scrollToTop } from "@/helpers/scrollToTop";
 
 const CardsList = () => {
  
@@ -16,18 +17,15 @@ const CardsList = () => {
   const { data } = useGetProductsBySearchQuery({
     query: searchValue,
     page: currentPage,
-  });
-  console.log(data);
+  })
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize); 
-
 
   const handleChange = (event, value) => {
     event.preventDefault();
     setCurrentPage(value);
   };
 
-  
   return (
     <div>
       <ul className="flex flex-wrap md:gap-5 gap-2 justify-center mb-5">
@@ -79,7 +77,14 @@ const CardsList = () => {
             count={pagesCount}
             page={currentPage}
             onChange={handleChange}
-            sx={{ justifyContent: "center" }}
+            onClick={scrollToTop}
+            sx={{
+              button: { color: "#6B7075" },
+              "& .MuiPaginationItem-root.Mui-selected": {
+                backgroundColor: "transparent",
+                color: "#1C1F23",
+              },
+            }}
           />
         </div>
       )}

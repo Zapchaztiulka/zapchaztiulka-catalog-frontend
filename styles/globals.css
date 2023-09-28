@@ -119,4 +119,7 @@ a {
 @apply text-text-primary w-[27%];
 }
 
+.pagination-item {
+@apply hover:bg-default-blue;
+}
 
