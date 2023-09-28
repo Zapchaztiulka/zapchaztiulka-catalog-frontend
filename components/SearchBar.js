@@ -11,7 +11,7 @@ const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const { data } = useGetProductsBySearchQuery(searchTerm);
+  const { data } = useGetProductsBySearchQuery(searchTerm, 2);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");

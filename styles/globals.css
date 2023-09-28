@@ -103,8 +103,6 @@ a {
 @apply md:h-[382px] md:w-[570px];
 }
 
-
-
 .dotted-line {
 @apply after:flex-1 after:relative after:bottom-[3px] after:content-[''] after:border-dotted after:border-b after:border-border-default after:mx-2;
 }

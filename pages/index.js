@@ -1,14 +1,14 @@
 "use client";
 
-import React from 'react'
-import { useGetProductsBySearchQuery } from '@/redux/services/productApi';
-import CardsList from '@/components/CardsList';
-
+import React, { useState } from "react";
+import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
+import CardsList from "@/components/CardsList";
 
 const Catalog = () => {
-
-  const { isLoading, isFetching, error } = useGetProductsBySearchQuery('');
-  
+  const { isLoading, isFetching, error } = useGetProductsBySearchQuery(
+    "",
+    1
+  );
 
   return (
     <div className="mt-[130px] flex gap-5">
@@ -17,12 +17,9 @@ const Catalog = () => {
       </div>
       {(isFetching || isLoading) && <p>Тут буде лоадер</p>}
       {error && <p>Тут буде повідомлення про помилку</p>}
-       <CardsList />
+      <CardsList  />
     </div>
   );
 };
-
-
-
 
 export default Catalog;

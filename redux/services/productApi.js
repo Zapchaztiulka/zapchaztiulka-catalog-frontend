@@ -8,9 +8,6 @@ export const productApi = createApi({
   }),
 refetchOnFocus: false,
   endpoints: (builder) => ({
-    // getProducts: builder.query({
-    //   query: () => "products",
-    // }),
     getProductById: builder.query({
       query: (id) => `products/${id}`,
     }),
@@ -20,9 +17,15 @@ refetchOnFocus: false,
     getCategoryById: builder.query({
       query: (id) => `categories/${id}`,
     }),
-    getProductsBySearch: builder.query({
-      query: (searchTerm) =>
-        `products?page=1&limit=20&query=${searchTerm}`,
+       getProductsBySearch: builder.query({
+         query: (arg) => {
+           const { query, page } = arg;
+        return {
+          url: `products?`,
+          params: { query, page },
+        };
+
+      }
     }),
   })
 });
