@@ -7,7 +7,7 @@ const Categories = () => {
    
    console.log(data)
   return (
-    <div className="absolute top-[92px] bg-bgColors-white p-s border-b border-x rounded-b-lg min-w-[377px]">
+    <div className="absolute top-[92px] bg-bgColors-white p-s border-t border-x rounded-b-lg min-w-[377px]">
       <ul className="flex flex-col gap-xs text-textColors-primary text-base font-medium tracking-textBase">
         {data &&
           data?.categories.map(({ _id, categoryName, subcategoryName }) => {
