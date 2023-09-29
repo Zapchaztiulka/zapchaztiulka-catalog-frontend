@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { SearchIcon } from "@/public/icons";
+import { SearchIcon, SearchIconNavbar } from "@/public/icons";
 import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
 
 
@@ -66,7 +66,7 @@ const SearchBar = () => {
           value={searchTerm}
         />
         <button className="search-icon" type="submit">
-          <SearchIcon className="icon w-6 h-6 stroke-secondary fill-white" />
+          <SearchIconNavbar className="icon w-[24px] h-[24px] stroke-white stroke-2" />
         </button>
       </div>
       {filteredData.length !== 0 && searchTerm.length !== 0 && (

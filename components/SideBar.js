@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CartIcon, CatalogIcon, ChatIcon, TruckIcon, CompanyIcon } from "@/public/icons";
+import { CatalogIcon, ChatIcon, TruckIcon, CompanyIcon, CartIconSideBar } from "@/public/icons";
 
 const Sidebar = ({
   isOpen,
@@ -46,7 +46,7 @@ const Sidebar = ({
               onClick={toggle}
               className="flex items-center hover:text-hover-blue sidebar-menu"
             >
-              <CatalogIcon className="w-[44px] h-[44px] fill-secondary sidebar-icon" />
+              <CatalogIcon className="w-[44px] h-[44px] stroke-secondary fill-none sidebar-icon" />
               <p>Каталог</p>
             </Link>
           </li>
@@ -56,7 +56,7 @@ const Sidebar = ({
               onClick={toggle}
               className="flex items-center hover:text-hover-blue sidebar-menu"
             >
-              <CartIcon className="w-[44px] h-[44px] fill-secondary sidebar-icon" />
+              <CartIconSideBar className="w-11 h-11 fill-secondary sidebar-icon" />
               <p>Кошик</p>
             </Link>
           </li>

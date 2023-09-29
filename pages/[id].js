@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { ArrowDown, ArrowUp } from "@/public/icons";
+import { ArrowDown, ArrowUp, CartIcon } from "@/public/icons";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -51,13 +51,7 @@ const ProductDetails = () => {
         <div className="flex flex-col gap-3 w-[237px] mb-8">
           <button className="hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
             <div className="flex justify-center items-center">
-              <Image
-                src="/icons/cart-icon-menu.svg"
-                alt="cart"
-                className="object-contain"
-                width={24}
-                height={24}
-              />
+              <CartIcon className="w-[24px] h-[24px] fill-iconColors-contrast"/>
               <span className="text-white text-sm tracking-[-0.21px]">
                 Додати в кошик
               </span>

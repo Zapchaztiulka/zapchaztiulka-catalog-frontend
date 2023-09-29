@@ -58,15 +58,15 @@ a {
 }
 
 .button-secondary {
-  @apply hover:bg-color-bg-hover-grey active:bg-color-bg-pressed-grey rounded-lg border border-default-blue;
+  @apply hover:bg-color-bg-hover-grey active:bg-color-bg-pressed-grey rounded-lg border border-default-blue border-default-blue;
 }
 
 .search-input {
   @apply relative p-3 w-272 rounded-lg border border-border-default text-base placeholder:text-text-input-default;
 }
 
-.search-icon {
-  @apply border border-border-default rounded-r p-3 absolute right-0 top-0 cursor-pointer;
+.search .search-icon {
+  @apply border border-default-blue rounded-r p-xs absolute right-0 top-0 cursor-pointer bg-default-blue;
 }
 
 .search:hover input {
@@ -92,7 +92,7 @@ a {
 }
 
 .sidebar-menu:hover .sidebar-icon, .sidebar-menu:focus .sidebar-icon {
-  @apply fill-hover-blue;
+  @apply fill-hover-blue stroke-hover-blue;
 }
 
 .product-img {
