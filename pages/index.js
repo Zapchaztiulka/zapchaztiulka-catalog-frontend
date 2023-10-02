@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
 import CardsList from "@/components/CardsList";
+import { useSelector } from "react-redux";
+import { selectProducts } from "@/redux/products/productsSelectors";
 
 const Catalog = () => {
-  const { isLoading, isFetching, error } = useGetProductsBySearchQuery(
-    "",
-    1
-  );
+  const { isLoading, isFetching, error } = useGetProductsBySearchQuery("");
+
+  const products = useSelector(selectProducts)
+  console.log(products)
 
   return (
     <div className="mt-[130px] flex gap-5">
