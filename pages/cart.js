@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useGetProductByIdQuery } from "@/redux/services/productApi";
+
 
 const Cart = () => {
 

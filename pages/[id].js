@@ -1,18 +1,26 @@
 "use client";
 
-import { useGetProductByIdQuery } from "@/redux/services/productApi";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, CartIcon } from "@/public/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProduct } from "@/redux/products/productsSelectors";
+import { fetchProductByID } from "@/redux/products/productsOperations";
 
 const ProductDetails = () => {
   const router = useRouter();
   const { id } = router.query;
+  const dispatch = useDispatch();
 
-  const { data } = useGetProductByIdQuery(id);
-  console.log(data);
+  const product = useSelector(selectProduct);
+
+      useEffect(() => {
+        dispatch(fetchProductByID(id));
+    }, [dispatch, id]);
+
+  console.log(product);
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
@@ -22,12 +30,12 @@ const ProductDetails = () => {
   return (
     <div className="mt-[130px] mb-[50px] flex gap-5 border border-border-default rounded-lg py-8 px-5">
       <div className="md:h-[382px] md:w-[50%] ">
-        {data && (
+        {product && (
           <>
             <div className="md:h-[382px] md:w-[570px]">
               <Image
-                src={data.photo[0].url}
-                alt={data.photo[0].alt}
+                src={product.photo[0].url}
+                alt={product.photo[0].alt}
                 className="product-details object-cover object-center"
                 loading={"lazy"}
                 width={570}
@@ -41,12 +49,12 @@ const ProductDetails = () => {
         )}
       </div>
       <div className="md:w-[50%] ">
-        <h1 className="mb-3">{data?.name}</h1>
+        <h1 className="mb-3">{product?.name}</h1>
         <p className="mb-8 md:text-sm text-[10px] text-tertiary">
-          Артикул: {data?.vendorCode}
+          Артикул: {product?.vendorCode}
         </p>
         <p className="md:mb-8 mb-1 font-medium text-text-primary md:text-2xl text-lg">
-          {data?.price.value} &#8372;
+          {product?.price.value} &#8372;
         </p>
         <div className="flex flex-col gap-3 w-[237px] mb-8">
           <button className="hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
@@ -68,24 +76,24 @@ const ProductDetails = () => {
           <h3 className="mb-3">Основні характеристики:</h3>
           <div className="characteristic">
             <span className="characteristic-label">Вага (кг):</span>
-            <span className="characteristic-value">{data?.weight}</span>
+            <span className="characteristic-value">{product?.weight}</span>
           </div>
           <div className="characteristic">
             <span className=" characteristic-label">Код:</span>
-            <span className="characteristic-value">{data?.weight}</span>
+            <span className="characteristic-value">{product?.weight}</span>
           </div>
           <div className="characteristic">
             <span className="characteristic-label">Виробник:</span>
             <span className="characteristic-value">
-              {data?.manufacturer.trademark}
+              {product?.manufacturer.trademark}
             </span>
           </div>
           <div className="characteristic">
             <span className="characteristic-label">Країна:</span>
-            <span className="characteristic-value">{data?.weight}</span>
+            <span className="characteristic-value">{product?.weight}</span>
           </div>
 
-          {isOpen && (
+           {isOpen && (
             <>
               <div className="characteristic">
                 <span className="characteristic-label">Вага (кг):</span>
@@ -104,7 +112,7 @@ const ProductDetails = () => {
                 <span className="characteristic-value">ddd</span>
               </div>
             </>
-          )}
+          )} 
           {!isOpen ?
             (<button
             type="button"

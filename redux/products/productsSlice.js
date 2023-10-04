@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProductById, fetchProducts } from './productsOperations';
+import { fetchProducts, fetchProductByID, fetchProductsByQuery } from './productsOperations';
 
 const handlePending = state => {
   state.isLoading = true;
@@ -13,6 +13,8 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    productsByQuery:[],
+    productById: null,
     isLoading: false,
     error: null,
   },
@@ -20,11 +22,33 @@ const productsSlice = createSlice({
     builder
       .addCase(fetchProducts.pending, handlePending)
       .addCase(fetchProducts.fulfilled, (state, action) => {
-         state.products = action.payload;
-                 state.isLoading = false;
-        state.error = null;
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          products: action.payload,
+        };
       })
-       .addCase(fetchProducts.rejected, handleRejected)
+      .addCase(fetchProducts.rejected, handleRejected)
+      .addCase(fetchProductByID.pending, handlePending)
+      .addCase(fetchProductByID.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          productById: action.payload,
+        };
+      })
+      .addCase(fetchProductByID.rejected, handleRejected)
+      .addCase(fetchProductsByQuery.pending, handlePending)
+      .addCase(fetchProductsByQuery.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          productsByQuery: action.payload,
+        };
+      });
   },
 });
 

@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SearchIcon, SearchIconNavbar } from "@/public/icons";
-import { useGetProductsBySearchQuery } from "@/redux/services/productApi";
+import { useDispatch, useSelector } from "react-redux";
+import {  selectProducts, selectProductsByQuery } from "@/redux/products/productsSelectors";
+import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
 
 
 const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const { data } = useGetProductsBySearchQuery(searchTerm, 2);
+
+  const dispatch = useDispatch()
+  const data = useSelector(selectProductsByQuery)
+
+  const products = data?.products
+
+    useEffect(() => {
+    dispatch(fetchProductsByQuery(searchTerm));
+  }, [dispatch, searchTerm]);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");
@@ -28,10 +38,13 @@ const SearchBar = () => {
     event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
-    const newFilter = data.products.filter((value) => {
+
+    const newFilter = products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
-
+   
+    console.log(newFilter)
+    
     if (searchTerm === "") {
       setFilteredData([]);
     } else {
@@ -39,11 +52,13 @@ const SearchBar = () => {
     }
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm !== "" && filteredData.length !== 0) {
       updateSearchParams(searchTerm.toLowerCase());
     }
+    // dispatch(fetchProducts(searchTerm));
   
     clearFields();
   };
