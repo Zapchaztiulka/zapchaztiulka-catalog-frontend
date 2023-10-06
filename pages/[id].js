@@ -27,6 +27,31 @@ const ProductDetails = () => {
     setIsOpen(!isOpen);
   };
 
+  const aviabilityType = (description) => {
+switch (description) {
+  case "є в наявності":
+    return "#D1FADF";
+  case "відсутній":
+    return "#FEE4E2";
+  case "під замовлення":
+    return "#FEF0C7";
+  default:
+}};
+
+  const availabilityText = (description) => {
+    switch (description) {
+      case "є в наявності":
+        return "#039855";
+      case "відсутній":
+        return "#D92D20";
+      case "під замовлення":
+        return "#F79009";
+      default:
+    }
+  };
+
+  console.log(availabilityText("є в наявності"))
+
   return (
     <div className="mt-[130px] mb-[50px] flex gap-5 border border-border-default rounded-lg py-8 px-5">
       <div className="md:h-[382px] md:w-[50%] ">
@@ -53,13 +78,29 @@ const ProductDetails = () => {
         <p className="mb-8 md:text-sm text-[10px] text-tertiary">
           Артикул: {product?.vendorCode}
         </p>
-        <p className="md:mb-8 mb-1 font-medium text-text-primary md:text-2xl text-lg">
+        <p className="md:mb-xs2 mb-1 font-medium text-text-primary md:text-2xl text-lg">
           {product?.price.value} &#8372;
         </p>
+
+        <span
+          style={{
+            backgroundColor: `${aviabilityType(product?.availability)}`, color:`${availabilityText(
+            product?.availability
+          )}`, padding:"6px", marginBottom:"16px"
+          }}
+          className={`bg-${aviabilityType(
+            product?.availability
+          )} text-${availabilityText(
+            product?.availability
+          )} text-sm font-medium py-xs3 px-xs mb-s border rounded-borderRadius-medium3`}
+        >
+          {product?.availability}
+        </span>
+
         <div className="flex flex-col gap-3 w-[237px] mb-8">
           <button className="hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
             <div className="flex justify-center items-center">
-              <CartIcon className="w-[24px] h-[24px] fill-iconColors-contrast"/>
+              <CartIcon className="w-[24px] h-[24px] fill-iconColors-contrast" />
               <span className="text-white text-sm tracking-[-0.21px]">
                 Додати в кошик
               </span>
@@ -93,7 +134,7 @@ const ProductDetails = () => {
             <span className="characteristic-value">{product?.weight}</span>
           </div>
 
-           {isOpen && (
+          {isOpen && (
             <>
               <div className="characteristic">
                 <span className="characteristic-label">Вага (кг):</span>
@@ -112,31 +153,30 @@ const ProductDetails = () => {
                 <span className="characteristic-value">ddd</span>
               </div>
             </>
-          )} 
-          {!isOpen ?
-            (<button
-            type="button"
-            onClick={toggle}
-            className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
-          >
-          
-            <span className="text-base text-default-blue font-medium">
-              Усі характеристик
-            </span>
-            <ArrowDown className="w-[24px] h-[24px] stroke-default-blue fill-none" />
-          </button>) :
-            (<button
-            type="button"
-            onClick={toggle}
-            className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
-          >
-          
-            <span className="text-base text-default-blue font-medium">
-              Приховати
-            </span>
-            <ArrowUp className="w-[24px] h-[24px] stroke-default-blue fill-none" />
-          </button>)}
-          
+          )}
+          {!isOpen ? (
+            <button
+              type="button"
+              onClick={toggle}
+              className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
+            >
+              <span className="text-base text-default-blue font-medium">
+                Усі характеристик
+              </span>
+              <ArrowDown className="w-[24px] h-[24px] stroke-default-blue fill-none" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={toggle}
+              className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
+            >
+              <span className="text-base text-default-blue font-medium">
+                Приховати
+              </span>
+              <ArrowUp className="w-[24px] h-[24px] stroke-default-blue fill-none" />
+            </button>
+          )}
         </section>
 
         <h4 className="mb-3">Опис</h4>

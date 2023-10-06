@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import { scrollToTop } from "@/helpers/scrollToTop";
-import { selectProducts } from "@/redux/products/productsSelectors";
+import { selectProducts, selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "@/redux/products/productsOperations";
+import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
 
 
 const CardsList = () => {
@@ -16,6 +16,7 @@ const CardsList = () => {
   const data = useSelector(selectProducts)
 
   const router = useRouter()
+  console.log(router)
   const searchValue = router.query.query || "";
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -23,7 +24,7 @@ const CardsList = () => {
   const products = data?.products
 
   useEffect(() => {
-    dispatch(fetchProducts({ search: searchValue }));
+    dispatch(fetchProducts({ search: searchValue}));
   }, [dispatch, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize); 
@@ -32,8 +33,9 @@ const CardsList = () => {
     event.preventDefault();
    
     dispatch(fetchProducts({ search: searchValue, page: value }));
-     setCurrentPage(value);
+    setCurrentPage(value);
   };
+
 
   return (
     <div>
@@ -43,8 +45,8 @@ const CardsList = () => {
             <div className="">
               <div className="md:h-[190px] h-[112px] w-[168px] md:w-[285px]">
                 <Image
-                  src={photo[0].url}
-                  alt={photo[0].alt}
+                  src={photo[0]?.url}
+                  alt={photo[0]?.alt}
                   className="product-img object-cover object-center"
                   loading={"lazy"}
                   width={285}
