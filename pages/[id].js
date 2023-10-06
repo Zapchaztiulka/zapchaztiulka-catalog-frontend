@@ -58,7 +58,7 @@ switch (description) {
         {product && (
           <>
             <div className="md:h-[382px] md:w-[570px]">
-              {product.length > 0 && (
+             
                 <Image
                   src={product.photo[0].url}
                   alt={product.photo[0].alt}
@@ -67,7 +67,7 @@ switch (description) {
                   width={570}
                   height={382}
                 />
-              )}
+              
             </div>
             <Link legacyBehavior href={{ pathname: "/cart" }}>
               Go to the cart
