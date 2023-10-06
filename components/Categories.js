@@ -34,7 +34,7 @@ const Categories = (props) => {
       ref={ref}
       className={`${
         props.show ? "block" : "hidden"
-      } absolute top-[92px] bg-bgColors-white p-s border-t border-x rounded-b-lg min-w-[377px]`}
+      } absolute top-[92px] bg-bgColors-white p-s border-t border-x rounded-b-lg min-w-[377px] h-[518px]`}
     >
       <ul className="flex relative flex-col gap-xs text-textColors-primary text-base font-medium tracking-textBase">
         {categories?.map((el) => {
@@ -54,7 +54,7 @@ const Categories = (props) => {
               <div
                 className={`absolute w-[100%] ${
                   showSubMenu[el._id] ? "block" : "hidden"
-                } top-[-16px] left-[105%] bg-bgColors-white p-s border-t border-x rounded-b-lg`}
+                } top-[-17px] left-[105%] bg-bgColors-white p-s border-t border-x rounded-b-lg`}
               >
                 <ul className="flex-col gap-xs3 text-textColors-primary text-base font-medium tracking-textBase">
                   {el.subcategories.length > 0 ? (
@@ -65,7 +65,9 @@ const Categories = (props) => {
                             href="./"
                             className="border-none cursor-pointer b-transparent flex justify-between items-center"
                           >
-                            <p className="text-base text-textColors-primary py-[10px] px-xs3">{sub.subcategoryName}</p>
+                            <p className="text-base text-textColors-primary py-[10px] px-xs3">
+                              {sub.subcategoryName}
+                            </p>
                           </Link>
                         </li>
                       );

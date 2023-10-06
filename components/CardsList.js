@@ -23,7 +23,7 @@ const CardsList = () => {
   const products = data?.products
 
   useEffect(() => {
-    dispatch(fetchProducts({search: searchValue}));
+    dispatch(fetchProducts({ search: searchValue }));
   }, [dispatch, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize); 
