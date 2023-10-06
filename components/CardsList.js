@@ -22,6 +22,7 @@ const CardsList = () => {
   const pageSize = 10;
 
   const products = data?.products
+  console.log(products);
 
   useEffect(() => {
     dispatch(fetchProducts({ search: searchValue}));
@@ -44,14 +45,15 @@ const CardsList = () => {
           return <li key={_id} className="md:w-[285px] w-[168px] border border-border-default rounded-lg">
             <div className="">
               <div className="md:h-[190px] h-[112px] w-[168px] md:w-[285px]">
-                <Image
+                {photo.length>0 &&  <Image
                   src={photo[0]?.url}
                   alt={photo[0]?.alt}
                   className="product-img object-cover object-center"
                   loading={"lazy"}
                   width={285}
                   height={190}
-                />
+                />}
+               
               </div>
               <div className="md:px-3 md:pt-2 md:pb-3 p-2">
                 <p className="mb-1 md:text-sm text-[10px] text-tertiary">

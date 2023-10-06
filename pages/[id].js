@@ -58,14 +58,16 @@ switch (description) {
         {product && (
           <>
             <div className="md:h-[382px] md:w-[570px]">
-              <Image
-                src={product.photo[0].url}
-                alt={product.photo[0].alt}
-                className="product-details object-cover object-center"
-                loading={"lazy"}
-                width={570}
-                height={382}
-              />
+              {product.length > 0 && (
+                <Image
+                  src={product.photo[0].url}
+                  alt={product.photo[0].alt}
+                  className="product-details object-cover object-center"
+                  loading={"lazy"}
+                  width={570}
+                  height={382}
+                />
+              )}
             </div>
             <Link legacyBehavior href={{ pathname: "/cart" }}>
               Go to the cart
@@ -84,9 +86,10 @@ switch (description) {
 
         <span
           style={{
-            backgroundColor: `${aviabilityType(product?.availability)}`, color:`${availabilityText(
-            product?.availability
-          )}`, padding:"6px", marginBottom:"16px"
+            backgroundColor: `${aviabilityType(product?.availability)}`,
+            color: `${availabilityText(product?.availability)}`,
+            padding: "6px",
+            marginBottom: "16px",
           }}
           className={`bg-${aviabilityType(
             product?.availability
