@@ -54,10 +54,10 @@ const Categories = (props) => {
               <div
                 className={`absolute w-[100%] ${
                   showSubMenu[el._id] ? "block" : "hidden"
-                } top-[-16px] left-[105%] bg-bgColors-white`}
+                } top-[-16px] left-[105%] bg-bgColors-white p-s border-t border-x rounded-b-lg`}
               >
-                <ul className="text-textColors-primary text-base font-medium tracking-textBase">
-                  {el.subcategories.length > 0 &&
+                <ul className="flex-col gap-xs3 text-textColors-primary text-base font-medium tracking-textBase">
+                  {el.subcategories.length > 0 ? (
                     el.subcategories.map((sub) => {
                       return (
                         <li key={sub._id}>
@@ -65,11 +65,16 @@ const Categories = (props) => {
                             href="./"
                             className="border-none cursor-pointer b-transparent flex justify-between items-center"
                           >
-                            <div>{sub.subcategoryName}</div>
+                            <p className="text-base text-textColors-primary py-[10px] px-xs3">{sub.subcategoryName}</p>
                           </Link>
                         </li>
                       );
-                    })}
+                    })
+                  ) : (
+                    <p className="text-text-secondary text-[15px] mb-4 ">
+                      Підкатегоріїї не існує
+                    </p>
+                  )}
                 </ul>
               </div>
             </li>
