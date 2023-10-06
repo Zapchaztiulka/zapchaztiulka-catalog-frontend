@@ -5,5 +5,6 @@ import SearchBar from './SearchBar';
 import ContactList from './ContactList';
 import SideBar from './SideBar';
 import Categories from './Categories';
+import Catalog from './Catalog';
 
-export { Navbar, Footer, Layout, SearchBar, ContactList, SideBar, Categories};
+export { Navbar, Footer, Layout, SearchBar, Catalog, ContactList, SideBar, Categories};

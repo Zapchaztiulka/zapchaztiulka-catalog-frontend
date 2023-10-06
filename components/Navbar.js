@@ -1,16 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import Categories from "./Categories";
-
+import { useState } from "react";
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
 import Sidebar from "./SideBar";
 import { CartIcon, CartIconSideBar, CatalogIcon, MenuOpenIcon, PhoneIcon, SearchIcon } from "@/public/icons";
+import Catalog from "./Catalog";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  let ref = useRef();
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -79,22 +77,7 @@ const Navbar = () => {
       </div>
 
       <div className="md:flex hidden">
-        <button
-          className="mr-[15px] hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 "
-          onClick={toggle}
-          aria-expanded={isOpen ? "true" : "false"}
-          type="button"         
-        >
-          <div className="flex justify-center items-center  ">
-            <CatalogIcon className="w-[24px] h-[24px] stroke-iconColors-contrast stroke-2 fill-none" />
-            <span className="text-white font-medium text-base tracking-[-0.24px]">
-              Каталог
-            </span>
-          </div>
-        </button>
-
-        {isOpen && <Categories />}
-
+      <Catalog/>
         <SearchBar />
       </div>
 
