@@ -45,14 +45,21 @@ const CardsList = () => {
           return <li key={_id} className="md:w-[285px] w-[168px] border border-border-default rounded-lg">
             <div className="">
               <div className="md:h-[190px] h-[112px] w-[168px] md:w-[285px]">
-                {photo.length>0 &&  <Image
+                {photo.length===0? (<Image
+                  src='/empty-img.jpeg'
+                  alt='no image'
+                  className="product-img object-cover object-center"
+                  loading={"lazy"}
+                  width={285}
+                  height={190}
+                />): (<Image
                   src={photo[0]?.url}
                   alt={photo[0]?.alt}
                   className="product-img object-cover object-center"
                   loading={"lazy"}
                   width={285}
                   height={190}
-                />}
+                />) }
                
               </div>
               <div className="md:px-3 md:pt-2 md:pb-3 p-2">

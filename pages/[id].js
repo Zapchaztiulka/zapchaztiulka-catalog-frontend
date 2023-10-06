@@ -8,6 +8,7 @@ import { ArrowDown, ArrowUp, CartIcon } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
+import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -27,30 +28,6 @@ const ProductDetails = () => {
     setIsOpen(!isOpen);
   };
 
-  const aviabilityType = (description) => {
-switch (description) {
-  case "є в наявності":
-    return "#D1FADF";
-  case "відсутній":
-    return "#FEE4E2";
-  case "під замовлення":
-    return "#FEF0C7";
-  default:
-}};
-
-  const availabilityText = (description) => {
-    switch (description) {
-      case "є в наявності":
-        return "#039855";
-      case "відсутній":
-        return "#D92D20";
-      case "під замовлення":
-        return "#F79009";
-      default:
-    }
-  };
-
-  console.log(availabilityText("є в наявності"))
 
   return (
     <div className="mt-[130px] mb-[50px] flex gap-5 border border-border-default rounded-lg py-8 px-5">
@@ -58,15 +35,22 @@ switch (description) {
         {product && (
           <>
             <div className="md:h-[382px] md:w-[570px]">
-             
-                <Image
+             {product.photo.length===0? ( <Image
+                  src="/empty-img.jpeg"
+                  alt="no image"
+                  className="product-details object-cover object-center"
+                  loading={"lazy"}
+                  width={570}
+                  height={382}
+                />):( <Image
                   src={product.photo[0].url}
                   alt={product.photo[0].alt}
                   className="product-details object-cover object-center"
                   loading={"lazy"}
                   width={570}
                   height={382}
-                />
+                />)}
+               
               
             </div>
             <Link legacyBehavior href={{ pathname: "/cart" }}>
@@ -84,21 +68,17 @@ switch (description) {
           {product?.price.value} &#8372;
         </p>
 
-        <span
+        <p
           style={{
             backgroundColor: `${aviabilityType(product?.availability)}`,
             color: `${availabilityText(product?.availability)}`,
             padding: "6px",
             marginBottom: "16px",
           }}
-          className={`bg-${aviabilityType(
-            product?.availability
-          )} text-${availabilityText(
-            product?.availability
-          )} text-sm font-medium py-xs3 px-xs mb-s border rounded-borderRadius-medium3`}
+          className='inline-block text-sm font-medium py-xs3 px-xs mb-s border rounded-borderRadius-medium3 text-center'
         >
           {product?.availability}
-        </span>
+        </p>
 
         <div className="flex flex-col gap-3 w-[237px] mb-8">
           <button className="hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
