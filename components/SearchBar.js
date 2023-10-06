@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SearchIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {  selectProducts, selectProductsByQuery } from "@/redux/products/productsSelectors";
+import {  selectIsLoading, selectProducts, selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
 
 
@@ -20,7 +20,7 @@ const SearchBar = () => {
   const products = data?.products
 
     useEffect(() => {
-    dispatch(fetchProductsByQuery(searchTerm));
+      dispatch(fetchProductsByQuery(searchTerm));
   }, [dispatch, searchTerm]);
 
   const updateSearchParams = (searchTerm) => {
@@ -38,12 +38,11 @@ const SearchBar = () => {
     event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
+   
 
     const newFilter = products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
-   
-    console.log(newFilter)
     
     if (searchTerm === "") {
       setFilteredData([]);
@@ -58,7 +57,6 @@ const SearchBar = () => {
     if (searchTerm !== "" && filteredData.length !== 0) {
       updateSearchParams(searchTerm.toLowerCase());
     }
-    // dispatch(fetchProducts(searchTerm));
   
     clearFields();
   };

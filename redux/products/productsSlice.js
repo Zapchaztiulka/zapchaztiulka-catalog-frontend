@@ -24,7 +24,7 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         return {
           ...state,
-          loading: false,
+          isLoading: false,
           error: null,
           products: action.payload,
         };
@@ -34,7 +34,7 @@ const productsSlice = createSlice({
       .addCase(fetchProductByID.fulfilled, (state, action) => {
         return {
           ...state,
-          loading: false,
+          isLoading: false,
           error: null,
           productById: action.payload,
         };
@@ -44,7 +44,7 @@ const productsSlice = createSlice({
       .addCase(fetchProductsByQuery.fulfilled, (state, action) => {
         return {
           ...state,
-          loading: false,
+          isLoading: false,
           error: null,
           productsByQuery: action.payload,
         };
