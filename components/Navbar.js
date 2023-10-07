@@ -1,23 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
 import Sidebar from "./SideBar";
-import { CartIcon, CartIconSideBar, CatalogIcon, MenuOpenIcon, PhoneIcon, SearchIcon } from "@/public/icons";
+import {
+  CartIcon,
+  CartIconSideBar,
+  CatalogIcon,
+  MenuOpenIcon,
+  PhoneIcon,
+  SearchIcon,
+} from "@/public/icons";
 import Catalog from "./Catalog";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleToHome = () => {
+    dispatch(fetchProducts());
+  };
+
   return (
     <nav className="navbar">
       <Link
         href="/"
+        onClick={handleToHome}
         className="justify-center lg:flex hidden items-center mr-[15px]"
       >
         <Image
@@ -77,7 +91,7 @@ const Navbar = () => {
       </div>
 
       <div className="md:flex hidden">
-      <Catalog/>
+        <Catalog />
         <SearchBar />
       </div>
 
