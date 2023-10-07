@@ -5,45 +5,50 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SearchIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {  selectIsLoading, selectProducts, selectProductsByQuery } from "@/redux/products/productsSelectors";
-import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
-
+import {
+  selectIsLoading,
+  selectProducts,
+  selectProductsByQuery,
+} from "@/redux/products/productsSelectors";
+import {
+  fetchProducts,
+  fetchProductsByQuery,
+} from "@/redux/products/productsOperations";
 
 const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
 
-  const dispatch = useDispatch()
-  const data = useSelector(selectProductsByQuery)
+  const dispatch = useDispatch();
+  const data = useSelector(selectProductsByQuery);
 
-  const products = data?.products
+  const products = data?.products;
 
-    useEffect(() => {
-      dispatch(fetchProductsByQuery(searchTerm));
+  useEffect(() => {
+    dispatch(fetchProductsByQuery(searchTerm));
   }, [dispatch, searchTerm]);
 
   const updateSearchParams = (searchTerm) => {
     const searchParams = new URLSearchParams("./");
-    if (filteredData.length !== 0 && searchTerm.length!==0) {
+    if (filteredData.length !== 0 && searchTerm.length !== 0) {
       searchParams.set("query", searchTerm);
     } else {
       searchParams.delete("query");
     }
     const newPathName = `./?${searchParams.toString()}`;
-    router.push(newPathName);   
+    router.push(newPathName);
   };
 
   const handleFilter = (event) => {
     event.preventDefault();
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
-   
 
     const newFilter = products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
-    
+
     if (searchTerm === "") {
       setFilteredData([]);
     } else {
@@ -51,13 +56,12 @@ const SearchBar = () => {
     }
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm !== "" && filteredData.length !== 0) {
       updateSearchParams(searchTerm.toLowerCase());
     }
-  
+
     clearFields();
   };
 
