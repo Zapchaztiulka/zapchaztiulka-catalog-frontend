@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
         <title>Запчастюлька</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <header className="container">
+      <header className="container z-50">
         <Navbar />
       </header>
       <main className="main-container mt-[50px]">

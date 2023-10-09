@@ -54,8 +54,7 @@ const ProductDetails = () => {
                   width="0"
                   height="0"
                   priority
-                  sizes="100vw"
-                  
+                  sizes="100vw"                 
                 />
               )}
             </div>

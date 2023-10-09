@@ -10,7 +10,7 @@ const Categories = (props) => {
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
-  const ref = useRef(null);
+  const ref = useRef(0);
   const { onClickOutside } = props;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
@@ -34,51 +34,45 @@ const Categories = (props) => {
       ref={ref}
       className={`${
         props.show ? "block" : "hidden"
-      } absolute top-[92px] bg-bgColors-white p-s border-t border-x rounded-b-lg min-w-[377px] h-[518px]`}
+      } absolute top-[92px] bg-bgColors-white p-s border-t border-x rounded-b-lg min-w-[377px] h-[518px] shadow-md shadow-gray-300`}
     >
-      <ul className="flex relative flex-col gap-xs text-textColors-primary text-base font-medium tracking-textBase">
+      <ul className="flex relative flex-col gap-xs  text-textColors-primary text-base font-medium tracking-textBase">
         {categories?.map((el) => {
           return (
             <li
               className=""
               key={el._id}
-              onClick={() => subCategoriesOnclickHandler(el._id)}
+              onClick={() => {
+                subCategoriesOnclickHandler(el._id);
+              }}
             >
-              <Link
-                href="./"
-                className="border-none cursor-pointer b-transparent flex justify-between items-center"
-              >
-                <div>{el.categoryName}</div>
-                <ArrowRight className="stroke-iconColors-secondary w-[44] h-[44]" />
-              </Link>
-              <div
-                className={`absolute w-[100%] ${
-                  showSubMenu[el._id] ? "block" : "hidden"
-                } top-[-17px] left-[105%] bg-bgColors-white p-s border-t border-x rounded-b-lg`}
-              >
-                <ul className="flex-col gap-xs3 text-textColors-primary text-base font-medium tracking-textBase">
-                  {el.subcategories.length > 0 ? (
-                    el.subcategories.map((sub) => {
+              <div className="border-none cursor-pointer b-transparent flex justify-between items-center">
+                <p>{el.categoryName}</p>
+                {el.subcategories.length > 0 && (
+                  <ArrowRight className="stroke-iconColors-secondary w-[44] h-[44]" />
+                )}
+              </div>
+              {el.subcategories.length > 0 && (
+                <div
+                  className={`absolute w-[100%] ${
+                    showSubMenu[el._id] ? "block" : "hidden"
+                  } top-[-17px] left-[105%] bg-bgColors-white p-s border-t border-x rounded-b-lg shadow-md shadow-gray-300`}
+                >
+                  <ul className="flex-col gap-xs3 text-textColors-primary text-base font-medium tracking-textBase">
+                    {el.subcategories.map((sub) => {
                       return (
                         <li key={sub._id}>
-                          <Link
-                            href="./"
-                            className="border-none cursor-pointer b-transparent flex justify-between items-center"
-                          >
+                          <div className="border-none cursor-pointer b-transparent flex justify-between items-center">
                             <p className="text-base text-textColors-primary py-[10px] px-xs3">
                               {sub.subcategoryName}
                             </p>
-                          </Link>
+                          </div>
                         </li>
                       );
-                    })
-                  ) : (
-                    <p className="text-text-secondary text-[15px] mb-4 ">
-                      Підкатегоріїї не існує
-                    </p>
-                  )}
-                </ul>
-              </div>
+                    })}
+                  </ul>
+                </div>
+              )}
             </li>
           );
         })}

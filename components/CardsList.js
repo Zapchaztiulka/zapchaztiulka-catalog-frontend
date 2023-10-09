@@ -8,12 +8,10 @@ import Pagination from "@mui/material/Pagination";
 import { scrollToTop } from "@/helpers/scrollToTop";
 import {
   selectProducts,
-  selectProductsByQuery,
 } from "@/redux/products/productsSelectors";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
-  fetchProductsByQuery,
 } from "@/redux/products/productsOperations";
 
 const CardsList = () => {
@@ -41,7 +39,7 @@ const CardsList = () => {
   };
 
   return (
-    <div>
+    <div className="z-10">
       
       <ul className="flex flex-wrap md:gap-5 gap-2 justify-center mb-5">
         {data &&
@@ -50,7 +48,7 @@ const CardsList = () => {
               <Link legacyBehavior href={{ pathname: `/${_id}` }}>
                 <li
                   key={_id}
-                  className="md:w-[285px] w-[168px] border border-border-default rounded-lg cursor-pointer transition ease-in-out delay-250 hover:scale-[102%]"
+                  className="md:w-[285px] w-[168px] border border-border-default rounded-lg cursor-pointer hover:shadow-md"
                 >
                   <div className="">
                     <div>
@@ -102,7 +100,7 @@ const CardsList = () => {
       </ul>
 
       {data && pagesCount > 1 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center relative">
           <Pagination
             shape="rounded"
             count={pagesCount}
