@@ -102,7 +102,7 @@ const SearchBar = () => {
         </ul>
       )}
       {filteredData.length === 0 && searchTerm.length !== 0 && (
-        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm p-4">
+        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-border-default overflow-auto text-text-input-default rounded-lg bg-white py-3 text-base focus:outline-none sm:text-sm p-4 z-10">
           <p className="text-input-active text-lg font-medium mb-2">
             На жаль, за вашим {`${searchTerm}`} запитом нічого не знайдено
           </p>

@@ -34,28 +34,32 @@ const ProductDetails = () => {
       <div className="md:h-[382px] md:w-[50%] ">
         {product && (
           <>
-            <div className="md:h-[382px] md:w-[570px]">
-             {product.photo.length===0? ( <Image
+            <div>
+              {product.photo.length === 0 ? (
+                <Image
                   src="/empty-img.jpeg"
                   alt="no image"
-                  className="product-details object-cover object-center"
-                  loading={"lazy"}
-                  width={570}
-                  height={382}
-                />):( <Image
+                  className="md:h-[382px] md:w-[570px] object-contain"
+                  width="0"
+                  height="0"
+                  priority
+                  sizes="100vw"
+                  
+                />
+              ) : (
+                <Image
                   src={product.photo[0].url}
                   alt={product.photo[0].alt}
-                  className="product-details object-cover object-center"
-                  loading={"lazy"}
-                  width={570}
-                  height={382}
-                />)}
-               
-              
+                  className="md:h-[382px] md:w-[570px] object-contain"
+                  width="0"
+                  height="0"
+                  priority
+                  sizes="100vw"
+                  
+                />
+              )}
             </div>
-            <Link legacyBehavior href={{ pathname: "/cart" }}>
-              Go to the cart
-            </Link>
+           
           </>
         )}
       </div>
@@ -75,7 +79,7 @@ const ProductDetails = () => {
             padding: "6px",
             marginBottom: "16px",
           }}
-          className='inline-block text-sm font-medium py-xs3 px-xs mb-s border rounded-borderRadius-medium3 text-center'
+          className="inline-block text-sm font-medium py-xs3 px-xs mb-s border rounded-borderRadius-medium3 text-center"
         >
           {product?.availability}
         </p>
@@ -177,3 +181,7 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+//  <Link legacyBehavior href={{ pathname: "/cart" }}>
+//               Go to the cart
+//             </Link>
