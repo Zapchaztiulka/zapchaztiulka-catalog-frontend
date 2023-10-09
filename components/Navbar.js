@@ -14,6 +14,7 @@ import {
   SearchIcon,
 } from "@/public/icons";
 import Catalog from "./Catalog";
+import { fetchProducts } from "@/redux/products/productsOperations";
 
 const Navbar = () => {
   const dispatch = useDispatch();

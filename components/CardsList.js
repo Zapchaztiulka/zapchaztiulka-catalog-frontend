@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
 } from "@/redux/products/productsOperations";
+import { theme } from "@/helpers/themeMaterial";
+import { ThemeProvider } from "@mui/material";
 
 const CardsList = () => {
   const dispatch = useDispatch();
@@ -100,24 +102,18 @@ const CardsList = () => {
       </ul>
 
       {data && pagesCount > 1 && (
-        <div className="flex justify-center relative">
+        <ThemeProvider theme={theme}>
+          <div className="flex justify-center relative">
           <Pagination
             shape="rounded"
             count={pagesCount}
             page={currentPage}
             onChange={handleChange}
             onClick={scrollToTop}
-            sx={{
-              button: { color: "#6B7075" },
-              "& .MuiPaginationItem-root.Mui-selected": {
-                backgroundColor: "transparent",
-                color: "#1C1F23",
-              },
-            }}
           />
         </div>
+        </ThemeProvider>       
       )}
-   
       
     </div>
   );
