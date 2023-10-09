@@ -49,7 +49,7 @@ const Categories = (props) => {
               <div className="border-none b-transparent flex justify-between items-center">
                 <p>{el.categoryName}</p>
                 {el.subcategories.length > 0 && (
-                  <ArrowRight className="stroke-iconColors-secondary hover:stroke-iconColors-brand w-[44] h-[44]" />
+                  <ArrowRight className="stroke-iconColors-secondary hover:stroke-iconColors-brand" />
                 )}
               </div>
               {el.subcategories.length > 0 && (

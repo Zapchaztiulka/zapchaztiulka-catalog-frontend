@@ -26,6 +26,7 @@ const CardsList = () => {
   const pageSize = 10;
 
   const products = data?.products;
+  console.log(products)
 
   useEffect(() => {
     dispatch(fetchProducts({ search: searchValue }));

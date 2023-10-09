@@ -1,15 +1,23 @@
-import React from "react";
-
-import Image from "next/image";
+import React, { useEffect } from "react";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/products/productsOperations";
+import { LogoIconWithText } from "./Icons/Logo/LogoIconWithText";
+import { LogoIcon } from "./Icons/Logo/LogoIcon";
+import { fetchCategories } from "@/redux/categories/categoriesOperation";
+import { selectCategories } from "@/redux/categories/categoriesSelector";
 
 const Footer = () => {
   const dispatch = useDispatch();
   const current_year = new Date().getFullYear();
+  const data = useSelector(selectCategories);
+  const categories = data?.categories;
 
-    const handleToHome = () => {
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const handleToHome = () => {
     dispatch(fetchProducts());
   };
 
@@ -17,41 +25,24 @@ const Footer = () => {
     <div className="flex flex-col justify-between md:gap-3 gap-8">
       <div className=" md:inline-flex  hidden items-center">
         <Link href="/" onClick={handleToHome}>
-          <Image
-            src="/logo-main.svg"
-            alt="logo"
-            className="object-contain"
-            width={248}
-            height={60}
-          />
+          <LogoIconWithText />
         </Link>
       </div>
 
       <Link href="/" className="flex md:hidden items-center">
-        <Image
-          src="/logo-blue.svg"
-          alt="logo"
-          className="object-contain"
-          width={50}
-          height={48}
-        />
+        <LogoIcon size="44" />
       </Link>
       <div className="footer-lists">
         <div className="flex flex-col gap-3">
           <h4 className="text-tertiary text-lg">Каталог</h4>
           <ul className="text-text-primary text-base">
-            <li className=" footer-items">
-              <a>Запчастини до сільгосптехніки</a>
-            </li>
-            <li className=" footer-items">
-              <a>Запчастини до вантажних автомобілів</a>
-            </li>
-            <li className=" footer-items">
-              <a>Масла і автохімія</a>
-            </li>
-            <li className=" footer-items">
-              <a>Шини та камери</a>
-            </li>
+            {categories?.map((el) => {
+              return (
+                <li key={el._id} className=" footer-items">
+                  {el.categoryName}
+                </li>
+              );
+            })}
           </ul>
         </div>
 

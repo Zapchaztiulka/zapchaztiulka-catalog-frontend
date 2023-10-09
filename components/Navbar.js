@@ -15,6 +15,8 @@ import {
 } from "@/public/icons";
 import Catalog from "./Catalog";
 import { fetchProducts } from "@/redux/products/productsOperations";
+import { LogoIconWithText } from "./Icons/Logo/LogoIconWithText";
+import { LogoIcon } from "./Icons/Logo/LogoIcon";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -35,14 +37,7 @@ const Navbar = () => {
         onClick={handleToHome}
         className="justify-center lg:flex hidden items-center mr-[15px]"
       >
-        <Image
-          src="/logo-main.svg"
-          alt="logo"
-          priority={true}
-          quality={80}
-          width={248}
-          height={60}
-        />
+        <LogoIconWithText/>
       </Link>
       <Link
         href="/"
@@ -58,13 +53,7 @@ const Navbar = () => {
       </Link>
       <div className="flex">
         <Link href="/" className="justify-center flex md:hidden items-center">
-          <Image
-            src="/logo-white.svg"
-            alt="logo"
-            className="object-contain"
-            width={44}
-            height={44}
-          />
+                    <LogoIcon color1="#fff" color2="#fff" size="44" />
         </Link>
         <Sidebar isOpen={isOpen} toggle={toggle} />
 
