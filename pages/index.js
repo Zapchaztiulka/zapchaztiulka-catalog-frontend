@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import CardsList from "@/components/CardsList";
+import React from "react";
+import CardsList from "@/components/Products/CardsList";
 import { useSelector } from "react-redux";
 import {
   selectIsLoading,
@@ -18,7 +18,7 @@ const Catalog = () => {
   const error = useSelector(selectError)
   return (
     <div className="mt-[130px] flex gap-5">
-      <div className="hidden md:block w-[285px] border border-border-default rounded-lg shrink-0">
+      <div className="hidden md:block w-[285px] border border-borderDefault rounded-lg shrink-0">
         Тут буде блок з фільтрами
       </div>
       {isLoading && data.length ===0 && <Loader/>}

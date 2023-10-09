@@ -34,8 +34,8 @@ const Footer = () => {
       </Link>
       <div className="footer-lists">
         <div className="flex flex-col gap-3">
-          <h4 className="text-tertiary text-lg">Каталог</h4>
-          <ul className="text-text-primary text-base">
+          <h4 className="text-textTertiary text-lg">Каталог</h4>
+          <ul className="text-textPrimary text-base">
             {categories?.map((el) => {
               return (
                 <li key={el._id} className=" footer-items">
@@ -47,8 +47,8 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3 ">
-          <h4 className="text-tertiary text-lg">Покупцеві</h4>
-          <ul className="text-text-primary text-base">
+          <h4 className="text-textTertiary text-lg">Покупцеві</h4>
+          <ul className="text-textPrimary text-base">
             <li className=" footer-items">
               <a>Онлайн допомога</a>
             </li>
@@ -68,8 +68,8 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h4 className="text-tertiary text-lg">Контакти</h4>
-          <ul className="text-text-primary text-base">
+          <h4 className="text-textTertiary text-lg">Контакти</h4>
+          <ul className="text-textPrimary text-base">
             <li className="footer-items ">
               <a>+38 (050) 810 48 82</a>
             </li>
@@ -83,8 +83,8 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h4 className="text-tertiary text-lg">Графік роботи</h4>
-          <ul className="text-text-primary text-base">
+          <h4 className="text-textTertiary text-lg">Графік роботи</h4>
+          <ul className="text-textPrimary text-base">
             <li className="py-[10px] px-[4px] ">Пн - Пт 8:00-18:00</li>
             <li className="py-[10px] px-[4px] ">Сб - 10:00-18:00</li>
             <li className="py-[10px] px-[4px] ">Нд - вихідний</li>
@@ -96,7 +96,7 @@ const Footer = () => {
       </div>
       <div>
         {" "}
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-textSecondary">
           <br />
           &copy;{current_year} Всі права захищені
         </p>

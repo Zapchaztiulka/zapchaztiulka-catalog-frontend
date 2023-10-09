@@ -30,7 +30,7 @@ const ProductDetails = () => {
 
 
   return (
-    <div className="mt-[130px] mb-[50px] flex gap-5 border border-border-default rounded-lg py-8 px-5">
+    <div className="mt-[130px] mb-[50px] flex gap-5 border border-borderDefault rounded-lg py-8 px-5">
       <div className="md:h-[382px] md:w-[50%] ">
         {product && (
           <>
@@ -44,7 +44,6 @@ const ProductDetails = () => {
                   height="0"
                   priority
                   sizes="100vw"
-                  
                 />
               ) : (
                 <Image
@@ -54,20 +53,19 @@ const ProductDetails = () => {
                   width="0"
                   height="0"
                   priority
-                  sizes="100vw"                 
+                  sizes="100vw"
                 />
               )}
             </div>
-           
           </>
         )}
       </div>
       <div className="md:w-[50%] ">
         <h1 className="mb-3">{product?.name}</h1>
-        <p className="mb-8 md:text-sm text-[10px] text-tertiary">
+        <p className="mb-8 md:text-sm text-[10px] text-textTertiary">
           Артикул: {product?.vendorCode}
         </p>
-        <p className="md:mb-xs2 mb-1 font-medium text-text-primary md:text-2xl text-lg">
+        <p className="md:mb-xs2 mb-1 font-medium text-textPrimary md:text-2xl text-lg">
           {product?.price.value} &#8372;
         </p>
 
@@ -86,14 +84,14 @@ const ProductDetails = () => {
         <div className="flex flex-col gap-3 w-[237px] mb-8">
           <button className="hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3 ">
             <div className="flex justify-center items-center">
-              <CartIcon className="w-[24px] h-[24px] fill-iconColors-contrast" />
-              <span className="text-white text-sm tracking-[-0.21px]">
+              <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+              <span className="text-textContrast text-sm tracking-[-0.21px]">
                 Додати в кошик
               </span>
             </div>
           </button>
           <button className="hidden md:flex md:justify-between button-secondary lg:px-6 px-3 py-3 ">
-            <span className="text-hover-blue text-base font-medium tracking-[-0.24px]">
+            <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
               Купити в 1 клик
             </span>
           </button>
@@ -144,29 +142,29 @@ const ProductDetails = () => {
             <button
               type="button"
               onClick={toggle}
-              className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
+              className="flex items-center py-[9px] cursor-pointer border-none active:bg-bgPressedGrey"
             >
-              <span className="text-base text-default-blue font-medium">
+              <span className="text-base text-textBrand font-medium">
                 Усі характеристик
               </span>
-              <ArrowDown className="w-[24px] h-[24px] stroke-default-blue fill-none" />
+              <ArrowDown className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
             </button>
           ) : (
             <button
               type="button"
               onClick={toggle}
-              className="flex items-center py-[9px] cursor-pointer border-none active:bg-color-bg-pressed-grey"
+              className="flex items-center py-[9px] cursor-pointer border-none active:bg-bgPressedGrey"
             >
-              <span className="text-base text-default-blue font-medium">
+              <span className="text-base text-textBrand font-medium">
                 Приховати
               </span>
-              <ArrowUp className="w-[24px] h-[24px] stroke-default-blue fill-none" />
+              <ArrowUp className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
             </button>
           )}
         </section>
 
         <h4 className="mb-3">Опис</h4>
-        <p className="text-base text-text-primary">
+        <p className="text-base text-textPrimary">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut

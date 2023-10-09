@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 import Head from "next/head";
-import Navbar from "./Navbar";
+import Navbar from "./Header/Navbar";
 import Footer from "./Footer";
 
 const Layout = ({ children }) => {
@@ -13,10 +13,8 @@ const Layout = ({ children }) => {
       <header className="container z-50">
         <Navbar />
       </header>
-      <main className="main-container mt-[50px]">
-        {children}
-      </main>
-      <footer className="border-t border-border-default lg:pt-[42px] px-4 xl:pr-[120px] xl:pl-[120px] py-6 ">
+      <main className="main-container mt-[50px]">{children}</main>
+      <footer className="border-t border-borderDefault lg:pt-[42px] px-4 xl:pr-[120px] xl:pl-[120px] py-6 ">
         <Footer />
       </footer>
     </div>

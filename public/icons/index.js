@@ -11,3 +11,5 @@ export { default as ArrowUp } from './arrow-up.svg';
 export { default as ArrowRight } from './arrow-right.svg';
 export { default as MenuOpenIcon } from './menu-icon.svg';
 export { default as PhoneIcon } from "./phone-icon-menu.svg";
+export { default as PhoneIconContact } from "./phone-icon.svg";
+export { default as CloseIcon } from "./close-icon.svg";
