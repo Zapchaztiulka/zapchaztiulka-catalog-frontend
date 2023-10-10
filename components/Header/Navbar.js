@@ -8,18 +8,24 @@ import Catalog from "../Category/Catalog";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
 import MobileNavBar from "./MobileNavBar";
+import { useContext } from "react";
+import { StartPage } from "@/context/context";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const { startPage, setStartPage } = useContext(StartPage);
+
 
   const handleToHome = () => {
     dispatch(fetchProducts());
+    setStartPage(1)
   };
+
 
   return (
     <nav className="navbar">
       <Link
-        href="/"
+        href={`/?page=1`}
         onClick={handleToHome}
         className="justify-center lg:flex hidden items-center mr-[15px]"
       >

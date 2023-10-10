@@ -7,6 +7,7 @@ import { SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
+import { StartPage } from "@/context/context";
 
 const SearchBar = () => {
   const router = useRouter();
@@ -15,7 +16,6 @@ const SearchBar = () => {
 
   const dispatch = useDispatch();
   const data = useSelector(selectProductsByQuery);
-
   const products = data?.products;
 
   useEffect(() => {
@@ -23,13 +23,13 @@ const SearchBar = () => {
   }, [dispatch, searchTerm]);
 
   const updateSearchParams = (searchTerm) => {
-    const searchParams = new URLSearchParams("./");
+    const searchParams = new URLSearchParams();
     if (filteredData.length !== 0 && searchTerm.length !== 0) {
       searchParams.set("query", searchTerm);
     } else {
       searchParams.delete("query");
     }
-    const newPathName = `./?${searchParams.toString()}`;
+    const newPathName = `?${searchParams.toString()}`;
     router.push(newPathName);
   };
 

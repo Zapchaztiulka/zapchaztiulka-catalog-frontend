@@ -5,7 +5,7 @@ import React from "react";
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
   
   return (
-    <Link  href={{ pathname: `/${id}` }}>
+    <Link  href={{ pathname: `/product/${id}` }}>
       <li className="md:w-[285px] w-[168px] border border-borderDefault rounded-lg cursor-pointer hover:shadow-md">
         <div className="">
           <div>
@@ -41,7 +41,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
               {price.value} &#8372;
             </p>
 
-            <Link legacyBehavior href={{ pathname: `/${id}` }}>
+            <Link legacyBehavior href={{ pathname: `/product/${id}` }}>
               <button className=" md:px-6 md:py-3 py-2 w-full text-textContrast md:text-base text-sm md:font-medium state-button ">
                 Додати в кошик
               </button>

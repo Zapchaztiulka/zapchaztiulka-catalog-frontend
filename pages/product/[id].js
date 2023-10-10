@@ -10,10 +10,11 @@ import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
 
-const ProductDetails = () => {
+const ProductDetails = ({params}) => {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
+  console.log(params)
 
   const product = useSelector(selectProduct);
 
@@ -21,7 +22,7 @@ const ProductDetails = () => {
         dispatch(fetchProductByID(id));
     }, [dispatch, id]);
 
-  console.log(product);
+  // console.log(product);
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
