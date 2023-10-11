@@ -60,7 +60,7 @@ const CardsList = () => {
 
   return (
     <div className="z-10">
-      <ul className="flex flex-wrap md:gap-5 gap-2 justify-center mb-5">
+      <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
         {data &&
           products?.map(({ name, _id, photo, price, vendorCode }) => {
             return (

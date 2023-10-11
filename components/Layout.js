@@ -1,23 +1,19 @@
 import React from "react";
 import Head from "next/head";
 import Navbar from "./Header/Navbar";
-import Footer from "./Footer";
+import Footer from "./Footer/Footer";
 
 const Layout = ({ children }) => {
   return (
-    <div className="layout">
+    <>
       <Head>
         <title>Запчастюлька</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <header className="container z-50">
-        <Navbar />
-      </header>
-      <main className="main-container mt-[50px]">{children}</main>
-      <footer className="border-t border-borderDefault lg:pt-[42px] px-4 xl:pr-[120px] xl:pl-[120px] py-6 ">
-        <Footer />
-      </footer>
-    </div>
+      <Navbar />
+      <main className="container main-container mt-[50px]">{children}</main>
+      <Footer />
+    </>
   );
 };
 

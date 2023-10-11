@@ -80,7 +80,7 @@ const SearchBar = () => {
         </button>
       </div>
       {filteredData.length !== 0 && searchTerm.length !== 0 && (
-        <ul className="absolute top-[54px] mt-1 max-h-60 w-272 border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm">
+        <ul className="absolute top-[54px] mt-1 max-h-60 w-[272px] border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm">
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}
@@ -95,7 +95,7 @@ const SearchBar = () => {
         </ul>
       )}
       {filteredData.length === 0 && searchTerm.length !== 0 && (
-        <div className="absolute top-[54px] mt-1 max-h-60 w-272 border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm p-4 z-10">
+        <div className="absolute top-[54px] mt-1 max-h-60 w-[272px] border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm p-4 z-10">
           <p className="text-textInputActive text-lg font-medium mb-2">
             На жаль, за вашим {`${searchTerm}`} запитом нічого не знайдено
           </p>

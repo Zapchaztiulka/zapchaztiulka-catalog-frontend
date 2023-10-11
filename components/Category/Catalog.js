@@ -10,7 +10,7 @@ const Catalog = () => {
   };
 
   return (
-    <>
+    <div className="desktop1200:mr-s">
       <button className=" " onClick={togglShow} type="button">
         <div className=" justify-center items-center  mr-[15px] hidden md:flex md:justify-between state-button lg:px-6 px-3 py-3">
           <CatalogIcon className="w-[24px] h-[24px] stroke-iconContrast stroke-2 fill-none" />
@@ -26,7 +26,7 @@ const Catalog = () => {
           setShowCategory(false);
         }}
       />
-    </>
+    </div>
   );
 };
 

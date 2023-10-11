@@ -99,10 +99,6 @@ module.exports = {
         button: "-0.2px",
         textBase: "-0.24px",
       },
-      width: {
-        272: "17rem",
-        200: "12.3rem",
-      },
       screens: {
         xs: "375px",
       },
@@ -110,13 +106,15 @@ module.exports = {
         "button-shadow": "0px 0px 0px 4px #2E90FA",
       },
       screens: {
+         mobile320: "320px",
         mobile375: "375px",
         mobile480: "480px",
         tablet600: "600px",
         tablet768: "768px",
         tablet1024: "1024px",
         desktop1200: "1200px",
-        desktop1400: "1400px",
+        desktop1440: "1440px",
+        desktop1920: "1920px",
       },
       borderRadius: {
         zero: "0px",

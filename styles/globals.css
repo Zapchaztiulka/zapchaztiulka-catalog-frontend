@@ -8,7 +8,6 @@
   margin: 0;
 }
 
-html,
 body {
   font-family: "Inter", sans-serif;
   font-weight: 400;
@@ -16,25 +15,28 @@ body {
   margin: 0 auto;
 }
 
-body {
-  max-width: 1440px;
-  margin: 0 auto;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
+
 .container {
-  @apply fixed border-b top-0 border-borderDefault max-w-[1440px] mx-auto lg:px-[120px] py-4 px-4 md:px-12  bg-bgBrandLight3 md:bg-bgWhite;
+  @apply px-s mobile480:px-m desktop1440:px-[120px] mx-auto;
 }
 
-.navbar {
-  @apply flex justify-between items-center;
+.header {
+  @apply fixed border-b top-0 w-[100%] border-borderDefault pt-xs2 pb-xs3 tablet1024:py-s bg-bgBrandLight3 tablet1024:bg-bgWhite;
 }
 
 .main-container {
-  @apply md:pr-[120px] md:pl-[120px] pr-[15.5px] pl-[15.5px] mb-6;
+  @apply mb-6;
+}
+.product-card {
+  @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px] border border-borderDefault rounded-lg cursor-pointer hover:shadow-md;
+}
+
+.product-card-img {
+  @apply mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px] mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px]  desktop1440:w-[285px] object-contain;
 }
 
 .footer-items {
@@ -42,15 +44,7 @@ a {
 }
 
 .footer-lists {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  gap: 32px;
-
-  @media (min-width: 1170px) {
-    flex-direction: row;
-    padding: 24px 0 16px;
-  }
+  @apply flex flex-col justify-between gap-m2  tablet768:hidden tablet1024:flex tablet1024:flex-row tablet1024:py-m tablet1024:px-s;
 }
 
 .state-button {
@@ -62,7 +56,7 @@ a {
 }
 
 .search-input {
-  @apply relative p-3 w-272 rounded-lg border border-borderDefault text-base placeholder:text-textInputDefault;
+  @apply relative p-3 tablet1024:w-[275px] desktop1200:w-[240px] desktop1440:w-[343px]  rounded-lg border border-borderDefault text-base placeholder:text-textInputDefault;
 }
 
 .search .search-icon {

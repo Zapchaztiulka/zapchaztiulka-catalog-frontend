@@ -1,15 +1,10 @@
 import React, { useEffect } from "react";
-import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "@/redux/products/productsOperations";
-import { LogoIconWithText } from "./Icons/Logo/LogoIconWithText";
-import { LogoIcon } from "./Icons/Logo/LogoIcon";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
 
-const Footer = () => {
+const FooterTablet = () => {
   const dispatch = useDispatch();
-  const current_year = new Date().getFullYear();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
 
@@ -17,22 +12,9 @@ const Footer = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const handleToHome = () => {
-    dispatch(fetchProducts());
-  };
-
   return (
-    <div className="flex flex-col justify-between md:gap-3 gap-8">
-      <div className=" md:inline-flex  hidden items-center">
-        <Link href="/" onClick={handleToHome}>
-          <LogoIconWithText />
-        </Link>
-      </div>
-
-      <Link href="/" className="flex md:hidden items-center">
-        <LogoIcon size="44" />
-      </Link>
-      <div className="footer-lists">
+    <div className="mobile320:hidden tablet1024:hidden tablet768:flex tablet768:justify-between">
+      <div className="flex flex-col gap-m">
         <div className="flex flex-col gap-3">
           <h4 className="text-textTertiary text-lg">Каталог</h4>
           <ul className="text-textPrimary text-base">
@@ -46,6 +28,23 @@ const Footer = () => {
           </ul>
         </div>
 
+        <div className="flex flex-col gap-3">
+          <h4 className="text-textTertiary text-lg">Контакти</h4>
+          <ul className="text-textPrimary text-base">
+            <li className="footer-items ">
+              <a>+38 (050) 810 48 82</a>
+            </li>
+            <li className="footer-items ">
+              <a>+38 (050) 810 48 82</a>
+            </li>
+            <li className="footer-items ">
+              <a>+38 (050) 810 48 82</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-m">
         <div className="flex flex-col gap-3 ">
           <h4 className="text-textTertiary text-lg">Покупцеві</h4>
           <ul className="text-textPrimary text-base">
@@ -68,21 +67,6 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h4 className="text-textTertiary text-lg">Контакти</h4>
-          <ul className="text-textPrimary text-base">
-            <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
-            </li>
-            <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
-            </li>
-            <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="flex flex-col gap-3">
           <h4 className="text-textTertiary text-lg">Графік роботи</h4>
           <ul className="text-textPrimary text-base">
             <li className="py-[10px] px-[4px] ">Пн - Пт 8:00-18:00</li>
@@ -94,15 +78,8 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div>
-        {" "}
-        <p className="text-sm text-textSecondary">
-          <br />
-          &copy;{current_year} Всі права захищені
-        </p>
-      </div>
     </div>
   );
 };
 
-export default Footer;
+export default FooterTablet;

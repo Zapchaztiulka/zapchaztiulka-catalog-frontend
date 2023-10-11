@@ -1,13 +1,14 @@
 export const LogoIcon = ({
   color1 = "#1570EF",
   color2 = "#2E90FA",
-  size = "44",
+  width = "44",
+height = "44"
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
+      width={width}
+      height={height}
      viewBox="0 0 44 44"
       fill="none"
     >

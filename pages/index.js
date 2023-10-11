@@ -17,13 +17,13 @@ const Catalog = () => {
  
   const error = useSelector(selectError)
   return (
-    <div className="mt-[130px] flex gap-5">
-      <div className="hidden md:block w-[285px] border border-borderDefault rounded-lg shrink-0">
+    <div className="mt-[130px] flex gap-s">
+      <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0">
         Тут буде блок з фільтрами
       </div>
-      {isLoading && data.length ===0 && <Loader/>}
+      {isLoading && data.length === 0 && <Loader />}
       {error && <p>Тут буде повідомлення про помилку</p>}
-      <CardsList/>
+      <CardsList />
     </div>
   );
 };

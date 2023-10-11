@@ -1,5 +1,5 @@
 import Navbar from "./Header/Navbar";
-import Footer from "./Footer";
+import Footer from "./Footer/Footer";
 import Layout from "./Layout";
 import SearchBar from "./Header/SearchBar";
 import ContactList from "./Header/ContactList";

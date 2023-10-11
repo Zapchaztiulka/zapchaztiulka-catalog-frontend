@@ -5,8 +5,8 @@ import React from "react";
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
   
   return (
-    <Link  href={{ pathname: `/product/${id}` }}>
-      <li className="md:w-[285px] w-[168px] border border-borderDefault rounded-lg cursor-pointer hover:shadow-md">
+    <Link href={{ pathname: `/product/${id}` }}>
+      <li className="product-card">
         <div className="">
           <div>
             {photo.length === 0 ? (
@@ -16,7 +16,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="md:h-[190px] h-[112px] w-[168px] md:w-[285px] object-contain"
+                className="product-card-img "
               />
             ) : (
               <Image
@@ -26,7 +26,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
                 height="0"
                 priority
                 sizes="100vw"
-                className="md:h-[190px] h-[112px] w-[168px] md:w-[285px] object-contain"
+                className="product-card-img "
               />
             )}
           </div>
