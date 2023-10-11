@@ -106,7 +106,7 @@ module.exports = {
         "button-shadow": "0px 0px 0px 4px #2E90FA",
       },
       screens: {
-         mobile320: "320px",
+        mobile320: "320px",
         mobile375: "375px",
         mobile480: "480px",
         tablet600: "600px",
@@ -133,12 +133,3 @@ module.exports = {
   plugins: [],
 };
 
-// 320
-// 375
-// 480
-// 600
-// 768
-// 1024
-// 1200
-// 1440
-// 1920

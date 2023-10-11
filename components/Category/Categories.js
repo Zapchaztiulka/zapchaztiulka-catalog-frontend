@@ -40,7 +40,7 @@ const Categories = (props) => {
         {categories?.map((el) => {
           return (
             <li
-              className="cursor-pointer hover:text-textBrand focus:text-textBrand"
+              className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu"
               key={el._id}
               onClick={() => {
                 subCategoriesOnclickHandler(el._id);
@@ -49,7 +49,7 @@ const Categories = (props) => {
               <div className="border-none b-transparent flex justify-between items-center">
                 <p>{el.categoryName}</p>
                 {el.subcategories.length > 0 && (
-                  <ArrowRight className="stroke-iconSecondary hover:stroke-iconBrand w-[24px] h-[24px]" />
+                  <ArrowRight className="stroke-iconPrimary catalog-icon w-[24px] h-[24px]" />
                 )}
               </div>
               {el.subcategories.length > 0 && (

@@ -38,7 +38,7 @@ const Navbar = () => {
               href="/"
               className="justify-center tablet1024:flex hidden desktop1200:hidden items-center tablet1024:mr-[30px]"
             >
-              <LogoIcon width="67" height="56" />
+              <LogoIcon width="67" height="60" />
             </Link>
             <Catalog />
             <SearchBar />

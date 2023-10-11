@@ -9,16 +9,29 @@ import {
   CloseIcon,
 } from "@/public/icons";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
+import { useState } from "react";
+import SideBarCatalog from "./SideBarCatalog";
 
 const Sidebar = ({ isOpen, toggle }) => {
+
+   const [showCategory, setShowCategory] = useState(false);
+
+  const togglShow = () => {
+    setShowCategory(!showCategory);
+  };
+
   return (
     <>
       <div
-        className="flex flex-col fixed md:hidden w-full h-full overflow-hidden bg-bgWhite pt-6 z-10 pr-4 pl-[53px]"
+        className={`${
+          showCategory
+            ? "hidden"
+            : "flex flex-col fixed tablet1024:hidden h-full overflow-hidden bg-bgWhite pt-m z-10 px-s rounded-minimal mobile320:min-w-[288px] mobile375:min-w-[347px] shadow-md shadow-gray-300"
+        }`}
         style={{
           opacity: `${isOpen ? "1" : "0"}`,
           top: ` ${isOpen ? "0" : "-100%"}`,
-          left: `${isOpen ? "-7%" : "0"}`,
+          left: `${isOpen ? "0" : "0"}`,
         }}
       >
         <div className="flex justify-between items-center mb-6">
@@ -31,11 +44,11 @@ const Sidebar = ({ isOpen, toggle }) => {
           </button>
         </div>
 
-        <ul className="sidebar-nav text-center leading-relaxed text-base text-textPrimary font-medium flex flex-col gap-4">
+        <ul className="text-center leading-relaxed text-base text-textPrimary font-medium flex flex-col gap-s">
           <li>
             <Link
               href="/"
-              onClick={toggle}
+              onClick={togglShow}
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CatalogIcon className="w-[44px] h-[44px] stroke-iconSecondary fill-none sidebar-icon" />
@@ -84,6 +97,7 @@ const Sidebar = ({ isOpen, toggle }) => {
           </li>
         </ul>
       </div>
+      <SideBarCatalog show={showCategory} togglShow={togglShow} />
     </>
   );
 };
