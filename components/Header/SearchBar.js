@@ -7,7 +7,7 @@ import { SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
-import { StartPage } from "@/context/context";
+
 
 const SearchBar = () => {
   const router = useRouter();

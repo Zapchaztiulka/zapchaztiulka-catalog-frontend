@@ -9,7 +9,7 @@ import { selectProducts } from "@/redux/products/productsSelectors";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
-import { StartPage } from "@/context/context";
+
 
 const CardsList = () => {
   const router = useRouter();
@@ -20,7 +20,6 @@ const CardsList = () => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  // const { startPage } = useContext(StartPage);
 
   const products = data?.products;
 

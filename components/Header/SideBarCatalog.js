@@ -1,16 +1,20 @@
 import { ArrowRight, CloseIcon } from '@/public/icons';
 import { fetchCategories } from '@/redux/categories/categoriesOperation';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import SideBarSubCategory from './SideBarSubCategory';
+import { ModalContext } from '@/context/context';
 
-const SideBarCatalog = ({show, togglShow}) => {
+const SideBarCatalog = ({ show }) => {
+  const { openMenu, setOpenMenu } = useContext(ModalContext);
 
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
+ 
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -25,6 +29,12 @@ const SideBarCatalog = ({show, togglShow}) => {
     });
   };
 
+  const closeAllMenu = () => {
+
+  }
+
+ 
+
   return (
     <section
       className={`${
@@ -33,7 +43,7 @@ const SideBarCatalog = ({show, togglShow}) => {
     >
       <div className="flex justify-between items-center mb-6">
         <p className="font-medium text-textPrimary text-lg">Каталог</p>
-        <button onClick={togglShow}>
+        <button onClick={closeAllMenu}>
           <CloseIcon width="34" height="34" />
         </button>
       </div>
@@ -53,6 +63,11 @@ const SideBarCatalog = ({show, togglShow}) => {
                   <ArrowRight className="stroke-iconPrimary fill-none w-[24px] h-[24px] catalog-icon" />
                 )}
               </div>
+              <SideBarSubCategory
+                showSubMenu={showSubMenu}
+                categories={el}
+               
+              />
             </li>
           );
         })}

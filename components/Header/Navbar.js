@@ -8,13 +8,12 @@ import Catalog from "../Category/Catalog";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
 import MobileNavBar from "./MobileNavBar";
-import { useContext } from "react";
-import { StartPage } from "@/context/context";
+
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { startPage, setStartPage } = useContext(StartPage);
+
 
   const handleToHome = () => {
     dispatch(fetchProducts());

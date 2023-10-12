@@ -9,16 +9,21 @@ import {
   CloseIcon,
 } from "@/public/icons";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SideBarCatalog from "./SideBarCatalog";
+import { ModalContext } from "@/context/context";
 
 const Sidebar = ({ isOpen, toggle }) => {
 
-   const [showCategory, setShowCategory] = useState(false);
+  const [showCategory, setShowCategory] = useState(false);
+    const { openMenu } = useContext(ModalContext);
+
+  
 
   const togglShow = () => {
-    setShowCategory(!showCategory);
+    setShowCategory(true);
   };
+
 
   return (
     <>
@@ -97,7 +102,12 @@ const Sidebar = ({ isOpen, toggle }) => {
           </li>
         </ul>
       </div>
-      <SideBarCatalog show={showCategory} togglShow={togglShow} />
+      <SideBarCatalog
+        show={showCategory}
+        togglShow={togglShow}
+        isOpen={isOpen}
+        toggle={toggle}
+      />
     </>
   );
 };

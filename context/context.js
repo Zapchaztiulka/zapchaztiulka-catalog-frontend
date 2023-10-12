@@ -1,15 +1,16 @@
 import { createContext, useState } from "react";
 
-export const StartPage = createContext(null);
+export const ModalContext = createContext();
 
- function Context({ children }) {
-   const [startPage, setStartPage] = useState(null);
+export const Context = ({ children }) => {
+  const [openMenu, setOpenMenu] = useState(false);
+  const open = () => setOpenMenu(true);
+  const close = () => setOpenMenu(false);
+  const toggle = () => setOpenMenu((openMenu) => !openMenu);
 
-   return (
-     <StartPage.Provider value={{ startPage, setStartPage }}>
-       {children}
-     </StartPage.Provider>
-   );
- }
-
-export default Context;
+  return (
+    <ModalContext.Provider value={{ openMenu, open, close, toggle }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
