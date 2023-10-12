@@ -1,25 +1,26 @@
 import { ArrowRight, CloseIcon } from '@/public/icons';
 import { fetchCategories } from '@/redux/categories/categoriesOperation';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import SideBarSubCategory from './SideBarSubCategory';
-import { ModalContext } from '@/context/context';
 
-const SideBarCatalog = ({ show }) => {
-  const { openMenu, setOpenMenu } = useContext(ModalContext);
-
+const SideBarCatalog = ({
+  showCategory,
+  isOpen,
+  closeMenu,
+  togglShow,
+}) => {
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
- 
+    const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
-
 
   const subCategoriesOnclickHandler = (subCategoryId) => {
     setShowSubMenu((prev) => {
@@ -28,22 +29,28 @@ const SideBarCatalog = ({ show }) => {
       return arr;
     });
   };
-
-  const closeAllMenu = () => {
-
-  }
-
  
+  const closeCategory = () => {
+    closeMenu();
+  };
+
 
   return (
     <section
       className={`${
-        show ? "block" : "hidden"
-      } absolute top-0 left-0 w-full min-h-screen bg-bgWhite px-s py-m  `}
+        showCategory
+          ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
+          : "hidden"
+      }   `}
+      style={{
+        opacity: `${isOpen ? "1" : "0"}`,
+        top: ` ${isOpen ? "0" : "-100%"}`,
+        left: `${isOpen ? "0" : "0"}`,
+      }}
     >
       <div className="flex justify-between items-center mb-6">
         <p className="font-medium text-textPrimary text-lg">Каталог</p>
-        <button onClick={closeAllMenu}>
+        <button onClick={closeCategory}>
           <CloseIcon width="34" height="34" />
         </button>
       </div>
@@ -55,6 +62,7 @@ const SideBarCatalog = ({ show }) => {
               key={el._id}
               onClick={() => {
                 subCategoriesOnclickHandler(el._id);
+                setShow(!show)
               }}
             >
               <div className="border-none b-transparent flex justify-between items-center">
@@ -66,7 +74,10 @@ const SideBarCatalog = ({ show }) => {
               <SideBarSubCategory
                 showSubMenu={showSubMenu}
                 categories={el}
-               
+                isOpen={isOpen}
+                closeCategory={closeCategory}
+                togglShow={togglShow}
+                show={show}
               />
             </li>
           );
@@ -74,6 +85,6 @@ const SideBarCatalog = ({ show }) => {
       </ul>
     </section>
   );
-}
+};
 
 export default SideBarCatalog

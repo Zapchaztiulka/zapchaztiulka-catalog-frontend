@@ -1,21 +1,27 @@
 import { ArrowLeft, CloseIcon } from '@/public/icons';
 import React from 'react'
 
-const SideBarSubCategory = ({ categories, showSubMenu, toggle }) => {
-
+const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory, isOpen, togglShow }) => {
+   
   return (
-    <div>
+    <>
       {categories.subcategories.length > 0 && (
         <div
-          className={`absolute w-[100%] ${
-            showSubMenu[categories._id] ? "block" : "hidden"
-          } -top-[50px] left-0 w-full min-h-screen bg-bgWhite p-s`}
+          className={`${
+            showSubMenu[categories._id] ?  "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
+          : "hidden"
+          }`}
+          style={{
+            opacity: `${show ? "1" : "0"}`,
+            top: ` ${show ? "0" : "-100%"}`,
+            left: `${show ? "0" : "0"}`,
+          }}
         >
           <div className="flex justify-between items-center mb-9">
             <h3 className="text=lg text-textPrimary font-medium">
               {categories.categoryName}
             </h3>
-            <button onClick={toggle}>
+            <button onClick={closeCategory}>
               <CloseIcon width="34" height="34" />
             </button>
           </div>
@@ -38,7 +44,7 @@ const SideBarSubCategory = ({ categories, showSubMenu, toggle }) => {
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -16,14 +16,15 @@ import { ModalContext } from "@/context/context";
 const Sidebar = ({ isOpen, toggle }) => {
 
   const [showCategory, setShowCategory] = useState(false);
-    const { openMenu } = useContext(ModalContext);
-
-  
 
   const togglShow = () => {
-    setShowCategory(true);
+    setShowCategory(!showCategory);
   };
-
+  
+  const closeMenu = () => {
+    toggle();
+    setShowCategory(false)
+  }
 
   return (
     <>
@@ -43,7 +44,7 @@ const Sidebar = ({ isOpen, toggle }) => {
           <Link href="/" className="flex items-center" as={"image"}>
             <LogoIcon size="44" />
           </Link>
-          <button className="absolute right-0 p-5" onClick={toggle}>
+          <button className="absolute right-0 p-5" onClick={closeMenu}>
             {/* Close icon */}
             <CloseIcon width="44" height="44" />
           </button>
@@ -103,10 +104,10 @@ const Sidebar = ({ isOpen, toggle }) => {
         </ul>
       </div>
       <SideBarCatalog
-        show={showCategory}
+        showCategory={showCategory}
         togglShow={togglShow}
         isOpen={isOpen}
-        toggle={toggle}
+        closeMenu={closeMenu}
       />
     </>
   );
