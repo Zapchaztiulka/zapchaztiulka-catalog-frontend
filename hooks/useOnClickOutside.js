@@ -3,7 +3,7 @@ import { useEffect } from "react";
 export const useOnClickOutside = (ref, handler, sub) => {
   useEffect(() => {
     const listener = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (ref.current && !ref.current.contains(event.target) || ref.current.localName==='button') {
         handler && handler(event);
         sub([]);
       }

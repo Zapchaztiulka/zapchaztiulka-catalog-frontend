@@ -34,7 +34,7 @@ const Categories = (props) => {
       ref={ref}
       className={`${
         props.show ? "block" : "hidden"
-      } absolute top-[92px] bg-bgWhite p-s border-t border-x rounded-b-lg min-w-[377px] h-[518px] shadow-md shadow-gray-300`}
+      } absolute top-[92px] bg-bgWhite p-s border-t border-x rounded-b-lg min-w-[377px] shadow-md shadow-gray-300`}
     >
       <ul className="flex relative flex-col gap-xs  text-textPrimary text-base font-medium tracking-textBase">
         {categories?.map((el) => {

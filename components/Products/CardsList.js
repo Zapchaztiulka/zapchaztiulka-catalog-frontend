@@ -24,12 +24,17 @@ const CardsList = () => {
   const products = data?.products;
 
   useEffect(() => {
+    
     if (router.isReady) {
        const start = Number(router.query.page)
       setCurrentPage(start)
         dispatch(fetchProducts({ search: searchValue, page: start || 1 }));
     }
-  }, [router.isReady, searchValue]);
+    if (router.query.page === undefined) {
+      setCurrentPage(1)
+    }
+   
+  }, [dispatch, router.isReady, searchValue]);
 
   useEffect(() => {
     
@@ -56,6 +61,7 @@ const CardsList = () => {
     router.push(newPathName);
   };
 
+  console.log(router.query.page);
 
   return (
     <div className="z-10">

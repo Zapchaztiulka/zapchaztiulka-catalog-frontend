@@ -1,22 +1,17 @@
-import { ArrowRight, CloseIcon } from '@/public/icons';
-import { fetchCategories } from '@/redux/categories/categoriesOperation';
-import { selectCategories } from '@/redux/categories/categoriesSelector';
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import SideBarSubCategory from './SideBarSubCategory';
+import { ArrowRight, CloseIcon } from "@/public/icons";
+import { fetchCategories } from "@/redux/categories/categoriesOperation";
+import { selectCategories } from "@/redux/categories/categoriesSelector";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SideBarSubCategory from "./SideBarSubCategory";
 
-const SideBarCatalog = ({
-  showCategory,
-  isOpen,
-  closeMenu,
-  togglShow,
-}) => {
+const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
-    const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -28,12 +23,12 @@ const SideBarCatalog = ({
       arr[subCategoryId] = true;
       return arr;
     });
+    setShow(!show);
   };
- 
+
   const closeCategory = () => {
     closeMenu();
   };
-
 
   return (
     <section
@@ -62,7 +57,7 @@ const SideBarCatalog = ({
               key={el._id}
               onClick={() => {
                 subCategoriesOnclickHandler(el._id);
-                setShow(!show)
+                
               }}
             >
               <div className="border-none b-transparent flex justify-between items-center">
@@ -87,4 +82,4 @@ const SideBarCatalog = ({
   );
 };
 
-export default SideBarCatalog
+export default SideBarCatalog;

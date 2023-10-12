@@ -1,20 +1,27 @@
 import { ArrowLeft, CloseIcon } from '@/public/icons';
-import React from 'react'
+import React, { useState } from 'react'
 
-const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory, isOpen, togglShow }) => {
-   
+const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory }) => {
+
+  const [showSubCategory, setShowSubCategory] = useState(true)
+
+  const goBackCategory = () => {
+    setShowSubCategory(false)
+  }
+
   return (
     <>
       {categories.subcategories.length > 0 && (
         <div
           className={`${
-            showSubMenu[categories._id] ?  "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
-          : "hidden"
+            showSubMenu[categories._id]
+              ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
+              : "hidden"
           }`}
           style={{
-            opacity: `${show ? "1" : "0"}`,
-            top: ` ${show ? "0" : "-100%"}`,
-            left: `${show ? "0" : "0"}`,
+            opacity: `${show && showSubMenu[categories._id] ? "1" : "0"}`,
+            top: ` ${show && showSubMenu[categories._id] ? "0" : "-100%"}`,
+            left: `${show && showSubMenu[categories._id] ? "0" : "0"}`,
           }}
         >
           <div className="flex justify-between items-center mb-9">
@@ -25,7 +32,10 @@ const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory, isOp
               <CloseIcon width="34" height="34" />
             </button>
           </div>
-          <button className="flex items-center mb-8 text-base text-textBrand font-medium tracking-textBase">
+          <button
+            onClick={goBackCategory}
+            className="flex items-center mb-8 text-base text-textBrand font-medium tracking-textBase"
+          >
             <ArrowLeft width="24" height="24" className="stroke-iconBrand" />
             <p>Усі категорії</p>
           </button>
