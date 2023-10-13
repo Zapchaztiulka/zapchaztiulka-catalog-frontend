@@ -3,30 +3,61 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, CartIcon } from "@/public/icons";
+import { useEffect, useRef, useState } from "react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
+
+
+import { ArrowDown, ArrowUp, CartIcon, EllipsePagination } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
 
-const ProductDetails = ({params}) => {
+
+const ProductDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  console.log(params)
-
   const product = useSelector(selectProduct);
+  const [index, setIndex] = useState(0);
+   const [currentIndex, setCurrentIndex] = useState(0);
+ 
 
-      useEffect(() => {
+  useEffect(() => {
         dispatch(fetchProductByID(id));
     }, [dispatch, id]);
-
-  // console.log(product);
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+
+  const mainOptions = {
+    type: "loop",
+    perPage: 1,
+    perMove: 1,
+    gap: "1rem",
+    pagination: false,
+    height: "382px",
+  };
+
+  const optionThumb = {
+    type: "slide",
+    arrows: false,
+    perPage: 4,
+    perMove: 1,
+    gap: "1rem",
+    pagination: false,
+    height: "90px",
+  }
+
+  const mainRef = useRef(null);
+
+  const handleThumbs = (id) => {
+    if (mainRef.current) {
+      mainRef.current.go(id);
+    }
   };
 
 
@@ -47,15 +78,57 @@ const ProductDetails = ({params}) => {
                   sizes="100vw"
                 />
               ) : (
-                <Image
-                  src={product.photo[0].url}
-                  alt={product.photo[0].alt}
-                  className="md:h-[382px] md:w-[570px] object-contain"
-                  width="0"
-                  height="0"
-                  priority
-                  sizes="100vw"
-                />
+                <>
+                  {" "}
+                  <Splide options={mainOptions} ref={mainRef}>
+                    {product.photo?.map((item, i) => (
+                      <SplideSlide key={item._id}>
+                        <Image
+                          src={item.url}
+                          alt={item.alt}
+                          width="0"
+                          height="0"
+                          priority
+                          sizes="100vw"
+                          className="md:h-[382px] md:w-[570px] object-contain"
+                        />
+                      </SplideSlide>
+                    ))}
+                  </Splide>
+                  <ul className="flex justify-center items-center mt-1">
+                    {product.photo?.map((thumbnail, index) => (
+                      <li key={thumbnail._id}>
+                        <button
+                          onClick={() => handleThumbs(index)}
+                          className="pagination-btn"
+                        >
+                          <EllipsePagination
+                            width="12"
+                            height="12"
+                            className="m-1 cursor-pointer ellipse-icon fill-iconSecondary active:fill-iconBrand"
+                          />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <Splide options={optionThumb}>
+                    {product.photo?.map((thumbnail, index) => (
+                      <SplideSlide key={thumbnail._id}>
+                        <button onClick={() => handleThumbs(index)}>
+                          <Image
+                            src={thumbnail.url}
+                            alt="product thumbnail"
+                            width="0"
+                            height="0"
+                            priority
+                            sizes="100vw"
+                            className="w-[134px] h-[90px] cursor-pointer object-contain overflow-hidden m-1"
+                          />
+                        </button>
+                      </SplideSlide>
+                    ))}
+                  </Splide>
+                </>
               )}
             </div>
           </>
@@ -165,14 +238,7 @@ const ProductDetails = ({params}) => {
         </section>
 
         <h4 className="mb-3">Опис</h4>
-        <p className="text-base text-textPrimary">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
+        <p className="text-base text-textPrimary">{product?.description}</p>
       </div>
     </div>
   );
@@ -180,6 +246,6 @@ const ProductDetails = ({params}) => {
 
 export default ProductDetails;
 
-//  <Link legacyBehavior href={{ pathname: "/cart" }}>
+//  <Link href={{ pathname: "/cart" }}>
 //               Go to the cart
 //             </Link>

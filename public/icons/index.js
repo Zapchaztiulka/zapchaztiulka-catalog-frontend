@@ -14,3 +14,4 @@ export { default as PhoneIcon } from "./phone-icon-menu.svg";
 export { default as PhoneIconContact } from "./phone-icon.svg";
 export { default as CloseIcon } from "./close-icon.svg";
 export { default as ArrowLeft } from "./arrow-left.svg";
+export { default as EllipsePagination } from "./ellipse-pagination.svg";

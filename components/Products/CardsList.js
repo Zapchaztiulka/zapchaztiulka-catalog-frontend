@@ -15,6 +15,7 @@ const CardsList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
+  console.log(data)
 
   const searchValue = router.query.query;
   
@@ -61,27 +62,25 @@ const CardsList = () => {
     router.push(newPathName);
   };
 
-  console.log(router.query.page);
-
   return (
-    <div className="z-10">
-      <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
-        {data &&
-          products?.map(({ name, _id, photo, price, vendorCode }) => {
-            return (
-              <CardItem
-                key={_id}
-                name={name}
-                id={_id}
-                photo={photo}
-                price={price}
-                vendorCode={vendorCode}
-              />
-            );
-          })}
-      </ul>
-
-      {data && pagesCount > 1 && (
+    <>
+      <div className="z-10">
+        <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
+          {data &&
+            products?.map(({ name, _id, photo, price, vendorCode }) => {
+              return (
+                <CardItem
+                  key={_id}
+                  name={name}
+                  id={_id}
+                  photo={photo}
+                  price={price}
+                  vendorCode={vendorCode}
+                />
+              );
+            })}
+        </ul>
+              {data && pagesCount > 1 && (
         <ThemeProvider theme={theme}>
           <div className="flex justify-center relative">
             <Pagination
@@ -94,7 +93,8 @@ const CardsList = () => {
           </div>
         </ThemeProvider>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 

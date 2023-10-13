@@ -17,7 +17,6 @@ const Navbar = () => {
 
   const handleToHome = () => {
     dispatch(fetchProducts());
-    setStartPage(1);
   };
 
   return (

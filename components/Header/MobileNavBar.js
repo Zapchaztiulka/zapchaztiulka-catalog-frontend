@@ -16,7 +16,6 @@ const MobileNavBar = () => {
     setIsOpen(!isOpen);
   };
 
-  console.log("MobileNav:" + isOpen)
 
   return (
     <div className="tablet1024:hidden flex justify-between">
