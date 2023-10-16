@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
 
-
 const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,7 +65,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="hidden md:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
+      className="hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
     >
       <div className="search">
         <input
@@ -102,7 +101,7 @@ const SearchBar = () => {
           <p className="text-text-textSecondary text-[15px] mb-4 ">
             Перевірте та змініть запит або пошукайте товар в каталозі.
           </p>
-          <button className="state-button hidden md:flex md:justify-between lg:px-6 px-3 py-3 text-textContrast text-base">
+          <button className="state-button hidden tablet768:flex tablet768:justify-between lg:px-6 px-3 py-3 text-textContrast text-base">
             Перейти до каталогу
           </button>
         </div>

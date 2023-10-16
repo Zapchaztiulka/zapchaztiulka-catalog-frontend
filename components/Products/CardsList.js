@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
@@ -10,46 +9,51 @@ import { fetchProducts } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
 
-
 const CardsList = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
-  console.log(data)
 
   const searchValue = router.query.query;
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
   const products = data?.products;
+  const [isStart, setIsStart] = useState(false);
+
 
   useEffect(() => {
-    
     if (router.isReady) {
-       const start = Number(router.query.page)
-      setCurrentPage(start)
-        dispatch(fetchProducts({ search: searchValue, page: start || 1 }));
+      const start = Number(router.query.page);
+      setCurrentPage(start);
+      dispatch(fetchProducts({ search: searchValue, page: start || 1 }));
+      console.log(currentPage);
+       console.log(" page" + Number(router.query.page));
     }
     if (router.query.page === undefined) {
-      setCurrentPage(1)
+      setCurrentPage(1);
     }
-   
   }, [dispatch, router.isReady, searchValue]);
 
   useEffect(() => {
-    
-  dispatch(fetchProducts({ search: searchValue }));
+    dispatch(fetchProducts({ search: searchValue }));
   }, [dispatch, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
   const handleChange = (event, value) => {
     event.preventDefault();
+
     dispatch(fetchProducts({ search: searchValue, page: value }));
-    setCurrentPage(value);  
+
+    setCurrentPage(value);
+
+    console.log("paginate" + currentPage);
+   
     updateSearchParams(value);
   };
+
 
   const updateSearchParams = (page) => {
     const searchParams = new URLSearchParams();
@@ -59,6 +63,7 @@ const CardsList = () => {
       searchParams.delete("page");
     }
     const newPathName = `?${searchParams}`;
+   
     router.push(newPathName);
   };
 
@@ -80,19 +85,19 @@ const CardsList = () => {
               );
             })}
         </ul>
-              {data && pagesCount > 1 && (
-        <ThemeProvider theme={theme}>
-          <div className="flex justify-center relative">
-            <Pagination
-              shape="rounded"
-              count={pagesCount}
-              page={currentPage}
-              onChange={handleChange}
-              onClick={scrollToTop}
-            />
-          </div>
-        </ThemeProvider>
-      )}
+        {data && pagesCount > 1 && (
+          <ThemeProvider theme={theme}>
+            <div className="flex justify-center relative">
+              <Pagination
+                shape="rounded"
+                count={pagesCount}
+                page={currentPage}
+                onChange={handleChange}
+                onClick={scrollToTop}
+              />
+            </div>
+          </ThemeProvider>
+        )}
       </div>
     </>
   );

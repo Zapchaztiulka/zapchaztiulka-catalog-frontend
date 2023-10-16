@@ -98,9 +98,7 @@ module.exports = {
       letterSpacing: {
         button: "-0.2px",
         textBase: "-0.24px",
-      },
-      screens: {
-        xs: "375px",
+        textProduct: "-0.42px"
       },
       boxShadow: {
         "button-shadow": "0px 0px 0px 4px #2E90FA",
@@ -128,6 +126,7 @@ module.exports = {
       dropShadow: {
         focusButton: "0px 0px 4px #2E90FA",
       },
+      important: true,
     },
   },
   plugins: [],

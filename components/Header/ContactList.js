@@ -1,9 +1,9 @@
 "use client";
-import React from 'react'
+import React from "react";
 
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import {ArrowDown, PhoneIconContact} from "@/public/icons";
+import { ArrowDown, PhoneIconContact } from "@/public/icons";
 
 const phone = [
   { tel: "(050) 810 48 82" },
@@ -15,12 +15,12 @@ const ContactList = () => {
   const [selected, setSelected] = useState(phone[0]);
 
   return (
-    <div className="w-[200px] md:block hidden desktop1440:mr-[44px]">
+    <div className="w-[200px] tablet768:block hidden desktop1440:mr-[44px]">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button className="flex w-[200px] cursor-pointer p-xs2 text-left focus:outline-none  text-textPrimary focus-visible:ring-offset-orange-300 text-base">
             <span className="pointer-events-none inset-y-0 left-0 flex items-center">
-                        <PhoneIconContact className="w-[24px] h-[24px] stroke-iconSecondary stroke-2" />
+              <PhoneIconContact className="w-[24px] h-[24px] stroke-iconSecondary stroke-2" />
             </span>
             <span className="block overflow-hidden text-ellipsis">
               <p className="ml-2">{selected.tel}</p>
@@ -41,7 +41,9 @@ const ContactList = () => {
                   key={itemIdx}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-bgBrandLight1 text-textBrand" : "text-gray-900"
+                      active
+                        ? "bg-bgBrandLight1 text-textBrand"
+                        : "text-gray-900"
                     }`
                   }
                   value={item}

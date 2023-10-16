@@ -24,7 +24,7 @@ const Footer = () => {
 
   return (
     <footer className="container border-t border-borderDefault lg:pt-[42px] py-6 ">
-      <div className="flex flex-col justify-between md:gap-3 gap-8">
+      <div className="flex flex-col justify-between tablet768:gap-3 gap-8">
         <div className=" tablet600:inline-flex  hidden items-center">
           <Link href="/" onClick={handleToHome}>
             <LogoIconWithText />
@@ -35,7 +35,7 @@ const Footer = () => {
           <LogoIcon width="56" height="56" />
         </Link>
 
-        <FooterTablet/>
+        <FooterTablet />
         <div className="footer-lists">
           <div className="flex flex-col gap-3">
             <h4 className="text-textTertiary text-lg">Каталог</h4>
