@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 
-import { ArrowDown, ArrowUp, CartIcon } from "@/public/icons";
+import { ArrowDown, ArrowUp, CartIcon, LoopEye } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
@@ -27,6 +27,10 @@ const ProductDetails = () => {
 
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+
+  const openModal = () => {
+    setIsOpenModal(!isOpen);
   };
 
   const mainOptions = {
@@ -120,6 +124,7 @@ const ProductDetails = () => {
                      <Splide options={mainOptions} ref={mainRef}>
                     {product.photo?.map((item, i) => (
                       <SplideSlide key={item._id}>
+                        
                         <Image
                           src={item.url}
                           alt={item.alt}
@@ -129,6 +134,7 @@ const ProductDetails = () => {
                           sizes="100vw"
                           className="product-card-img-byId"
                         />
+                        <LoopEye className=""/>
                       </SplideSlide>
                     ))}
                   </Splide>
@@ -162,6 +168,7 @@ const ProductDetails = () => {
             </div>
           </>
         )}
+        <div className="bg-bgBrandDark text-white">It's modal</div>
       </div>
       <div className="tablet600:w-[50%] ">
         <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">

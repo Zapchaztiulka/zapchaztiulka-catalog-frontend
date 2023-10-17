@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import { scrollToTop } from "@/helpers/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,60 +11,36 @@ import CardItem from "./CardItem";
 
 const CardsList = () => {
   const router = useRouter();
+  const start = Number(router.query.page);
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
-
-  const searchValue = router.query.query;
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(start || 1);
   const pageSize = 10;
-
+  const searchValue = router.query.query;
   const products = data?.products;
-  const [isStart, setIsStart] = useState(false);
-
 
   useEffect(() => {
-    if (router.isReady) {
-      const start = Number(router.query.page);
+    if (!start) {
+      setCurrentPage(1)
+      dispatch(fetchProducts({ search: searchValue, page: 1 }));
+    }
+    if (start) {
       setCurrentPage(start);
-      dispatch(fetchProducts({ search: searchValue, page: start || 1 }));
-      console.log(currentPage);
-       console.log(" page" + Number(router.query.page));
+    dispatch(fetchProducts({ search: searchValue, page: start }));
     }
-    if (router.query.page === undefined) {
-      setCurrentPage(1);
+    
+    if (searchValue !== undefined && !start) {
+      dispatch(fetchProducts({ search: searchValue }));
     }
-  }, [dispatch, router.isReady, searchValue]);
-
-  useEffect(() => {
-    dispatch(fetchProducts({ search: searchValue }));
-  }, [dispatch, searchValue]);
+  }, [dispatch, start, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
   const handleChange = (event, value) => {
     event.preventDefault();
-
     dispatch(fetchProducts({ search: searchValue, page: value }));
-
     setCurrentPage(value);
-
-    console.log("paginate" + currentPage);
-   
-    updateSearchParams(value);
-  };
-
-
-  const updateSearchParams = (page) => {
-    const searchParams = new URLSearchParams();
-    if (searchValue === undefined || searchValue !== "") {
-      searchParams.set("page", page);
-    } else {
-      searchParams.delete("page");
-    }
-    const newPathName = `?${searchParams}`;
-   
-    router.push(newPathName);
+    router.push({ query: { page: value } });
   };
 
   return (

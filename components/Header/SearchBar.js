@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,17 +20,6 @@ const SearchBar = () => {
   useEffect(() => {
     dispatch(fetchProductsByQuery(searchTerm));
   }, [dispatch, searchTerm]);
-
-  const updateSearchParams = (searchTerm) => {
-    const searchParams = new URLSearchParams();
-    if (filteredData.length !== 0 && searchTerm.length !== 0) {
-      searchParams.set("query", searchTerm);
-    } else {
-      searchParams.delete("query");
-    }
-    const newPathName = `?${searchParams.toString()}`;
-    router.push(newPathName);
-  };
 
   const handleFilter = (event) => {
     event.preventDefault();
@@ -51,9 +40,8 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm !== "" && filteredData.length !== 0) {
-      updateSearchParams(searchTerm.toLowerCase());
+      router.push({ pathname: "/", query: { query: searchTerm.toLowerCase() } })
     }
-
     clearFields();
   };
 
