@@ -43,6 +43,10 @@ a {
   @apply mobile320:h-[192px] mobile320:w-[288px] mobile375:h-[228px] mobile375:w-[343px] tablet768:h-[226px] tablet600:h-[180px] tablet600:w-[246px] tablet768:w-[330px] desktop1200:h-[382px] desktop1200:w-[570px] object-contain;
 }
 
+.product-card-img-modal {
+  @apply mobile320:h-[192px] mobile320:w-[288px] mobile375:h-[228px] mobile375:w-[343px] tablet600:h-[228px] tablet600:w-[354px] tablet1024:h-[360px] tablet1024:w-[554px] object-contain;
+}
+
 .footer-items {
   @apply py-[10px] px-[4px] cursor-pointer hover:text-textBrand hover:underline focus:text-textBrand focus:underline;
 }
@@ -133,4 +137,54 @@ a {
 
 .custom-class-slide .splide .splide__list .splide__slide {
   @apply flex justify-center;
+}
+
+.modal-body .splide .splide__list .splide__slide {
+  @apply flex justify-center;
+}
+
+.custom-modal-pagination button {
+  @apply w-3 h-3 bg-iconSecondary;
+}
+
+.custom-modal-pagination button.is-active {
+  @apply scale-100 bg-bgDefaultBlue;
+}
+
+.modal-wrapper {
+  @apply mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
+}
+
+.modal {
+  @apply bg-bgWhite h-full w-full border rounded-lg  shadow-modal p-s;
+}
+
+.modal-overlay {
+  @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-10
+  ;
+}
+
+.modal-body .custom-modal-pagination{
+  @apply -bottom-[138px] mobile375:-bottom-[100px] mobile480:-bottom-[120px] tablet600:-bottom-[50px];
+}
+
+.modal-body .splide__arrow {
+  @apply bg-bgWhite;
+}
+
+.modal-body .splide__arrow--next {
+  @apply right-0;
+}
+
+.modal-body .splide__arrow--prev {
+  @apply left-0;
+}
+
+.modal-body .splide__arrow svg {
+  @apply fill-iconPrimary h-[24px] w-[24px];
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
 }

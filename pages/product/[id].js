@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
+import Modal from "@/components/Modal";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const ProductDetails = () => {
   const product = useSelector(selectProduct);
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProductByID(id));
@@ -29,15 +31,11 @@ const ProductDetails = () => {
     setIsOpen(!isOpen);
   };
 
-  const openModal = () => {
-    setIsOpenModal(!isOpen);
-  };
-
   const mainOptions = {
     rewind: true,
     pagination: true,
     arrows: false,
-    mediaQuery: 'min',
+    mediaQuery: "min",
     breakpoints: {
       320: {
         height: "192px",
@@ -45,18 +43,18 @@ const ProductDetails = () => {
       375: {
         height: "228px",
       },
-       600: {
+      600: {
         height: "180px",
       },
-       768: {
+      768: {
         height: "226px",
       },
-        1024: {
+      1024: {
         height: "226px",
       },
-        1200: {
+      1200: {
         height: "382px",
-      },      
+      },
     },
 
     classes: {
@@ -83,6 +81,28 @@ const ProductDetails = () => {
       1200: {
         height: "94px",
       },
+    },
+  };
+
+  const modalOptions = {
+    loop: false,
+    pagination: true,
+    arrows: true,
+    mediaQuery: "min",
+    breakpoints: {
+      320: {
+        height: "192px",
+      },
+      375: {
+        height: "228px",
+      },
+      1024: {
+        height: "360px",
+      },
+    },
+    classes: {
+      pagination: "splide__pagination custom-modal-pagination",
+      page: "splide__pagination__page your-class-page",
     },
   };
 
@@ -119,27 +139,55 @@ const ProductDetails = () => {
                 />
               ) : (
                 <>
-                    {" "}
-                    <div className="custom-class-slide">
-                     <Splide options={mainOptions} ref={mainRef}>
-                    {product.photo?.map((item, i) => (
-                      <SplideSlide key={item._id}>
-                        
-                        <Image
-                          src={item.url}
-                          alt={item.alt}
-                          width="0"
-                          height="0"
-                          priority
-                          sizes="100vw"
-                          className="product-card-img-byId"
-                        />
-                        <LoopEye className=""/>
-                      </SplideSlide>
-                    ))}
-                  </Splide>
+                  {" "}
+                  <div className="custom-class-slide relative">
+                    <div className="absolute right-[40px] top-[10px] z-10">
+                      <button onClick={() => setShowModal(!showModal)}>
+                        <LoopEye height="18" width="18" />
+                      </button>
                     </div>
-                 
+                    <Splide options={mainOptions} ref={mainRef}>
+                      {product.photo?.map((item, i) => (
+                        <SplideSlide key={item._id}>
+                          <Image
+                            src={item.url}
+                            alt={item.alt}
+                            width="0"
+                            height="0"
+                            priority
+                            sizes="100vw"
+                            className="product-card-img-byId"
+                          />
+
+                          {/* Modal window */}
+                          <div>
+                            {showModal && (
+                              <Modal onClose={() => setShowModal(false)}>
+                                <p className="text-[18px] tablet600:text-[24px] tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
+                                  {product?.name}
+                                </p>
+                                <Splide options={modalOptions}>
+                                  {product.photo?.map((item) => (
+                                    <SplideSlide key={item._id}>
+                                      <Image
+                                        src={item.url}
+                                        alt={item.alt}
+                                        width="0"
+                                        height="0"
+                                        priority
+                                        sizes="100vw"
+                                        className="product-card-img-modal"
+                                      />
+                                    </SplideSlide>
+                                  ))}
+                                </Splide>
+                              </Modal>
+                            )}
+                          </div>
+                        </SplideSlide>
+                      ))}
+                    </Splide>
+                  </div>
                   <div className="hidden tablet600:block custom-class-slide-thumbs">
                     <Splide options={optionThumb}>
                       {product.photo?.map((thumbnail, index) => (
@@ -168,12 +216,11 @@ const ProductDetails = () => {
             </div>
           </>
         )}
-        <div className="bg-bgBrandDark text-white">It's modal</div>
       </div>
       <div className="tablet600:w-[50%] ">
-        <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">
+        <p className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">
           {product?.name}
-        </h1>
+        </p>
         <p className="hidden tablet600:block  tablet600:mb-m desktop1200:mb-m2 text-[15px] desktop1200:text-[16px] text-textTertiary -tracking-[0.225px]">
           Артикул: {product?.vendorCode}
         </p>
@@ -209,7 +256,9 @@ const ProductDetails = () => {
         </div>
 
         <section className="mb-8">
-          <h3 className="mb-3 text-lg desktop1200:text-xl text-textPrimary font-medium">Основні характеристики:</h3>
+          <h3 className="mb-3 text-lg desktop1200:text-xl text-textPrimary font-medium">
+            Основні характеристики:
+          </h3>
           <div className="characteristic">
             <span className="characteristic-label">Вага (кг):</span>
             <span className="characteristic-value">{product?.weight}</span>

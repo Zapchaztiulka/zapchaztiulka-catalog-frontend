@@ -35,6 +35,7 @@ module.exports = {
         bgDefaultDestructive: "#D92D20",
         bgImg: "#F9F9F9",
         bgDisable: "#F9F9F9",
+        bgModal:"rgba(42, 43, 48, 0.4)",
 
         // icon
         bgIcon: "#C4C4C4", 
@@ -102,6 +103,7 @@ module.exports = {
       },
       boxShadow: {
         "button-shadow": "0px 0px 0px 4px #2E90FA",
+        "modal": "0px 4px 8px 0px rgba(0, 0, 0, 0.15)",
       },
       screens: {
         mobile320: "320px",

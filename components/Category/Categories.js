@@ -11,7 +11,7 @@ const Categories = (props) => {
   const data = useSelector(selectCategories);
   const categories = data?.categories;
   const ref = useRef(0);
-  const { onClickOutside } = props;
+  const { onClickOutside, show } = props;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
 
@@ -33,7 +33,7 @@ const Categories = (props) => {
     <section
       ref={ref}
       className={`${
-        props.show ? "block" : "hidden"
+        show ? "block" : "hidden"
       } absolute top-[92px] bg-bgWhite p-s border-t border-x rounded-b-lg min-w-[377px] shadow-md shadow-gray-300`}
     >
       <ul className="flex relative flex-col gap-xs  text-textPrimary text-base font-medium tracking-textBase">

@@ -23,3 +23,15 @@ export const useOnClickOutside = (ref, handler, sub) => {
     };
   }, [ref, handler]);
 };
+
+export const useOnClickOutside2 = (onClose) => {
+  useEffect(() => {
+     const close = (e) => {
+        if(e.keyCode === 27){
+         onClose()
+        }
+      }
+      window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, []);
+};
