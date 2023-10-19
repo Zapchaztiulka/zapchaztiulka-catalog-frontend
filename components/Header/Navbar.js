@@ -10,10 +10,15 @@ import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
 import MobileNavBar from "./MobileNavBar";
 
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
+import { useState } from "react";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
+  const toggleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
 
   const handleToHome = () => {
     dispatch(fetchProducts());
@@ -22,7 +27,10 @@ const Navbar = () => {
   return (
     <header className="header z-50">
       <nav className="navbar container">
-        <MobileNavBar />
+        <MobileNavBar
+          showSearchBar={showSearchBar}
+          toggleSearchBar={toggleSearchBar}
+        />
         <div className="tablet1024:flex tablet1024:items-center tablet1024:justify-between hidden">
           <div className="flex items-center">
             <Link
@@ -39,7 +47,11 @@ const Navbar = () => {
               <LogoIcon width="67" height="60" />
             </Link>
             <Catalog />
-            <SearchBar />
+            <SearchBar
+              showSearchBar={showSearchBar}
+              toggleSearchBar={toggleSearchBar}
+              setShowSearchBar={setShowSearchBar}
+            />
           </div>
           <div className="flex justify-between">
             <ContactList />

@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
 
-const SearchBar = () => {
+const SearchBar = ({showSearchBar, toggleSearchBar, setShowSearchBar}) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [isOpen, setIsOpen] = useState(true);
 
   const dispatch = useDispatch();
   const data = useSelector(selectProductsByQuery);
@@ -48,18 +49,29 @@ const SearchBar = () => {
   const clearFields = () => {
     setFilteredData([]);
     setSearchTerm("");
+
   };
+
+  const closeSearchMobile = () => {
+  setShowSearchBar(!showSearchBar)
+  }
+
+  console.log(showSearchBar);
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4"
+      className={`${
+        !showSearchBar
+          ? "flex items-center relative"
+          : "hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 "
+      }`}
     >
-      <div className="search">
+      <div className="search w-full">
         <input
           onChange={handleFilter}
           placeholder="Я шукаю.."
-          className="search-input"
+          className="search-input w-full"
           value={searchTerm}
         />
         <button className="search-icon" type="submit">
@@ -67,29 +79,38 @@ const SearchBar = () => {
         </button>
       </div>
       {filteredData.length !== 0 && searchTerm.length !== 0 && (
-        <ul className="absolute top-[54px] mt-1 max-h-60 w-[272px] border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm">
+        <ul className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}
               onClick={clearFields}
-              className="relative cursor-pointer hover:bg-bgDefaultBlue hover:text-textContrast select-none "
+              className="relative cursor-pointer select-none "
             >
-              <Link legacyBehavior href={{ pathname: `/${item._id}` }} passHref>
-                <a className="py-2 pl-10 pr-4 w-full block">{item.name}</a>
+              <Link
+                legacyBehavior
+                href={{ pathname: `/product/${item._id}` }}
+                passHref
+              
+              >
+                <a className="w-full pb-m block">{item.name}</a>
               </Link>
             </li>
           ))}
         </ul>
       )}
       {filteredData.length === 0 && searchTerm.length !== 0 && (
-        <div className="absolute top-[54px] mt-1 max-h-60 w-[272px] border border-borderDefault overflow-auto text-textInputDefault rounded-lg bg-bgWhite py-3 text-base focus:outline-none sm:text-sm p-4 z-10">
-          <p className="text-textInputActive text-lg font-medium mb-2">
+        <div className="absolute top-[80px] w-full tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
+          <p className="text-textPrimary text-lg font-medium mb-2">
             На жаль, за вашим {`${searchTerm}`} запитом нічого не знайдено
           </p>
-          <p className="text-text-textSecondary text-[15px] mb-4 ">
+          <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
             Перевірте та змініть запит або пошукайте товар в каталозі.
           </p>
-          <button className="state-button hidden tablet768:flex tablet768:justify-between lg:px-6 px-3 py-3 text-textContrast text-base">
+          <button
+            className={`${
+              !showSearchBar ? "w-full" : "w-fit"
+            } state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center`}
+          >
             Перейти до каталогу
           </button>
         </div>

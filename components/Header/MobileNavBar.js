@@ -8,56 +8,62 @@ import {
   PhoneIcon,
   SearchIcon,
 } from "@/public/icons";
+import SearchBarMobile from "./SearchBarMobile";
 
-const MobileNavBar = () => {
+const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // const [showSearchBar, setShowSearchBar] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
+  // const toggleSearchBar = () => {
+  //   setShowSearchBar(!showSearchBar);
+  // };
 
   return (
-    <div className="tablet1024:hidden flex justify-between">
-      <div className="flex gap-xs2">
-        <Link
-          href="/"
-          className="justify-center flex items-center"
-        >
-          <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
-        </Link>
-        <Sidebar isOpen={isOpen} toggle={toggle} />
-        <div>
+    <>
+      <div
+        className={`${
+          showSearchBar ? "hidden" : "tablet1024:hidden flex justify-between"
+        }`}
+      >
+        <div className="flex gap-xs2">
+          <Link href="/" className="justify-center flex items-center">
+            <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
+          </Link>
+          <Sidebar isOpen={isOpen} toggle={toggle} />
+          <div>
+            <button
+              className="flex item-center outline-none text-gray-700 rounded-md focus:border-gray-400"
+              onClick={toggle}
+            >
+              <MenuOpenIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
+            </button>
+          </div>
+        </div>
+        <div className="flex gap-xs2">
           <button
-            className="flex item-center outline-none text-gray-700 rounded-md focus:border-gray-400"
-            onClick={toggle}
+            className="justify-center flex items-center"
+            onClick={toggleSearchBar}
           >
-            <MenuOpenIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
+            <SearchIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
           </button>
+
+          <Link href="/" className="justify-center flex items-center">
+            <PhoneIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
+          </Link>
+          <Link href="/" className="justify-center flex items-center">
+            <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
+          </Link>
         </div>
       </div>
-
-      <div className="flex gap-xs2">
-        <Link
-          href="/"
-          className="justify-center flex items-center"
-        >
-          <SearchIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
-        </Link>
-        <Link
-          href="/"
-          className="justify-center flex items-center"
-        >
-          <PhoneIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
-        </Link>
-        <Link
-          href="/"
-          className="justify-center flex items-center"
-        >
-          <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
-        </Link>
-      </div>
-    </div>
+      <SearchBarMobile
+        showSearchBar={showSearchBar}
+        toggleSearchBar={toggleSearchBar}
+      />
+    </>
   );
 };
 

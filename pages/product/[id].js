@@ -65,7 +65,7 @@ const ProductDetails = () => {
 
   const optionThumb = {
     type: "slide",
-    arrows: false,
+    arrows: true,
     perPage: 3,
     perMove: 1,
     gap: "10px",
