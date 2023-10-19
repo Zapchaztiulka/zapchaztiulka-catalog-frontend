@@ -12,15 +12,10 @@ import SearchBarMobile from "./SearchBarMobile";
 
 const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [showSearchBar, setShowSearchBar] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // const toggleSearchBar = () => {
-  //   setShowSearchBar(!showSearchBar);
-  // };
 
   return (
     <>

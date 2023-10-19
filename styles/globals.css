@@ -71,6 +71,14 @@ a {
   @apply border border-borderDefaultBlue rounded-r p-xs absolute right-0 top-0 cursor-pointer bg-bgBrandDark;
 }
 
+.search .close-btn {
+  @apply p-xs2 absolute right-[44px] top-0 cursor-pointer;
+}
+
+.close-btn:hover svg, .close-btn:focus svg {
+  @apply stroke-iconError;
+}
+
 .search:hover input {
   @apply bg-bgHoverGrey placeholder:text-textInputActive;
 }
@@ -135,14 +143,6 @@ a {
   @apply mt-m !important;
 }
 
-/* .custom-class-slide-thumbs .splide__slide {
-  @apply flex justify-center;
-} */
-
-/* .custom-class-slide .splide .splide__list .splide__slide {
-  @apply flex justify-center; */
-/* } */
-
 .modal-body .splide .splide__list .splide__slide, .custom-class-slide .splide .splide__list .splide__slide, .custom-class-slide-thumbs .splide__slide {
   @apply flex justify-center;
 }
@@ -185,7 +185,7 @@ a {
 }
 
 .modal-body .splide__arrow svg, .custom-class-slide-thumbs .splide__arrow svg {
-  @apply fill-iconPrimary h-[24px] w-[24px];
+  @apply fill-iconPrimary h-[20px] w-[20px];
 }
 
 .modal-header {

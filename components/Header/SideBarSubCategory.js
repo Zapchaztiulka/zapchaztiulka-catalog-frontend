@@ -29,7 +29,11 @@ const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory }) =>
               {categories.categoryName}
             </h3>
             <button onClick={closeCategory}>
-              <CloseIcon width="34" height="34" />
+              <CloseIcon
+                width="34"
+                height="34"
+                className="stroke-iconPrimary"
+              />
             </button>
           </div>
           <button

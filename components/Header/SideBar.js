@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, toggle }) => {
           </Link>
           <button className="absolute right-0 p-5" onClick={closeMenu}>
             {/* Close icon */}
-            <CloseIcon width="44" height="44" />
+            <CloseIcon className="stroke-iconPrimary" width="44" height="44" />
           </button>
         </div>
 

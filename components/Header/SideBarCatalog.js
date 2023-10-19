@@ -46,7 +46,7 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
       <div className="flex justify-between items-center mb-6">
         <p className="font-medium text-textPrimary text-lg">Каталог</p>
         <button onClick={closeCategory}>
-          <CloseIcon width="34" height="34" />
+          <CloseIcon width="34" height="34" className="stroke-iconPrimary"/>
         </button>
       </div>
       <ul className="flex relative flex-col gap-s text-textPrimary text-base font-medium tracking-textBase">
