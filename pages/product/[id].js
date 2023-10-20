@@ -58,7 +58,7 @@ const ProductDetails = () => {
         {product && (
           <>
             <div>
-              {(photo.length === 0 || !getExtension(photo[0]?.url)) ? (
+              {(photo.length === 0 || !getExtension(photo?.url)) ? (
                 <Image
                   src="/empty-img.jpeg"
                   alt="no image"
