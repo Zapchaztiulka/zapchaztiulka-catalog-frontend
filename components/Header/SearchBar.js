@@ -47,19 +47,13 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         query: { query: searchTerm.toLowerCase() },
       });
     }
-     toggleSearchBar();
-    // clearFields();
+    toggleSearchBar();
+    setSearchTerm("");
+    setFilteredData([]);
   };
 
   const clearSearchTerm = () => {
     setSearchTerm("");
-  };
-
-  const clearFields = () => {
-    setFilteredData([]);
-    // if (searchTerm !== "" && filteredData.length !== 0) {
-    //   toggleSearchBar();
-    // }
   };
 
   return (
@@ -118,9 +112,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
             Перевірте та змініть запит або пошукайте товар в каталозі.
           </p>
-          <button
-            className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center"
-          >
+          <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
             Перейти до каталогу
           </button>
         </div>

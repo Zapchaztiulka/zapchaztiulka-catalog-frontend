@@ -20,9 +20,11 @@ import {
 } from "@/helpers/optionsSlider";
 import { getExtension } from "@/helpers/checkExtension";
 
+const empty = "/empty-img.jpeg"
+
 const ProductDetails = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id } = router.query;;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
   const [indexThumb, setIndexThumb] = useState();
@@ -46,6 +48,8 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
+  console.log(product);
+
   return (
     <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
       <div className="tablet768:h-[382px] tablet600:w-[50%] ">
@@ -58,7 +62,8 @@ const ProductDetails = () => {
         {product && (
           <>
             <div>
-              {product.photo.length === 0  ? (
+              {product.photo.length === 0 ||
+              !getExtension(product.photo[0]?.url) ? (
                 <Image
                   src="/empty-img.jpeg"
                   alt="no image"
@@ -81,7 +86,9 @@ const ProductDetails = () => {
                       {product.photo?.map((item, i) => (
                         <SplideSlide key={item._id}>
                           <Image
-                            src={item.url}
+                            src={
+                              getExtension(item.url) ? `${item.url}` : { empty }
+                            }
                             alt={item.alt}
                             width="0"
                             height="0"
@@ -101,7 +108,11 @@ const ProductDetails = () => {
                                   {product.photo?.map((item) => (
                                     <SplideSlide key={item._id}>
                                       <Image
-                                        src={item.url}
+                                        src={
+                                          getExtension(item.url)
+                                            ? `${item.url}`
+                                            : { empty }
+                                        }
                                         alt={item.alt}
                                         width="0"
                                         height="0"
@@ -125,7 +136,11 @@ const ProductDetails = () => {
                         <SplideSlide key={thumbnail._id}>
                           <button onClick={() => handleThumbs(index)}>
                             <Image
-                              src={thumbnail.url}
+                              src={
+                                getExtension(thumbnail.url)
+                                  ? `${thumbnail.url}`
+                                  : { empty }
+                              }
                               alt="product thumbnail"
                               width="0"
                               height="0"
