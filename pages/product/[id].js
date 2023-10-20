@@ -48,8 +48,6 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
-  console.log(product);
-
   return (
     <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
       <div className="tablet768:h-[382px] tablet600:w-[50%] ">
