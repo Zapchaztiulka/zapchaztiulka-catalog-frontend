@@ -10,12 +10,11 @@ import {
 } from "@/redux/products/productsSelectors";
 import Loader from "@/components/Loader";
 
-
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
-  const data = useSelector(selectProductsByQuery)
- 
-  const error = useSelector(selectError)
+  const data = useSelector(selectProductsByQuery);
+
+  const error = useSelector(selectError);
   return (
     <div className="mt-[130px] flex gap-s">
       <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0">

@@ -1,4 +1,5 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import ContactList from "./ContactList";

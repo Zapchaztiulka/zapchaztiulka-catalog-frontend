@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
@@ -18,17 +19,18 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
+  console.log(products)
 
   useEffect(() => {
     if (!start) {
-      setCurrentPage(1)
+      setCurrentPage(1);
       dispatch(fetchProducts({ search: searchValue, page: 1 }));
     }
     if (start) {
       setCurrentPage(start);
-    dispatch(fetchProducts({ search: searchValue, page: start }));
+      dispatch(fetchProducts({ search: searchValue, page: start }));
     }
-    
+
     if (searchValue !== undefined && !start) {
       dispatch(fetchProducts({ search: searchValue }));
     }

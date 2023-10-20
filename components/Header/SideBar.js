@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   CatalogIcon,
   ChatIcon,
@@ -9,22 +8,26 @@ import {
   CloseIcon,
 } from "@/public/icons";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import SideBarCatalog from "./SideBarCatalog";
-import { ModalContext } from "@/context/context";
 
 const Sidebar = ({ isOpen, toggle }) => {
-
   const [showCategory, setShowCategory] = useState(false);
 
   const togglShow = () => {
     setShowCategory(!showCategory);
   };
-  
+
   const closeMenu = () => {
     toggle();
-    setShowCategory(false)
-  }
+    setShowCategory(false);
+  };
+
+  const visibleStyle = {
+    opacity: `${isOpen ? "1" : "0"}`,
+    top: ` ${isOpen ? "0" : "-100%"}`,
+    left: `${isOpen ? "0" : "0"}`,
+  };
 
   return (
     <>
@@ -34,11 +37,7 @@ const Sidebar = ({ isOpen, toggle }) => {
             ? "hidden"
             : "flex flex-col fixed tablet1024:hidden h-full overflow-hidden bg-bgWhite pt-m z-10 px-s rounded-minimal mobile320:min-w-[288px] mobile375:min-w-[347px] shadow-md shadow-gray-300"
         }`}
-        style={{
-          opacity: `${isOpen ? "1" : "0"}`,
-          top: ` ${isOpen ? "0" : "-100%"}`,
-          left: `${isOpen ? "0" : "0"}`,
-        }}
+        style={visibleStyle}
       >
         <div className="flex justify-between items-center mb-6">
           <Link href="/" className="flex items-center" as={"image"}>

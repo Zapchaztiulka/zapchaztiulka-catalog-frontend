@@ -1,6 +1,6 @@
 "use client";
 
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { CloseIcon, SearchIconNavbar } from "@/public/icons";
@@ -9,7 +9,7 @@ import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
 import { useDebounce } from "@/hooks/useDebounce";
 
-const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
+const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -18,7 +18,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
   const data = useSelector(selectProductsByQuery);
   const products = data?.products;
 
-  const debouncedSearch = useDebounce(searchTerm, 500)
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     dispatch(fetchProductsByQuery(debouncedSearch));
@@ -27,9 +27,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
   const handleFilter = (event) => {
     event.preventDefault();
     const searchWord = event.target.value;
-    
     setSearchTerm(searchWord);
-
     const newFilter = products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
@@ -49,19 +47,19 @@ const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
         query: { query: searchTerm.toLowerCase() },
       });
     }
-    clearFields(); 
+     toggleSearchBar();
+    // clearFields();
   };
 
   const clearSearchTerm = () => {
-      setSearchTerm(""); 
-  }
+    setSearchTerm("");
+  };
 
   const clearFields = () => {
     setFilteredData([]);
-   
-    if (searchTerm !== "" && filteredData.length !== 0) {
-      toggleSearchBar() 
-    }     
+    // if (searchTerm !== "" && filteredData.length !== 0) {
+    //   toggleSearchBar();
+    // }
   };
 
   return (
@@ -98,7 +96,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}
-              onClick={clearFields}
+              onClick={toggleSearchBar}
               className="relative cursor-pointer select-none "
             >
               <Link
@@ -115,15 +113,13 @@ const SearchBar = ({ showSearchBar, toggleSearchBar}) => {
       {filteredData.length === 0 && searchTerm.length !== 0 && (
         <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
           <p className="text-textPrimary text-lg font-medium mb-2">
-            На жаль, за вашим {`${searchTerm}`} запитом нічого не знайдено
+            На жаль, за вашим запитом {`${searchTerm}`} нічого не знайдено
           </p>
           <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
             Перевірте та змініть запит або пошукайте товар в каталозі.
           </p>
           <button
-            className={`${
-              !showSearchBar ? "w-full tablet600:w-[343px]" : "w-fit"
-            } state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center`}
+            className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center"
           >
             Перейти до каталогу
           </button>

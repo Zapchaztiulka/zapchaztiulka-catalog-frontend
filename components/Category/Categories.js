@@ -1,3 +1,4 @@
+"use client";
 import { ArrowRight } from "@/public/icons";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
@@ -10,7 +11,7 @@ const Categories = (props) => {
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
-  const ref = useRef(0);
+  const ref = useRef(null);
   const { onClickOutside, show } = props;
 
   const [showSubMenu, setShowSubMenu] = useState([]);
@@ -19,7 +20,12 @@ const Categories = (props) => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  useOnClickOutside(ref, onClickOutside, setShowSubMenu);
+  const clearSubMenu = () => {
+    onClickOutside();
+    setShowSubMenu([]);
+  };
+
+  useOnClickOutside(ref, clearSubMenu);
 
   const subCategoriesOnclickHandler = (subCategoryId) => {
     setShowSubMenu((prev) => {

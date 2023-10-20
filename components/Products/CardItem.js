@@ -1,3 +1,4 @@
+import { getExtension } from "@/helpers/checkExtension";
 import { cutArticle, cutText } from "@/helpers/cutTiext";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +10,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
       <li className="product-card">
         <div className="">
           <div className="w-full">
-            {photo.length === 0 ? (
+            {(photo.length === 0 || !getExtension(photo[0]?.url)) ? (
               <Image
                 src="/empty-img.jpeg"
                 alt="no image"

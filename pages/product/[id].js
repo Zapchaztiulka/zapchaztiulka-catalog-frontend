@@ -13,7 +13,12 @@ import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
 import Modal from "@/components/Modal";
-import { mainOptions, modalOptions, optionThumb } from "@/helpers/optionsSlider";
+import {
+  mainOptions,
+  modalOptions,
+  optionThumb,
+} from "@/helpers/optionsSlider";
+import { getExtension } from "@/helpers/checkExtension";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -53,7 +58,7 @@ const ProductDetails = () => {
         {product && (
           <>
             <div>
-              {product.photo.length === 0 ? (
+              {(photo.length === 0 || !getExtension(photo[0]?.url)) ? (
                 <Image
                   src="/empty-img.jpeg"
                   alt="no image"

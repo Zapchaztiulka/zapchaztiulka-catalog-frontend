@@ -1,6 +1,10 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 
+const wrapperStyle = {
+  justifyContent: "center"
+}
+
 const Loader = () => {
   return (
     <div className=" h-full block mx-auto">
@@ -10,8 +14,7 @@ const Loader = () => {
         radius="9"
         color="#1849A9"
         ariaLabel="three-dots-loading"
-        wrapperStyle={{ justifyContent: "center" }}
-        wrapperClassName=""
+        wrapperStyle={wrapperStyle}
         visible={true}
       />
     </div>

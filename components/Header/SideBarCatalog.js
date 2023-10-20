@@ -30,6 +30,12 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
     closeMenu();
   };
 
+  const visibleStyle = {
+    opacity: `${isOpen ? "1" : "0"}`,
+    top: ` ${isOpen ? "0" : "-100%"}`,
+    left: `${isOpen ? "0" : "0"}`,
+  };
+
   return (
     <section
       className={`${
@@ -37,16 +43,12 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
           ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
           : "hidden"
       }   `}
-      style={{
-        opacity: `${isOpen ? "1" : "0"}`,
-        top: ` ${isOpen ? "0" : "-100%"}`,
-        left: `${isOpen ? "0" : "0"}`,
-      }}
+      style={visibleStyle}
     >
       <div className="flex justify-between items-center mb-6">
         <p className="font-medium text-textPrimary text-lg">Каталог</p>
         <button onClick={closeCategory}>
-          <CloseIcon width="34" height="34" className="stroke-iconPrimary"/>
+          <CloseIcon width="34" height="34" className="stroke-iconPrimary" />
         </button>
       </div>
       <ul className="flex relative flex-col gap-s text-textPrimary text-base font-medium tracking-textBase">
@@ -57,7 +59,6 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
               key={el._id}
               onClick={() => {
                 subCategoriesOnclickHandler(el._id);
-                
               }}
             >
               <div className="border-none b-transparent flex justify-between items-center">

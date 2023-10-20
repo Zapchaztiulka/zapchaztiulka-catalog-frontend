@@ -1,11 +1,11 @@
-import { useOnClickOutside2 } from "@/hooks/useOnClickOutside";
+"use client";
+import { useOnKeyDown } from "@/hooks/useOnClickOutside";
 import { CloseModal } from "@/public/icons";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const Modal = ({ onClose, children }) => {
-   
-   useOnClickOutside2(onClose)
+  useOnKeyDown(onClose);
 
   const modalContent = (
     <div
@@ -23,7 +23,7 @@ const Modal = ({ onClose, children }) => {
         >
           <div className="modal-header">
             <button onClick={() => onClose()}>
-              <CloseModal/>
+              <CloseModal />
             </button>
           </div>
           <div className="modal-body">{children}</div>

@@ -1,13 +1,23 @@
-import { ArrowLeft, CloseIcon } from '@/public/icons';
-import React, { useState } from 'react'
+import { ArrowLeft, CloseIcon } from "@/public/icons";
+import React, { useState } from "react";
 
-const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory }) => {
-
-  const [showSubCategory, setShowSubCategory] = useState(true)
+const SideBarSubCategory = ({
+  show,
+  categories,
+  showSubMenu,
+  closeCategory,
+}) => {
+  const [showSubCategory, setShowSubCategory] = useState(true);
 
   const goBackCategory = () => {
-    setShowSubCategory(false)
-  }
+    setShowSubCategory(false);
+  };
+
+  const visibleStyle = {
+    opacity: `${show && showSubMenu[categories._id] ? "1" : "0"}`,
+    top: ` ${show && showSubMenu[categories._id] ? "0" : "-100%"}`,
+    left: `${show && showSubMenu[categories._id] ? "0" : "0"}`,
+  };
 
   return (
     <>
@@ -18,11 +28,7 @@ const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory }) =>
               ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
               : "hidden"
           }`}
-          style={{
-            opacity: `${show && showSubMenu[categories._id] ? "1" : "0"}`,
-            top: ` ${show && showSubMenu[categories._id] ? "0" : "-100%"}`,
-            left: `${show && showSubMenu[categories._id] ? "0" : "0"}`,
-          }}
+          style={visibleStyle}
         >
           <div className="flex justify-between items-center mb-9">
             <h3 className="text=lg text-textPrimary font-medium">
@@ -62,4 +68,4 @@ const SideBarSubCategory = ({ show, categories, showSubMenu, closeCategory }) =>
   );
 };
 
-export default SideBarSubCategory
+export default SideBarSubCategory;

@@ -64,7 +64,7 @@ a {
 }
 
 .search-input {
-  @apply relative p-3 tablet1024:w-[275px] desktop1200:w-[240px] desktop1440:w-[343px] rounded border border-borderDefault text-base placeholder:text-textInputDefault;
+  @apply w-full relative p-3 tablet1024:w-[275px] desktop1200:w-[240px] desktop1440:w-[343px] rounded border border-borderDefault text-base placeholder:text-textInputDefault;
 }
 
 .search .search-icon {
