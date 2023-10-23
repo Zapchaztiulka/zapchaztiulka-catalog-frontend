@@ -19,7 +19,7 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
-  // console.log(products)
+  console.log(products);
 
   useEffect(() => {
     if (!start) {
@@ -51,6 +51,7 @@ const CardsList = () => {
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {data &&
             products?.map(({ name, _id, photo, price, vendorCode }) => {
+      
               return (
                 <CardItem
                   key={_id}

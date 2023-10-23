@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@splidejs/react-splide": "^0.7.12",
     "@svgr/webpack": "^8.1.0",
+    "@uidotdev/usehooks": "^2.4.0",
     "axios": "^1.5.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",

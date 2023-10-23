@@ -1,28 +1,29 @@
-"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { CloseIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
-import { useDebounce } from "@/hooks/useDebounce";
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const refForm = useRef();
+  const refList = useRef();
+
 
   const dispatch = useDispatch();
   const data = useSelector(selectProductsByQuery);
   const products = data?.products;
 
-  const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(fetchProductsByQuery(debouncedSearch));
-  }, [dispatch, debouncedSearch]);
+    dispatch(fetchProductsByQuery(searchTerm));
+  }, [dispatch, searchTerm]);
 
   const handleFilter = (event) => {
     event.preventDefault();
@@ -59,6 +60,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   return (
     <form
       onSubmit={handleSubmit}
+      ref={refForm}
       className={`${
         showSearchBar
           ? "hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 "
@@ -86,7 +88,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         </button>
       </div>
       {filteredData.length !== 0 && searchTerm.length !== 0 && (
-        <ul className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
+        <ul ref={refList} className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}

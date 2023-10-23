@@ -1,7 +1,6 @@
 "use client";
 import { useOnKeyDown } from "@/hooks/useOnClickOutside";
 import { CloseModal } from "@/public/icons";
-import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const Modal = ({ onClose, children }) => {

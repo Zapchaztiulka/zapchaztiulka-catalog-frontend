@@ -1,6 +1,4 @@
-"use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -24,7 +22,7 @@ const empty = "/empty-img.jpeg"
 
 const ProductDetails = () => {
   const router = useRouter();
-  const { id } = router.query;;
+  const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
   const [indexThumb, setIndexThumb] = useState();
@@ -32,7 +30,10 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchProductByID(id));
+    if (id) {
+   dispatch(fetchProductByID(id));
+    }
+ 
   }, [dispatch, id]);
 
   const toggle = () => {
@@ -48,6 +49,8 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
+  console.log(product);
+
   return (
     <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
       <div className="tablet768:h-[382px] tablet600:w-[50%] ">
@@ -60,8 +63,8 @@ const ProductDetails = () => {
         {product && (
           <>
             <div>
-              {product.photo.length === 0 ||
-              !getExtension(product.photo[0]?.url) ? (
+              {product?.photo?.length === 0 ||
+              !getExtension(product?.photo[0]?.url) ? (
                 <Image
                   src="/empty-img.jpeg"
                   alt="no image"
@@ -81,7 +84,7 @@ const ProductDetails = () => {
                       </button>
                     </div>
                     <Splide options={mainOptions} ref={mainRef}>
-                      {product.photo?.map((item, i) => (
+                      {product?.photo?.map((item, i) => (
                         <SplideSlide key={item._id}>
                           <Image
                             src={
@@ -103,7 +106,7 @@ const ProductDetails = () => {
                                   {product?.name}
                                 </p>
                                 <Splide options={modalOptions}>
-                                  {product.photo?.map((item) => (
+                                  {product?.photo?.map((item) => (
                                     <SplideSlide key={item._id}>
                                       <Image
                                         src={
@@ -130,7 +133,7 @@ const ProductDetails = () => {
                   </div>
                   <div className="hidden tablet600:block custom-class-slide-thumbs">
                     <Splide options={optionThumb}>
-                      {product.photo?.map((thumbnail, index) => (
+                      {product?.photo?.map((thumbnail, index) => (
                         <SplideSlide key={thumbnail._id}>
                           <button onClick={() => handleThumbs(index)}>
                             <Image

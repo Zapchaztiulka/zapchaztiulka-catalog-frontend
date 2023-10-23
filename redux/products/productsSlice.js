@@ -21,13 +21,10 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, handlePending)
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        return {
-          ...state,
-          isLoading: false,
-          error: null,
-          products: action.payload,
-        };
+      .addCase(fetchProducts.fulfilled, (state, { payload }) => {
+        Object.assign(state, payload);
+        state.isLoading = false;
+        state.error = null;
       })
       .addCase(fetchProducts.rejected, handleRejected)
       .addCase(fetchProductByID.pending, handlePending)
@@ -39,15 +36,13 @@ const productsSlice = createSlice({
           productById: action.payload,
         };
       })
+
       .addCase(fetchProductByID.rejected, handleRejected)
       .addCase(fetchProductsByQuery.pending, handlePending)
-      .addCase(fetchProductsByQuery.fulfilled, (state, action) => {
-        return {
-          ...state,
-          isLoading: false,
-          error: null,
-          productsByQuery: action.payload,
-        };
+      .addCase(fetchProductsByQuery.fulfilled, (state, { payload }) => {
+        Object.assign(state, payload);
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });
