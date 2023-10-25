@@ -9,14 +9,19 @@ const Catalog = () => {
   const refBtn = useRef();
 
   const close = () => {
-     if (showCategory)
-    {setShowCategory(false)   
-    }  
-  }
+    if (showCategory) {
+      setShowCategory(false);
+    }
+  };
+
+  const closeCatalogBtn = () => {
+    setShowCategory(!showCategory);
+    setShowSubMenu([]);
+  };
 
   return (
     <div className="desktop1200:mr-s">
-      <button ref={refBtn} onClick={() => setShowCategory(!showCategory)}>
+      <button ref={refBtn} onClick={closeCatalogBtn}>
         <div className=" justify-center items-center  mr-[15px] hidden tablet768:flex tablet768:justify-between state-button lg:px-6 px-3 py-3">
           <CatalogIcon className="w-[24px] h-[24px] stroke-iconContrast stroke-2 fill-none" />
           <span className="text-textContrast font-medium text-base tracking-textBase">

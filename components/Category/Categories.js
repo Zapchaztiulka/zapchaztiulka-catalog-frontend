@@ -2,7 +2,7 @@
 import { ArrowRight } from "@/public/icons";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useOnKeyDown, useOutsideClick } from "@/hooks/useOnClickOutside";
 
