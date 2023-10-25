@@ -6,7 +6,7 @@ import { scrollToTop } from "@/helpers/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material";
 import { selectProducts } from "@/redux/products/productsSelectors";
-import { fetchProducts } from "@/redux/products/productsOperations";
+import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
 
@@ -19,19 +19,21 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
-  // console.log(products);
 
   useEffect(() => {
     if (!start) {
       setCurrentPage(1);
+        console.log("first");
       dispatch(fetchProducts({ search: searchValue, page: 1 }));
     }
     if (start) {
       setCurrentPage(start);
+      console.log("second");
       dispatch(fetchProducts({ search: searchValue, page: start }));
     }
 
     if (searchValue !== undefined && !start) {
+      console.log("third");
       dispatch(fetchProducts({ search: searchValue }));
     }
   }, [dispatch, start, searchValue]);
@@ -42,7 +44,7 @@ const CardsList = () => {
     event.preventDefault();
     dispatch(fetchProducts({ search: searchValue, page: value }));
     setCurrentPage(value);
-    router.push({ query: { page: value } });
+    router.push({ query: { page: value, query: searchValue} });
   };
 
   return (

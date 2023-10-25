@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -11,24 +10,29 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [limit, setLimit] = useState(10);
+
   const refForm = useRef();
   const refList = useRef();
-
 
   const dispatch = useDispatch();
   const data = useSelector(selectProductsByQuery);
   const products = data?.products;
 
+  console.log(data);
 
   useEffect(() => {
-    dispatch(fetchProductsByQuery(searchTerm));
-  }, [dispatch, searchTerm]);
+    dispatch(fetchProductsByQuery(data.totalCount));
+  }, [dispatch, data.totalCount]);
 
-  const handleFilter = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    setLimit(data.totalCount);
+  }, [data.totalCount]);
+
+  const getFilteredProducts = (event) => {
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
+    dispatch(fetchProductsByQuery(limit));
     const newFilter = products.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
@@ -50,7 +54,6 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     }
     toggleSearchBar();
     setSearchTerm("");
-    setFilteredData([]);
   };
 
   const clearSearchTerm = () => {
@@ -69,7 +72,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     >
       <div className="search w-full">
         <input
-          onChange={handleFilter}
+          onChange={getFilteredProducts}
           placeholder="Я шукаю.."
           className="search-input w-full"
           value={searchTerm}
@@ -87,8 +90,11 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           <SearchIconNavbar className="icon w-[24px] h-[24px] stroke-iconWhite stroke-2" />
         </button>
       </div>
-      {filteredData.length !== 0 && searchTerm.length !== 0 && (
-        <ul ref={refList} className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
+      {filteredData?.length !== 0 && searchTerm.length !== 0 && (
+        <ul
+          ref={refList}
+          className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
+        >
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}
@@ -106,7 +112,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           ))}
         </ul>
       )}
-      {filteredData.length === 0 && searchTerm.length !== 0 && (
+      {filteredData?.length === 0 && searchTerm.length !== 0 && (
         <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
           <p className="text-textPrimary text-lg font-medium mb-2">
             На жаль, за вашим запитом {`${searchTerm}`} нічого не знайдено

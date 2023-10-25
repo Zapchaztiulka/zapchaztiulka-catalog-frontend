@@ -21,8 +21,8 @@ export const fetchProductByID = createAsyncThunk(
 
 export const fetchProductsByQuery = createAsyncThunk(
   "products/fetchProductsByQuery",
-  async (searchValue) => {
-    const { data } = await axios.get(`/products?query=${searchValue}`);
+  async (limit ) => {
+    const { data } = await axios.get(`/products?limit=${limit}`);
     return data;
   }
 );
