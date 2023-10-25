@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
+
   return (
     <Link href={{ pathname: `/product/${id}` }}>
       <li className="product-card">

@@ -18,7 +18,7 @@ const ContactList = () => {
     <div className="w-[200px] tablet768:block hidden desktop1440:mr-[44px]">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="flex w-[200px] cursor-pointer p-xs2 text-left focus:outline-none  text-textPrimary focus-visible:ring-offset-orange-300 text-base">
+          <Listbox.Button className="flex w-[200px] cursor-pointer p-xs2 text-left focus:outline-none  text-textPrimary focus-visible:outline-none text-base ui-focus-visible:outline-none">
             <span className="pointer-events-none inset-y-0 left-0 flex items-center">
               <PhoneIconContact className="w-[24px] h-[24px] stroke-iconSecondary stroke-2" />
             </span>

@@ -19,8 +19,6 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const data = useSelector(selectProductsByQuery);
   const products = data?.products;
 
-  console.log(data);
-
   useEffect(() => {
     dispatch(fetchProductsByQuery(data.totalCount));
   }, [dispatch, data.totalCount]);

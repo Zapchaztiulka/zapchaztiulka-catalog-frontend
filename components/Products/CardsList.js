@@ -6,7 +6,7 @@ import { scrollToTop } from "@/helpers/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material";
 import { selectProducts } from "@/redux/products/productsSelectors";
-import { fetchProducts, fetchProductsByQuery } from "@/redux/products/productsOperations";
+import { fetchProducts } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
 
@@ -19,6 +19,8 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
+
+  console.log(data.totalCount)
 
   useEffect(() => {
     if (!start) {
@@ -50,10 +52,19 @@ const CardsList = () => {
   return (
     <>
       <div className="z-10">
+        {searchValue !== undefined && (
+          <div className="mb-m">
+            <h1 className="block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
+              Результати пошуку “{`${searchValue}`}”{" "}
+            </h1>
+            <span className="block desktop1200:inline text-textTertiary text-sm">
+              {`${data.totalCount}`} товарів
+            </span>
+          </div>
+        )}
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {data &&
             products?.map(({ name, _id, photo, price, vendorCode }) => {
-      
               return (
                 <CardItem
                   key={_id}

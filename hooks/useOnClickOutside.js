@@ -19,7 +19,6 @@ export const useOutsideClick = (ref, ref2, callback) => {
   });
 };
 
-
 export const useOnKeyDown = (onClose) => {
   useEffect(() => {
     const close = (e) => {
