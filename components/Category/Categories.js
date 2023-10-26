@@ -10,14 +10,21 @@ const Categories = (props) => {
   const dispatch = useDispatch();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
-  const { setShowCategory, showCategory, refBtn, close, showSubMenu, setShowSubMenu} = props;
+  const {
+    setShowCategory,
+    showCategory,
+    refBtn,
+    close,
+    showSubMenu,
+    setShowSubMenu,
+  } = props;
 
   const refCategory = useRef();
 
   const clearSubMenuByClick = () => {
-    close()
+    close();
     setShowSubMenu([]);
-  }
+  };
 
   useOutsideClick(refCategory, refBtn, clearSubMenuByClick);
 
@@ -26,11 +33,11 @@ const Categories = (props) => {
   }, [dispatch]);
 
   const clearSubMenu = () => {
-    close()
+    setShowCategory(false);
     setShowSubMenu([]);
   };
 
-  useOnKeyDown(clearSubMenu)
+  useOnKeyDown(clearSubMenu);
 
   const subCategoriesOnclickHandler = (subCategoryId) => {
     setShowSubMenu((prev) => {
@@ -39,7 +46,6 @@ const Categories = (props) => {
       return arr;
     });
   };
-
 
   return (
     <>

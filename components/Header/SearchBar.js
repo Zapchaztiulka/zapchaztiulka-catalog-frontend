@@ -5,12 +5,15 @@ import { CloseIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
+import { useOutsideClick } from "@/hooks/useOnClickOutside";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(10);
+  const size = useWindowSize()
 
   const refForm = useRef();
   const refList = useRef();
@@ -31,7 +34,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
     dispatch(fetchProductsByQuery(limit));
-    const newFilter = products.filter((value) => {
+    const newFilter = products?.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
 
@@ -50,13 +53,23 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         query: { query: searchTerm.toLowerCase() },
       });
     }
-    toggleSearchBar();
-    setSearchTerm("");
+     clearSearchTerm()
   };
 
   const clearSearchTerm = () => {
     setSearchTerm("");
+    toggleSearchBar();
   };
+
+  const removeSearchTerm = () => {
+     setSearchTerm("");
+  }
+
+  const closeByClickOutside = () => {
+    if (size.width>=1024) clearSearchTerm() 
+  }
+
+  useOutsideClick(refList, refForm, closeByClickOutside);
 
   return (
     <form
@@ -76,7 +89,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           value={searchTerm}
         />
         {searchTerm !== "" && (
-          <button className="close-btn" type="button" onClick={clearSearchTerm}>
+          <button className="close-btn" type="button" onClick={removeSearchTerm}>
             <CloseIcon
               className="close-icon stroke-iconPrimary"
               width="34"
@@ -96,7 +109,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           {filteredData.slice(0, 15).map((item) => (
             <li
               key={item._id}
-              onClick={toggleSearchBar}
+              onClick={clearSearchTerm}
               className="relative cursor-pointer select-none "
             >
               <Link

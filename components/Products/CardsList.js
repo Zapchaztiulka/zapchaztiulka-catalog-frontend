@@ -20,22 +20,17 @@ const CardsList = () => {
   const searchValue = router.query.query;
   const products = data?.products;
 
-  console.log(data.totalCount)
-
   useEffect(() => {
     if (!start) {
       setCurrentPage(1);
-        console.log("first");
       dispatch(fetchProducts({ search: searchValue, page: 1 }));
     }
     if (start) {
       setCurrentPage(start);
-      console.log("second");
       dispatch(fetchProducts({ search: searchValue, page: start }));
     }
 
     if (searchValue !== undefined && !start) {
-      console.log("third");
       dispatch(fetchProducts({ search: searchValue }));
     }
   }, [dispatch, start, searchValue]);
