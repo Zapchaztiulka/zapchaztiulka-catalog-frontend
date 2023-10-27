@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
 import { fetchProductsByQuery } from "@/redux/products/productsOperations";
 import { useOutsideClick } from "@/hooks/useOnClickOutside";
-import { useWindowSize } from "@uidotdev/usehooks";
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(10);
-  const size = useWindowSize()
 
   const refForm = useRef();
   const refList = useRef();
@@ -66,7 +64,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   }
 
   const closeByClickOutside = () => {
-    if (size.width>=1024) clearSearchTerm() 
+    if (window.innerWidth>=1024) removeSearchTerm(); 
   }
 
   useOutsideClick(refList, refForm, closeByClickOutside);

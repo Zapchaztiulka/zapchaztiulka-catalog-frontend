@@ -5,7 +5,7 @@ import Pagination from "@mui/material/Pagination";
 import { scrollToTop } from "@/helpers/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material";
-import { selectProducts } from "@/redux/products/productsSelectors";
+import { selectFiltredByPrice, selectProducts } from "@/redux/products/productsSelectors";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
@@ -19,6 +19,10 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
+
+  const test = useSelector(selectFiltredByPrice)
+
+  console.log(test)
 
   useEffect(() => {
     if (!start) {
@@ -47,7 +51,7 @@ const CardsList = () => {
   return (
     <>
       <div className="z-10">
-        {searchValue !== undefined && (
+        {searchValue !== undefined && searchValue !== "" && (
           <div className="mb-m">
             <h1 className="block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
               Результати пошуку “{`${searchValue}`}”{" "}

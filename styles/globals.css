@@ -20,6 +20,17 @@ a {
   text-decoration: none;
 }
 
+.os-scrollbar-vertical .os-scrollbar-track .os-scrollbar-handle {
+  max-width: 6px;
+  min-width: 6px;
+}
+
+.os-scrollbar-vertical {
+  background: rgb(221, 221, 221);
+  max-width: 7px;
+  border-radius: 15px;
+}
+
 .container {
   @apply px-s mobile480:px-m desktop1440:px-[120px] mx-auto;
 }
@@ -88,7 +99,8 @@ a {
 }
 
 .search:hover .search-icon,
-.search:focus-within .search-icon {
+.search:focus-within .search-icon,
+.search:focus .search-icon {
   @apply bg-bgBrandDark border border-borderDefaultBlue;
 }
 
@@ -189,6 +201,17 @@ a {
 }
 
 .modal-header {
-  display: flex;
-  justify-content: flex-end;
+@apply flex justify-end;
+}
+
+.price-input {
+@apply border-0 outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs w-[80px] placeholder:text-base placeholder:text-textTertiary;
+}
+
+.custom-checkBox:checked::after  {
+@apply absolute w-4 h-4 block top-0 bg-bgDefaultBlue  cursor-pointer border rounded-minimal border-borderDefaultBlue left-0 content-[''] bg-[url("/icons/check.svg")] bg-center;
+}
+
+.checkbox .custom-checkBox:checked::after {
+@apply hover:bg-bgHoverBlue;
 }

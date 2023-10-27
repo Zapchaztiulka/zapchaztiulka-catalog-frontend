@@ -1,6 +1,8 @@
 import React from "react";
 import { Layout } from "@/components";
 import "../styles/globals.css";
+import 'overlayscrollbars/overlayscrollbars.css';
+
 import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
