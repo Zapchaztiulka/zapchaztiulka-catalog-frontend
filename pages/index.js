@@ -9,7 +9,7 @@ import {
   selectProductsByQuery,
 } from "@/redux/products/productsSelectors";
 import Loader from "@/components/Loader";
-import Filter from "@/components/Filter/filter";
+import Filter from "@/components/Filter/Filter";
 
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
