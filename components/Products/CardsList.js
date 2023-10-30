@@ -5,25 +5,28 @@ import Pagination from "@mui/material/Pagination";
 import { scrollToTop } from "@/helpers/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material";
-import { selectFiltredByPrice, selectProducts } from "@/redux/products/productsSelectors";
+import {
+  selectFiltredByPrice,
+  selectIsLoading,
+  selectProducts,
+} from "@/redux/products/productsSelectors";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { theme } from "@/helpers/themeMaterial";
 import CardItem from "./CardItem";
+import { paginate } from "@/helpers/paginate";
 
 const CardsList = () => {
   const router = useRouter();
   const start = Number(router.query.page);
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
+  const isLoading = useSelector(selectIsLoading);
   const [currentPage, setCurrentPage] = useState(start || 1);
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
-
-  const test = useSelector(selectFiltredByPrice)
-
-  console.log(test)
-
+  const paginatedProducts = paginate(products, currentPage, pageSize);
+ 
   useEffect(() => {
     if (!start) {
       setCurrentPage(1);
@@ -39,19 +42,19 @@ const CardsList = () => {
     }
   }, [dispatch, start, searchValue]);
 
-  let pagesCount = Math.ceil(data?.totalCount / pageSize);
+  let pagesCount = Math.floor(data?.totalCount / pageSize);
 
   const handleChange = (event, value) => {
     event.preventDefault();
     dispatch(fetchProducts({ search: searchValue, page: value }));
     setCurrentPage(value);
-    router.push({ query: { page: value, query: searchValue} });
+    router.push({ query: { page: value, query: searchValue } });
   };
 
   return (
     <>
       <div className="z-10">
-        {searchValue !== undefined && searchValue !== "" && (
+        {searchValue !== undefined && searchValue !== "" && !isLoading && (
           <div className="mb-m">
             <h1 className="block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
               Результати пошуку “{`${searchValue}`}”{" "}
@@ -63,18 +66,20 @@ const CardsList = () => {
         )}
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {data &&
-            products?.map(({ name, _id, photo, price, vendorCode }) => {
-              return (
-                <CardItem
-                  key={_id}
-                  name={name}
-                  id={_id}
-                  photo={photo}
-                  price={price}
-                  vendorCode={vendorCode}
-                />
-              );
-            })}
+            paginatedProducts?.map(
+              ({ name, _id, photo, price, vendorCode }) => {
+                return (
+                  <CardItem
+                    key={_id}
+                    name={name}
+                    id={_id}
+                    photo={photo}
+                    price={price}
+                    vendorCode={vendorCode}
+                  />
+                );
+              }
+            )}
         </ul>
         {data && pagesCount > 1 && (
           <ThemeProvider theme={theme}>

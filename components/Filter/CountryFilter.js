@@ -10,7 +10,7 @@ const CountryFilter = () => {
     setIsOpen(!isOpen);
   };
   return (
- <div>
+    <div>
       {!isOpen ? (
         <div className="flex justify-between items-center p-xs3 mb-xs2">
           <div className="font-lg text-textPrimary font-medium">Країна</div>
@@ -40,7 +40,7 @@ const CountryFilter = () => {
             options={{ scrollbars: { autoHide: "never" } }}
             defer
           >
-            <ul className="flex flex-col gap-xs3 max-h-[250px]">
+            <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
               {testData.map((item) => {
                 return (
                   <li key={item.id} className="p-xs3 pl-xs2">

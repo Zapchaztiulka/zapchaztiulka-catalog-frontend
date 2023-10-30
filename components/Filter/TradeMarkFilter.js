@@ -41,7 +41,7 @@ const TradeMarkFilter = () => {
             options={{ scrollbars: { autoHide: "never" } }}
             defer
           >
-            <ul className="flex flex-col gap-xs3 max-h-[250px]">
+            <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
               {testData.map((item) => {
                 return (
                   <li key={item.id} className="p-xs3 pl-xs2">

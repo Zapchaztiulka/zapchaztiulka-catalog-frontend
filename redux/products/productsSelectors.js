@@ -21,7 +21,7 @@ export const selectFiltredByPrice = createSelector(
         count: arr.length
       }
 
-      console.log(obj)
+
       return arr;
     }
     return products.products;

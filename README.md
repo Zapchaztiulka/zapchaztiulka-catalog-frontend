@@ -35,5 +35,5 @@ npm install
 npm run dev
 ```
 
-4. Відкрити [http://localhost:3000](http://localhost:300) або посилання буде вказано в терміналі. 
+4. Відкрити [http://localhost:3000](http://localhost:3000) або посилання буде вказано в терміналі. 
 

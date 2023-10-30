@@ -15,6 +15,7 @@ const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
   const data = useSelector(selectProductsByQuery);
 
+
   const error = useSelector(selectError);
   return (
     <div className="mt-[130px] flex gap-s">
