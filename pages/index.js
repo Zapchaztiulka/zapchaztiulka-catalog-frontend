@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import CardsList from "@/components/Products/CardsList";
 import { useSelector } from "react-redux";
@@ -14,8 +13,6 @@ import Filter from "@/components/Filter/Filter";
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
   const data = useSelector(selectProductsByQuery);
-
-
   const error = useSelector(selectError);
   return (
     <div className="mt-[130px] flex gap-s">
