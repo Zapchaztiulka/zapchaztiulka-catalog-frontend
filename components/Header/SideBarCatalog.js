@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/router";
 import { ArrowRight, CloseIcon } from "@/public/icons";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
@@ -8,9 +9,11 @@ import SideBarSubCategory from "./SideBarSubCategory";
 
 const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
-
+  const [index, setIndex] = useState();
+  const [lengthSubCategory, setLengthSubCategory] = useState();
   const [showSubMenu, setShowSubMenu] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -24,11 +27,39 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
       arr[subCategoryId] = true;
       return arr;
     });
+    const indexCategory = categories.findIndex(
+      (el) => el._id === subCategoryId
+    );
+    setIndex(indexCategory);
+    const test = categories.find((el) => el._id === subCategoryId);
+    setLengthSubCategory(test.subcategories.length);
+    const lengthCategory = test.subcategories.length;
+    const nameCategory = test.categoryName;
+    clickByCategory(nameCategory.toLowerCase(), lengthCategory);
     setShow(!show);
   };
 
   const closeCategory = () => {
     closeMenu();
+    setShow(false);
+  };
+
+  const clickByCategory = (nameCategory, length) => {
+    router.push({
+      pathname: "/",
+      query: { query: nameCategory },
+    });
+    if (length === 0) {
+      closeCategory();
+    }
+  };
+
+    const clickBySubCategory = (subCategory) => {
+    router.push({
+      pathname: "/",
+      query: { query: subCategory.toLowerCase() },
+    });
+     closeCategory();
   };
 
   const visibleStyle = {
@@ -68,18 +99,19 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
                   <ArrowRight className="stroke-iconPrimary fill-none w-[24px] h-[24px] catalog-icon" />
                 )}
               </div>
-              <SideBarSubCategory
-                showSubMenu={showSubMenu}
-                categories={el}
-                isOpen={isOpen}
-                closeCategory={closeCategory}
-                togglShow={togglShow}
-                show={show}
-              />
             </li>
           );
         })}
       </ul>
+      <SideBarSubCategory
+        categories={categories}
+        closeCategory={closeCategory}
+        show={show}
+        setShow={setShow}
+        index={index}
+        lengthSubCategory={lengthSubCategory}
+        clickBySubCategory={clickBySubCategory}
+      />
     </section>
   );
 };

@@ -1,31 +1,32 @@
 import { ArrowLeft, CloseIcon } from "@/public/icons";
-import React, { useState } from "react";
 import SubCategory from "../Category/SubCategory";
 
 const SideBarSubCategory = ({
   show,
+  setShow,
+  index,
   categories,
-  showSubMenu,
   closeCategory,
+  lengthSubCategory,
+  clickBySubCategory
 }) => {
-  const [showSubCategory, setShowSubCategory] = useState(true);
 
   const goBackCategory = () => {
-    setShowSubCategory(false);
+    setShow(!show);
   };
 
   const visibleStyle = {
-    opacity: `${show && showSubMenu[categories._id] ? "1" : "0"}`,
-    top: ` ${show && showSubMenu[categories._id] ? "0" : "-100%"}`,
-    left: `${show && showSubMenu[categories._id] ? "0" : "0"}`,
+    opacity: `${show ? "1" : "0"}`,
+    top: ` ${show > 0 ? "0" : "-100%"}`,
+    left: `${show > 0 ? "0" : "0"}`,
   };
 
   return (
     <>
-      {categories.subcategories.length > 0 && (
+      {lengthSubCategory > 0 && (
         <div
           className={`${
-            showSubMenu[categories._id]
+            show
               ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
               : "hidden"
           }`}
@@ -50,20 +51,7 @@ const SideBarSubCategory = ({
             <ArrowLeft width="24" height="24" className="stroke-iconBrand" />
             <p>Усі категорії</p>
           </button>
-          <SubCategory categories={categories} />
-          {/* <ul className="flex-col gap-xs3 text-textPrimary text-base font-medium tracking-textBase">
-            {categories.subcategories.map((sub) => {
-              return (
-                <li key={sub._id} className="">
-                  <div>
-                    <p className="text-base text-textPrimary cursor-pointer hover:text-textBrand focus:text-textBrand py-[10px] px-xs3">
-                      {sub.subcategoryName}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul> */}
+          <SubCategory categories={categories} index={index} clickBySubCategory={clickBySubCategory} />
         </div>
       )}
     </>
