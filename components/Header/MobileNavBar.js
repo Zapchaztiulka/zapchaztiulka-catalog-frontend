@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Sidebar from "./SideBar";
+import Sidebar from "./SideBar/SideBar";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";
 import Link from "next/link";
 import {
@@ -9,7 +9,7 @@ import {
   PhoneIcon,
   SearchIcon,
 } from "@/public/icons";
-import SearchBarMobile from "./SearchBarMobile";
+import SearchBarMobile from "./Search/SearchBarMobile";
 
 const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
   const [isOpen, setIsOpen] = useState(false);

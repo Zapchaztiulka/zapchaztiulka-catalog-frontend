@@ -1,5 +1,5 @@
 import { ArrowLeft, CloseIcon } from "@/public/icons";
-import SubCategory from "../Category/SubCategory";
+import SubCategory from "../../Category/SubCategory";
 
 const SideBarSubCategory = ({
   show,

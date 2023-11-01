@@ -8,7 +8,7 @@ import {
   CartIconSideBar,
   CloseIcon,
 } from "@/public/icons";
-import { LogoIcon } from "../Icons/Logo/LogoIcon";
+import { LogoIcon } from "../../Icons/Logo/LogoIcon";
 import { useState } from "react";
 import SideBarCatalog from "./SideBarCatalog";
 

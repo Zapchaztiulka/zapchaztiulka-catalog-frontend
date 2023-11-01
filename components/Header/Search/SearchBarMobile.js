@@ -1,6 +1,7 @@
 import { CloseIcon } from "@/public/icons";
 import SearchBar from "./SearchBar";
 
+
 const SearchBarMobile = ({ showSearchBar, toggleSearchBar }) => {
   const visibleStyle = {
     opacity: `${showSearchBar ? "1" : "0"}`,

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import ContactList from "./ContactList";
-import SearchBar from "./SearchBar";
+import SearchBar from "./Search/SearchBar";
 import { CartIcon } from "@/public/icons";
 import Catalog from "../Category/Catalog";
 import { fetchProducts } from "@/redux/products/productsOperations";
