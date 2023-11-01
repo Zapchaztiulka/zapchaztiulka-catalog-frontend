@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
@@ -11,6 +12,7 @@ import FooterTablet from "./FooterTablet";
 
 const Footer = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const current_year = new Date().getFullYear();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
@@ -21,6 +23,13 @@ const Footer = () => {
 
   const handleToHome = () => {
     dispatch(fetchProducts());
+  };
+
+    const clickByCategory = (category) => {
+    router.push({
+      pathname: "/",
+      query: { query: category.toLowerCase() },
+    });
   };
 
   return (
@@ -43,7 +52,11 @@ const Footer = () => {
             <ul className="text-textPrimary text-base">
               {categories?.map((el) => {
                 return (
-                  <li key={el._id} className=" footer-items">
+                  <li
+                    key={el._id}
+                    className=" footer-items"
+                    onClick={() => clickByCategory(el.categoryName)}
+                  >
                     {el.categoryName}
                   </li>
                 );

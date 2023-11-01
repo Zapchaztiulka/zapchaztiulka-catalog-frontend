@@ -1,5 +1,6 @@
 import { ArrowLeft, CloseIcon } from "@/public/icons";
 import React, { useState } from "react";
+import SubCategory from "../Category/SubCategory";
 
 const SideBarSubCategory = ({
   show,
@@ -49,7 +50,8 @@ const SideBarSubCategory = ({
             <ArrowLeft width="24" height="24" className="stroke-iconBrand" />
             <p>Усі категорії</p>
           </button>
-          <ul className="flex-col gap-xs3 text-textPrimary text-base font-medium tracking-textBase">
+          <SubCategory categories={categories} />
+          {/* <ul className="flex-col gap-xs3 text-textPrimary text-base font-medium tracking-textBase">
             {categories.subcategories.map((sub) => {
               return (
                 <li key={sub._id} className="">
@@ -61,7 +63,7 @@ const SideBarSubCategory = ({
                 </li>
               );
             })}
-          </ul>
+          </ul> */}
         </div>
       )}
     </>
