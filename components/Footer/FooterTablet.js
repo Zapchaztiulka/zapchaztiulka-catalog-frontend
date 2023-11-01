@@ -33,13 +33,13 @@ const FooterTablet = () => {
           <h4 className="text-textTertiary text-lg">Контакти</h4>
           <ul className="text-textPrimary text-base">
             <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
+              <p>+38 (050) 810 48 82</p>
             </li>
             <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
+              <p>+38 (050) 810 48 82</p>
             </li>
             <li className="footer-items ">
-              <a>+38 (050) 810 48 82</a>
+              <p>+38 (050) 810 48 82</p>
             </li>
           </ul>
         </div>
@@ -50,19 +50,19 @@ const FooterTablet = () => {
           <h4 className="text-textTertiary text-lg">Покупцеві</h4>
           <ul className="text-textPrimary text-base">
             <li className=" footer-items">
-              <a>Онлайн допомога</a>
+              <p>Онлайн допомога</p>
             </li>
             <li className=" footer-items">
-              <a>Доставка та оплата</a>
+              <p>Доставка та оплата</p>
             </li>
             <li className=" footer-items">
-              <a>Про нас</a>
+              <p>Про нас</p>
             </li>
             <li className=" footer-items">
-              <a>Політика конфіденційності</a>
+              <p>Політика конфіденційності</p>
             </li>
             <li className=" footer-items">
-              <a>Договір публічної оферти</a>
+              <p>Договір публічної оферти</p>
             </li>
           </ul>
         </div>
@@ -74,7 +74,7 @@ const FooterTablet = () => {
             <li className="py-[10px] px-[4px] ">Сб - 10:00-18:00</li>
             <li className="py-[10px] px-[4px] ">Нд - вихідний</li>
             <li className="footer-items ">
-              <a>Адреса магазину</a>
+              <p>Адреса магазину</p>
             </li>
           </ul>
         </div>

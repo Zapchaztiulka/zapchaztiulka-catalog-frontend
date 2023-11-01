@@ -1,19 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts, fetchProductByID, fetchProductsByQuery } from './productsOperations';
+import {
+  fetchProducts,
+  fetchProductByID,
+  fetchAllProducts,
+} from "./productsOperations";
 
-const handlePending = state => {
+const handlePending = (state) => {
   state.isLoading = true;
 };
 const handleRejected = (state, { payload }) => {
   state.isLoading = false;
-  state.error =  payload;
+  state.error = payload;
 };
 
 const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
-    productsByQuery:[],
+    productsByQuery: [],
     productById: null,
     isLoading: false,
     error: null,
@@ -41,14 +45,14 @@ const productsSlice = createSlice({
       })
 
       .addCase(fetchProductByID.rejected, handleRejected)
-      .addCase(fetchProductsByQuery.pending, handlePending)
-      .addCase(fetchProductsByQuery.fulfilled, (state, action) => {
-         return {
-           ...state,
-           isLoading: false,
-           error: null,
-           productsByQuery: action.payload,
-         };
+      .addCase(fetchAllProducts.pending, handlePending)
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+        return {
+          ...state,
+          isLoading: false,
+          error: null,
+          productsByQuery: action.payload,
+        };
       });
   },
 });

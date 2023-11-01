@@ -6,7 +6,9 @@ axios.defaults.baseURL = "https://spares-backend-i2mq.onrender.com/api";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async ({ search = "", page = 1 }) => {
-    const { data } = await axios.get(`/products?page=${page}&query=${search}`);
+    const { data } = await axios.get(
+      `/products?page=${page}&query=${search}&limit=10`
+    );
     return data;
   }
 );
@@ -19,10 +21,10 @@ export const fetchProductByID = createAsyncThunk(
   }
 );
 
-export const fetchProductsByQuery = createAsyncThunk(
-  "products/fetchProductsByQuery",
-  async (limit ) => {
-    const { data } = await axios.get(`/products?limit=${limit}`);
+export const fetchAllProducts = createAsyncThunk(
+  "products/fetchAllProducts",
+  async () => {
+    const { data } = await axios.get(`/products?`);
     return data;
   }
 );

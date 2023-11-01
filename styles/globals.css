@@ -215,3 +215,7 @@ a {
 .checkbox .custom-checkBox:checked::after {
 @apply hover:bg-bgHoverBlue;
 }
+
+.custom-select-contact:hover svg {
+@apply stroke-iconPrimary;
+}

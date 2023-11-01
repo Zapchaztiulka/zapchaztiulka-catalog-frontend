@@ -5,7 +5,6 @@ import CountryFilter from "./CountryFilter";
 
 const Filter = () => {
 
-
   return (
     <div className="flex flex-col gap-m">
       <PriceFilter />

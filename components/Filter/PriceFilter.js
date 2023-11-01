@@ -1,3 +1,4 @@
+"use client";
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import { filterProductsMax, filterProductsMin } from "@/redux/filterSlice";
 import { selectFilter } from "@/redux/products/productsSelectors";

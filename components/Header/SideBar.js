@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   CatalogIcon,
@@ -57,7 +58,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CatalogIcon className="w-[44px] h-[44px] stroke-iconSecondary fill-none sidebar-icon" />
-              <p>Каталог</p>
+              <span>Каталог</span>
             </Link>
           </li>
           <li>
@@ -67,7 +68,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
-              <p>Кошик</p>
+              <span>Кошик</span>
             </Link>
           </li>
           <li>
@@ -77,7 +78,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <ChatIcon className="w-[44px] h-[44px] fill-iconSecondary sidebar-icon" />
-              <p>Онлайн допомога</p>
+              <span>Онлайн допомога</span>
             </Link>
           </li>
           <li>
@@ -87,7 +88,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <TruckIcon className="w-[44px] h-[44px] fill-iconSecondary sidebar-icon" />
-              <p>Доставка</p>
+              <span>Доставка</span>
             </Link>
           </li>
           <li>
@@ -97,7 +98,7 @@ const Sidebar = ({ isOpen, toggle }) => {
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CompanyIcon className="w-[44px] h-[44px] fill-iconSecondary sidebar-icon" />
-              <p>Про нас</p>
+              <span>Про нас</span>
             </Link>
           </li>
         </ul>

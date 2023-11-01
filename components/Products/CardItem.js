@@ -1,3 +1,4 @@
+"use client";
 import { getExtension } from "@/helpers/checkExtension";
 import { cutArticle, cutText } from "@/helpers/cutTiext";
 import Image from "next/image";
@@ -7,8 +8,9 @@ import React from "react";
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
 
   return (
-    <Link href={{ pathname: `/product/${id}` }}>
+    
       <li className="product-card">
+        <Link href={{ pathname: `/product/${id}` }}>
         <div className="">
           <div className="w-full">
             {(photo.length === 0 || !getExtension(photo[0]?.url)) ? (
@@ -44,15 +46,15 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
               {price.value} &#8372;
             </p>
 
-            <Link legacyBehavior href={{ pathname: `/product/${id}` }}>
+            <div>
               <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
                 Додати в кошик
               </button>
-            </Link>
+            </div>
           </div>
         </div>
+            </Link>
       </li>
-    </Link>
   );
 };
 

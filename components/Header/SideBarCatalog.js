@@ -1,3 +1,4 @@
+"use client";
 import { ArrowRight, CloseIcon } from "@/public/icons";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import { selectCategories } from "@/redux/categories/categoriesSelector";

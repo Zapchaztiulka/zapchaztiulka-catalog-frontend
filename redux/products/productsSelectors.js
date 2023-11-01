@@ -7,6 +7,7 @@ export const selectError = (state) => state.products.error;
 export const selectFilter = (state) => state.filter
 export const selectFilterMinPrice = (state) => state.filter.minPrice;
 export const selectFilterMaxPrice = (state) => state.filter.maxPrice;
+export const selectFilterSubCategory = (state) => state.filter.subcategoryName;
 
 export const selectFiltredByPrice = createSelector(
   [selectFilter, selectProducts],
@@ -15,14 +16,11 @@ export const selectFiltredByPrice = createSelector(
       const arr = products?.products?.filter(
         (item) => item.price.value >= minPrice && item.price.value <= maxPrice
       );
-
       const obj = {
         arrtest: arr,
         count: arr.length
       }
-
-
-      return arr;
+      return obj;
     }
     return products.products;
 
@@ -37,12 +35,10 @@ export const selectFiltredByPrice = createSelector(
   }
 );
 
-   // const foo = (fill1, fill2) => {     
-   //    const arr2 = arr.filter(item=>  (item.a > fill1 && item.a < fill2) 
-   //    )
-   //    return arr2
-   // }
-   // console.log(foo(11,24))
+export const selectFiltredBySubCategory = createSelector(
+  [selectFilter, selectProducts],
+  ({ subcategoryName }, products) => {
+    const arr = products?.products?.filter(item => item.subcategories)
+  }
+);
 
-
-// const arr = [{a:10, b:1},{a:23, b:1},{a:17, b:1},{a:22, b:1},{a:50, b:1}]

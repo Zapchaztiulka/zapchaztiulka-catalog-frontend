@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Sidebar from "./SideBar";
 import { LogoIcon } from "../Icons/Logo/LogoIcon";

@@ -12,5 +12,3 @@ const CheckBox = () => {
 }
 
 export default CheckBox
-
-// bg-[url('/img/hero-pattern.svg')]

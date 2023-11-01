@@ -1,3 +1,4 @@
+"use client";
 import { testData } from "@/helpers/tempData";
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import React, { useState } from "react";

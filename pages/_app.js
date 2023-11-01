@@ -3,7 +3,6 @@ import { Layout } from "@/components";
 import "../styles/globals.css";
 import "overlayscrollbars/overlayscrollbars.css";
 import { Inter } from "next/font/google";
-import { Context } from "@/context/context";
 import ReduxProvider from "@/redux/ReduxProvider";
 
 
@@ -14,13 +13,12 @@ const inter = Inter({
 });
 
 function MyApp({ Component, pageProps }) {
+
   return (
     <ReduxProvider>
-      <Context>
         <Layout className={inter.className}>
           <Component {...pageProps} />
         </Layout>
-      </Context>
     </ReduxProvider>
   );
 }

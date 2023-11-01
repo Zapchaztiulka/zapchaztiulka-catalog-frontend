@@ -4,14 +4,13 @@ import Link from "next/link";
 import { CloseIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductsByQuery } from "@/redux/products/productsSelectors";
-import { fetchProductsByQuery } from "@/redux/products/productsOperations";
+import { fetchAllProducts } from "@/redux/products/productsOperations";
 import { useOutsideClick } from "@/hooks/useOnClickOutside";
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [limit, setLimit] = useState(10);
 
   const refForm = useRef();
   const refList = useRef();
@@ -21,17 +20,13 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const products = data?.products;
 
   useEffect(() => {
-    dispatch(fetchProductsByQuery(data.totalCount));
-  }, [dispatch, data.totalCount]);
-
-  useEffect(() => {
-    setLimit(data.totalCount);
-  }, [data.totalCount]);
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
 
   const getFilteredProducts = (event) => {
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
-    dispatch(fetchProductsByQuery(limit));
+    dispatch(fetchAllProducts());
     const newFilter = products?.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
@@ -51,7 +46,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         query: { query: searchTerm.toLowerCase() },
       });
     }
-     clearSearchTerm()
+    clearSearchTerm();
   };
 
   const clearSearchTerm = () => {
@@ -60,12 +55,12 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   };
 
   const removeSearchTerm = () => {
-     setSearchTerm("");
-  }
+    setSearchTerm("");
+  };
 
   const closeByClickOutside = () => {
-    if (window.innerWidth>=1024) removeSearchTerm(); 
-  }
+    if (window.innerWidth >= 1024) removeSearchTerm();
+  };
 
   useOutsideClick(refList, refForm, closeByClickOutside);
 
@@ -87,7 +82,11 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           value={searchTerm}
         />
         {searchTerm !== "" && (
-          <button className="close-btn" type="button" onClick={removeSearchTerm}>
+          <button
+            className="close-btn"
+            type="button"
+            onClick={removeSearchTerm}
+          >
             <CloseIcon
               className="close-icon stroke-iconPrimary"
               width="34"
@@ -111,11 +110,10 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
               className="relative cursor-pointer select-none "
             >
               <Link
-                legacyBehavior
+                className="w-full pb-m block"
                 href={{ pathname: `/product/${item._id}` }}
-                passHref
               >
-                <a className="w-full pb-m block">{item.name}</a>
+                {item.name}
               </Link>
             </li>
           ))}
