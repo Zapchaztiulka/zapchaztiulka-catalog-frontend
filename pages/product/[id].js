@@ -100,28 +100,30 @@ const ProductDetails = () => {
                           <div>
                             {showModal && (
                               <Modal onClose={() => setShowModal(false)}>
-                                <p className="text-[18px] tablet600:text-[24px] tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
-                                  {product?.name}
-                                </p>
-                                <Splide options={modalOptions}>
-                                  {product?.photo?.map((item) => (
-                                    <SplideSlide key={item._id}>
-                                      <Image
-                                        src={
-                                          getExtension(item.url)
-                                            ? `${item.url}`
-                                            : { empty }
-                                        }
-                                        alt={item.alt}
-                                        width="0"
-                                        height="0"
-                                        priority
-                                        sizes="100vw"
-                                        className="product-card-img-modal"
-                                      />
-                                    </SplideSlide>
-                                  ))}
-                                </Splide>
+                                <div className="wrapper-modal-content">
+                                  <p className="text-[18px] tablet600:text-[24px] tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
+                                    {product?.name}
+                                  </p>
+                                  <Splide options={modalOptions}>
+                                    {product?.photo?.map((item) => (
+                                      <SplideSlide key={item._id}>
+                                        <Image
+                                          src={
+                                            getExtension(item.url)
+                                              ? `${item.url}`
+                                              : { empty }
+                                          }
+                                          alt={item.alt}
+                                          width="0"
+                                          height="0"
+                                          priority
+                                          sizes="100vw"
+                                          className="product-card-img-modal"
+                                        />
+                                      </SplideSlide>
+                                    ))}
+                                  </Splide>
+                                </div>
                               </Modal>
                             )}
                           </div>
@@ -267,11 +269,12 @@ const ProductDetails = () => {
             </button>
           )}
         </section>
-        {product?.description!==" " && <>
-        <h4 className="mb-3">Опис</h4>
-          <p className="text-base text-textPrimary">{product?.description}</p>
-        </>}
-        
+        {product?.description !== " " && (
+          <>
+            <h4 className="mb-3">Опис</h4>
+            <p className="text-base text-textPrimary">{product?.description}</p>
+          </>
+        )}
       </div>
     </div>
   );

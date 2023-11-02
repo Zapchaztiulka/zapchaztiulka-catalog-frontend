@@ -6,3 +6,8 @@ export const getExtension = (filename) => {
    const check = EXTENSIONS.some(item => item === nameExtension);
    return check;
 }
+
+export const customStylingClass = {
+   defaultClass: "modal-wrapper",
+   customClass: "modal-wrapper-custom",
+}
