@@ -52,14 +52,14 @@ const Sidebar = ({ isOpen, toggle }) => {
 
         <ul className="text-center leading-relaxed text-base text-textPrimary font-medium flex flex-col gap-s">
           <li>
-            <Link
-              href="/"
+            <button
+             type="button"
               onClick={togglShow}
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CatalogIcon className="w-[44px] h-[44px] stroke-iconSecondary fill-none sidebar-icon" />
               <span>Каталог</span>
-            </Link>
+            </button>
           </li>
           <li>
             <Link

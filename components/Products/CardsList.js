@@ -26,17 +26,21 @@ const CardsList = () => {
   const products = data?.products;
  
   useEffect(() => {
-    if (!start) {
+    if (!start && (searchValue === undefined  || searchValue=== "")) {
       setCurrentPage(1);
       dispatch(fetchProducts({ search: searchValue, page: 1 }));
+      console.log("it first")
     }
+   
     if (start) {
       setCurrentPage(start);
       dispatch(fetchProducts({ search: searchValue, page: start }));
+      console.log("it second")
     }
 
-    if (searchValue !== undefined && !start) {
+    if ((searchValue !== undefined || searchValue!== "") && !start) {
       dispatch(fetchProducts({ search: searchValue }));
+       console.log("it third")
     }
   }, [dispatch, start, searchValue]);
 
@@ -44,7 +48,6 @@ const CardsList = () => {
 
   const handleChange = (event, value) => {
     event.preventDefault();
-    dispatch(fetchProducts({ search: searchValue, page: value }));
     setCurrentPage(value);
     router.push({ query: { page: value, query: searchValue } });
   };
