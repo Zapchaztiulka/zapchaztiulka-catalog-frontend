@@ -1,22 +1,24 @@
 "use client";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-
 import { ArrowDown, ArrowUp, CartIcon, LoopEye } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProduct } from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
-import Modal from "@/components/Modal";
+// import Modal from "@/components/Modal";
 import {
   mainOptions,
   modalOptions,
   optionThumb,
 } from "@/helpers/optionsSlider";
 import { getExtension } from "@/helpers/checkExtension";
+
+const Modal = dynamic(() => import("../../components/Modal"), { ssr: false, }); 
 
 const empty = "/empty-img.jpeg"
 
@@ -28,6 +30,7 @@ const ProductDetails = () => {
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModalCart, setShowModalCart] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -96,7 +99,7 @@ const ProductDetails = () => {
                             className="product-card-img-byId"
                           />
 
-                          {/* Modal window */}
+                          {/* Modal window - show products`s images */}
                           <div>
                             {showModal && (
                               <Modal onClose={() => setShowModal(false)}>
@@ -187,7 +190,10 @@ const ProductDetails = () => {
         </p>
 
         <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-          <button className="flex justify-center state-button lg:px-6 px-3 py-3 ">
+          <button
+            onClick={() => setShowModalCart(!showModalCart)}
+            className="flex justify-center state-button lg:px-6 px-3 py-3 "
+          >
             <div className="flex justify-center items-center gap-xs4">
               <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
               <span className="text-textContrast text-sm tracking-[-0.21px]">
@@ -201,6 +207,13 @@ const ProductDetails = () => {
             </span>
           </button>
         </div>
+
+        {/* Modal for click add to cart */}
+        {showModalCart && (
+          <Modal onClose={() => setShowModalCart(false)}>
+            <div className="w-[200px] h-[100px]">Some content</div>
+          </Modal>
+        )}
 
         <section className="mb-8">
           <h3 className="mb-3 text-lg desktop1200:text-xl text-textPrimary font-medium">
