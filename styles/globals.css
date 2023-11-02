@@ -167,21 +167,24 @@ a {
   @apply scale-100 bg-bgDefaultBlue;
 }
 
-.modal-wrapper {
-  @apply mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
-}
-
 .modal {
-  @apply bg-bgWhite h-full w-full border rounded-lg  shadow-modal p-s;
+  @apply bg-bgWhite h-full w-full border rounded-lg  shadow-modal relative;
 }
 
 .modal-overlay {
   @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-10
   ;
 }
+.modal-header {
+@apply absolute top-[16px] right-[16px];
+}
+
+.wrapper-modal-content {
+@apply p-s pt-11 mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
+}
 
 .modal-body .custom-modal-pagination{
-  @apply -bottom-[138px] mobile375:-bottom-[100px] mobile480:-bottom-[120px] tablet600:-bottom-[50px];
+  @apply -bottom-[138px] mobile375:-bottom-[100px] mobile480:-bottom-[120px] tablet600:-bottom-[40px];
 }
 
 .modal-body .splide__arrow, .custom-class-slide-thumbs .splide__arrow {
@@ -200,10 +203,6 @@ a {
   @apply fill-iconPrimary h-[20px] w-[20px];
 }
 
-.modal-header {
-@apply flex justify-end;
-}
-
 .price-input {
 @apply border-0 outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs w-[80px] placeholder:text-base placeholder:text-textTertiary;
 }
@@ -217,5 +216,5 @@ a {
 }
 
 .custom-select-contact:hover svg {
-@apply stroke-iconPrimary;
+@apply hover:stroke-iconPrimary;
 }

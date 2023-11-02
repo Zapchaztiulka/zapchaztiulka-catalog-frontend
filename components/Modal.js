@@ -21,8 +21,11 @@ const Modal = ({ onClose, children }) => {
           }}
         >
           <div className="modal-header">
-            <button onClick={() => onClose()}>
-              <CloseModal />
+            <button
+              onClick={() => onClose()}
+              className="hover:bg-borderDisabled p-xs4 hover:rounded-minimal"
+            >
+              <CloseModal width={24} height={24} />
             </button>
           </div>
           <div className="modal-body">{children}</div>
