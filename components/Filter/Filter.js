@@ -4,12 +4,11 @@ import TradeMarkFilter from "./TradeMarkFilter";
 import CountryFilter from "./CountryFilter";
 
 const Filter = () => {
-
   return (
     <div className="flex flex-col gap-m">
       <PriceFilter />
       <TradeMarkFilter />
-    <CountryFilter />
+      <CountryFilter />
     </div>
   );
 };

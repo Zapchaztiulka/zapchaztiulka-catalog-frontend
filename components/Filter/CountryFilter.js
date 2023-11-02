@@ -7,6 +7,8 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 const CountryFilter = () => {
   const [isOpen, setIsOpen] = useState(true);
+ 
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };

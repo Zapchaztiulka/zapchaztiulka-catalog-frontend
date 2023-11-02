@@ -10,7 +10,7 @@ const Category = (props) => {
           <li
             className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu"
             key={el._id}
-            onClick={() => {
+            onMouseEnter={() => {
               subCategoriesOnclickHandler(el._id);
             }}
           >
@@ -18,7 +18,7 @@ const Category = (props) => {
               type="button"
               className="w-full border-none b-transparent flex justify-between items-center"
               onClick={() => {
-                clickByCategory();
+                clickByCategory(el.categoryName);
               }}
             >
               <p>{el.categoryName}</p>

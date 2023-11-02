@@ -1,13 +1,17 @@
 "use client";
 import { useOnKeyDown, useOutsideClick } from "@/hooks/useOnClickOutside";
 import { ArrowDown, PhoneIconContact } from "@/public/icons";
-import { useRef, useState } from "react";
-
-const phone = ["(050) 810 48 82", "(066) 810 48 82", "(096) 810 48 82"];
+import { useEffect, useRef, useState } from "react";
 
 const ContactList = () => {
   const [selected, setSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [ phone, setPhone ] = useState();
+
+  useEffect(() => {
+    setPhone(["(050) 810 48 82", "(066) 810 48 82", "(096) 810 48 82"]);
+  },[])
+
   const refOption = useRef(null)
   const refSelect = useRef(null)
 
@@ -39,7 +43,7 @@ const ContactList = () => {
       {isOpen && (
         <div ref={refOption} className="absolute z-10 w-full bg-bgWhite border rounded-minimal shadow-md shadow-gray-300">
           <ul>
-            {phone?.map((item) => (
+            {phone && phone?.map((item) => (
               <li
                 key={Math.random()}
                 onClick={onOptionClicked(item)}

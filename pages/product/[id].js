@@ -187,7 +187,7 @@ const ProductDetails = () => {
         </p>
 
         <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-          <button className="flex tablet768:justify-between state-button lg:px-6 px-3 py-3 ">
+          <button className="flex tablet768:justify-center state-button lg:px-6 px-3 py-3 ">
             <div className="flex justify-center items-center gap-xs4">
               <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
               <span className="text-textContrast text-sm tracking-[-0.21px]">
@@ -195,9 +195,9 @@ const ProductDetails = () => {
               </span>
             </div>
           </button>
-          <button className="flex tablet768:justify-between button-secondary lg:px-6 px-3 py-3 ">
+          <button className="flex tablet768:justify-center button-secondary lg:px-6 px-3 py-3 ">
             <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
-              Купити в 1 клик
+              Купити в 1 клік
             </span>
           </button>
         </div>

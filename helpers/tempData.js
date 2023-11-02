@@ -1,3 +1,4 @@
+"use client";
 export const testData = [
  {
   "country": "Equatorial Guinea",

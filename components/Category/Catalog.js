@@ -4,7 +4,7 @@ import { CatalogIcon } from "@/public/icons";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
-import { useOnKeyDown, useOutsideClick } from "@/hooks/useOnClickOutside";
+import { useOnKeyDown, useOutsideClick, useOutsideMouse } from "@/hooks/useOnClickOutside";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
@@ -45,6 +45,7 @@ const Catalog = () => {
 
   useOnKeyDown(clearSubMenuByEscape);
   useOutsideClick(refCategory, refBtn, clearSubMenuByClick);
+  // useOutsideMouse(refCategory, refBtn, clearSubMenuByClick)
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -62,9 +63,8 @@ const Catalog = () => {
     setIndex(indexCategory);
     const test = categories.find((el) => el._id === subCategoryId);
     setLengthSubCategory(test.subcategories.length);
-    const lengthCategory = test.subcategories.length;
-    const nameCategory = test.categoryName;
-    clickByCategory(nameCategory.toLowerCase(), lengthCategory);
+    // const lengthCategory = test.subcategories.length;
+    // const nameCategory = test.categoryName;
   };
 
     const clickBySubCategory = (subCategory) => {
@@ -75,14 +75,12 @@ const Catalog = () => {
     clearSubMenuByClick();
   };
 
-  const clickByCategory = (nameCategory, length) => {
+  const clickByCategory = (nameCategory) => {
     router.push({
       pathname: "/",
       query: { query: nameCategory },
     });
-    if (length === 0) {
-      close();
-    }
+      close();   
   };
 
   return (
