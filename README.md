@@ -11,7 +11,7 @@
 
 - [Next.js](https://nextjs.org/) - фреймоворк на базі [React]()
 - [Redux Toolkit](https://redux-toolkit.js.org/) - для керування стану застосунку
-- [Tailwindcss](https://tailwindcss.com/) - стилізація застонку
+- [Tailwindcss](https://tailwindcss.com/) - стилізація застоcунку
 - репозиторій з [Backend](https://github.com/Zapchaztiulka/spares-backend)
 - додаткові пакети [React Splide](https://splidejs.com/integration/react-splide/), [Material UI](https://mui.com/material-ui/getting-started/installation/)
 
