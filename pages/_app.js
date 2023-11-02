@@ -4,6 +4,10 @@ import { Layout } from "@/components";
 import "../styles/globals.css";
 import "overlayscrollbars/overlayscrollbars.css";
 import { Inter } from "next/font/google";
+import { configureStore } from "@reduxjs/toolkit";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { persistor, store } from "@/redux/store";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -13,13 +17,19 @@ const inter = Inter({
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout className={inter.className}>
+    <>
       <Head>
         <title>Запчастюлька</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Component {...pageProps} />
-    </Layout>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Layout className={inter.className}>
+            <Component {...pageProps} />
+          </Layout>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
 

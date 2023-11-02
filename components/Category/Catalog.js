@@ -4,7 +4,7 @@ import { CatalogIcon } from "@/public/icons";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategories } from "@/redux/categories/categoriesSelector";
-import { useOnKeyDown, useOutsideClick, useOutsideMouse } from "@/hooks/useOnClickOutside";
+import { useOnKeyDown, useOutsideClick} from "@/hooks/useOnClickOutside";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
@@ -45,7 +45,6 @@ const Catalog = () => {
 
   useOnKeyDown(clearSubMenuByEscape);
   useOutsideClick(refCategory, refBtn, clearSubMenuByClick);
-  // useOutsideMouse(refCategory, refBtn, clearSubMenuByClick)
 
   useEffect(() => {
     dispatch(fetchCategories());
