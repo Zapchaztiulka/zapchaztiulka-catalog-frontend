@@ -19,26 +19,6 @@ export const useOutsideClick = (ref, ref2, callback) => {
   });
 };
 
-export const useOutsideMouse = (ref,ref2, callback) => {
-     const handleClick = (e) => {
-        if (
-          ref?.current &&
-          !ref?.current.contains(e.target) &&
-          !ref2?.current?.contains(e.target)
-        ) {
-          callback();
-        }
-      };
-  useEffect(() => {   
-    document.addEventListener("mousemove", handleClick, true);
-
-    return () => {
-      document.removeEventListener("mousemove", handleClick);
-    };
-  });
-};
-
-
 
 export const useOnKeyDown = (onClose) => {
   useEffect(() => {
