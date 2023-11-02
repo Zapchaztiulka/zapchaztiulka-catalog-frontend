@@ -53,7 +53,7 @@ const ProductDetails = () => {
 
   return (
     <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
-      <div className="tablet768:h-[382px] tablet600:w-[50%] ">
+      <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
         <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
           {product?.name}
         </h1>
@@ -62,7 +62,7 @@ const ProductDetails = () => {
         </p>
         {product && (
           <>
-            <div>
+            <div className="sticky top-[120px]">
               {product?.photo?.length === 0 ||
               !getExtension(product?.photo[0]?.url) ? (
                 <Image
@@ -187,7 +187,7 @@ const ProductDetails = () => {
         </p>
 
         <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-          <button className="flex tablet768:justify-center state-button lg:px-6 px-3 py-3 ">
+          <button className="flex justify-center state-button lg:px-6 px-3 py-3 ">
             <div className="flex justify-center items-center gap-xs4">
               <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
               <span className="text-textContrast text-sm tracking-[-0.21px]">
@@ -195,7 +195,7 @@ const ProductDetails = () => {
               </span>
             </div>
           </button>
-          <button className="flex tablet768:justify-center button-secondary lg:px-6 px-3 py-3 ">
+          <button className="flex justify-center button-secondary lg:px-6 px-3 py-3 ">
             <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
               Купити в 1 клік
             </span>
@@ -269,9 +269,11 @@ const ProductDetails = () => {
             </button>
           )}
         </section>
-
+        {product?.description!==" " && <>
         <h4 className="mb-3">Опис</h4>
-        <p className="text-base text-textPrimary">{product?.description}</p>
+          <p className="text-base text-textPrimary">{product?.description}</p>
+        </>}
+        
       </div>
     </div>
   );
