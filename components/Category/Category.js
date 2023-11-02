@@ -8,7 +8,7 @@ const Category = (props) => {
       {categories?.map((el) => {
         return (
           <li
-            className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu"
+            className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu py-[11px]"
             key={el._id}
             onMouseEnter={() => {
               subCategoriesOnclickHandler(el._id);

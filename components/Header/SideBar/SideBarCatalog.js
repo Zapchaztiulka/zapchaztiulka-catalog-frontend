@@ -33,9 +33,6 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
     setIndex(indexCategory);
     const test = categories.find((el) => el._id === subCategoryId);
     setLengthSubCategory(test.subcategories.length);
-    const lengthCategory = test.subcategories.length;
-    const nameCategory = test.categoryName;
-    clickByCategory(nameCategory.toLowerCase(), lengthCategory);
     setShow(!show);
   };
 
@@ -44,14 +41,12 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
     setShow(false);
   };
 
-  const clickByCategory = (nameCategory, length) => {
+  const clickByCategory = (nameCategory) => {
     router.push({
       pathname: "/",
       query: { query: nameCategory },
     });
-    if (length === 0) {
-      closeCategory();
-    }
+    closeCategory();
   };
 
     const clickBySubCategory = (subCategory) => {
@@ -89,14 +84,22 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
             <li
               className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu"
               key={el._id}
-              onClick={() => {
-                subCategoriesOnclickHandler(el._id);
-              }}
             >
               <div className="border-none b-transparent flex justify-between items-center">
-                <p>{el.categoryName}</p>
+                <p
+                  onClick={() => {
+                    clickByCategory(el.categoryName);
+                  }}
+                >
+                  {el.categoryName}
+                </p>
                 {el.subcategories.length > 0 && (
-                  <ArrowRight className="stroke-iconPrimary fill-none w-[24px] h-[24px] catalog-icon" />
+                  <ArrowRight
+                    onClick={() => {
+                      subCategoriesOnclickHandler(el._id);
+                    }}
+                    className="stroke-iconPrimary fill-none w-[24px] h-[24px] hover:bg-borderDisabled catalog-icon"
+                  />
                 )}
               </div>
             </li>

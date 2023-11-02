@@ -8,7 +8,7 @@ const SubCategory = (props) => {
           return (
             <li
               key={sub._id}
-              className="cursor-pointer hover:text-textBrand focus:text-textBrand"
+              className="cursor-pointer hover:text-textBrand focus:text-textBrand py-[11px]"
             >
               <button
                 type="button"

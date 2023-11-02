@@ -98,7 +98,7 @@ const Catalog = () => {
         {showCategory && (
           <section
             ref={refCategory}
-            className="absolute flex top-[92px] bg-bgWhite p-s border-t border-x rounded-b-lg shadow-md shadow-gray-300"
+            className="absolute flex gap-xs top-[92px] bg-bgWhite p-s border-t border-x rounded-b-lg shadow-md shadow-gray-300"
           >
             <div className="min-w-[370px]">
               <Category
