@@ -5,9 +5,12 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { ArrowDown, ArrowUp, CartIcon, LoopEye } from "@/public/icons";
+import { CartIcon, LoopEye } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProduct } from "@/redux/products/productsSelectors";
+import {
+  selectIsLoading,
+  selectProduct,
+} from "@/redux/products/productsSelectors";
 import { fetchProductByID } from "@/redux/products/productsOperations";
 import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
 // import Modal from "@/components/Modal";
@@ -18,10 +21,11 @@ import {
 } from "@/helpers/optionsSlider";
 import { getExtension } from "@/helpers/checkExtension";
 import ProductInfo from "@/components/Products/ProductInfo";
+import RecentlyViewProducts from "@/components/Products/RecentlyViewProducts";
 
-const Modal = dynamic(() => import("../../components/Modal"), { ssr: false, }); 
+const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
 
-const empty = "/empty-img.jpeg"
+const empty = "/empty-img.jpeg";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -32,13 +36,28 @@ const ProductDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
+  const isLoading = useSelector(selectIsLoading);
+  const [viewProduct, setViewProduct] = useState(
+    JSON.parse(localStorage.getItem("isPostId")) || []
+  );
+  let arrViewProduct = [];
 
   useEffect(() => {
-    if (id) {
-   dispatch(fetchProductByID(id));
-    }
- 
+    const fetchData = async (id) => {
+      dispatch(fetchProductByID(id));
+    };
+    fetchData(id);
   }, [dispatch, id]);
+
+  useEffect(() => {
+    arrViewProduct.unshift(product);
+    const newar = viewProduct.slice(0, 6)
+    console.log(newar)
+    setViewProduct((prev) => [...prev, ...arrViewProduct]);
+    localStorage.setItem("isPostId", JSON.stringify(viewProduct));
+  }, [product]);
+
+  console.log(viewProduct);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -54,6 +73,7 @@ const ProductDetails = () => {
   };
 
   return (
+     <>
     <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
       <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
         <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
@@ -176,7 +196,7 @@ const ProductDetails = () => {
           Артикул: {product?.vendorCode}
         </p>
         <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
-          {product?.price.value} &#8372;
+          {product?.price?.value} &#8372;
         </p>
 
         <p
@@ -219,9 +239,13 @@ const ProductDetails = () => {
 
         <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
       </div>
-    </div>
+      </div>
+
+      <div>
+        <RecentlyViewProducts viewProduct={viewProduct} />
+      </div>
+      </>
   );
 };
 
 export default ProductDetails;
-

@@ -19,7 +19,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
         <div className="characteristic">
           <span className="characteristic-label">Виробник:</span>
           <span className="characteristic-value">
-            {product?.manufacturer.trademark}
+            {product?.manufacturer?.trademark}
           </span>
         </div>
         <div className="characteristic">
