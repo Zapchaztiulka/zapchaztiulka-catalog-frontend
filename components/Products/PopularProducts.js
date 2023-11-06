@@ -35,6 +35,7 @@ const PopularProducts = () => {
   arrows: false,
   perPage: 2,
   perMove: 1,
+  releaseWheel: false,
   gap: "10px",
   pagination: false,
       mediaQuery: "min",
