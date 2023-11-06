@@ -22,6 +22,7 @@ import {
 import { getExtension } from "@/helpers/checkExtension";
 import ProductInfo from "@/components/Products/ProductInfo";
 import RecentlyViewProducts from "@/components/Products/RecentlyViewProducts";
+import PopularProducts from "@/components/Products/PopularProducts";
 
 const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
 
@@ -39,23 +40,29 @@ const ProductDetails = () => {
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = [];
   const [viewProduct, setViewProduct] = useState(
-    JSON.parse(localStorage.getItem("isPostId")) || arrViewProduct
+    JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
   );
 
   useEffect(() => {
-    const fetchData = async (id) => {
-      dispatch(fetchProductByID(id));
+    if(typeof id != "undefined" && id != null) {
+    const fetchData = (id) => {
+     dispatch(fetchProductByID(id));
     };
     fetchData(id);
+    }
+ 
   }, [dispatch, id]);
+
+  console.log(id)
+  console.log(product)
 
   useEffect(() => {
     arrViewProduct.unshift(product);
     setViewProduct((prev) => [...arrViewProduct, ...prev]);
-    localStorage.setItem("isPostId", JSON.stringify(viewProduct.slice(0, 6)));
+    localStorage.setItem("ProductViewed", JSON.stringify(viewProduct.slice(0, 6)));
   }, [product]);
 
-  const productInLocalStorage = JSON.parse(localStorage.getItem("isPostId"));
+  const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
 
   const getUniqueViewedProducts = () => {
     if (productInLocalStorage) {
@@ -67,8 +74,6 @@ const ProductDetails = () => {
     }
   };
   const productFromLocalStorage = getUniqueViewedProducts();
-
-  console.log(productFromLocalStorage);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -255,6 +260,15 @@ const ProductDetails = () => {
       </div>
 
       <div>
+        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
+          Найбільш популярні
+        </h2>
+        <PopularProducts />
+      </div>
+      <div>
+        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
+          Переглянуті товари
+        </h2>
         <RecentlyViewProducts
           productFromLocalStorage={productFromLocalStorage}
         />

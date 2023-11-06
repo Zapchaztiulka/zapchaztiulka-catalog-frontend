@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Loader from "../Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectIsLoading,
   selectProducts,
 } from "@/redux/products/productsSelectors";
-import { cutArticle, cutProductsArray, cutText } from "@/helpers/cutTiext";
+import { cutArticle, cutText, cutProductsArray} from "@/helpers/cutTiext";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchProducts } from "@/redux/products/productsOperations";
+import { getExtension } from "@/helpers/checkExtension";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { ArrowRight } from "@/public/icons";
 
 const PopularProducts = () => {
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
+   const size = useWindowSize()
   const data = useSelector(selectProducts);
   const products = data?.products;
   const isLoading = useSelector(selectIsLoading);
@@ -18,20 +23,56 @@ const PopularProducts = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
-
-   // cutProductsArray(products)
-
-   console.log(cutProductsArray(products))
+   
+  const cuttingProducts = (cutProductsArray(products, size))
 
   return (
-    <>
+    <section className="mb-6">
       {isLoading && data.length === 0 && <Loader />}
-      <div>
-        <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
-          {products?.map(({ name, _id, photo, price, vendorCode }) => {
+
+      <div className="flex gap-4">
+        <div className="product-card relative">
+          <div className="w-full z-10">
+            <Image
+              src="/special-product-desktop.jpg"
+              alt="special order"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="product-card-img object-cover"
+            />
+              </div>
+              <div className="test"></div>
+          <div
+            className=" flex flex-col grow px-s pt-6 pb-[15px] mb-s relative"
+            
+          >
+            <p className="mb-2 text-lg/[25.2px] textPrimary text-medium">
+              Не знайшли потрібний товар?
+            </p>
+            <p className="text-textSecondary text-sm/[19.6px]">
+              Розкажіть, що ви шукаєте, а ми спробуємо доставити.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="mb-4 relative flex items-center py-xs2 px-s gap-1 cursor-pointer border-none active:bg-bgPressedGrey"
+          >
+            <span className="text-base text-textBrand font-medium">
+              Дізнатись більше
+            </span>
+            <ArrowRight className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
+          </button>
+        </div>
+         
+
+           {/* Popular products */}
+        <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center">
+          {cuttingProducts?.map(({ name, _id, photo, price, vendorCode }) => {
             return (
-              <li className="product-card" key={_id}>
-                <Link href={{ pathname: `/product/${id}` }}>
+              <li className="product-card cursor-pointer" key={_id}>
+                <Link href={{ pathname: `/product/${_id}` }}>
                   <div className="">
                     <div className="w-full">
                       {photo.length === 0 || !getExtension(photo[0]?.url) ? (
@@ -41,7 +82,7 @@ const PopularProducts = () => {
                           width="0"
                           height="0"
                           sizes="100vw"
-                          className="product-card-img "
+                          className="product-card-img object-contain"
                         />
                       ) : (
                         <Image
@@ -51,7 +92,7 @@ const PopularProducts = () => {
                           height="0"
                           priority
                           sizes="100vw"
-                          className="product-card-img "
+                          className="product-card-img object-contain"
                         />
                       )}
                     </div>
@@ -80,8 +121,9 @@ const PopularProducts = () => {
           })}
         </ul>
       </div>
-    </>
+    </section>
   );
 };
 
 export default PopularProducts;
+

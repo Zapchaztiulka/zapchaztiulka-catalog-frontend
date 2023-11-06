@@ -43,11 +43,11 @@ a {
   @apply mb-6;
 }
 .product-card {
-  @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px] border border-borderDefault rounded-lg cursor-pointer hover:shadow-md;
+  @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px] border border-borderDefault rounded-lg hover:shadow-md;
 }
 
 .product-card-img {
-  @apply mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px] mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px]  desktop1440:w-[285px] object-contain border border-white rounded-t-lg;
+  @apply mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px] mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px]  desktop1440:w-[285px]  rounded-t-lg;
 }
 
 .product-card-img-byId {
@@ -218,3 +218,6 @@ a {
 .custom-select-contact:hover svg {
 @apply hover:stroke-iconPrimary;
 }
+
+.test {
+@apply -bottom-8 absolute h-full w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape-desktop.png')] ;}

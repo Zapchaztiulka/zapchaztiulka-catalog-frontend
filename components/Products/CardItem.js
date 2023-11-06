@@ -9,7 +9,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
 
   return (
     
-      <li className="product-card">
+      <li className="product-card cursor-pointer">
         <Link href={{ pathname: `/product/${id}` }}>
         <div className="">
           <div className="w-full">
@@ -20,7 +20,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="product-card-img "
+                className="product-card-img object-contain"
               />
             ) : (
               <Image
@@ -30,7 +30,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
                 height="0"
                 priority
                 sizes="100vw"
-                className="product-card-img "
+                className="product-card-img object-contain"
               />
             )}
           </div>
