@@ -53,9 +53,6 @@ const ProductDetails = () => {
  
   }, [dispatch, id]);
 
-  console.log(id)
-  console.log(product)
-
   useEffect(() => {
     arrViewProduct.unshift(product);
     setViewProduct((prev) => [...arrViewProduct, ...prev]);

@@ -72,7 +72,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
         )}
       </section>
 
-      {product?.description !== " " && (
+      {product?.description !== " " &&  product?.description !== ""  && (
         <>
           <h4 className="mb-3">Опис</h4>
           <p className="text-base text-textPrimary">{product?.description}</p>
