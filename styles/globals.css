@@ -35,6 +35,10 @@ a {
   @apply px-s mobile480:px-m desktop1440:px-[120px] mx-auto;
 }
 
+.container .popular-products {
+@apply pr-0;
+}
+
 .header {
   @apply fixed border-b top-0 w-[100%] border-borderDefault pt-xs2 pb-xs3 tablet1024:py-s bg-bgBrandLight3 tablet1024:bg-bgWhite;
 }
@@ -221,3 +225,4 @@ a {
 
 .test {
 @apply -bottom-8 absolute h-full w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape-desktop.png')] ;}
+

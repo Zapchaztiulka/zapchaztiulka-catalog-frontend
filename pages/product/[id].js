@@ -87,6 +87,7 @@ const ProductDetails = () => {
 
   return (
     <>
+    <div className="container">
       <div className="mt-[130px] mb-[50px] flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg py-8 px-5">
         <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
           <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
@@ -255,8 +256,9 @@ const ProductDetails = () => {
           <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
         </div>
       </div>
+      </div>
 
-      <div>
+      <div className="pl-s mobile480:pl-m desktop1440:px-[120px]">
         <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
           Найбільш популярні
         </h2>

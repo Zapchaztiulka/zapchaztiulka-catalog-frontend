@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <>
         <Navbar />
-        <main className="container main-container mt-[50px]">{children}</main>
+        <main className=" main-container mt-[50px]">{children}</main>
         <div id="modal-root"></div>
         <Footer />
     </>
