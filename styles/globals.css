@@ -224,8 +224,8 @@ a {
 }
 
 .wave-shape {
-@apply rounded-lg bottom-0 absolute h-[196px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')]; }
+@apply bottom-0 absolute h-[194px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')]; }
 
 .special-order-image {
-@apply rounded-lg absolute h-[196px] tablet600:bottom-[133px] tablet600:h-[210px] tablet768:bottom-[174px] tablet768:h-[198px] tablet1024:bottom-[182px] desktop1200:h-[227px] desktop1200:bottom-[205px] w-full bg-cover bg-no-repeat bg-bottom bg-[url('/special-order/special600.jpeg')]
+@apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[198px] tablet1024:bottom-[182px] desktop1200:h-[227px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
 }

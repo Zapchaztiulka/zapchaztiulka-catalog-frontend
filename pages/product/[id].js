@@ -257,13 +257,13 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] mx-auto">
+      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
         <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
           Найбільш популярні
         </h2>
         <PopularProducts />
       </div>
-      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] mx-auto">
+      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
         <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
           Переглянуті товари
         </h2>
