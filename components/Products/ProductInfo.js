@@ -4,7 +4,7 @@ import React from 'react'
 const ProductInfo = ({ product, isOpen, toggle }) => {
   return (
     <>
-      <section className="mb-8">
+      <section className="">
         <h3 className="mb-3 text-lg desktop1200:text-xl text-textPrimary font-medium">
           Основні характеристики:
         </h3>
