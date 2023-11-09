@@ -4,6 +4,7 @@ import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
+import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 
 const TradeMarkFilter = () => {
@@ -11,6 +12,10 @@ const TradeMarkFilter = () => {
   const dispatch = useDispatch();
   const productInfo = useSelector(selectCountryPriceTrademark);
   const trademarks = productInfo?.trademarks;
+
+    useEffect(() => {
+      dispatch(fetchCountryPriceTrademark());
+    }, [dispatch]);
 
   const toggle = () => {
     setIsOpen(!isOpen);

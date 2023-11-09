@@ -16,6 +16,10 @@ const CountryFilter = () => {
   const filtredProducts = useSelector(selectFilterByCountry);
   const [isChecked, setIsChecked] = useState(false);
 
+  useEffect(() => {
+    dispatch(fetchCountryPriceTrademark())
+  }, [dispatch])
+
 
  const updateFilters =  (countryName) => {
    if (isChecked) {
