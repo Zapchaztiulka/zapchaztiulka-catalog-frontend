@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCountryPriceTrademark, selectFilter, selectFilterByCountry } from "@/redux/products/productsSelectors";
 import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 import { filterProductsByCountry } from "@/redux/filterSlice";
-// import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 const CountryFilter = () => {
   const [isOpen, setIsOpen] = useState(true);

@@ -30,9 +30,7 @@ const PopularProducts = () => {
     <>
       <section className="mb-6 popular-products overflow-x-auto tablet1024:overflow-visible">
         {isLoading && data.length === 0 && <Loader />}
-        {/* <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
-          Найбільш популярні
-        </h2> */}
+
         <div className="flex gap-4 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5">
           {/* special order 600-1440px */}
           <div className="desktop1920:hidden hidden tablet600:block product-card-popular border border-borderDefault rounded-lg hover:shadow-md relative">

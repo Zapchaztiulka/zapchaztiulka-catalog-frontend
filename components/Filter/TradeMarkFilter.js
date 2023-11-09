@@ -4,7 +4,7 @@ import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
-// import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
+
 
 const TradeMarkFilter = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -77,5 +77,3 @@ const TradeMarkFilter = () => {
 };
 
 export default TradeMarkFilter;
-
-// #1C1F23, #D9D9D900

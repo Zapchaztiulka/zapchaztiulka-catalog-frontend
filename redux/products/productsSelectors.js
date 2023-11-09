@@ -25,14 +25,7 @@ export const selectFiltredByPrice = createSelector(
     }
     return products.products;
 
-    //     if ((minPrice === 0 || minPrice === null) && (maxPrice === 0 || maxPrice === null)) {
-    // const arr2 = products.products
-    //       console.log(arr2);
-    // return arr2;
-    //     }
-    //     console.log(products)
 
-    //     return products
   }
 );
 
@@ -43,15 +36,6 @@ export const selectFiltredBySubCategory = createSelector(
   }
 );
 
-// export const selectFilterByCountry = createSelector(
-//   [selectCountryPriceTrademark, selectProducts],
-//   ({countries}, {products}) => {
-//     const filtredResult = products?.filter(product => countries.some(country => product.manufacturer.country === country.name ))
-//     console.log(filtredResult);
-//     return filtredResult;
-   
-//   }
-// )
 
 export const selectFilterByCountry = createSelector(
   [selectFilter, selectProducts],
