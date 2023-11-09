@@ -261,17 +261,16 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-
-      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
-        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
-          Найбільш популярні
-        </h2>
+      <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px]">
+        Найбільш популярні
+      </h2>
+      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none tablet1024:flex tablet1024:flex-col tablet1024:items-center mx-auto">
         <PopularProducts />
       </div>
-      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
-        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
+ <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px]">
           Переглянуті товари
         </h2>
+      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none tablet1024:flex tablet1024:flex-col tablet1024:items-center mx-auto">
         <RecentlyViewProducts
           productFromLocalStorage={productFromLocalStorage}
         />

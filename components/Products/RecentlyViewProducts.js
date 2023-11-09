@@ -9,8 +9,11 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
   // console.log(productFromLocalStorage);
   return (
     <>
-      
-        <ul className="flex overflow-x-auto tablet1024:overflow-visible gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
+      <section className='mb-6 popular-products overflow-x-auto tablet1024:overflow-visible'>
+        {/* <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
+          Переглянуті товари
+        </h2> */}
+        <ul className="flex gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
           {productFromLocalStorage &&
             productFromLocalStorage?.map(
               ({ name, _id, photo, price, vendorCode }) => {
@@ -66,7 +69,7 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
               }
             )}
         </ul>
-      
+      </section>
     </>
   );
 }
