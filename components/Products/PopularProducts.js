@@ -11,7 +11,6 @@ import Link from "next/link";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { getExtension } from "@/helpers/checkExtension";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { ArrowRight } from "@/public/icons";
 import SpecialProduct from "./SpecialProduct";
 
 const PopularProducts = () => {
@@ -33,7 +32,7 @@ const PopularProducts = () => {
         {isLoading && data.length === 0 && <Loader />}
 
         <div className="flex gap-4 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5">
-          
+
           {/* special order 600-1440px */}
           <div className="desktop1920:hidden hidden tablet600:block product-card-popular border border-borderDefault rounded-lg hover:shadow-md relative">
             <SpecialProduct />

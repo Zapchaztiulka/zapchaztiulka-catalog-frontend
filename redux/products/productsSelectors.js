@@ -8,6 +8,7 @@ export const selectFilter = (state) => state.filter
 export const selectFilterMinPrice = (state) => state.filter.minPrice;
 export const selectFilterMaxPrice = (state) => state.filter.maxPrice;
 export const selectFilterSubCategory = (state) => state.filter.subcategoryName;
+export const selectCountryPriceTrademark = (state) => state.products.productInfo;
 
 export const selectFiltredByPrice = createSelector(
   [selectFilter, selectProducts],

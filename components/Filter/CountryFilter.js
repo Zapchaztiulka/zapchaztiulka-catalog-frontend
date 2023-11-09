@@ -1,12 +1,22 @@
 "use client"
-import { testData } from "@/helpers/tempData";
+
 import { ArrowDown, ArrowUp } from "@/public/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
+import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 const CountryFilter = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const dispatch = useDispatch();
+  const productInfo = useSelector(selectCountryPriceTrademark)
+  const countries = productInfo?.countries
+
+  useEffect(() => {
+   dispatch(fetchCountryPriceTrademark())
+  }, [dispatch])
  
 
   const toggle = () => {
@@ -44,12 +54,22 @@ const CountryFilter = () => {
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-              {testData.map((item) => {
-                return (
-                  <li key={item.id} className="p-xs3 pl-xs2">
+                {countries?.map((item, index) => {
+                if (item.name ==='') {
+                  return (
+                     <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
                     <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
                       <CheckBox />
-                      {item.country}
+                      Інше
+                    </label>
+                  </li>
+                  )
+                }
+                return (
+                  <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                    <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                      <CheckBox />
+                      {item.name}
                     </label>
                   </li>
                 );

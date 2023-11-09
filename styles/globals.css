@@ -212,7 +212,7 @@ a {
 }
 
 .custom-checkBox:checked::after  {
-@apply absolute w-4 h-4 block top-0 bg-bgDefaultBlue  cursor-pointer border rounded-minimal border-borderDefaultBlue left-0 content-[''] bg-[url("/icons/check.svg")] bg-center;
+@apply absolute w-4 h-4 block -top-[1px] bg-bgDefaultBlue  cursor-pointer border rounded-minimal border-borderDefaultBlue left-0 content-[''] bg-[url("/icons/check.svg")] bg-center;
 }
 
 .checkbox .custom-checkBox:checked::after {

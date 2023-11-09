@@ -1,3 +1,4 @@
+"use client"
 import { getExtension } from '@/helpers/checkExtension';
 import { cutArticle, cutText } from '@/helpers/cutTiext';
 import Image from 'next/image';
@@ -5,7 +6,7 @@ import Link from 'next/link';
 import React from 'react'
 
 const RecentlyViewProducts = ({ productFromLocalStorage }) => {
-  console.log(productFromLocalStorage);
+  // console.log(productFromLocalStorage);
   return (
     <>
       

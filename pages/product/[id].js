@@ -42,34 +42,46 @@ const ProductDetails = () => {
     JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
   );
 
+      const fetchData = async (id) => {     
+      dispatch(fetchProductByID(id));         
+      }
+  
   useEffect(() => {
-    if(typeof id != "undefined" && id != null) {
-    const fetchData = (id) => {
-     dispatch(fetchProductByID(id));
+    if(typeof id != "undefined" && id != null) { 
+    //  dispatch(fetchProductByID(id));
+       fetchData(id)
     };
-    fetchData(id);
-    }
- 
-  }, [dispatch, id]);
+  }, [ id]);
+
+  console.log(product)
 
   useEffect(() => {
     arrViewProduct.unshift(product);
+     
     setViewProduct((prev) => [...arrViewProduct, ...prev]);
-    localStorage.setItem("ProductViewed", JSON.stringify(viewProduct.slice(0, 6)));
+    localStorage.setItem(
+      "ProductViewed",
+      JSON.stringify(viewProduct.slice(0, 6))
+    );
   }, [product]);
 
   const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
+  console.log(productInLocalStorage)
 
   const getUniqueViewedProducts = () => {
-    if (productInLocalStorage) {
+    if (
+      typeof productInLocalStorage != "undefined" &&
+      productInLocalStorage != null
+    ) {
       const newMap = new Map();
-      productInLocalStorage?.forEach((item) => newMap.set(item._id, item));
+      productInLocalStorage?.forEach((item) => newMap.set(item?._id, item));
       return [...newMap.values()];
     } else {
       console.log("empty");
     }
   };
   const productFromLocalStorage = getUniqueViewedProducts();
+
 
   const toggle = () => {
     setIsOpen(!isOpen);

@@ -28,3 +28,11 @@ export const fetchAllProducts = createAsyncThunk(
     return data;
   }
 );
+
+export const fetchCountryPriceTrademark = createAsyncThunk(
+  "products/fetchCountryPriceTrademark",
+  async () => {
+    const { data } = await axios.get(`/products/filters/by-product-name`);
+    return data;
+  }
+);
