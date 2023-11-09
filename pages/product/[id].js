@@ -22,14 +22,15 @@ import { getExtension } from "@/helpers/checkExtension";
 import ProductInfo from "@/components/Products/ProductInfo";
 import RecentlyViewProducts from "@/components/Products/RecentlyViewProducts";
 import PopularProducts from "@/components/Products/PopularProducts";
+import { useParams } from "next/navigation";
 
 const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
 
 const empty = "/empty-img.jpeg";
 
 const ProductDetails = () => {
-  const router = useRouter();
-  const { id } = router.query;
+  // const router = useRouter();
+  // const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
   const [indexThumb, setIndexThumb] = useState();
@@ -41,6 +42,9 @@ const ProductDetails = () => {
   const [viewProduct, setViewProduct] = useState(
     JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
   );
+
+  const {id} = useParams()
+  console.log(id)
   
   useEffect(() => {
     if(typeof id != "undefined" && id != null) { 
