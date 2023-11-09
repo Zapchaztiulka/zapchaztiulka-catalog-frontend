@@ -41,19 +41,12 @@ const ProductDetails = () => {
   const [viewProduct, setViewProduct] = useState(
     JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
   );
-
-      const fetchData = async (id) => {     
-      dispatch(fetchProductByID(id));         
-      }
   
   useEffect(() => {
     if(typeof id != "undefined" && id != null) { 
-    //  dispatch(fetchProductByID(id));
-       fetchData(id)
+     dispatch(fetchProductByID(id));   
     };
   }, [ id]);
-
-  console.log(product)
 
   useEffect(() => {
     arrViewProduct.unshift(product);

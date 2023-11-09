@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialPrice = {
   minPrice: null,
   maxPrice: null,
-  subcategoryName: ''
+  subcategoryName: '',
+  country: null,
 }
 
 const filterSlice = createSlice({
@@ -28,10 +29,20 @@ const filterSlice = createSlice({
         subcategoryName: action.payload
       }
     },
+    filterProductsByCountry(state, action) {
+      return {
+        ...state,
+        country: action.payload
+      }
+    }
 
   },
 });
 
-export const { filterProductsMin, filterProductsMax, filterProductsSubCategory } =
-  filterSlice.actions;
+export const {
+  filterProductsMin,
+  filterProductsMax,
+  filterProductsSubCategory,
+  filterProductsByCountry,
+} = filterSlice.actions;
 export const filterReducer =  filterSlice.reducer;

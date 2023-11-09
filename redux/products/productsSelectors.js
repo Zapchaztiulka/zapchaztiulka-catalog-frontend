@@ -43,3 +43,23 @@ export const selectFiltredBySubCategory = createSelector(
   }
 );
 
+// export const selectFilterByCountry = createSelector(
+//   [selectCountryPriceTrademark, selectProducts],
+//   ({countries}, {products}) => {
+//     const filtredResult = products?.filter(product => countries.some(country => product.manufacturer.country === country.name ))
+//     console.log(filtredResult);
+//     return filtredResult;
+   
+//   }
+// )
+
+export const selectFilterByCountry = createSelector(
+  [selectFilter, selectProducts],
+  ({ country }, { products }) => {
+    const filtredResult = products?.filter((product) =>
+      product.manufacturer.country === country)
+    
+    console.log(filtredResult);
+    return filtredResult;
+  }
+);

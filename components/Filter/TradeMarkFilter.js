@@ -1,20 +1,16 @@
-"use client";
-import { testData } from "@/helpers/tempData";
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import React, { useState, useEffect } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
-import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
+// import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 const TradeMarkFilter = () => {
   const [isOpen, setIsOpen] = useState(true);
   const dispatch = useDispatch();
   const productInfo = useSelector(selectCountryPriceTrademark);
   const trademarks = productInfo?.trademarks;
-
-  console.log(trademarks);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -81,3 +77,5 @@ const TradeMarkFilter = () => {
 };
 
 export default TradeMarkFilter;
+
+// #1C1F23, #D9D9D900

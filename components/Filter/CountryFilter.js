@@ -1,27 +1,43 @@
-"use client"
-
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import React, { useEffect, useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
+import { selectCountryPriceTrademark, selectFilter, selectFilterByCountry } from "@/redux/products/productsSelectors";
 import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
+import { filterProductsByCountry } from "@/redux/filterSlice";
+// import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 const CountryFilter = () => {
   const [isOpen, setIsOpen] = useState(true);
   const dispatch = useDispatch();
+  const {country}= useSelector(selectFilter)
   const productInfo = useSelector(selectCountryPriceTrademark)
   const countries = productInfo?.countries
+  const filtredProducts = useSelector(selectFilterByCountry);
+  const [isChecked, setIsChecked] = useState(false);
 
-  useEffect(() => {
-   dispatch(fetchCountryPriceTrademark())
-  }, [dispatch])
- 
+
+ const updateFilters =  (countryName) => {
+   if (isChecked) {
+     setIsChecked(!isChecked)
+     dispatch(filterProductsByCountry(countryName));
+   }
+   
+  }
+
+  console.log(filtredProducts)
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
+
+  const toogleCheckBox = () => {
+   dispatch(fetchCountryPriceTrademark());
+  }
+
+
   return (
     <div>
       {!isOpen ? (
@@ -57,18 +73,22 @@ const CountryFilter = () => {
                 {countries?.map((item, index) => {
                 if (item.name ==='') {
                   return (
-                     <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
-                    <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                      <CheckBox />
-                      Інше
-                    </label>
-                  </li>
-                  )
+                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                        <CheckBox updateFilters={updateFilters} />
+                        Інше
+                      </label>
+                    </li>
+                  );
                 }
                 return (
                   <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
                     <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                      <CheckBox />
+                      <CheckBox
+                        updateFilters={updateFilters}
+                        country={item.name}
+                        isChecked={isChecked}
+                      />
                       {item.name}
                     </label>
                   </li>

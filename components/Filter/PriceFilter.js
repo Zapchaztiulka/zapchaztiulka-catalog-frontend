@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const PriceFilter = () => {
-      const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(true);
     const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -48,8 +48,7 @@ const PriceFilter = () => {
             </button>
           </div>
 
-          <div>
-            <form className="flex gap-xs2 items-center">
+          <div className="flex gap-xs2 items-center">           
               <input
                 className="price-input"
                 value={minPrice || 0}
@@ -62,11 +61,7 @@ const PriceFilter = () => {
                 value={maxPrice || 0}
                 onChange={getFiltredMax}
                 placeholder="0"
-              />
-              <button className="cursor-pointer bg-bgGreyLigth text-textBrand hover:bg-bgPressedGrey border border-borderDefault rounded-minimal p-xs">
-                OK
-              </button>
-            </form>
+              />          
           </div>
         </>
       )}
