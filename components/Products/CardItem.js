@@ -1,11 +1,19 @@
 "use client";
 import { getExtension } from "@/helpers/checkExtension";
 import { cutArticle, cutText } from "@/helpers/cutTiext";
+import { fetchProductByID } from "@/redux/products/productsOperations";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
+  const dispatch = useDispatch();
+    useEffect(() => {
+ 
+     dispatch(fetchProductByID(id));   
+    
+  }, [ id]);
 
   return (
     
