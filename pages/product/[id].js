@@ -50,7 +50,7 @@ const ProductDetails = () => {
     if(typeof id != "undefined" && id != null) { 
      dispatch(fetchProductByID(id));   
     };
-  }, [ id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     arrViewProduct.unshift(product);
