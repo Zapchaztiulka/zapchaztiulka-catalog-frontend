@@ -1,11 +1,15 @@
 "use client"
 import { getExtension } from '@/helpers/checkExtension';
-import { cutArticle, cutText } from '@/helpers/cutTiext';
+import { cutArticle, cutProductsViewedArray, cutText } from '@/helpers/cutTiext';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
 const RecentlyViewProducts = ({ productFromLocalStorage }) => {
+   const size = useWindowSize();
+
+  const cuttingProducts = cutProductsViewedArray(productFromLocalStorage, size);
 
   return (
     <>
@@ -13,7 +17,7 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
 
         <ul className="flex gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
           {productFromLocalStorage &&
-            productFromLocalStorage?.map(
+            cuttingProducts?.map(
               ({ name, _id, photo, price, vendorCode }) => {
                 return (
                   <li className=" cursor-pointer" key={_id}>

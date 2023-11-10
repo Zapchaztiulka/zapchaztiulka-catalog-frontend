@@ -38,9 +38,15 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, handleRejected)
       .addCase(fetchProductByID.pending, handlePending)
       .addCase(fetchProductByID.fulfilled, (state, action) => {
-        state.productById = action.payload;
-        state.isLoading = false;
-        state.error = null;
+        // state.productById = action.payload;
+        // state.isLoading = false;
+        // state.error = null;
+         return {
+          ...state,
+          isLoading: false,
+          error: null,
+          productById: action.payload,
+        };
       })
 
       .addCase(fetchProductByID.rejected, handleRejected)
@@ -55,9 +61,6 @@ const productsSlice = createSlice({
       })
       .addCase(fetchCountryPriceTrademark.pending, handlePending)
       .addCase(fetchCountryPriceTrademark.fulfilled, (state, action) => {
-        // state.productInfo = action.payload;
-        // state.isLoading = false;
-        // state.error = null;
         return {
           ...state,
           isLoading: false,

@@ -24,7 +24,6 @@ const CardsList = () => {
   const pageSize = 10;
   const searchValue = router.query.query;
   const products = data?.products;
-
  
   useEffect(() => {
     if (!start && (searchValue === undefined  || searchValue=== "")) {

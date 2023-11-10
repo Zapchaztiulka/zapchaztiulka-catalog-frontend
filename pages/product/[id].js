@@ -22,7 +22,6 @@ import { getExtension } from "@/helpers/checkExtension";
 import ProductInfo from "@/components/Products/ProductInfo";
 import RecentlyViewProducts from "@/components/Products/RecentlyViewProducts";
 import PopularProducts from "@/components/Products/PopularProducts";
-import { useParams } from "next/navigation";
 
 const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
 
@@ -33,56 +32,44 @@ const ProductDetails = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
+  const productId = product?._id;
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const isLoading = useSelector(selectIsLoading);
-  let arrViewProduct = [];
-  const [viewProduct, setViewProduct] = useState(
-    JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
-  );
+  let arrViewProduct = JSON.parse(localStorage.getItem("ProductViewed") || '[]')
 
-  // const {id} = useParams()
-  // console.log(id)
-
-  if(router.isFallback) {
-     return <h1>Loading...</h1>
-  }
-  
-  useEffect(() => {
-    if(typeof id != "undefined" && id != null) { 
-     dispatch(fetchProductByID(id));   
-    };
+  useEffect(() => {  
+      dispatch(fetchProductByID(id));
   }, [dispatch, id]);
 
-  // useEffect(() => {
-  //   arrViewProduct.unshift(product);
-     
-  //   setViewProduct((prev) => [...arrViewProduct, ...prev]);
-  //   localStorage.setItem(
-  //     "ProductViewed",
-  //     JSON.stringify(viewProduct.slice(0, 6))
-  //   );
-  // }, [product]);
+  useEffect(()=>{
+    if (productId === id && productId!==null) {
+      if (product !== null) {
+              arrViewProduct.unshift(product)
+      }
+       localStorage.setItem(
+       "ProductViewed",
+        JSON.stringify(arrViewProduct.slice(0,5))
+     );     
+    }
+    return
+  }, [product])
 
-  // const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
-  // console.log(productInLocalStorage)
-
-  // const getUniqueViewedProducts = () => {
-  //   if (
-  //     typeof productInLocalStorage != "undefined" &&
-  //     productInLocalStorage != null
-  //   ) {
-  //     const newMap = new Map();
-  //     productInLocalStorage?.forEach((item) => newMap.set(item?._id, item));
-  //     return [...newMap.values()];
-  //   } else {
-  //     console.log("empty");
-  //   }
-  // };
-  // const productFromLocalStorage = getUniqueViewedProducts();
-
+  const getUniqueViewedProducts = () => {
+    if (
+      typeof arrViewProduct != "undefined" &&
+      arrViewProduct != null
+    ) {
+      const newMap = new Map();
+      arrViewProduct?.forEach((item) => newMap.set(item?._id, item));
+      return [...newMap.values()];
+    } else {
+      console.log("empty");
+    }
+  };
+  const productFromLocalStorage = getUniqueViewedProducts();
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -97,6 +84,7 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
+  console.log(productFromLocalStorage)
   return (
     <>
       <div className="container">
@@ -132,15 +120,15 @@ const ProductDetails = () => {
                           </button>
                         </div>
                         <Splide options={mainOptions} ref={mainRef}>
-                          {product?.photo?.map((item, i) => (
-                            <SplideSlide key={item._id}>
+                          {product?.photo?.map((product, i) => (
+                            <SplideSlide key={product._id}>
                               <Image
                                 src={
-                                  getExtension(item.url)
-                                    ? `${item.url}`
+                                  getExtension(product.url)
+                                    ? `${product.url}`
                                     : { empty }
                                 }
-                                alt={item.alt}
+                                alt={product.alt}
                                 width="0"
                                 height="0"
                                 priority
@@ -157,15 +145,15 @@ const ProductDetails = () => {
                                         {product?.name}
                                       </p>
                                       <Splide options={modalOptions}>
-                                        {product?.photo?.map((item) => (
-                                          <SplideSlide key={item._id}>
+                                        {product?.photo?.map((product) => (
+                                          <SplideSlide key={product._id}>
                                             <Image
                                               src={
-                                                getExtension(item.url)
-                                                  ? `${item.url}`
+                                                getExtension(product.url)
+                                                  ? `${product.url}`
                                                   : { empty }
                                               }
-                                              alt={item.alt}
+                                              alt={product.alt}
                                               width="0"
                                               height="0"
                                               priority
@@ -243,7 +231,7 @@ const ProductDetails = () => {
                 onClick={() => setShowModalCart(!showModalCart)}
                 className="flex justify-center state-button lg:px-6 px-3 py-3 "
               >
-                <div className="flex justify-center items-center gap-xs4">
+                <div className="flex justify-center products-center gap-xs4">
                   <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
                   <span className="text-textContrast text-sm tracking-[-0.21px]">
                     Додати в кошик
@@ -272,17 +260,22 @@ const ProductDetails = () => {
       <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
         Найбільш популярні
       </h2>
-      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:items-start mx-auto">
+      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
         <PopularProducts />
       </div>
-      <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
+      {productFromLocalStorage.length > 0 && 
+        <>
+          <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
         Переглянуті товари
       </h2>
-      {/* <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:items-start mx-auto">
+      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
         <RecentlyViewProducts
           productFromLocalStorage={productFromLocalStorage}
         />
-      </div> */}
+        </div>
+      </>
+      }
+      
     </>
   );
 };

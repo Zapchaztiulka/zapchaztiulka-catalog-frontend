@@ -1,16 +1,24 @@
-function Error({ statusCode }) {
+'use client' 
+ 
+import { useEffect } from 'react'
+ 
+export default function Error({ error, reset }) {
+  useEffect(() => {
+    console.error(error)
+  }, [error])
+ 
   return (
-    <p>
-      {statusCode
-        ? `An error ${statusCode} occurred on server`
-        : "An error occurred on client"}
-    </p>
-  );
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  )
 }
 
-Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  return { statusCode };
-};
-
-export default Error;
