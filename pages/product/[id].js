@@ -45,7 +45,7 @@ const ProductDetails = () => {
 
   // const {id} = useParams()
   // console.log(id)
-  
+
   if(router.isFallback) {
      return <h1>Loading...</h1>
   }
@@ -56,32 +56,32 @@ const ProductDetails = () => {
     };
   }, [dispatch, id]);
 
-  useEffect(() => {
-    arrViewProduct.unshift(product);
+  // useEffect(() => {
+  //   arrViewProduct.unshift(product);
      
-    setViewProduct((prev) => [...arrViewProduct, ...prev]);
-    localStorage.setItem(
-      "ProductViewed",
-      JSON.stringify(viewProduct.slice(0, 6))
-    );
-  }, [product]);
+  //   setViewProduct((prev) => [...arrViewProduct, ...prev]);
+  //   localStorage.setItem(
+  //     "ProductViewed",
+  //     JSON.stringify(viewProduct.slice(0, 6))
+  //   );
+  // }, [product]);
 
-  const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
-  console.log(productInLocalStorage)
+  // const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
+  // console.log(productInLocalStorage)
 
-  const getUniqueViewedProducts = () => {
-    if (
-      typeof productInLocalStorage != "undefined" &&
-      productInLocalStorage != null
-    ) {
-      const newMap = new Map();
-      productInLocalStorage?.forEach((item) => newMap.set(item?._id, item));
-      return [...newMap.values()];
-    } else {
-      console.log("empty");
-    }
-  };
-  const productFromLocalStorage = getUniqueViewedProducts();
+  // const getUniqueViewedProducts = () => {
+  //   if (
+  //     typeof productInLocalStorage != "undefined" &&
+  //     productInLocalStorage != null
+  //   ) {
+  //     const newMap = new Map();
+  //     productInLocalStorage?.forEach((item) => newMap.set(item?._id, item));
+  //     return [...newMap.values()];
+  //   } else {
+  //     console.log("empty");
+  //   }
+  // };
+  // const productFromLocalStorage = getUniqueViewedProducts();
 
 
   const toggle = () => {
@@ -278,11 +278,11 @@ const ProductDetails = () => {
       <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
         Переглянуті товари
       </h2>
-      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:items-start mx-auto">
+      {/* <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:items-start mx-auto">
         <RecentlyViewProducts
           productFromLocalStorage={productFromLocalStorage}
         />
-      </div>
+      </div> */}
     </>
   );
 };
