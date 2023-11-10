@@ -29,8 +29,8 @@ const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
 const empty = "/empty-img.jpeg";
 
 const ProductDetails = () => {
-  // const router = useRouter();
-  // const { id } = router.query;
+  const router = useRouter();
+  const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
   const [indexThumb, setIndexThumb] = useState();
@@ -43,8 +43,12 @@ const ProductDetails = () => {
     JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
   );
 
-  const {id} = useParams()
-  console.log(id)
+  // const {id} = useParams()
+  // console.log(id)
+  
+  if(router.isFallback) {
+     return <h1>Loading...</h1>
+  }
   
   useEffect(() => {
     if(typeof id != "undefined" && id != null) { 
