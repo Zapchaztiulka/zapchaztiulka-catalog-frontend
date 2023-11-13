@@ -14,7 +14,7 @@ const CountryFilter = () => {
   const productInfo = useSelector(selectCountryPriceTrademark)
   const countries = productInfo?.countries
   const filtredProducts = useSelector(selectFilterByCountry);
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCountryPriceTrademark())
@@ -22,10 +22,9 @@ const CountryFilter = () => {
 
 
  const updateFilters =  (countryName) => {
-   if (isChecked) {
-     setIsChecked(!isChecked)
+
      dispatch(filterProductsByCountry(countryName));
-   }
+   
    
   }
 
@@ -90,7 +89,7 @@ const CountryFilter = () => {
                       <CheckBox
                         updateFilters={updateFilters}
                         country={item.name}
-                        isChecked={isChecked}
+                       
                       />
                       {item.name}
                     </label>

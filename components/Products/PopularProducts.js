@@ -40,12 +40,9 @@ const PopularProducts = () => {
           <ul className="flex gap-[7px] tablet600:gap-xs tablet600:max-w-[50%] tablet1024:max-w-none tablet1024:gap-s desktop1440:gap-sPlus">
             {cuttingProducts?.map(({ name, _id, photo, price, vendorCode }) => {
               return (
-                <li
-                  className="product-card-popular border border-borderDefault rounded-lg hover:shadow-md cursor-pointer"
-                  key={_id}
-                >
+                <li key={_id}>
                   <Link href={{ pathname: `/product/${_id}` }}>
-                    <div className="product-card-popular">
+                    <div className="product-card-popular hover:shadow-md cursor-pointer border border-borderDefault rounded-lg">
                       <div className="w-full">
                         {photo.length === 0 || !getExtension(photo[0]?.url) ? (
                           <Image
@@ -54,7 +51,7 @@ const PopularProducts = () => {
                             width="0"
                             height="0"
                             sizes="100vw"
-                            className="product-card-popular rounded-t-lg object-contain mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px]"
+                            className="product-card-popular  rounded-t-lg object-contain mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px]"
                           />
                         ) : (
                           <Image
@@ -94,7 +91,7 @@ const PopularProducts = () => {
           </ul>
 
           {/* special order 1920px */}
-          <div className="hidden desktop1920:block product-card-popular border border-borderDefault rounded-lg hover:shadow-md relative">
+          <div className="hidden desktop1920:block product-card-popular  hover:shadow-md relative">
             <SpecialProduct />
           </div>
         </div>

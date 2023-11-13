@@ -120,15 +120,15 @@ const ProductDetails = () => {
                           </button>
                         </div>
                         <Splide options={mainOptions} ref={mainRef}>
-                          {product?.photo?.map((product, i) => (
-                            <SplideSlide key={product._id}>
+                          {product?.photo?.map((item, i) => (
+                            <SplideSlide key={item._id}>
                               <Image
                                 src={
-                                  getExtension(product.url)
-                                    ? `${product.url}`
+                                  getExtension(item.url)
+                                    ? `${item.url}`
                                     : { empty }
                                 }
-                                alt={product.alt}
+                                alt={item.alt}
                                 width="0"
                                 height="0"
                                 priority
@@ -145,15 +145,15 @@ const ProductDetails = () => {
                                         {product?.name}
                                       </p>
                                       <Splide options={modalOptions}>
-                                        {product?.photo?.map((product) => (
-                                          <SplideSlide key={product._id}>
+                                        {product?.photo?.map((item) => (
+                                          <SplideSlide key={item._id}>
                                             <Image
                                               src={
-                                                getExtension(product.url)
-                                                  ? `${product.url}`
+                                                getExtension(item.url)
+                                                  ? `${item.url}`
                                                   : { empty }
                                               }
-                                              alt={product.alt}
+                                              alt={item.alt}
                                               width="0"
                                               height="0"
                                               priority
@@ -221,7 +221,7 @@ const ProductDetails = () => {
                 color: `${availabilityText(product?.availability)}`,
                 borderColor: `${aviabilityType(product?.availability)}`,
               }}
-              className="inline-block text-sm font-medium py-xs3 px-xs mb-s border rounded-medium3 text-center"
+              className="inline-block text-sm font-medium py-xs3 px-xs2 mb-s border rounded-medium3 text-center"
             >
               {product?.availability}
             </p>
@@ -229,7 +229,7 @@ const ProductDetails = () => {
             <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
               <button
                 onClick={() => setShowModalCart(!showModalCart)}
-                className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                className="flex justify-center state-button lg:px-6 px-3 py-3 border border-bgBrandDark"
               >
                 <div className="flex justify-center products-center gap-xs4">
                   <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />

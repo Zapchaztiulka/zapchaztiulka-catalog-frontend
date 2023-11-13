@@ -131,7 +131,7 @@ a {
 }
 
 .characteristic-value {
-  @apply text-textPrimary w-[35%] overflow-scroll;
+  @apply text-textPrimary w-[35%] text-ellipsis overflow-hidden;
 }
 
 .pagination-item {

@@ -20,9 +20,9 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
             cuttingProducts?.map(
               ({ name, _id, photo, price, vendorCode }) => {
                 return (
-                  <li className=" cursor-pointer" key={_id}>
+                  <li key={_id}>
                     <Link href={{ pathname: `/product/${_id}` }}>
-                      <div className="product-card-popular border border-borderDefault rounded-lg hover:shadow-md">
+                      <div className="product-card-popular cursor-pointer border border-borderDefault rounded-lg hover:shadow-md">
                         <div className="w-full">
                           {photo.length === 0 ||
                           !getExtension(photo[0]?.url) ? (
