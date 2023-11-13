@@ -42,8 +42,6 @@ export const selectFilterByCountry = createSelector(
   ({ country }, { products }) => {
     const filtredResult = products?.filter((product) =>
       product.manufacturer.country === country)
-    
-    console.log(filtredResult);
     return filtredResult;
   }
 );

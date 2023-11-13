@@ -12,7 +12,7 @@ switch (description) {
 
 export const availabilityText = (description) => {
     switch (description) {
-      case "є в наявності":
+      case "в наявності":
         return "#039855";
       case "відсутній":
         return "#D92D20";

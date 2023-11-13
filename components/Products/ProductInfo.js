@@ -14,7 +14,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
         </div>
         <div className="characteristic">
           <span className=" characteristic-label">Код:</span>
-          <span className="characteristic-value">{product?.weight}</span>
+          <span className="characteristic-value">{product?.vendorCode}</span>
         </div>
         <div className="characteristic">
           <span className="characteristic-label">Виробник:</span>
@@ -24,7 +24,9 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
         </div>
         <div className="characteristic">
           <span className="characteristic-label">Країна:</span>
-          <span className="characteristic-value">{product?.weight}</span>
+          <span className="characteristic-value">
+            {product?.manufacturer?.country}
+          </span>
         </div>
 
         {isOpen && (
@@ -72,7 +74,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
         )}
       </section>
 
-      {product?.description !== " " &&  product?.description !== ""  && (
+      {product?.description !== " " && product?.description !== "" && (
         <>
           <h4 className="mb-3">Опис</h4>
           <p className="text-base text-textPrimary">{product?.description}</p>

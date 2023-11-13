@@ -1,21 +1,11 @@
 import { ArrowDown, ArrowUp } from "@/public/icons";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCountryPriceTrademark } from "@/redux/products/productsSelectors";
-import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
 
 
-const TradeMarkFilter = () => {
+const TradeMarkFilter = ({trademarks}) => {
   const [isOpen, setIsOpen] = useState(true);
-  const dispatch = useDispatch();
-  const productInfo = useSelector(selectCountryPriceTrademark);
-  const trademarks = productInfo?.trademarks;
-
-    useEffect(() => {
-      dispatch(fetchCountryPriceTrademark());
-    }, [dispatch]);
 
   const toggle = () => {
     setIsOpen(!isOpen);

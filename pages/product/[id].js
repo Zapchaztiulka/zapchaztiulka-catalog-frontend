@@ -65,9 +65,7 @@ const ProductDetails = () => {
       const newMap = new Map();
       arrViewProduct?.forEach((item) => newMap.set(item?._id, item));
       return [...newMap.values()];
-    } else {
-      console.log("empty");
-    }
+    } 
   };
   const productFromLocalStorage = getUniqueViewedProducts();
 
@@ -84,7 +82,6 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
-  console.log(productFromLocalStorage)
   return (
     <>
       <div className="container">
