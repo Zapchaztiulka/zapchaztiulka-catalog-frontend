@@ -1,12 +1,13 @@
 export const aviabilityType = (description) => {
 switch (description) {
-  case "є в наявності":
+  case "в наявності":
     return "#D1FADF";
   case "відсутній":
     return "#FEE4E2";
   case "під замовлення":
     return "#FEF0C7";
   default:
+     return;
 }};
 
 export const availabilityText = (description) => {
