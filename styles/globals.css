@@ -51,7 +51,7 @@ a {
 }
 
 .product-card-img-byId {
-  @apply mobile320:h-[192px] mobile320:w-[288px] mobile375:h-[228px] mobile375:w-[343px] tablet768:h-[226px] tablet600:h-[180px] tablet600:w-[246px] tablet768:w-[330px] desktop1200:h-[382px] desktop1200:w-[570px] object-contain;
+  @apply mobile320:h-[192px] mobile320:w-[288px] mobile375:h-[228px] mobile375:w-[343px] tablet768:h-[226px] tablet600:h-[180px] tablet600:w-[246px] tablet768:w-[330px] desktop1200:h-[382px] desktop1200:w-[570px] desktop1920:w-[546px] object-contain;
 }
 
 .product-card-img-modal {

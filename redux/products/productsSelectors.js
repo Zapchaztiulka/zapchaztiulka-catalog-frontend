@@ -8,6 +8,7 @@ export const selectFilter = (state) => state.filter
 export const selectFilterMinPrice = (state) => state.filter.minPrice;
 export const selectFilterMaxPrice = (state) => state.filter.maxPrice;
 export const selectFilterSubCategory = (state) => state.filter.subcategoryName;
+export const selectFilterByCountry = (state) => state.filter.countryArr;
 export const selectCountryPriceTrademark = (state) => state.products.productInfo;
 
 export const selectFiltredByPrice = createSelector(
@@ -24,8 +25,6 @@ export const selectFiltredByPrice = createSelector(
       return obj;
     }
     return products.products;
-
-
   }
 );
 
@@ -37,11 +36,15 @@ export const selectFiltredBySubCategory = createSelector(
 );
 
 
-export const selectFilterByCountry = createSelector(
-  [selectFilter, selectProducts],
-  ({ country }, { products }) => {
-    const filtredResult = products?.filter((product) =>
-      product.manufacturer.country === country)
-    return filtredResult;
+export const selectFiltred = createSelector(
+  [selectFilterByCountry, selectProductsByQuery, selectProducts],
+  (countryArr, { products }, cards) => {
+    if (countryArr !== undefined) {
+      const filtredResult = products?.filter((product) =>
+        countryArr?.some((item) => item === product.manufacturer.country)
+      );
+      return filtredResult;
+    }  
+    return cards.products
   }
 );

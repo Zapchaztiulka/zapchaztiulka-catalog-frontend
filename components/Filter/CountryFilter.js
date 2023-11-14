@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
-const CountryFilter = ({filtredByCountry, countries}) => {
+const CountryFilter = ({
+  countries,
+  handleOnChange,
+  countryArray,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggle = () => {
@@ -42,29 +46,34 @@ const CountryFilter = ({filtredByCountry, countries}) => {
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-                {countries?.map((item, index) => {
-                if (item.name ==='') {
+              {countries?.map((item, index) => {
+                if (item.name === "") {
                   return (
                     <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
                       <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        <CheckBox updateFilters={filtredByCountry} />
+                        <CheckBox
+                          country={item.name}
+                          handleOnChange={handleOnChange}
+                          countryArray={countryArray}
+                        />
                         Інше
                       </label>
                     </li>
                   );
+                } else {
+                  return (
+                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                        <CheckBox
+                          country={item.name}
+                          handleOnChange={handleOnChange}
+                          countryArray={countryArray}
+                        />
+                        {item.name}
+                      </label>
+                    </li>
+                  );
                 }
-                return (
-                  <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
-                    <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                      <CheckBox
-                        updateFilters={filtredByCountry}
-                        country={item.name}
-                       
-                      />
-                      {item.name}
-                    </label>
-                  </li>
-                );
               })}
             </ul>
           </OverlayScrollbarsComponent>
