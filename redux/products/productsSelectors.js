@@ -28,14 +28,6 @@ export const selectFiltredByPrice = createSelector(
   }
 );
 
-export const selectFiltredBySubCategory = createSelector(
-  [selectFilter, selectProducts],
-  ({ subcategoryName }, products) => {
-    const arr = products?.products?.filter(item => item.subcategories)
-  }
-);
-
-
 export const selectFiltred = createSelector(
   [selectFilterByCountry, selectProductsByQuery, selectProducts],
   (countryArr, { products }, cards) => {

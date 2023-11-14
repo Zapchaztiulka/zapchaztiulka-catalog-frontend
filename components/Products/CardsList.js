@@ -28,30 +28,24 @@ const CardsList = () => {
   const products = data?.products;
   const filtredProducts = useSelector(selectFiltred);
   const isFilterCheck = useSelector(selectFilterByCountry)
-  console.log(filtredProducts.length)
-
  
   useEffect(() => {
     if (!start && (searchValue === undefined  || searchValue=== "")) {
       setCurrentPage(1);
       dispatch(fetchProducts({ search: searchValue, page: 1 }));
-      console.log("it first")
     }
    
     if (start) {
       setCurrentPage(start);
       dispatch(fetchProducts({ search: searchValue, page: start }));
-      console.log("it second")
     }
 
     if ((searchValue !== undefined || searchValue!== "") && !start) {
       dispatch(fetchProducts({ search: searchValue }));
-       console.log("it third")
     }
   }, [dispatch, start, searchValue]);
 
   let pagesCount = isFilterCheck===undefined? (Math.floor(data?.totalCount / pageSize)) : (Math.ceil(filtredProducts.length / pageSize));
-
 
   const handleChange = (event, value) => {
     event.preventDefault();
