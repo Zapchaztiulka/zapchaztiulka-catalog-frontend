@@ -21,27 +21,26 @@ const Filter = () => {
   }, [dispatch]);
 
   const handleOnChange = (e) => {
-    const { value, checked } = e.target  
+    const { value, checked } = e.target;
     if (checked) {
-      setCountry(prev => [...prev, value])
-      setIsChecked(true)     
-    }
-    else {
-      setCountry(prev => {
-        return [...prev.filter(item => item !== value)]
-      })
-      setIsChecked(false) 
+      setCountry((prev) => [...prev, value]);
+      setIsChecked(true);
+    } else {
+      setCountry((prev) => {
+        return [...prev.filter((item) => item !== value)];
+      });
+      setIsChecked(false);
     }
   };
 
-    const resetResults = () => {
-      setCountry([]);
-      dispatch(filterProductsByCountry());
-    setIsChecked(false)
+  const resetResults = () => {
+    setCountry([]);
+    dispatch(filterProductsByCountry());
+    setIsChecked(false);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();      
+    e.preventDefault();
     if (isChecked) {
       dispatch(filterProductsByCountry(country));
     }

@@ -15,7 +15,7 @@ const Catalog = () => {
   const data = useSelector(selectProductsByQuery);
   const error = useSelector(selectError);
   return (
-    <div className="container mt-[130px] flex gap-s">
+    <div className="container mt-[130px] flex gap-s desktop1920:gap-sPlus">
       <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
         <Filter/>
       </div>

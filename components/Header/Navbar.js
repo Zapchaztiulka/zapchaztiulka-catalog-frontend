@@ -54,7 +54,7 @@ const Navbar = () => {
               setShowSearchBar={setShowSearchBar}
             />
           </div>
-          <div className="flex justify-between">
+          <div className="flex tablet1024:gap-[44px] desktop1200:gap-6">
             <ContactList />
             <Link legacyBehavior href={{ pathname: "/cart" }}>
               <div className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary">
