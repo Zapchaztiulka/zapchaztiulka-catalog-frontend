@@ -49,7 +49,7 @@ const CardsList = () => {
       dispatch(
         fetchProducts({
           page: startPage,
-          query: '',
+          query: searchValue,
           limit: 10,
           countries: countriesArray,
         })
@@ -57,7 +57,7 @@ const CardsList = () => {
       setCurrentPage(startPage);
       console.log('me 1');
     }
-  }, [dispatch, startPage, countriesArray]);
+  }, [dispatch, startPage, countriesArray, searchValue]);
 
   useEffect(() => {
     if (startPage && countriesArray === undefined) {
