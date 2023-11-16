@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className="tablet1024:flex tablet1024:items-center tablet1024:justify-between hidden">
           <div className="flex items-center">
             <Link
-              href={`/?page=1`}
+              href={`/?page=1&query=`}
               onClick={handleToHome}
               className="justify-center desktop1200:flex hidden items-center desktop1200:mr-[30px] desktop1440:mr-[55px]"
             >

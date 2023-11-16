@@ -1,17 +1,16 @@
-import PriceFilter from "./PriceFilter";
-import TradeMarkFilter from "./TradeMarkFilter";
-import CountryFilter from "./CountryFilter";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import {
-  selectCountryPriceTrademark,
-  selectFiltred,
-} from "@/redux/products/productsSelectors";
-import { fetchCountryPriceTrademark } from "@/redux/products/productsOperations";
-import { filterProductsByCountry } from "@/redux/filterSlice";
+import PriceFilter from './PriceFilter';
+import TradeMarkFilter from './TradeMarkFilter';
+import CountryFilter from './CountryFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
+import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
+import { filterProductsByCountry } from '@/redux/filterSlice';
+import { useRouter } from 'next/router';
 
 const Filter = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
   const [isChecked, setIsChecked] = useState(false);
   const [country, setCountry] = useState([]);
@@ -20,14 +19,14 @@ const Filter = () => {
     dispatch(fetchCountryPriceTrademark());
   }, [dispatch]);
 
-  const handleOnChange = (e) => {
+  const handleOnChange = e => {
     const { value, checked } = e.target;
     if (checked) {
-      setCountry((prev) => [...prev, value]);
+      setCountry(prev => [...prev, value]);
       setIsChecked(true);
     } else {
-      setCountry((prev) => {
-        return [...prev.filter((item) => item !== value)];
+      setCountry(prev => {
+        return [...prev.filter(item => item !== value)];
       });
       setIsChecked(false);
     }
@@ -37,10 +36,12 @@ const Filter = () => {
     setCountry([]);
     dispatch(filterProductsByCountry());
     setIsChecked(false);
+    router.push(`/?page=1&query=`, undefined);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
+    router.push(`/?page=1&query=`, undefined);
     if (isChecked) {
       dispatch(filterProductsByCountry(country));
     }

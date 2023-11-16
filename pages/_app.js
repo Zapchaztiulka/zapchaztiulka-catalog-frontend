@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { Layout } from "@/components";
 import "../styles/globals.css";
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Layout className={inter.className}>
-            <Component {...pageProps} />
+            <Component {...pageProps}  />
           </Layout>
         </PersistGate>
       </Provider>

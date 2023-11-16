@@ -13,7 +13,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
         className="inline-block cards"
       >
         <div className="cards border border-borderDefault rounded-lg hover:shadow-md">
-          <div className="cards">
+          <div className="">
             {photo.length === 0 || !getExtension(photo[0]?.url) ? (
               <Image
                 src="/empty-img.jpeg"
