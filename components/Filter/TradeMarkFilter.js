@@ -44,10 +44,10 @@ const TradeMarkFilter = ({
 
           <OverlayScrollbarsComponent
             element="span"
-            options={{ scrollbars: { autoHide: 'move', visibility: 'auto' } }}
+            options={{ scrollbars: { autoHide: 'never', visibility: 'auto' } }}
             defer
           >
-            <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
+            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
               {trademarks?.map((item, index) => {
                 const isDisabled =
                   comparisonResults[index] && onChangeTriggered;
@@ -62,7 +62,7 @@ const TradeMarkFilter = ({
                   >
                     <label
                       htmlFor={item.name}
-                      className={`flex items-center gap-xs3 text-base   ${
+                      className={`flex items-center gap-xs3 text-base/[24px]   ${
                         isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >

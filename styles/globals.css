@@ -241,3 +241,11 @@ a {
 .close-chat-btn {
   @apply absolute right-0 top-xs cursor-pointer transform hover:rotate-180 transition-transform duration-300 ease-in-out;
 }
+
+.filter-section .os-scrollbar .os-scrollbar-track {
+@apply bg-bgWhite;
+}
+
+.filter-section .limited-handles > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+@apply h-[96px];
+}

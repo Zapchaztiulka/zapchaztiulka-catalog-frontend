@@ -132,7 +132,7 @@ const Filter = () => {
   console.log(isChecked);
 
   return (
-    <form className="flex flex-col gap-m" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-m filter-section" onSubmit={handleSubmit}>
       <PriceFilter />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
