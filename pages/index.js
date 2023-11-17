@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { customAlphabet } from "nanoid";
 
 import CardsList from "@/components/Products/CardsList";
@@ -12,6 +12,7 @@ import {
 import Loader from "@/components/Loader";
 import Filter from "@/components/Filter/Filter";
 
+
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
   const data = useSelector(selectAllProducts);
@@ -21,6 +22,7 @@ const Catalog = () => {
   if (!storedUserId) {
     localStorage.setItem("userId", customAlphabet("0123456789", 24)());
   }
+
 
   return (
     <>
