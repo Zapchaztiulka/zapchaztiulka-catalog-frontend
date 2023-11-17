@@ -30,6 +30,7 @@ const Filter = () => {
 
   useEffect(() => {
     dispatch(fetchCountryPriceTrademark());
+    if (country.length !== 0 || trademarks.length !== 0) { setIsChecked(true); }
   }, [dispatch]);
 
   const handleOnChangeByCountry = e => {
@@ -128,6 +129,7 @@ const Filter = () => {
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
   };
+  console.log(isChecked);
 
   return (
     <form className="flex flex-col gap-m" onSubmit={handleSubmit}>
@@ -153,7 +155,7 @@ const Filter = () => {
         <button
           type="button"
           onClick={() => resetResults()}
-          // disabled={!isChecked}
+          disabled={!isChecked}
           className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-full tablet768:text-base text-sm tablet768:font-medium cursor-pointer"
         >
           Скинути
