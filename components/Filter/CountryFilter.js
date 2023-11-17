@@ -8,7 +8,6 @@ const CountryFilter = ({
   handleOnChange,
   countryArray,
   comparisonResults,
-  foo
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -48,14 +47,23 @@ const CountryFilter = ({
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-              {countries?.map((item, index) => {
+                {countries?.map((item, index) => {
+                  const isDisabled = comparisonResults[index];
+                  console.log("cpontry" + isDisabled);
+                  const isChecked = countryArray?.includes(item.name);
+                  // console.log(isChecked);
+                  
                 if (item.name !== '') {
                   return (
                     <li
                       key={`${item.name}+${index}`}
                       className="flex justify-between p-xs3 pl-xs2"
                     >
-                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                      <label
+                        className={`flex items-center gap-xs3 text-base   ${
+                          isDisabled ? 'text-textDisabled' : 'text-textPrimary'
+                        }  cursor-pointer hover:text-textInputDefault checkbox`}
+                      >
                         {/* <CheckBox
                           filterName={item.name}
                           handleOnChange={handleOnChange}
@@ -67,9 +75,9 @@ const CountryFilter = ({
                           type="checkbox"
                           name={item.name}
                           value={item.name}
-                          checked={countryArray?.includes(item.name)}
+                          checked={isChecked}
                           onChange={handleOnChange}
-                          // disabled={comparisonResults}
+                          disabled={isDisabled}
                           className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
                         />
                         {item.name}
@@ -91,6 +99,15 @@ const CountryFilter = ({
                           handleOnChange={handleOnChange}
                           filtersArray={countryArray}
                         /> */}
+                        <input
+                          type="checkbox"
+                          name={item.name}
+                          value={item.name}
+                          checked={isChecked}
+                          onChange={handleOnChange}
+                          disabled={isDisabled}
+                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                        />
                         Інше
                       </label>
                       <span className="text-[10px]/[14px] font-medium text-textSecondary">

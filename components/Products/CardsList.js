@@ -112,7 +112,7 @@ const CardsList = () => {
             })}
         </ul>
         <section>
-          {data && currentPage > 1 && (
+          {data && pagesCount > 1 && (
             <ThemeProvider theme={theme}>
               <div className="flex justify-center relative">
                 <Pagination

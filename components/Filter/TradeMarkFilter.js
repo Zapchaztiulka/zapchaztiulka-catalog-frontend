@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
-
 const TradeMarkFilter = ({
   trademarks,
   handleOnChange,
@@ -48,9 +47,10 @@ const TradeMarkFilter = ({
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-              {trademarks?.map((item, index) => {
-                const isChecked = trademarksArray?.includes(item.name);
-                const isDisabled = comparisonResults[index];
+                {trademarks?.map((item, index) => {
+                 const isDisabled = comparisonResults[index];
+                const isChecked =
+                  trademarksArray?.includes(item.name)             
 
                 if (item.name === '') {
                   return (
@@ -64,6 +64,15 @@ const TradeMarkFilter = ({
                           filtersArray={trademarksArray}
                           filterName={item.name}
                         /> */}
+                        <input
+                          type="checkbox"
+                          name={item.name}
+                          value={item.name}
+                          checked={isChecked}
+                          onChange={handleOnChange}
+                          disabled={isDisabled}
+                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                        />
                         Інше
                       </label>
                       <span className="text-[10px]/[14px] font-medium text-textSecondary">

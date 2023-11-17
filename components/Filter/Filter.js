@@ -10,7 +10,7 @@ import {
   filterProductsByTradeMarks,
 } from '@/redux/filterSlice';
 import { useRouter } from 'next/router';
-import { getTrademarksForCountries } from '@/helpers/checkForMatchValue';
+import { getTCountriesForTrademarks, getTrademarksForCountries } from '@/helpers/checkForMatchValue';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -21,8 +21,11 @@ const Filter = () => {
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
-  const [comparisonResults, setComparisonResults] = useState([]);
+  const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
+  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] = useState([]);
   const [onChangeTriggered, setOnChangeTriggered] = useState(false);
+  const [onChangeTriggeredByTrademarks, setOnChangeTriggeredByTrademarks] =
+    useState(false);
 
   useEffect(() => {
     dispatch(fetchCountryPriceTrademark());
@@ -34,7 +37,7 @@ const Filter = () => {
     if (checked) {
       setCountry(prev => [...prev, value]);
       setIsChecked(true);
-      setOnChangeTriggered(true);
+      setOnChangeTriggered(true);     
     } else {
       setCountry(prev => {
         return [...prev.filter(item => item !== value)];
@@ -43,7 +46,6 @@ const Filter = () => {
       setOnChangeTriggered(false);
     }
   };
-
 
   const isMatchesTrademarks = country => {
     const trademarksForSelectedCountries = getTrademarksForCountries(
@@ -55,36 +57,64 @@ const Filter = () => {
       return !isMatch;
     });
 
-    setComparisonResults(results);
+    setComparisonResultsCountry(results);
     return results;
   };
+
+  const isMatchesCountries = trademark => {
+        const countryForSelectedTrademarks = getTCountriesForTrademarks(
+          productInfo.trademarks,
+          trademark
+        );
+        const results = productInfo.countries.map(item => {
+          const isMatch = countryForSelectedTrademarks.includes(item.name);
+          return !isMatch;
+        });
+
+        setComparisonResultsTrademarks(results);
+        return results;
+  }
 
   useEffect(() => {
     if (onChangeTriggered) {
       isMatchesTrademarks(country);
-      setOnChangeTriggered(false);
+      // setOnChangeTriggered(false);
     }
   }, [country, onChangeTriggered]);
 
-  console.log(onChangeTriggered);
+
+    useEffect(() => {
+      if (onChangeTriggeredByTrademarks) {
+        isMatchesCountries(trademarks);
+        // setOnChangeTriggered(false);
+      }
+    }, [trademarks, onChangeTriggeredByTrademarks]);
+
+  // console.log("choose country" + onChangeTriggered);
+  // console.log("choose trade" + onChangeTriggeredByTrademarks);
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
     if (checked) {
       setTrademarks(prev => [...prev, value]);
       setIsChecked(true);
+      setOnChangeTriggeredByTrademarks(true);
     } else {
       setTrademarks(prev => {
         return [...prev.filter(item => item !== value)];
       });
       setIsChecked(false);
+         setOnChangeTriggeredByTrademarks(false);
     }
   };
 
   const resetResults = () => {
     setCountry([]);
+    setOnChangeTriggered(false);
+    setOnChangeTriggeredByTrademarks(false);
     setTrademarks([]);
-    setComparisonResults([]);
+    setComparisonResultsCountry([]);
+    setComparisonResultsTrademarks([]);
     dispatch(filterProductsByCountry());
     dispatch(filterProductsByTradeMarks());
     setIsChecked(false);
@@ -111,13 +141,13 @@ const Filter = () => {
         trademarks={productInfo?.trademarks}
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
-        comparisonResults={comparisonResults}
+        comparisonResults={comparisonResultsCountry}
       />
       <CountryFilter
         countries={productInfo?.countries}
         countryArray={country}
         handleOnChange={handleOnChangeByCountry}
-        comparisonResults={comparisonResults}
+        comparisonResults={comparisonResultsTrademarks}
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
