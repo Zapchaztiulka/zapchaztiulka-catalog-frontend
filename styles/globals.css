@@ -59,7 +59,7 @@ a {
 }
 
 .product-card-popular {
-@apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] desktop1200:w-[276px] desktop1440:w-[285px];
+  @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] desktop1200:w-[276px] desktop1440:w-[285px];
 }
 
 .footer-items {
@@ -90,7 +90,8 @@ a {
   @apply p-xs2 absolute right-[44px] top-0 cursor-pointer;
 }
 
-.close-btn:hover svg, .close-btn:focus svg {
+.close-btn:hover svg,
+.close-btn:focus svg {
   @apply stroke-iconError;
 }
 
@@ -144,7 +145,7 @@ a {
 }
 
 .pagination-btn:focus .ellipse-icon {
-@apply  fill-iconBrandDark;
+  @apply fill-iconBrandDark;
 }
 
 .custom-pagination button {
@@ -155,11 +156,13 @@ a {
   @apply scale-100 bg-bgDefaultBlue;
 }
 
-.custom-class-slide-thumbs .splide__list{
+.custom-class-slide-thumbs .splide__list {
   @apply mt-m !important;
 }
 
-.modal-body .splide .splide__list .splide__slide, .custom-class-slide .splide .splide__list .splide__slide, .custom-class-slide-thumbs .splide__slide {
+.modal-body .splide .splide__list .splide__slide,
+.custom-class-slide .splide .splide__list .splide__slide,
+.custom-class-slide-thumbs .splide__slide {
   @apply flex justify-center;
 }
 
@@ -176,56 +179,64 @@ a {
 }
 
 .modal-overlay {
-  @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-10
-  ;
+  @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-10;
 }
 .modal-header {
-@apply absolute top-[16px] right-[16px];
+  @apply absolute top-[16px] right-[16px];
 }
 
 .wrapper-modal-content {
-@apply p-s pt-11 mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
+  @apply p-s pt-11 mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
 }
 
-.modal-body .custom-modal-pagination{
+.modal-body .custom-modal-pagination {
   @apply -bottom-[138px] mobile375:-bottom-[100px] mobile480:-bottom-[120px] tablet600:-bottom-[40px];
 }
 
-.modal-body .splide__arrow, .custom-class-slide-thumbs .splide__arrow {
+.modal-body .splide__arrow,
+.custom-class-slide-thumbs .splide__arrow {
   @apply bg-bgWhite;
 }
 
-.modal-body .splide__arrow--next, .custom-class-slide-thumbs .splide__arrow--next {
+.modal-body .splide__arrow--next,
+.custom-class-slide-thumbs .splide__arrow--next {
   @apply right-0;
 }
 
-.modal-body .splide__arrow--prev, .custom-class-slide-thumbs .splide__arrow--prev {
+.modal-body .splide__arrow--prev,
+.custom-class-slide-thumbs .splide__arrow--prev {
   @apply left-0;
 }
 
-.modal-body .splide__arrow svg, .custom-class-slide-thumbs .splide__arrow svg {
+.modal-body .splide__arrow svg,
+.custom-class-slide-thumbs .splide__arrow svg {
   @apply fill-iconPrimary h-[20px] w-[20px];
 }
 
 .price-input {
-@apply border-0 outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs w-[80px] placeholder:text-base placeholder:text-textTertiary;
+  @apply border-0 outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs w-[80px] placeholder:text-base placeholder:text-textTertiary;
 }
 
-.custom-checkBox:checked::after  {
-@apply absolute w-4 h-4 block top-0 bg-bgDefaultBlue  cursor-pointer border rounded-minimal border-borderDefaultBlue left-0 content-[''] bg-[url("/icons/check.svg")] bg-center;
+.custom-checkBox:checked::after {
+  @apply absolute w-4 h-4 block top-0 bg-bgDefaultBlue  cursor-pointer border rounded-minimal border-borderDefaultBlue left-0 content-[''] bg-[url("/icons/check.svg")] bg-center;
 }
 
 .checkbox .custom-checkBox:checked::after {
-@apply hover:bg-bgHoverBlue;
+  @apply hover:bg-bgHoverBlue;
 }
 
 .custom-select-contact:hover svg {
-@apply hover:stroke-iconPrimary;
+  @apply hover:stroke-iconPrimary;
 }
 
 .wave-shape {
-@apply bottom-0 absolute h-[194px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')]; }
+  @apply bottom-0 absolute h-[194px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
+}
 
 .special-order-image {
-@apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[198px] tablet1024:bottom-[182px] desktop1200:h-[227px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+  @apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[198px] tablet1024:bottom-[182px] desktop1200:h-[227px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+}
+
+.close-chat-btn {
+  @apply absolute right-0 top-xs cursor-pointer transform hover:rotate-180 transition-transform duration-300 ease-in-out;
 }
