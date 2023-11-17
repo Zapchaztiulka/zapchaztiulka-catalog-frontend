@@ -5,10 +5,11 @@ const initialPrice = {
   maxPrice: null,
   subcategoryName: "",
   countryArr: [],
+  trademarksArr: []
 };
 
 const filterSlice = createSlice({
-  name: "filter",
+  name: 'filter',
   initialState: initialPrice,
   reducers: {
     filterProductsMin(state, action) {
@@ -35,6 +36,12 @@ const filterSlice = createSlice({
         countryArr: action.payload,
       };
     },
+    filterProductsByTradeMarks(state, action) {
+      return {
+        ...state,
+        trademarksArr: action.payload,
+      };
+    },
   },
 });
 
@@ -43,5 +50,6 @@ export const {
   filterProductsMax,
   filterProductsSubCategory,
   filterProductsByCountry,
+  filterProductsByTradeMarks,
 } = filterSlice.actions;
 export const filterReducer = filterSlice.reducer;

@@ -6,7 +6,9 @@ import { scrollToTop } from '@/helpers/scrollToTop';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import {
+  selectCountryPriceTrademark,
   selectFilterByCountry,
+  selectFilterByTrademarks,
   selectFiltredByPrice,
   selectIsLoading,
   selectProducts,
@@ -23,15 +25,21 @@ const CardsList = () => {
   const isLoading = useSelector(selectIsLoading);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const pageSize = 10;
-  const searchValue = router.query.query || "";
+  const searchValue = router.query.query || '';
   const products = data?.products;
   const countriesArray = useSelector(selectFilterByCountry);
+  const trademarksArray = useSelector(selectFilterByTrademarks);
+   const productInfo = useSelector(selectCountryPriceTrademark);
+
+  // console.log(products)
+  // console.log(productInfo);
 
   const dataRequest = {
     page: startPage,
     query: searchValue,
     limit: 10,
     countries: countriesArray,
+    trademarks: trademarksArray,
   };
 
   useEffect(() => {
@@ -39,46 +47,42 @@ const CardsList = () => {
       (router.asPath =
         '/' && !startPage && (searchValue === undefined || searchValue === ''))
     ) {
+      router.push(`/?page=1&query=`, undefined);
+      setCurrentPage(1);
       dispatch(fetchProducts({ page: 1, query: '', limit: 10 }));
       console.log('me ');
     }
   }, [dispatch, router.asPath, searchValue]);
 
-  useEffect(() => {
-    if (countriesArray !== undefined) {
-      dispatch(
-        fetchProducts({
-          page: startPage,
-          query: searchValue,
-          limit: 10,
-          countries: countriesArray,
-        })
-      );
-      setCurrentPage(startPage);
-      console.log('me 1');
-    }
-  }, [dispatch, startPage, countriesArray, searchValue]);
+  // useEffect(() => {
+  //   if (countriesArray !== undefined) {
+  //    dispatch(fetchProducts(dataRequest));
+  //     setCurrentPage(startPage);
+  //     console.log('me 1');
+  //   }
+  // }, [dispatch, startPage, countriesArray, searchValue]);
 
   useEffect(() => {
-    if (startPage && countriesArray === undefined) {
-      setCurrentPage(startPage);
-      dispatch(fetchProducts(dataRequest));
-      console.log('me 2');
-    }
-  }, [dispatch, startPage, router.isReady, countriesArray, searchValue]);
+    if (startPage) dispatch(fetchProducts(dataRequest));
+    setCurrentPage(startPage);
+    console.log('me 1');
+  }, [dispatch, startPage, countriesArray, trademarksArray, searchValue]);
+
+  // useEffect(() => {
+  //   if (startPage && countriesArray === undefined) {
+  //     setCurrentPage(startPage);
+  //     dispatch(fetchProducts(dataRequest));
+  //     console.log('me 2');
+  //   }
+  // }, [dispatch, startPage, router.isReady, countriesArray, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
   const handleChange = (event, value) => {
     event.preventDefault();
     setCurrentPage(value);
-    // router.push({ query: { page: value, query: searchValue } });
     router.push(`/?page=${value}&query=${searchValue}`, undefined);
   };
-
-  console.log('current' + currentPage);
-  console.log('start' + startPage);
-  console.log(searchValue);
 
   return (
     <>
@@ -109,7 +113,7 @@ const CardsList = () => {
             })}
         </ul>
         <section>
-          {data && startPage !== NaN && (
+          {data && currentPage > 1 && (
             <ThemeProvider theme={theme}>
               <div className="flex justify-center relative">
                 <Pagination

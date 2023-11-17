@@ -1,15 +1,23 @@
 
-const CheckBox = ({ handleOnChange, country, countryArray}) => {
-  const checked = countryArray?.includes(country)
+const CheckBox = ({
+  handleOnChange,
+  filterName,
+  filtersArray,
+  index,
+  comparisonResults,
+}) => {
+  const checked = filtersArray?.includes(filterName);
+  
 
   return (
     <>
       <input
         type="checkbox"
-        name={country}
-        value={country}
+        name={filterName}
+        value={filterName}
         checked={checked}
         onChange={handleOnChange}
+        disabled={comparisonResults}
         className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
       />
     </>

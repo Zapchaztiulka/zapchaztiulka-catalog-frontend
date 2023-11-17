@@ -4,7 +4,12 @@ import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 
-const TradeMarkFilter = ({trademarks}) => {
+const TradeMarkFilter = ({
+  trademarks,
+  handleOnChange,
+  trademarksArray,
+  comparisonResults,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggle = () => {
@@ -39,27 +44,68 @@ const TradeMarkFilter = ({trademarks}) => {
 
           <OverlayScrollbarsComponent
             element="span"
-            options={{ scrollbars: { autoHide: "never" } }}
+            options={{ scrollbars: { autoHide: 'never' } }}
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
               {trademarks?.map((item, index) => {
-                if (item.name === "") {
+                const isChecked = trademarksArray?.includes(item.name);
+                const isDisabled = comparisonResults[index];
+
+                if (item.name === '') {
                   return (
-                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                    <li
+                      key={`${item.name}+${index}`}
+                      className="flex justify-between p-xs3 pl-xs2"
+                    >
                       <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        <CheckBox />
+                        {/* <CheckBox
+                          handleOnChange={handleOnChange}
+                          filtersArray={trademarksArray}
+                          filterName={item.name}
+                        /> */}
                         Інше
                       </label>
+                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                        {item.countProducts}
+                      </span>
                     </li>
                   );
                 }
+
                 return (
-                  <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
-                    <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                      <CheckBox />
+                  <li
+                    key={index}
+                    className="flex justify-between p-xs3 pl-xs2 "
+                  >
+                    <label
+                      htmlFor={item.name}
+                      className={`flex items-center gap-xs3 text-base   ${
+                        isDisabled ? 'text-textDisabled' : 'text-textPrimary'
+                      }  cursor-pointer hover:text-textInputDefault checkbox`}
+                    >
+                      {/* <CheckBox
+                        handleOnChange={handleOnChange}
+                        filtersArray={trademarksArray}
+                        filterName={item.name}
+                        index={index}
+                        comparisonResults={comparisonResults[index]}
+                      /> */}
+                      <input
+                        type="checkbox"
+                        name={item.name}
+                        id={item.name}
+                        value={item.name}
+                        checked={isChecked}
+                        onChange={handleOnChange}
+                        disabled={isDisabled}
+                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                      />
                       {item.name}
                     </label>
+                    <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                      {item.countProducts}
+                    </span>
                   </li>
                 );
               })}
@@ -72,3 +118,4 @@ const TradeMarkFilter = ({trademarks}) => {
 };
 
 export default TradeMarkFilter;
+

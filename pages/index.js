@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 import {
   selectIsLoading,
   selectError,
-  selectProductsByQuery,
-} from "@/redux/products/productsSelectors";
+  selectAllProducts,
+} from '@/redux/products/productsSelectors';
 import Loader from "@/components/Loader";
 import Filter from "@/components/Filter/Filter";
 
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
-  const data = useSelector(selectProductsByQuery);
+  const data = useSelector(selectAllProducts);
   const error = useSelector(selectError);
   return (
     <div className="container mt-[130px] flex gap-s desktop1920:gap-sPlus">

@@ -15,16 +15,16 @@ const handleRejected = (state, { payload }) => {
 };
 
 const productsSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState: {
     products: [],
-    productsByQuery: [],
+    allProducts: [],
     productById: null,
     productInfo: null,
     isLoading: false,
     error: null,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(fetchProducts.pending, handlePending)
       .addCase(fetchProducts.fulfilled, (state, action) => {
@@ -38,7 +38,7 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, handleRejected)
       .addCase(fetchProductByID.pending, handlePending)
       .addCase(fetchProductByID.fulfilled, (state, action) => {
-         return {
+        return {
           ...state,
           isLoading: false,
           error: null,
@@ -53,7 +53,7 @@ const productsSlice = createSlice({
           ...state,
           isLoading: false,
           error: null,
-          productsByQuery: action.payload,
+          allProducts: action.payload,
         };
       })
       .addCase(fetchCountryPriceTrademark.pending, handlePending)

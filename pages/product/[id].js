@@ -1,31 +1,31 @@
-"use client";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css";
-import { CartIcon, LoopEye } from "@/public/icons";
-import { useDispatch, useSelector } from "react-redux";
+'use client';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css';
+import { CartIcon, LoopEye } from '@/public/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
   selectProduct,
-} from "@/redux/products/productsSelectors";
-import { fetchProductByID } from "@/redux/products/productsOperations";
-import { availabilityText, aviabilityType } from "@/helpers/aviabilityProduct";
+} from '@/redux/products/productsSelectors';
+import { fetchProductByID } from '@/redux/products/productsOperations';
+import { availabilityText, aviabilityType } from '@/helpers/aviabilityProduct';
 import {
   mainOptions,
   modalOptions,
   optionThumb,
-} from "@/helpers/optionsSlider";
-import { getExtension } from "@/helpers/checkExtension";
-import ProductInfo from "@/components/Products/ProductInfo";
-import RecentlyViewProducts from "@/components/Products/RecentlyViewProducts";
-import PopularProducts from "@/components/Products/PopularProducts";
+} from '@/helpers/optionsSlider';
+import { getExtension } from '@/helpers/checkExtension';
+import ProductInfo from '@/components/Products/ProductInfo';
+import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
+import PopularProducts from '@/components/Products/PopularProducts';
 
-const Modal = dynamic(() => import("../../components/Modal"), { ssr: false });
+const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
-const empty = "/empty-img.jpeg";
+const empty = '/empty-img.jpeg';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -38,34 +38,33 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const isLoading = useSelector(selectIsLoading);
-  let arrViewProduct = JSON.parse(localStorage.getItem("ProductViewed") || '[]')
+  let arrViewProduct = JSON.parse(
+    localStorage.getItem('ProductViewed') || '[]'
+  );
 
-  useEffect(() => {  
-      dispatch(fetchProductByID(id));
+  useEffect(() => {
+    dispatch(fetchProductByID(id));
   }, [dispatch, id]);
 
-  useEffect(()=>{
-    if (productId === id && productId!==null) {
+  useEffect(() => {
+    if (productId === id && productId !== null) {
       if (product !== null) {
-              arrViewProduct.unshift(product)
+        arrViewProduct.unshift(product);
       }
-       localStorage.setItem(
-       "ProductViewed",
-        JSON.stringify(arrViewProduct.slice(0,5))
-     );     
+      localStorage.setItem(
+        'ProductViewed',
+        JSON.stringify(arrViewProduct.slice(0, 5))
+      );
     }
-    return
-  }, [product])
+    return;
+  }, [product]);
 
   const getUniqueViewedProducts = () => {
-    if (
-      typeof arrViewProduct != "undefined" &&
-      arrViewProduct != null
-    ) {
+    if (typeof arrViewProduct != 'undefined' && arrViewProduct != null) {
       const newMap = new Map();
-      arrViewProduct?.forEach((item) => newMap.set(item?._id, item));
+      arrViewProduct?.forEach(item => newMap.set(item?._id, item));
       return [...newMap.values()];
-    } 
+    }
   };
   const productFromLocalStorage = getUniqueViewedProducts();
 
@@ -75,7 +74,7 @@ const ProductDetails = () => {
 
   const mainRef = useRef(null);
 
-  const handleThumbs = (id) => {
+  const handleThumbs = id => {
     if (mainRef.current) {
       mainRef.current.go(id);
     }
@@ -109,7 +108,7 @@ const ProductDetails = () => {
                     />
                   ) : (
                     <>
-                      {" "}
+                      {' '}
                       <div className="custom-class-slide relative">
                         <div className="absolute right-[40px] top-[10px] z-10">
                           <button onClick={() => setShowModal(!showModal)}>
@@ -142,7 +141,7 @@ const ProductDetails = () => {
                                         {product?.name}
                                       </p>
                                       <Splide options={modalOptions}>
-                                        {product?.photo?.map((item) => (
+                                        {product?.photo?.map(item => (
                                           <SplideSlide key={item._id}>
                                             <Image
                                               src={
@@ -186,8 +185,8 @@ const ProductDetails = () => {
                                   sizes="100vw"
                                   className={`${
                                     indexThumb === index
-                                      ? "border border-borderDefaultBlue rounded-lg"
-                                      : "border-none"
+                                      ? 'border border-borderDefaultBlue rounded-lg'
+                                      : 'border-none'
                                   } w-[78px] h-[52px] tablet768:w-[114px] tablet768:h-[76px] desktop1200:w-[134px] desktop1200:h-[90px] cursor-pointer object-contain overflow-hidden m-1`}
                                 />
                               </button>
@@ -260,19 +259,18 @@ const ProductDetails = () => {
       <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
         <PopularProducts />
       </div>
-      {productFromLocalStorage.length > 0 && 
+      {productFromLocalStorage.length > 0 && (
         <>
           <h2 className="mb-s mt-6 text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
-        Переглянуті товари
-      </h2>
-      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-        <RecentlyViewProducts
-          productFromLocalStorage={productFromLocalStorage}
-        />
-        </div>
-      </>
-      }
-      
+            Переглянуті товари
+          </h2>
+          <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
+            <RecentlyViewProducts
+              productFromLocalStorage={productFromLocalStorage}
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

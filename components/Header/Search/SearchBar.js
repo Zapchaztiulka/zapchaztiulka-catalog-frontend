@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { CloseIcon, SearchIconNavbar } from "@/public/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProductsByQuery } from "@/redux/products/productsSelectors";
+import { selectAllProducts } from '@/redux/products/productsSelectors';
 import { fetchAllProducts } from "@/redux/products/productsOperations";
 import { useOutsideClick } from "@/hooks/useOnClickOutside";
 
@@ -17,7 +17,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const refList = useRef();
 
   const dispatch = useDispatch();
-  const data = useSelector(selectProductsByQuery);
+  const data = useSelector(selectAllProducts);
   const products = data?.products;
 
   useEffect(() => {

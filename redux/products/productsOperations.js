@@ -6,10 +6,16 @@ axios.defaults.baseURL = `https://spares-backend-i2mq.onrender.com/api`;
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (dataValue) => {
-      const { page = 1, query = '', limit = 10, countries } = dataValue;
+      const {
+        page = 1,
+        query = '',
+        limit = 10,
+        countries,
+        trademarks,
+      } = dataValue;
       const { data } = await axios.post(
         `/products?page=${page}&limit=${limit}&query=${query}`,
-        { countries }
+        { countries, trademarks }
       );
       return data;
     } 

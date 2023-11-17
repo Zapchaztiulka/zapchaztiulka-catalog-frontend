@@ -7,6 +7,8 @@ const CountryFilter = ({
   countries,
   handleOnChange,
   countryArray,
+  comparisonResults,
+  foo
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -42,35 +44,58 @@ const CountryFilter = ({
 
           <OverlayScrollbarsComponent
             element="span"
-            options={{ scrollbars: { autoHide: "never" } }}
+            options={{ scrollbars: { autoHide: 'never' } }}
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
               {countries?.map((item, index) => {
-                if (item.name === "") {
+                if (item.name !== '') {
                   return (
-                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                    <li
+                      key={`${item.name}+${index}`}
+                      className="flex justify-between p-xs3 pl-xs2"
+                    >
                       <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        <CheckBox
-                          country={item.name}
+                        {/* <CheckBox
+                          filterName={item.name}
                           handleOnChange={handleOnChange}
-                          countryArray={countryArray}
+                          filtersArray={countryArray}
+                          index={index}
+                          // comparisonResults={comparisonResults[index]}
+                        /> */}
+                        <input
+                          type="checkbox"
+                          name={item.name}
+                          value={item.name}
+                          checked={countryArray?.includes(item.name)}
+                          onChange={handleOnChange}
+                          // disabled={comparisonResults}
+                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
                         />
-                        Інше
+                        {item.name}
                       </label>
+                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                        {item.countProducts}
+                      </span>
                     </li>
                   );
                 } else {
                   return (
-                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                    <li
+                      key={`${item.name}+${index}`}
+                      className="flex justify-between p-xs3 pl-xs2"
+                    >
                       <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        <CheckBox
-                          country={item.name}
+                        {/* <CheckBox
+                          filterName={item.name}
                           handleOnChange={handleOnChange}
-                          countryArray={countryArray}
-                        />
-                        {item.name}
+                          filtersArray={countryArray}
+                        /> */}
+                        Інше
                       </label>
+                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                        {item.countProducts}
+                      </span>
                     </li>
                   );
                 }
