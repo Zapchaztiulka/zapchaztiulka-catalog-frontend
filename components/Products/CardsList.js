@@ -31,7 +31,6 @@ const CardsList = () => {
   const trademarksArray = useSelector(selectFilterByTrademarks);
    const productInfo = useSelector(selectCountryPriceTrademark);
 
-  // console.log(products)
   // console.log(productInfo);
 
   const dataRequest = {
