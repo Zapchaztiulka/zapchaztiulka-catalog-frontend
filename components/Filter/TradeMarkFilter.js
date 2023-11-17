@@ -44,7 +44,7 @@ const TradeMarkFilter = ({
 
           <OverlayScrollbarsComponent
             element="span"
-            options={{ scrollbars: { autoHide: 'never' } }}
+            options={{ scrollbars: { autoHide: 'move', visibility: 'auto' } }}
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
@@ -53,40 +53,12 @@ const TradeMarkFilter = ({
                   comparisonResults[index] && onChangeTriggered;
                 const isChecked = trademarksArray?.includes(item.name);
 
-                if (item.name === '') {
-                  return (
-                    <li
-                      key={`${item.name}+${index}`}
-                      className="flex justify-between p-xs3 pl-xs2"
-                    >
-                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        {/* <CheckBox
-                          handleOnChange={handleOnChange}
-                          filtersArray={trademarksArray}
-                          filterName={item.name}
-                        /> */}
-                        <input
-                          type="checkbox"
-                          name={item.name}
-                          value={item.name}
-                          checked={isChecked}
-                          onChange={handleOnChange}
-                          disabled={isDisabled}
-                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
-                        />
-                        Інше
-                      </label>
-                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
-                        {item.countProducts}
-                      </span>
-                    </li>
-                  );
-                }
-
                 return (
                   <li
                     key={index}
-                    className="flex justify-between p-xs3 pl-xs2 "
+                    className={`flex justify-between p-xs3 pl-xs2 ${
+                      isDisabled ? 'hidden' : 'flex'
+                    }`}
                   >
                     <label
                       htmlFor={item.name}
@@ -111,7 +83,7 @@ const TradeMarkFilter = ({
                         disabled={isDisabled}
                         className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
                       />
-                      {item.name}
+                      {item.name !== '' ? item.name : 'Інше'}
                     </label>
                     <span className="text-[10px]/[14px] font-medium text-textSecondary">
                       {item.countProducts}

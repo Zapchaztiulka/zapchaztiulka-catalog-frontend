@@ -62,22 +62,20 @@ const Catalog = () => {
     setIndex(indexCategory);
     const test = categories.find((el) => el._id === subCategoryId);
     setLengthSubCategory(test.subcategories.length);
-    // const lengthCategory = test.subcategories.length;
-    // const nameCategory = test.categoryName;
   };
 
     const clickBySubCategory = (subCategory) => {
     router.push({
       pathname: "/",
-      query: { query: subCategory.toLowerCase() },
+      query: { query: subCategory.toLowerCase(), page: 1 },
     });
     clearSubMenuByClick();
   };
 
   const clickByCategory = (nameCategory) => {
     router.push({
-      pathname: "/",
-      query: { query: nameCategory },
+      pathname: '/',
+      query: { query: nameCategory, page: 1 },
     });
       close();   
   };

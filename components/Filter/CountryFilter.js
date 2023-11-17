@@ -44,7 +44,7 @@ const CountryFilter = ({
 
           <OverlayScrollbarsComponent
             element="span"
-            options={{ scrollbars: { autoHide: 'never' } }}
+            options={{ scrollbars: { autoHide: 'move', visibility: 'auto' } }}
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
@@ -53,69 +53,41 @@ const CountryFilter = ({
                   comparisonResults[index] && onChangeTriggered;
                 const isChecked = countryArray?.includes(item.name);
 
-                if (item.name !== '') {
-                  return (
-                    <li
-                      key={`${item.name}+${index}`}
-                      className="flex justify-between p-xs3 pl-xs2"
+                return (
+                  <li
+                    key={`${item.name}+${index}`}
+                    className={`flex justify-between p-xs3 pl-xs2 ${
+                      isDisabled ? 'hidden' : 'flex'
+                    }`}
+                  >
+                    <label
+                      className={`flex items-center gap-xs3 text-base   ${
+                        isDisabled ? 'text-textDisabled' : 'text-textPrimary'
+                      }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
-                      <label
-                        className={`flex items-center gap-xs3 text-base   ${
-                          isDisabled ? 'text-textDisabled' : 'text-textPrimary'
-                        }  cursor-pointer hover:text-textInputDefault checkbox`}
-                      >
-                        {/* <CheckBox
+                      {/* <CheckBox
                           filterName={item.name}
                           handleOnChange={handleOnChange}
                           filtersArray={countryArray}
                           index={index}
                           // comparisonResults={comparisonResults[index]}
                         /> */}
-                        <input
-                          type="checkbox"
-                          name={item.name}
-                          value={item.name}
-                          checked={isChecked}
-                          onChange={handleOnChange}
-                          disabled={isDisabled}
-                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
-                        />
-                        {item.name}
-                      </label>
-                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
-                        {item.countProducts}
-                      </span>
-                    </li>
-                  );
-                } else {
-                  return (
-                    <li
-                      key={`${item.name}+${index}`}
-                      className="flex justify-between p-xs3 pl-xs2"
-                    >
-                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                        {/* <CheckBox
-                          filterName={item.name}
-                          handleOnChange={handleOnChange}
-                          filtersArray={countryArray}
-                        /> */}
-                        <input
-                          type="checkbox"
-                          name={item.name}
-                          value={item.name}
-                          checked={isChecked}
-                          onChange={handleOnChange}
-                          disabled={isDisabled}
-                          className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
-                        />
-                        Інше
-                      </label>
-                      <span className="text-[10px]/[14px] font-medium text-textSecondary">
-                        {item.countProducts}
-                      </span>
-                    </li>
-                  );
-                }
+                      <input
+                        type="checkbox"
+                        name={item.name}
+                        value={item.name}
+                        checked={isChecked}
+                        onChange={handleOnChange}
+                        disabled={isDisabled}
+                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                      />
+                      {item.name !== '' ? item.name : 'Інше'}
+                    </label>
+                    <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                      {item.countProducts}
+                    </span>
+                  </li>
+                );
               })}
             </ul>
           </OverlayScrollbarsComponent>

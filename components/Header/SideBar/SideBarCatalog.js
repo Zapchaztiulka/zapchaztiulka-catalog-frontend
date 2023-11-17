@@ -43,16 +43,16 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
 
   const clickByCategory = (nameCategory) => {
     router.push({
-      pathname: "/",
-      query: { query: nameCategory },
+      pathname: '/',
+      query: { query: nameCategory, page: 1 },
     });
     closeCategory();
   };
 
   const clickBySubCategory = (subCategory) => {
     router.push({
-      pathname: "/",
-      query: { query: subCategory.toLowerCase() },
+      pathname: '/',
+      query: { query: subCategory.toLowerCase(), page: 1 },
     });
      closeCategory();
   };
