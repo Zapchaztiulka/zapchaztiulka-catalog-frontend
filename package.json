@@ -16,8 +16,11 @@
     "@splidejs/react-splide": "^0.7.12",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
+    "nanoid": "^5.0.3",
     "next": "^14.0.2",
     "overlayscrollbars": "^2.4.4",
     "overlayscrollbars-react": "^0.5.3",
@@ -26,7 +29,8 @@
     "react-loader-spinner": "^5.4.5",
     "react-redux": "^8.1.2",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.15",
