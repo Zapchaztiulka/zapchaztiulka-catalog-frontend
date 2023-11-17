@@ -8,6 +8,7 @@ const TradeMarkFilter = ({
   handleOnChange,
   trademarksArray,
   comparisonResults,
+  onChangeTriggered,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -47,10 +48,10 @@ const TradeMarkFilter = ({
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-                {trademarks?.map((item, index) => {
-                 const isDisabled = comparisonResults[index];
-                const isChecked =
-                  trademarksArray?.includes(item.name)             
+              {trademarks?.map((item, index) => {
+                const isDisabled =
+                  comparisonResults[index] && onChangeTriggered;
+                const isChecked = trademarksArray?.includes(item.name);
 
                 if (item.name === '') {
                   return (

@@ -22,7 +22,8 @@ const Filter = () => {
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
   const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
-  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] = useState([]);
+  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
+    useState([]);
   const [onChangeTriggered, setOnChangeTriggered] = useState(false);
   const [onChangeTriggeredByTrademarks, setOnChangeTriggeredByTrademarks] =
     useState(false);
@@ -33,11 +34,10 @@ const Filter = () => {
 
   const handleOnChangeByCountry = e => {
     const { value, checked } = e.target;
-
     if (checked) {
       setCountry(prev => [...prev, value]);
       setIsChecked(true);
-      setOnChangeTriggered(true);     
+      setOnChangeTriggered(true);
     } else {
       setCountry(prev => {
         return [...prev.filter(item => item !== value)];
@@ -62,36 +62,31 @@ const Filter = () => {
   };
 
   const isMatchesCountries = trademark => {
-        const countryForSelectedTrademarks = getTCountriesForTrademarks(
-          productInfo.trademarks,
-          trademark
-        );
-        const results = productInfo.countries.map(item => {
-          const isMatch = countryForSelectedTrademarks.includes(item.name);
-          return !isMatch;
-        });
+    const countryForSelectedTrademarks = getTCountriesForTrademarks(
+      productInfo.trademarks,
+      trademark
+    );
+    const results = productInfo.countries.map(item => {
+      const isMatch = countryForSelectedTrademarks.includes(item.name);
+      return !isMatch;
+    });
 
-        setComparisonResultsTrademarks(results);
-        return results;
-  }
+    setComparisonResultsTrademarks(results);
+    return results;
+  };
 
   useEffect(() => {
-    if (onChangeTriggered) {
+    if (onChangeTriggered) {   
       isMatchesTrademarks(country);
-      // setOnChangeTriggered(false);
-    }
+    } else setOnChangeTriggered(false)
   }, [country, onChangeTriggered]);
 
+  useEffect(() => {
+    if (onChangeTriggeredByTrademarks) {
+      isMatchesCountries(trademarks);
+    } else setOnChangeTriggeredByTrademarks(false);
+  }, [trademarks, onChangeTriggeredByTrademarks]);
 
-    useEffect(() => {
-      if (onChangeTriggeredByTrademarks) {
-        isMatchesCountries(trademarks);
-        // setOnChangeTriggered(false);
-      }
-    }, [trademarks, onChangeTriggeredByTrademarks]);
-
-  // console.log("choose country" + onChangeTriggered);
-  // console.log("choose trade" + onChangeTriggeredByTrademarks);
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
@@ -104,7 +99,7 @@ const Filter = () => {
         return [...prev.filter(item => item !== value)];
       });
       setIsChecked(false);
-         setOnChangeTriggeredByTrademarks(false);
+      setOnChangeTriggeredByTrademarks(false);
     }
   };
 
@@ -142,12 +137,14 @@ const Filter = () => {
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
         comparisonResults={comparisonResultsCountry}
+        onChangeTriggered={onChangeTriggered}
       />
       <CountryFilter
         countries={productInfo?.countries}
         countryArray={country}
         handleOnChange={handleOnChangeByCountry}
         comparisonResults={comparisonResultsTrademarks}
+        onChangeTriggered={onChangeTriggeredByTrademarks}
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">

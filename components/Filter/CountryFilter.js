@@ -8,6 +8,7 @@ const CountryFilter = ({
   handleOnChange,
   countryArray,
   comparisonResults,
+  onChangeTriggered,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -47,12 +48,11 @@ const CountryFilter = ({
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-                {countries?.map((item, index) => {
-                  const isDisabled = comparisonResults[index];
-                  console.log("cpontry" + isDisabled);
-                  const isChecked = countryArray?.includes(item.name);
-                  // console.log(isChecked);
-                  
+              {countries?.map((item, index) => {
+                const isDisabled =
+                  comparisonResults[index] && onChangeTriggered;
+                const isChecked = countryArray?.includes(item.name);
+
                 if (item.name !== '') {
                   return (
                     <li
