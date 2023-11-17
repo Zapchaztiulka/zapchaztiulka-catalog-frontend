@@ -1,17 +1,19 @@
-"use client"
-import { testData } from "@/helpers/tempData";
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
-const CountryFilter = () => {
+const CountryFilter = ({
+  countries,
+  handleOnChange,
+  countryArray,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
- 
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div>
       {!isOpen ? (
@@ -44,15 +46,34 @@ const CountryFilter = () => {
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-              {testData.map((item) => {
-                return (
-                  <li key={item.id} className="p-xs3 pl-xs2">
-                    <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
-                      <CheckBox />
-                      {item.country}
-                    </label>
-                  </li>
-                );
+              {countries?.map((item, index) => {
+                if (item.name === "") {
+                  return (
+                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                        <CheckBox
+                          country={item.name}
+                          handleOnChange={handleOnChange}
+                          countryArray={countryArray}
+                        />
+                        Інше
+                      </label>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                        <CheckBox
+                          country={item.name}
+                          handleOnChange={handleOnChange}
+                          countryArray={countryArray}
+                        />
+                        {item.name}
+                      </label>
+                    </li>
+                  );
+                }
               })}
             </ul>
           </OverlayScrollbarsComponent>

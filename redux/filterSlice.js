@@ -1,37 +1,47 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialPrice = {
   minPrice: null,
   maxPrice: null,
-  subcategoryName: ''
-}
+  subcategoryName: "",
+  countryArr: [],
+};
 
 const filterSlice = createSlice({
-  name: 'filter',
+  name: "filter",
   initialState: initialPrice,
   reducers: {
     filterProductsMin(state, action) {
       return {
         ...state,
-        minPrice: Number(action.payload)
-      }
+        minPrice: Number(action.payload),
+      };
     },
     filterProductsMax(state, action) {
-       return {
+      return {
         ...state,
-        maxPrice: Number(action.payload)
-      }
+        maxPrice: Number(action.payload),
+      };
     },
     filterProductsSubCategory(state, action) {
-       return {
+      return {
         ...state,
-        subcategoryName: action.payload
-      }
+        subcategoryName: action.payload,
+      };
     },
-
+    filterProductsByCountry(state, action) {
+      return {
+        ...state,
+        countryArr: action.payload,
+      };
+    },
   },
 });
 
-export const { filterProductsMin, filterProductsMax, filterProductsSubCategory } =
-  filterSlice.actions;
-export const filterReducer =  filterSlice.reducer;
+export const {
+  filterProductsMin,
+  filterProductsMax,
+  filterProductsSubCategory,
+  filterProductsByCountry,
+} = filterSlice.actions;
+export const filterReducer = filterSlice.reducer;

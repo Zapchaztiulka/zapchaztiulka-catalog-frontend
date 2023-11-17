@@ -35,7 +35,7 @@ const Footer = () => {
   return (
     <footer className="container border-t border-borderDefault lg:pt-[42px] py-6 ">
       <div className="flex flex-col justify-between tablet768:gap-3 gap-8">
-        <div className=" tablet600:inline-flex  hidden items-center">
+        <div className=" tablet600:inline-flex  hidden desktop1920:hidden items-center">
           <Link href="/" onClick={handleToHome}>
             <LogoIconWithText />
           </Link>
@@ -47,6 +47,11 @@ const Footer = () => {
 
         <FooterTablet />
         <div className="footer-lists">
+           <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
+          <Link href="/" onClick={handleToHome} className="absolute -top-[9px]">
+            <LogoIconWithText />
+          </Link>
+        </div>
           <div className="flex flex-col gap-3">
             <h4 className="text-textTertiary text-lg">Каталог</h4>
             <ul className="text-textPrimary text-base">

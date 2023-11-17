@@ -11,7 +11,6 @@ import Link from "next/link";
 import { fetchProducts } from "@/redux/products/productsOperations";
 import { getExtension } from "@/helpers/checkExtension";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { ArrowRight } from "@/public/icons";
 import SpecialProduct from "./SpecialProduct";
 
 const PopularProducts = () => {
@@ -29,25 +28,21 @@ const PopularProducts = () => {
 
   return (
     <>
-      <section className="mb-6 popular-products overflow-x-auto tablet1024:overflow-visible">
+      <section className="mb-6 tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
         {isLoading && data.length === 0 && <Loader />}
 
         <div className="flex gap-4 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5">
-          
           {/* special order 600-1440px */}
-          <div className="desktop1920:hidden hidden tablet600:block product-card-popular border border-borderDefault rounded-lg hover:shadow-md relative">
+          <div className="desktop1920:hidden hidden tablet600:block product-card-popular relative">
             <SpecialProduct />
           </div>
 
           <ul className="flex gap-[7px] tablet600:gap-xs tablet600:max-w-[50%] tablet1024:max-w-none tablet1024:gap-s desktop1440:gap-sPlus">
             {cuttingProducts?.map(({ name, _id, photo, price, vendorCode }) => {
               return (
-                <li
-                  className="product-card-popular border border-borderDefault rounded-lg hover:shadow-md cursor-pointer"
-                  key={_id}
-                >
+                <li key={_id}>
                   <Link href={{ pathname: `/product/${_id}` }}>
-                    <div className="product-card-popular">
+                    <div className="product-card-popular hover:shadow-md cursor-pointer border border-borderDefault rounded-lg">
                       <div className="w-full">
                         {photo.length === 0 || !getExtension(photo[0]?.url) ? (
                           <Image
@@ -56,7 +51,7 @@ const PopularProducts = () => {
                             width="0"
                             height="0"
                             sizes="100vw"
-                            className="product-card-popular rounded-t-lg object-contain mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px]"
+                            className="product-card-popular  rounded-t-lg object-contain mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px]"
                           />
                         ) : (
                           <Image
@@ -96,13 +91,13 @@ const PopularProducts = () => {
           </ul>
 
           {/* special order 1920px */}
-          <div className="hidden desktop1920:block product-card-popular border border-borderDefault rounded-lg hover:shadow-md relative">
+          <div className="hidden desktop1920:block product-card-popular  hover:shadow-md relative">
             <SpecialProduct />
           </div>
         </div>
       </section>
 
-       {/* special order 320-480px */}
+      {/* special order 320-480px */}
       <div className=" tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px] border border-borderDefault rounded-lg relative">
         <SpecialProduct />
       </div>

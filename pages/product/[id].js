@@ -32,42 +32,40 @@ const ProductDetails = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
+  const productId = product?._id;
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const isLoading = useSelector(selectIsLoading);
-  let arrViewProduct = [];
-  const [viewProduct, setViewProduct] = useState(
-    JSON.parse(localStorage.getItem("ProductViewed")) || arrViewProduct
-  );
+  let arrViewProduct = JSON.parse(localStorage.getItem("ProductViewed") || '[]')
 
-  useEffect(() => {
-    if(typeof id != "undefined" && id != null) {
-    const fetchData = (id) => {
-     dispatch(fetchProductByID(id));
-    };
-    fetchData(id);
-    }
- 
+  useEffect(() => {  
+      dispatch(fetchProductByID(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    arrViewProduct.unshift(product);
-    setViewProduct((prev) => [...arrViewProduct, ...prev]);
-    localStorage.setItem("ProductViewed", JSON.stringify(viewProduct.slice(0, 6)));
-  }, [product]);
-
-  const productInLocalStorage = JSON.parse(localStorage.getItem("ProductViewed"));
+  useEffect(()=>{
+    if (productId === id && productId!==null) {
+      if (product !== null) {
+              arrViewProduct.unshift(product)
+      }
+       localStorage.setItem(
+       "ProductViewed",
+        JSON.stringify(arrViewProduct.slice(0,5))
+     );     
+    }
+    return
+  }, [product])
 
   const getUniqueViewedProducts = () => {
-    if (productInLocalStorage) {
+    if (
+      typeof arrViewProduct != "undefined" &&
+      arrViewProduct != null
+    ) {
       const newMap = new Map();
-      productInLocalStorage?.forEach((item) => newMap.set(item._id, item));
+      arrViewProduct?.forEach((item) => newMap.set(item?._id, item));
       return [...newMap.values()];
-    } else {
-      console.log("empty");
-    }
+    } 
   };
   const productFromLocalStorage = getUniqueViewedProducts();
 
@@ -220,7 +218,7 @@ const ProductDetails = () => {
                 color: `${availabilityText(product?.availability)}`,
                 borderColor: `${aviabilityType(product?.availability)}`,
               }}
-              className="inline-block text-sm font-medium py-xs3 px-xs mb-s border rounded-medium3 text-center"
+              className="inline-block text-sm font-medium py-xs3 px-xs2 mb-s border rounded-medium3 text-center"
             >
               {product?.availability}
             </p>
@@ -228,9 +226,9 @@ const ProductDetails = () => {
             <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
               <button
                 onClick={() => setShowModalCart(!showModalCart)}
-                className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                className="flex justify-center state-button lg:px-6 px-3 py-3 border border-bgBrandDark"
               >
-                <div className="flex justify-center items-center gap-xs4">
+                <div className="flex justify-center products-center gap-xs4">
                   <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
                   <span className="text-textContrast text-sm tracking-[-0.21px]">
                     Додати в кошик
@@ -256,21 +254,25 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-
-      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
-        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
-          Найбільш популярні
-        </h2>
+      <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
+        Найбільш популярні
+      </h2>
+      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
         <PopularProducts />
       </div>
-      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] desktop1440:max-w-[1536px] desktop1920:max-w-none mx-auto">
-        <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px]">
-          Переглянуті товари
-        </h2>
+      {productFromLocalStorage.length > 0 && 
+        <>
+          <h2 className="mb-s mt-6 text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
+        Переглянуті товари
+      </h2>
+      <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
         <RecentlyViewProducts
           productFromLocalStorage={productFromLocalStorage}
         />
-      </div>
+        </div>
+      </>
+      }
+      
     </>
   );
 };

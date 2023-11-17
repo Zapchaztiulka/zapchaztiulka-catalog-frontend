@@ -1,12 +1,12 @@
-"use client";
-import { testData } from "@/helpers/tempData";
 import { ArrowDown, ArrowUp } from "@/public/icons";
 import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
-const TradeMarkFilter = () => {
+
+const TradeMarkFilter = ({trademarks}) => {
   const [isOpen, setIsOpen] = useState(true);
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -43,12 +43,22 @@ const TradeMarkFilter = () => {
             defer
           >
             <ul className="flex flex-col gap-xs3 max-h-[250px] overflow-auto">
-              {testData.map((item) => {
+              {trademarks?.map((item, index) => {
+                if (item.name === "") {
+                  return (
+                    <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
+                      <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
+                        <CheckBox />
+                        Інше
+                      </label>
+                    </li>
+                  );
+                }
                 return (
-                  <li key={item.id} className="p-xs3 pl-xs2">
+                  <li key={`${item.name}+${index}`} className="p-xs3 pl-xs2">
                     <label className="flex items-center gap-xs3 text-base text-textPrimary cursor-pointer hover:text-textInputDefault checkbox">
                       <CheckBox />
-                      {item.trademark}
+                      {item.name}
                     </label>
                   </li>
                 );

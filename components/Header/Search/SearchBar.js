@@ -44,7 +44,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     if (searchTerm !== "" && filteredData.length !== 0) {
       router.push({
         pathname: "/",
-        query: { query: searchTerm.toLowerCase() },
+        query: { query: searchTerm.toLowerCase(), page: 1 },
       });
     }
     clearSearchTerm();

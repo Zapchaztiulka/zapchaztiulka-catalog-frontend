@@ -3,22 +3,8 @@ import {
   fetchProducts,
   fetchProductByID,
   fetchAllProducts,
+  fetchCountryPriceTrademark
 } from "./productsOperations";
-
-// const getFromLocalStorage = () => {
-//   if (typeof window !== "undefined") {
-//     const productItem = localStorage.getItem("productDetail");
-//     if (productItem) {
-//       return JSON.parse(localStorage.getItem("productDetail"));
-//     } else {
-//       return [];
-//     }
-//   }
-// };
-
-// const setToLocalStorage = (data) => {
-//  localStorage.setItem("productDetail", JSON.stringify(data)); 
-// };
 
 const handlePending = (state) => {
   state.isLoading = true;
@@ -34,6 +20,7 @@ const productsSlice = createSlice({
     products: [],
     productsByQuery: [],
     productById: null,
+    productInfo: null,
     isLoading: false,
     error: null,
   },
@@ -51,7 +38,7 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, handleRejected)
       .addCase(fetchProductByID.pending, handlePending)
       .addCase(fetchProductByID.fulfilled, (state, action) => {
-       return {
+         return {
           ...state,
           isLoading: false,
           error: null,
@@ -68,7 +55,17 @@ const productsSlice = createSlice({
           error: null,
           productsByQuery: action.payload,
         };
-      });
+      })
+      .addCase(fetchCountryPriceTrademark.pending, handlePending)
+      .addCase(fetchCountryPriceTrademark.fulfilled, (state, action) => {
+        return {
+          ...state,
+          isLoading: false,
+          error: null,
+          productInfo: action.payload,
+        };
+      })
+      .addCase(fetchCountryPriceTrademark.rejected, handleRejected);
   },
 });
 

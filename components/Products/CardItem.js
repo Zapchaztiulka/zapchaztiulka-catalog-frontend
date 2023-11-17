@@ -3,17 +3,18 @@ import { getExtension } from "@/helpers/checkExtension";
 import { cutArticle, cutText } from "@/helpers/cutTiext";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
 
   return (
-    
-      <li className="product-card cursor-pointer">
-        <Link href={{ pathname: `/product/${id}` }}>
-        <div className="">
-          <div className="w-full">
-            {(photo.length === 0 || !getExtension(photo[0]?.url)) ? (
+    <li className="cursor-pointer">
+      <Link
+        href={{ pathname: `/product/${id}` }}
+        className="inline-block cards"
+      >
+        <div className="cards border border-borderDefault rounded-lg hover:shadow-md">
+          <div className="">
+            {photo.length === 0 || !getExtension(photo[0]?.url) ? (
               <Image
                 src="/empty-img.jpeg"
                 alt="no image"
@@ -35,7 +36,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
             )}
           </div>
 
-          <div className="flex flex-col grow tablet768:px-3 tablet768:pt-2 tablet768:pb-3 p-2">
+          <div className="flex flex-col grow tablet768:px-3 tablet768:pt-2 tablet768:pb-3 p-2 cards">
             <p className="mb-1 tablet768:text-sm text-[10px] text-textTertiary">
               Артикул: {cutArticle(vendorCode)}
             </p>
@@ -53,8 +54,8 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
             </div>
           </div>
         </div>
-            </Link>
-      </li>
+      </Link>
+    </li>
   );
 };
 

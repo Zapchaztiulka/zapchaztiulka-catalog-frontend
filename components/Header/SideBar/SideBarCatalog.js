@@ -49,7 +49,7 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
     closeCategory();
   };
 
-    const clickBySubCategory = (subCategory) => {
+  const clickBySubCategory = (subCategory) => {
     router.push({
       pathname: "/",
       query: { query: subCategory.toLowerCase() },

@@ -14,13 +14,13 @@ export function cutArticle(string) {
 
 export const cutProductsArray = (products, width) => {
       if (width > 0 && width < 1023) {
-        return products.slice(0, 4); 
+        return products?.slice(0, 4); 
      }
         else    if (width >= 1024 && width < 1918) {
-        return products.slice(0, 3); 
+        return products?.slice(0, 3); 
       }  
       else if (width >= 1920) {
-          return products.slice(0, 4); 
+          return products?.slice(0, 4); 
       }     
 }
    
@@ -29,9 +29,9 @@ export const cutProductsViewedArray = (products, width) => {
         return products
      }
         else    if (width >= 1024 && width < 1918) {
-        return products.slice(0, 4); 
+        return products?.slice(0, 4); 
       }  
       else if (width >= 1920) {
-          return products.slice(0, 5); 
+          return products?.slice(0, 5); 
       }     
    }

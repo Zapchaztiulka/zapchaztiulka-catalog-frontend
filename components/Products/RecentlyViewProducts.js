@@ -1,22 +1,28 @@
+"use client"
 import { getExtension } from '@/helpers/checkExtension';
-import { cutArticle, cutText } from '@/helpers/cutTiext';
+import { cutArticle, cutProductsViewedArray, cutText } from '@/helpers/cutTiext';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
 const RecentlyViewProducts = ({ productFromLocalStorage }) => {
-  console.log(productFromLocalStorage);
+   const size = useWindowSize();
+
+  const cuttingProducts = cutProductsViewedArray(productFromLocalStorage, size);
+
   return (
     <>
-      
-        <ul className="flex overflow-x-auto tablet1024:overflow-visible gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
+      <section className='mb-6 popular-products overflow-x-auto tablet1024:overflow-visible'>
+
+        <ul className="flex gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
           {productFromLocalStorage &&
-            productFromLocalStorage?.map(
+            cuttingProducts?.map(
               ({ name, _id, photo, price, vendorCode }) => {
                 return (
-                  <li className=" cursor-pointer" key={_id}>
+                  <li key={_id}>
                     <Link href={{ pathname: `/product/${_id}` }}>
-                      <div className="product-card-popular border border-borderDefault rounded-lg hover:shadow-md">
+                      <div className="product-card-popular cursor-pointer border border-borderDefault rounded-lg hover:shadow-md">
                         <div className="w-full">
                           {photo.length === 0 ||
                           !getExtension(photo[0]?.url) ? (
@@ -65,7 +71,7 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
               }
             )}
         </ul>
-      
+      </section>
     </>
   );
 }
