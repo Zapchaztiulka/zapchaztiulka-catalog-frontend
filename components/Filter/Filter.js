@@ -2,7 +2,7 @@ import PriceFilter from './PriceFilter';
 import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
 import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
 import {
@@ -10,27 +10,41 @@ import {
   filterProductsByTradeMarks,
 } from '@/redux/filterSlice';
 import { useRouter } from 'next/router';
-import { getTCountriesForTrademarks, getTrademarksForCountries } from '@/helpers/checkForMatchValue';
+import { getNamesByBooleanArray, getTCountriesForTrademarks, getTrademarksForCountries } from '@/helpers/checkForMatchValue';
+import { StatusContext } from '@/context/statusContext';
 
 const Filter = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
   const [isChecked, setIsChecked] = useState(false);
-  let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
-  const [country, setCountry] = useState(countryChecked);
-  const [trademarks, setTrademarks] = useState(trademarksChecked);
-  const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
-  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
-    useState([]);
-  const [onChangeTriggered, setOnChangeTriggered] = useState(false);
-  const [onChangeTriggeredByTrademarks, setOnChangeTriggeredByTrademarks] =
-    useState(false);
+  const [sen, setSen] = useState([])
+// console.log(productInfo.trademarks);
+
+  // const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
+  // const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
+  //   useState([]);
+  const {
+    triggeredCountry,
+    setTriggedCountry,
+    triggeredTrademark,
+    setTriggedTrademark,
+    country,
+    setCountry,
+    trademarks,
+    setTrademarks,
+    resetLocalStorage,
+    comparisonResultsCountry,
+    setComparisonResultsCountry,
+    comparisonResultsTrademarks,
+    setComparisonResultsTrademarks,
+  } = useContext(StatusContext);
 
   useEffect(() => {
     dispatch(fetchCountryPriceTrademark());
-    if (country.length !== 0 || trademarks.length !== 0) { setIsChecked(true); }
+    if (country.length !== 0 || trademarks.length !== 0) {
+      setIsChecked(true);
+    }
   }, [dispatch]);
 
   const handleOnChangeByCountry = e => {
@@ -38,13 +52,13 @@ const Filter = () => {
     if (checked) {
       setCountry(prev => [...prev, value]);
       setIsChecked(true);
-      setOnChangeTriggered(true);
+      setTriggedCountry(true);
     } else {
       setCountry(prev => {
         return [...prev.filter(item => item !== value)];
       });
       setIsChecked(false);
-      setOnChangeTriggered(false);
+      setTriggedCountry(false);
     }
   };
 
@@ -54,10 +68,9 @@ const Filter = () => {
       country
     );
     const results = productInfo.trademarks.map(item => {
-      const isMatch = trademarksForSelectedCountries.includes(item.name);
+      const isMatch = trademarksForSelectedCountries.includes(item.name);   
       return !isMatch;
     });
-
     setComparisonResultsCountry(results);
     return results;
   };
@@ -76,52 +89,79 @@ const Filter = () => {
     return results;
   };
 
+  const isVisibleTrademarks = getNamesByBooleanArray(
+    comparisonResultsCountry,
+    productInfo.trademarks
+  );
+ 
+  const isVisibleCountries = getNamesByBooleanArray(
+    comparisonResultsTrademarks,
+    productInfo.countries
+  );
+
+  const trademarksArray = productInfo?.trademarks.map((item) => item.name)
+  const countriesArray = productInfo?.countries.map((item)=>item.name)
+
+  const visibleTrademarks = country.length === 0 ? trademarksArray : isVisibleTrademarks;
+  const visibleCountries =
+    trademarks.length === 0 ? countriesArray : isVisibleCountries;
+  // console.log(visibleTrademarks);
+
+
   useEffect(() => {
-    if (onChangeTriggered) {   
+    if (triggeredCountry) {
       isMatchesTrademarks(country);
-    } else setOnChangeTriggered(false)
-  }, [country, onChangeTriggered]);
+    } else setTriggedCountry(false);
+  }, [country, triggeredCountry]);
 
   useEffect(() => {
-    if (onChangeTriggeredByTrademarks) {
+    if (triggeredTrademark) {
       isMatchesCountries(trademarks);
-    } else setOnChangeTriggeredByTrademarks(false);
-  }, [trademarks, onChangeTriggeredByTrademarks]);
+    } else setTriggedTrademark(false);
+  }, [trademarks, triggeredTrademark]);
 
+  // console.log(sen);
+
+  useEffect(() => {
+    setSen(visibleTrademarks);
+  }, [country.length]);
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
     if (checked) {
       setTrademarks(prev => [...prev, value]);
       setIsChecked(true);
-      setOnChangeTriggeredByTrademarks(true);
+      setTriggedTrademark(true);
     } else {
       setTrademarks(prev => {
         return [...prev.filter(item => item !== value)];
       });
       setIsChecked(false);
-      setOnChangeTriggeredByTrademarks(false);
+      setTriggedTrademark(false);
     }
   };
 
   const resetResults = () => {
-    setCountry([]);
-    setOnChangeTriggered(false);
-    setOnChangeTriggeredByTrademarks(false);
-    setTrademarks([]);
+    resetLocalStorage();
     setComparisonResultsCountry([]);
     setComparisonResultsTrademarks([]);
-    dispatch(filterProductsByCountry());
-    dispatch(filterProductsByTradeMarks());
     setIsChecked(false);
-    router.push(`/?page=1&query=`, undefined);
-    localStorage.removeItem('Country');
-    localStorage.removeItem('Trademark');
+    router.push({
+      pathname: '/',
+      query: {
+        page: 1,
+        query: '',
+        countries: [],
+        trademarks: [],
+      },
+    });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    router.push(`/?page=1&query=`, undefined);
+    router.push(
+      `/?page=1&query=&countries=${country}&trademarks=${trademarks}`
+    );
     if (isChecked) {
       dispatch(filterProductsByCountry(country));
       dispatch(filterProductsByTradeMarks(trademarks));
@@ -129,24 +169,26 @@ const Filter = () => {
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
   };
-  console.log(isChecked);
 
   return (
-    <form className="flex flex-col gap-m filter-section" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-m filter-section"
+      onSubmit={handleSubmit}
+    >
       <PriceFilter />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
         comparisonResults={comparisonResultsCountry}
-        onChangeTriggered={onChangeTriggered}
+        onChangeTriggered={triggeredCountry}
       />
       <CountryFilter
         countries={productInfo?.countries}
         countryArray={country}
         handleOnChange={handleOnChangeByCountry}
         comparisonResults={comparisonResultsTrademarks}
-        onChangeTriggered={onChangeTriggeredByTrademarks}
+        onChangeTriggered={triggeredTrademark}
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
@@ -166,3 +208,4 @@ const Filter = () => {
 };
 
 export default Filter;
+

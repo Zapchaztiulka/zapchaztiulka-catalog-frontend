@@ -1,14 +1,15 @@
-"use client";
-import React, { useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "@/redux/products/productsOperations";
-import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
-import { LogoIcon } from "../Icons/Logo/LogoIcon";
-import { fetchCategories } from "@/redux/categories/categoriesOperation";
-import { selectCategories } from "@/redux/categories/categoriesSelector";
-import FooterTablet from "./FooterTablet";
+'use client';
+import React, { useContext, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '@/redux/products/productsOperations';
+import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
+import { LogoIcon } from '../Icons/Logo/LogoIcon';
+import { fetchCategories } from '@/redux/categories/categoriesOperation';
+import { selectCategories } from '@/redux/categories/categoriesSelector';
+import FooterTablet from './FooterTablet';
+import { StatusContext } from '@/context/statusContext';
 
 const Footer = () => {
   const dispatch = useDispatch();
@@ -16,18 +17,28 @@ const Footer = () => {
   const current_year = new Date().getFullYear();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
+  const { resetLocalStorage } = useContext(StatusContext);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
   const handleToHome = () => {
-    dispatch(fetchProducts());
+    dispatch(
+      fetchProducts({
+        page: 1,
+        query: '',
+        limit: 10,
+        countries: [],
+        trademarks: [],
+      })
+    );
+    resetLocalStorage();
   };
 
-    const clickByCategory = (category) => {
+  const clickByCategory = category => {
     router.push({
-      pathname: "/",
+      pathname: '/',
       query: { query: category.toLowerCase() },
     });
   };
@@ -36,26 +47,34 @@ const Footer = () => {
     <footer className="container border-t border-borderDefault lg:pt-[42px] py-6 ">
       <div className="flex flex-col justify-between tablet768:gap-3 gap-8">
         <div className=" tablet600:inline-flex  hidden desktop1920:hidden items-center">
-          <Link href="/" onClick={handleToHome}>
+          <Link href={`/?page=1&query=`} onClick={handleToHome}>
             <LogoIconWithText />
           </Link>
         </div>
 
-        <Link href="/" className="flex tablet600:hidden items-center">
+        <Link
+          href={`/?page=1&query=`}
+          onClick={handleToHome}
+          className="flex tablet600:hidden items-center"
+        >
           <LogoIcon width="56" height="56" />
         </Link>
 
         <FooterTablet />
         <div className="footer-lists">
-           <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
-          <Link href="/" onClick={handleToHome} className="absolute -top-[9px]">
-            <LogoIconWithText />
-          </Link>
-        </div>
+          <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
+            <Link
+              href={`/?page=1&query=`}
+              onClick={handleToHome}
+              className="absolute -top-[9px]"
+            >
+              <LogoIconWithText />
+            </Link>
+          </div>
           <div className="flex flex-col gap-3">
             <h4 className="text-textTertiary text-lg">Каталог</h4>
             <ul className="text-textPrimary text-base">
-              {categories?.map((el) => {
+              {categories?.map(el => {
                 return (
                   <li
                     key={el._id}
@@ -118,7 +137,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          {" "}
+          {' '}
           <p className="text-sm text-textSecondary">
             <br />
             &copy;{current_year} Всі права захищені

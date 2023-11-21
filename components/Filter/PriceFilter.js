@@ -48,7 +48,7 @@ const PriceFilter = () => {
             </button>
           </div>
 
-          <div className="flex gap-xs2 items-center">           
+          <div className="flex gap-xs3 items-center">           
               <input
                 className="price-input"
                 value={minPrice || 0}

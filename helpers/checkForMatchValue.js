@@ -25,3 +25,18 @@ export const getTCountriesForTrademarks = (array, trademarksName) => {
 
   return countries;
 };
+
+
+export const getNamesByBooleanArray = (booleanArray, objectArray) => {
+    let falseIndexes = booleanArray?.reduce((acc, value, index) => {
+        if (!value) {
+            acc.push(index);
+        }
+        return acc;
+    }, []);
+
+    let resultNames = objectArray
+        .filter((obj, index) => falseIndexes.includes(index))
+        .map(obj => obj.name);
+    return resultNames;
+}

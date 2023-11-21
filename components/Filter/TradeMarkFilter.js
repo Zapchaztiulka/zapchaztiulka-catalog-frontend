@@ -1,7 +1,8 @@
-import { ArrowDown, ArrowUp } from "@/public/icons";
+import { ArrowDown, ArrowUp} from "@/public/icons";
 import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import SearchFilter from "./SearchFilter";
 
 const TradeMarkFilter = ({
   trademarks,
@@ -11,10 +12,33 @@ const TradeMarkFilter = ({
   onChangeTriggered,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [value, setValue] = useState('');
+  const [filtredValue, setFiltredValue] = useState(trademarks);
+  // console.log(filtredValue);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+ 
+  const handleSearch = (e) => {
+    const searchValue = e.target.value;
+    setValue(searchValue);
+    const filtredItem = trademarks?.filter((item) => {
+      return item.name.toLowerCase().includes(searchValue.toLowerCase());
+    })
+
+       if (value === '') {
+         setFiltredValue(trademarks);
+       } else {
+         setFiltredValue(filtredItem);
+       }
+  }
+
+    const removeSearchTerm = () => {
+      setValue('');
+      setFiltredValue(trademarks);
+    };
+  
 
   return (
     <div>
@@ -42,13 +66,15 @@ const TradeMarkFilter = ({
             </button>
           </div>
 
-          <OverlayScrollbarsComponent
-            element="span"
-            options={{ scrollbars: { autoHide: 'never', visibility: 'auto' } }}
-            defer
-          >
-            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
-              {trademarks?.map((item, index) => {
+          <SearchFilter
+              arrayOfValues={trademarks}
+              handleSearch={handleSearch}
+              removeSearchTerm={removeSearchTerm}
+              value={value} />
+
+          <div className="overflow-auto max-h-[392px] " id="style-scroll">
+            <ul className="flex flex-col gap-xs2 max-w-[235px] ">
+              {filtredValue?.map((item, index) => {
                 const isDisabled =
                   comparisonResults[index] && onChangeTriggered;
                 const isChecked = trademarksArray?.includes(item.name);
@@ -92,7 +118,7 @@ const TradeMarkFilter = ({
                 );
               })}
             </ul>
-          </OverlayScrollbarsComponent>
+          </div>
         </div>
       )}
     </div>

@@ -1,7 +1,8 @@
-import { ArrowDown, ArrowUp } from "@/public/icons";
-import React, { useState } from "react";
-import CheckBox from "./CheckBox";
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { ArrowDown, ArrowUp } from '@/public/icons';
+import React, { useState } from 'react';
+import CheckBox from './CheckBox';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import SearchFilter from './SearchFilter';
 
 const CountryFilter = ({
   countries,
@@ -11,9 +12,32 @@ const CountryFilter = ({
   onChangeTriggered,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [value, setValue] = useState('');
+  const [filtredValue, setFiltredValue] = useState(countries);
+
+  // console.log(countryArray.includes('Japan'));
 
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+
+ const handleSearch = e => {
+   const searchValue = e.target.value;
+   setValue(searchValue);
+   const filtredItem = countries?.filter(item => {
+     return item.name.toLowerCase().includes(searchValue.toLowerCase());
+   });
+
+   if (value === '') {
+     setFiltredValue(countries);
+   } else {
+     setFiltredValue(filtredItem);
+   }
+ };
+
+  const removeSearchTerm = () => {
+    setValue('');
+     setFiltredValue(countries);
   };
 
   return (
@@ -42,13 +66,16 @@ const CountryFilter = ({
             </button>
           </div>
 
-          <OverlayScrollbarsComponent
-            element="span"
-            options={{ scrollbars: { autoHide: 'move', visibility: 'auto' } }}
-            defer
-          >
+          <SearchFilter
+            arrayOfValues={countries}
+            handleSearch={handleSearch}
+            removeSearchTerm={removeSearchTerm}
+            value={value}
+          />
+
+          <div className="overflow-auto max-h-[392px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
-              {countries?.map((item, index) => {
+              {filtredValue?.map((item, index) => {
                 const isDisabled =
                   comparisonResults[index] && onChangeTriggered;
                 const isChecked = countryArray?.includes(item.name);
@@ -90,11 +117,12 @@ const CountryFilter = ({
                 );
               })}
             </ul>
-          </OverlayScrollbarsComponent>
+          </div>
         </div>
       )}
     </div>
   );
+
 };
 
 export default CountryFilter;

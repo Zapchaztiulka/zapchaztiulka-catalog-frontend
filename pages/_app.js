@@ -8,6 +8,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
+import { StatusProvider } from "@/context/statusContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,9 +25,11 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <Layout className={inter.className}>
-            <Component {...pageProps}  />
-          </Layout>
+          <StatusProvider>
+            <Layout className={inter.className}>
+              <Component {...pageProps} />
+            </Layout>
+          </StatusProvider>
         </PersistGate>
       </Provider>
     </>
