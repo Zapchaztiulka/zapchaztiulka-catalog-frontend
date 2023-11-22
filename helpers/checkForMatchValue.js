@@ -35,8 +35,7 @@ export const getNamesByBooleanArray = (booleanArray, objectArray) => {
         return acc;
     }, []);
 
-    let resultNames = objectArray
-        .filter((obj, index) => falseIndexes.includes(index))
+    let resultNames = objectArray?.filter((obj, index) => falseIndexes.includes(index))
         .map(obj => obj.name);
     return resultNames;
 }

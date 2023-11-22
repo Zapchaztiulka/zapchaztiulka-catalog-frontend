@@ -8,37 +8,35 @@ const TradeMarkFilter = ({
   trademarks,
   handleOnChange,
   trademarksArray,
-  comparisonResults,
-  onChangeTriggered,
+  isVisibleTrademarks,
+  trademarksIsDisabled,
+  countryArray,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
   const [filtredValue, setFiltredValue] = useState(trademarks);
-  // console.log(filtredValue);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
- 
-  const handleSearch = (e) => {
+
+  const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);
-    const filtredItem = trademarks?.filter((item) => {
+    const filtredItem = trademarks?.filter(item => {
       return item.name.toLowerCase().includes(searchValue.toLowerCase());
-    })
-
-       if (value === '') {
-         setFiltredValue(trademarks);
-       } else {
-         setFiltredValue(filtredItem);
-       }
-  }
-
-    const removeSearchTerm = () => {
-      setValue('');
+    });
+    if (value === '') {
       setFiltredValue(trademarks);
-    };
-  
+    } else {
+      setFiltredValue(filtredItem);
+    }
+  };
+
+  const removeSearchTerm = () => {
+    setValue('');
+    setFiltredValue(trademarks);
+  };
 
   return (
     <div>
@@ -67,18 +65,29 @@ const TradeMarkFilter = ({
           </div>
 
           <SearchFilter
-              arrayOfValues={trademarks}
-              handleSearch={handleSearch}
-              removeSearchTerm={removeSearchTerm}
-              value={value} />
+            arrayOfValues={trademarks}
+            handleSearch={handleSearch}
+            removeSearchTerm={removeSearchTerm}
+            value={value}
+            placeholderName="Введіть виробника"
+          />
 
           <div className="overflow-auto max-h-[392px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-w-[235px] ">
               {filtredValue?.map((item, index) => {
-                const isDisabled =
-                  comparisonResults[index] && onChangeTriggered;
                 const isChecked = trademarksArray?.includes(item.name);
-
+                const disabledOnChange =
+                  isVisibleTrademarks.length !== 0
+                    ? !isVisibleTrademarks.includes(item.name)
+                    : false;
+                const disabledOnSubmit =
+                  countryArray.length !== 0
+                    ? !trademarksIsDisabled.includes(item.name)
+                    : false;
+                const isDisabled =
+                  trademarksIsDisabled.length === 0
+                    ? disabledOnChange
+                    : disabledOnSubmit;
                 return (
                   <li
                     key={index}
@@ -111,7 +120,7 @@ const TradeMarkFilter = ({
                       />
                       {item.name !== '' ? item.name : 'Інше'}
                     </label>
-                    <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                    <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
                       {item.countProducts}
                     </span>
                   </li>

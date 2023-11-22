@@ -6,10 +6,6 @@ import { scrollToTop } from '@/helpers/scrollToTop';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import {
-  selectCountryPriceTrademark,
-  selectFilterByCountry,
-  selectFilterByTrademarks,
-  selectFiltredByPrice,
   selectIsLoading,
   selectProducts,
 } from '@/redux/products/productsSelectors';
@@ -17,7 +13,6 @@ import { fetchProducts } from '@/redux/products/productsOperations';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
 import { StatusContext } from '@/context/statusContext';
-import { filterProductsByCountry, filterProductsByTradeMarks } from '@/redux/filterSlice';
 
 const CardsList = () => {
   const router = useRouter();
@@ -27,44 +22,16 @@ const CardsList = () => {
   const isLoading = useSelector(selectIsLoading);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const pageSize = 10;
-  const searchValue = router.query.query || '';
+  const searchValue = router.isReady ? router.query.query : '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
   const products = data?.products;
-  const countriesArray = useSelector(selectFilterByCountry);
-  const trademarksArray = useSelector(selectFilterByTrademarks);
-  let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
-  const {
-    resetLocalStorage,
-    country,
-    trademarks,
-    setCountry,
-    setTrademarks,
-    countryURL,
-    comparisonResultsCountry,
-    setComparisonResultsCountry,
-    comparisonResultsTrademarks,
-    setComparisonResultsTrademarks,
-    setTriggedCountry,
-    setTriggedTrademark,
-  } = useContext(StatusContext);
-
-  const dataRequest = {
-    page: startPage,
-    query: searchValue,
-    limit: 10,
-    countries: countriesArray,
-    trademarks: trademarksArray,
-  };
+  const { setCountry, setTrademarks } = useContext(StatusContext);
 
   const countriesUrlArray =
     countries.length === 0 ? countries : countries?.split(',');
   const trademarkUrlArray =
     trademark.length === 0 ? trademark : trademark?.split(',');
-
-  // console.log(countriesUrlArray);
-  // console.log(trademarkUrlArray);
 
   useEffect(() => {
     if (
@@ -74,28 +41,36 @@ const CardsList = () => {
       router.push(`/?page=1&query=`, undefined);
       setCurrentPage(1);
       dispatch(fetchProducts({ page: 1, query: '', limit: 10 }));
-      console.log('me ');
     }
   }, [dispatch, router.asPath, searchValue]);
 
   useEffect(() => {
-    if (countriesUrlArray.length === 0 && trademarkUrlArray.length === 0) {
+    if (
+      countriesUrlArray.length === 0 &&
+      trademarkUrlArray.length === 0 &&
+      router.isReady
+    ) {
       setCountry([]);
       setTrademarks([]);
-      resetLocalStorage();
       dispatch(
         fetchProducts({
           page: startPage,
           query: searchValue,
           limit: 10,
-          countries: [],
-          trademarks: [],
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
         })
       );
       setCurrentPage(startPage);
-      console.log('me 1');
     }
-  }, [dispatch, startPage, router.query, searchValue]);
+  }, [
+    dispatch,
+    startPage,
+    countries.length,
+    trademark.length,
+    router.isReady,
+    searchValue,
+  ]);
 
   useEffect(() => {
     if (countriesUrlArray.length !== 0 || trademarkUrlArray.length !== 0) {
@@ -111,9 +86,8 @@ const CardsList = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me 2');
     }
-  }, [dispatch, startPage, router.query, searchValue]);
+  }, [dispatch, startPage, countries.length, trademark.length, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
@@ -180,5 +154,3 @@ const CardsList = () => {
 };
 
 export default CardsList;
-
-

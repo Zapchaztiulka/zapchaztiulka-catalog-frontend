@@ -1,39 +1,40 @@
 import { createContext, useState } from 'react';
-import {
-  filterProductsByCountry,
-  filterProductsByTradeMarks,
-} from '@/redux/filterSlice';
-import { useDispatch } from 'react-redux';
 
 export const StatusContext = createContext();
 
 export const StatusProvider = ({ children }) => {
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
-  const dispatch = useDispatch();
 
+  // Save Checked status
   let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
-   const [trademarks, setTrademarks] = useState(trademarksChecked);
-  const [test, setTest] = useState();
-    const [comparisonResultsCountry, setComparisonResultsCountry] = useState(
-      []
-    );
-    const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
-      useState([]);
+  const [trademarks, setTrademarks] = useState(trademarksChecked);
+  const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
+  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
+    useState([]);
 
+  // Save Disabled status
+  let trademarksTemp = JSON.parse(localStorage.getItem('Trade1') || '[]');
+  let countryTemp = JSON.parse(localStorage.getItem('Country1') || '[]');
+  const [countriesIsDisabled, setCountriesIsDisabled] = useState(countryTemp);
+  const [trademarksIsDisabled, setTrademarksIsDisabled] =
+    useState(trademarksTemp);
 
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
     localStorage.removeItem('Trademark');
-    dispatch(filterProductsByCountry());
-    dispatch(filterProductsByTradeMarks());
+    localStorage.removeItem('Trade1');
+    localStorage.removeItem('Country1');
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);
     setTrademarks([]);
-    
+    setTrademarksIsDisabled([]);
+    setCountriesIsDisabled([]);
+    setComparisonResultsCountry([]);
+    setComparisonResultsTrademarks([]);
   };
 
   return (
@@ -48,12 +49,14 @@ export const StatusProvider = ({ children }) => {
         trademarks,
         setTrademarks,
         resetLocalStorage,
-        setTest,
-        test,
         comparisonResultsCountry,
         setComparisonResultsCountry,
         comparisonResultsTrademarks,
         setComparisonResultsTrademarks,
+        countriesIsDisabled,
+        setCountriesIsDisabled,
+        trademarksIsDisabled,
+        setTrademarksIsDisabled,
       }}
     >
       {children}
