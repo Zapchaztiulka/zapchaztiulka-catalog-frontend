@@ -122,7 +122,8 @@ const Filter = () => {
 
   const resetResults = () => {
     resetLocalStorage();
-    router.push({
+    if (router.query.countries !==undefined || router.query.trademarks !==undefined) {
+          router.push({
       pathname: '/',
       query: {
         page: 1,
@@ -131,6 +132,8 @@ const Filter = () => {
         trademarks: [],
       },
     });
+    }
+
   };
 
   const handleSubmit = e => {
