@@ -1,19 +1,42 @@
-import { ArrowDown, ArrowUp } from "@/public/icons";
-import React, { useState } from "react";
-import CheckBox from "./CheckBox";
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { ArrowDown, ArrowUp } from '@/public/icons';
+import React, {useState } from 'react';
+import CheckBox from './CheckBox';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import SearchFilter from './SearchFilter';
 
 const CountryFilter = ({
   countries,
   handleOnChange,
   countryArray,
-  comparisonResults,
-  onChangeTriggered,
+  isVisibleCountries,
+  trademarksArray,
+  countriesIsDisabled,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [value, setValue] = useState('');
+  const [filtredValue, setFiltredValue] = useState(countries);
 
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSearch = e => {
+    const searchValue = e.target.value;
+    setValue(searchValue);
+    const filtredItem = countries?.filter(item => {
+      return item.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    if (value === '') {
+      setFiltredValue(countries);
+    } else {
+      setFiltredValue(filtredItem);
+    }
+  };
+
+  const removeSearchTerm = () => {
+    setValue('');
+    setFiltredValue(countries);
   };
 
   return (
@@ -42,17 +65,30 @@ const CountryFilter = ({
             </button>
           </div>
 
-          <OverlayScrollbarsComponent
-            element="span"
-            options={{ scrollbars: { autoHide: 'move', visibility: 'auto' } }}
-            defer
-          >
-            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
-              {countries?.map((item, index) => {
-                const isDisabled =
-                  comparisonResults[index] && onChangeTriggered;
-                const isChecked = countryArray?.includes(item.name);
+          <SearchFilter
+            arrayOfValues={countries}
+            handleSearch={handleSearch}
+            removeSearchTerm={removeSearchTerm}
+            value={value}
+            placeholderName="Введіть країну"
+          />
 
+          <div className="overflow-auto max-h-[392px] " id="style-scroll">
+            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
+              {filtredValue?.map((item, index) => {
+                const isChecked = countryArray?.includes(item.name);
+                const disabledOnChange =
+                  isVisibleCountries.length !== 0
+                    ? !isVisibleCountries.includes(item.name)
+                    : false;
+                const disabledOnSubmit =
+                  trademarksArray.length !== 0
+                    ? !countriesIsDisabled.includes(item.name)
+                    : false;
+                const isDisabled =
+                  countriesIsDisabled.length === 0
+                    ? disabledOnChange
+                    : disabledOnSubmit;
                 return (
                   <li
                     key={`${item.name}+${index}`}
@@ -65,32 +101,23 @@ const CountryFilter = ({
                         isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
-                      {/* <CheckBox
+                      <CheckBox
                           filterName={item.name}
                           handleOnChange={handleOnChange}
-                          filtersArray={countryArray}
-                          index={index}
-                          // comparisonResults={comparisonResults[index]}
-                        /> */}
-                      <input
-                        type="checkbox"
-                        name={item.name}
-                        value={item.name}
-                        checked={isChecked}
-                        onChange={handleOnChange}
-                        disabled={isDisabled}
-                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
-                      />
+                          isDisabled={isDisabled}
+                          isChecked={isChecked}
+                      
+                        />
                       {item.name !== '' ? item.name : 'Інше'}
                     </label>
-                    <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                    <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
                       {item.countProducts}
                     </span>
                   </li>
                 );
               })}
             </ul>
-          </OverlayScrollbarsComponent>
+          </div>
         </div>
       )}
     </div>

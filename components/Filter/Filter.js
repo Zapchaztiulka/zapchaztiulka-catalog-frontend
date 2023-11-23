@@ -2,51 +2,109 @@ import PriceFilter from './PriceFilter';
 import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
-import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
+import { useContext, useEffect, useState } from 'react';
 import {
-  filterProductsByCountry,
-  filterProductsByTradeMarks,
-} from '@/redux/filterSlice';
+  selectCountryPriceTrademark,
+  selectTotalCountProduct,
+} from '@/redux/products/productsSelectors';
+import {
+  fetchCountryPriceTrademark,
+  fetchTotalCount,
+} from '@/redux/products/productsOperations';
 import { useRouter } from 'next/router';
-import { getTCountriesForTrademarks, getTrademarksForCountries } from '@/helpers/checkForMatchValue';
+import {
+  findMaxPrice,
+  findMinPrice,
+  getNamesByBooleanArray,
+  getTCountriesForTrademarks,
+  getTrademarksForCountries,
+} from '@/helpers/checkForMatchValue';
+import { StatusContext } from '@/context/statusContext';
 
 const Filter = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
-  const [isChecked, setIsChecked] = useState(false);
-  let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
-  const [country, setCountry] = useState(countryChecked);
-  const [trademarks, setTrademarks] = useState(trademarksChecked);
-  const [comparisonResultsCountry, setComparisonResultsCountry] = useState([]);
-  const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
-    useState([]);
-  const [onChangeTriggered, setOnChangeTriggered] = useState(false);
-  const [onChangeTriggeredByTrademarks, setOnChangeTriggeredByTrademarks] =
-    useState(false);
+  const totalCountFromRedux = useSelector(selectTotalCountProduct);
+  const [totalCountProducts, setTotalCountProducts] = useState(0);
+
+  const {
+    triggeredCountry,
+    setTriggedCountry,
+    triggeredTrademark,
+    setTriggedTrademark,
+    country,
+    setCountry,
+    trademarks,
+    setTrademarks,
+    resetLocalStorage,
+    comparisonResultsCountry,
+    setComparisonResultsCountry,
+    comparisonResultsTrademarks,
+    setComparisonResultsTrademarks,
+    countriesIsDisabled,
+    setCountriesIsDisabled,
+    trademarksIsDisabled,
+    setTrademarksIsDisabled,
+    setMinValue,
+    setMaxValue,
+  } = useContext(StatusContext);
 
   useEffect(() => {
     dispatch(fetchCountryPriceTrademark());
-    if (country.length !== 0 || trademarks.length !== 0) { setIsChecked(true); }
   }, [dispatch]);
+
+  const handleOnChangeByTradeMarks = e => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setTrademarks(prev => [...prev, value]);
+      setTriggedTrademark(true);
+    } else {
+      setTrademarks(prev => {
+        return [...prev.filter(item => item !== value)];
+      });
+      setTriggedTrademark(true);
+    }
+  };
 
   const handleOnChangeByCountry = e => {
     const { value, checked } = e.target;
     if (checked) {
       setCountry(prev => [...prev, value]);
-      setIsChecked(true);
-      setOnChangeTriggered(true);
+      setTriggedCountry(true);
     } else {
       setCountry(prev => {
         return [...prev.filter(item => item !== value)];
       });
-      setIsChecked(false);
-      setOnChangeTriggered(false);
+      setTriggedCountry(true);
     }
   };
+
+  const fetchData = async () => {
+    dispatch(
+      fetchTotalCount({
+        page: 1,
+        query: '',
+        limit: 10,
+        countries: country,
+        trademarks: trademarks,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (country.length > 0 || trademarks.length > 0) {
+      fetchData();
+    } else {
+      setTotalCountProducts(0);
+    }
+  }, [country, trademarks]);
+
+  useEffect(() => {
+    if (totalCountFromRedux) {
+      setTotalCountProducts(totalCountFromRedux.totalCount || 0);
+    }
+  }, [totalCountFromRedux]);
 
   const isMatchesTrademarks = country => {
     const trademarksForSelectedCountries = getTrademarksForCountries(
@@ -57,7 +115,6 @@ const Filter = () => {
       const isMatch = trademarksForSelectedCountries.includes(item.name);
       return !isMatch;
     });
-
     setComparisonResultsCountry(results);
     return results;
   };
@@ -71,92 +128,101 @@ const Filter = () => {
       const isMatch = countryForSelectedTrademarks.includes(item.name);
       return !isMatch;
     });
-
     setComparisonResultsTrademarks(results);
     return results;
   };
 
+  const isVisibleTrademarks = getNamesByBooleanArray(
+    comparisonResultsCountry,
+    productInfo?.trademarks
+  );
+
+  const isVisibleCountries = getNamesByBooleanArray(
+    comparisonResultsTrademarks,
+    productInfo?.countries
+  );
+
+  const isDisabledBtn =
+    country.length > 0 || trademarks.length > 0 ? true : false;
+
   useEffect(() => {
-    if (onChangeTriggered) {   
+    if (triggeredCountry && !triggeredTrademark) {
       isMatchesTrademarks(country);
-    } else setOnChangeTriggered(false)
-  }, [country, onChangeTriggered]);
+    } else if (triggeredCountry) {
+      setTriggedCountry(false);
+    }
+  }, [country, triggeredCountry]);
 
   useEffect(() => {
-    if (onChangeTriggeredByTrademarks) {
+    if (triggeredTrademark && !triggeredCountry) {
       isMatchesCountries(trademarks);
-    } else setOnChangeTriggeredByTrademarks(false);
-  }, [trademarks, onChangeTriggeredByTrademarks]);
-
-
-  const handleOnChangeByTradeMarks = e => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setTrademarks(prev => [...prev, value]);
-      setIsChecked(true);
-      setOnChangeTriggeredByTrademarks(true);
-    } else {
-      setTrademarks(prev => {
-        return [...prev.filter(item => item !== value)];
-      });
-      setIsChecked(false);
-      setOnChangeTriggeredByTrademarks(false);
-    }
-  };
+    } else setTriggedTrademark(false);
+  }, [trademarks, triggeredTrademark]);
 
   const resetResults = () => {
-    setCountry([]);
-    setOnChangeTriggered(false);
-    setOnChangeTriggeredByTrademarks(false);
-    setTrademarks([]);
-    setComparisonResultsCountry([]);
-    setComparisonResultsTrademarks([]);
-    dispatch(filterProductsByCountry());
-    dispatch(filterProductsByTradeMarks());
-    setIsChecked(false);
-    router.push(`/?page=1&query=`, undefined);
-    localStorage.removeItem('Country');
-    localStorage.removeItem('Trademark');
+    resetLocalStorage();
+    if (
+      router.query.countries !== undefined ||
+      router.query.trademarks !== undefined
+    ) {
+      router.push({
+        pathname: '/',
+        query: {
+          page: 1,
+          query: '',
+          countries: [],
+          trademarks: [],
+        },
+      });
+    }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    router.push(`/?page=1&query=`, undefined);
-    if (isChecked) {
-      dispatch(filterProductsByCountry(country));
-      dispatch(filterProductsByTradeMarks(trademarks));
-    }
+    router.push(
+      `/?page=1&query=&countries=${country}&trademarks=${trademarks}`
+    );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
+    localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
+    localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
+    setTrademarksIsDisabled(isVisibleTrademarks);
+    setCountriesIsDisabled(isVisibleCountries);
   };
-  console.log(isChecked);
 
   return (
-    <form className="flex flex-col gap-m filter-section" onSubmit={handleSubmit}>
-      <PriceFilter />
+    <form
+      className="flex flex-col gap-m filter-section"
+      onSubmit={handleSubmit}
+    >
+      <PriceFilter productInfo={productInfo} />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
-        comparisonResults={comparisonResultsCountry}
-        onChangeTriggered={onChangeTriggered}
+        isVisibleTrademarks={isVisibleTrademarks}
+        trademarksIsDisabled={trademarksIsDisabled}
+        countryArray={country}
       />
       <CountryFilter
         countries={productInfo?.countries}
         countryArray={country}
         handleOnChange={handleOnChangeByCountry}
-        comparisonResults={comparisonResultsTrademarks}
-        onChangeTriggered={onChangeTriggeredByTrademarks}
+        isVisibleCountries={isVisibleCountries}
+        countriesIsDisabled={countriesIsDisabled}
+        trademarksArray={trademarks}
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
-          Застосувати
+          {totalCountProducts !== 0
+            ? `Застосувати (${totalCountProducts})`
+            : 'Застосувати'}
         </button>
         <button
           type="button"
           onClick={() => resetResults()}
-          disabled={!isChecked}
-          className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-full tablet768:text-base text-sm tablet768:font-medium cursor-pointer"
+          disabled={!isDisabledBtn}
+          className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-full tablet768:text-base text-sm tablet768:font-medium bg-bgDisable cursor-pointer disabled:cursor-not-allowed"
         >
           Скинути
         </button>

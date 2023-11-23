@@ -1,19 +1,41 @@
-import { ArrowDown, ArrowUp } from "@/public/icons";
+import { ArrowDown, ArrowUp} from "@/public/icons";
 import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import SearchFilter from "./SearchFilter";
 
 const TradeMarkFilter = ({
   trademarks,
   handleOnChange,
   trademarksArray,
-  comparisonResults,
-  onChangeTriggered,
+  isVisibleTrademarks,
+  trademarksIsDisabled,
+  countryArray,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [value, setValue] = useState('');
+  const [filtredValue, setFiltredValue] = useState(trademarks);
 
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSearch = e => {
+    const searchValue = e.target.value;
+    setValue(searchValue);
+    const filtredItem = trademarks?.filter(item => {
+      return item.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    if (value === '') {
+      setFiltredValue(trademarks);
+    } else {
+      setFiltredValue(filtredItem);
+    }
+  };
+
+  const removeSearchTerm = () => {
+    setValue('');
+    setFiltredValue(trademarks);
   };
 
   return (
@@ -42,17 +64,30 @@ const TradeMarkFilter = ({
             </button>
           </div>
 
-          <OverlayScrollbarsComponent
-            element="span"
-            options={{ scrollbars: { autoHide: 'never', visibility: 'auto' } }}
-            defer
-          >
-            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
-              {trademarks?.map((item, index) => {
-                const isDisabled =
-                  comparisonResults[index] && onChangeTriggered;
-                const isChecked = trademarksArray?.includes(item.name);
+          <SearchFilter
+            arrayOfValues={trademarks}
+            handleSearch={handleSearch}
+            removeSearchTerm={removeSearchTerm}
+            value={value}
+            placeholderName="Введіть виробника"
+          />
 
+          <div className="overflow-auto max-h-[392px] " id="style-scroll">
+            <ul className="flex flex-col gap-xs2 max-w-[235px] ">
+              {filtredValue?.map((item, index) => {
+                const isChecked = trademarksArray?.includes(item.name);
+                const disabledOnChange =
+                  isVisibleTrademarks.length !== 0
+                    ? !isVisibleTrademarks?.includes(item.name)
+                    : false;
+                const disabledOnSubmit =
+                  countryArray.length !== 0
+                    ? !trademarksIsDisabled?.includes(item.name)
+                    : false;
+                const isDisabled =
+                  trademarksIsDisabled?.length === 0
+                    ? disabledOnChange
+                    : disabledOnSubmit;
                 return (
                   <li
                     key={index}
@@ -61,38 +96,26 @@ const TradeMarkFilter = ({
                     }`}
                   >
                     <label
-                      htmlFor={item.name}
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
                         isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
-                      {/* <CheckBox
-                        handleOnChange={handleOnChange}
-                        filtersArray={trademarksArray}
+                      <CheckBox
                         filterName={item.name}
-                        index={index}
-                        comparisonResults={comparisonResults[index]}
-                      /> */}
-                      <input
-                        type="checkbox"
-                        name={item.name}
-                        id={item.name}
-                        value={item.name}
-                        checked={isChecked}
-                        onChange={handleOnChange}
-                        disabled={isDisabled}
-                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                        handleOnChange={handleOnChange}
+                        isDisabled={isDisabled}
+                        isChecked={isChecked}
                       />
                       {item.name !== '' ? item.name : 'Інше'}
                     </label>
-                    <span className="text-[10px]/[14px] font-medium text-textSecondary">
+                    <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
                       {item.countProducts}
                     </span>
                   </li>
                 );
               })}
             </ul>
-          </OverlayScrollbarsComponent>
+          </div>
         </div>
       )}
     </div>

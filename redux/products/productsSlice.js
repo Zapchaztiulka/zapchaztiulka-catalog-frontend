@@ -3,8 +3,9 @@ import {
   fetchProducts,
   fetchProductByID,
   fetchAllProducts,
-  fetchCountryPriceTrademark
-} from "./productsOperations";
+  fetchCountryPriceTrademark,
+  fetchTotalCount,
+} from './productsOperations';
 
 const handlePending = (state) => {
   state.isLoading = true;
@@ -23,6 +24,7 @@ const productsSlice = createSlice({
     productInfo: null,
     isLoading: false,
     error: null,
+    totalCountProducts: null
   },
   extraReducers: builder => {
     builder
@@ -65,7 +67,17 @@ const productsSlice = createSlice({
           productInfo: action.payload,
         };
       })
-      .addCase(fetchCountryPriceTrademark.rejected, handleRejected);
+      .addCase(fetchCountryPriceTrademark.rejected, handleRejected)
+      .addCase(fetchTotalCount.pending, handlePending)
+      .addCase(fetchTotalCount.fulfilled, (state, action) => {
+        return {
+          ...state,
+          isLoading: false,
+          error: null,
+          totalCountProducts: action.payload,
+        };
+      })
+      .addCase(fetchTotalCount.rejected, handleRejected);
   },
 });
 

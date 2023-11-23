@@ -1,28 +1,38 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useDispatch } from "react-redux";
-import ContactList from "./ContactList";
-import SearchBar from "./Search/SearchBar";
-import { CartIcon } from "@/public/icons";
-import Catalog from "../Category/Catalog";
-import { fetchProducts } from "@/redux/products/productsOperations";
-import { LogoIconWithText } from "../Icons/Logo/LogoIconWithText";
-import MobileNavBar from "./MobileNavBar";
-
-import { LogoIcon } from "../Icons/Logo/LogoIcon";
-import { useState } from "react";
+import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import ContactList from './ContactList';
+import SearchBar from './Search/SearchBar';
+import { CartIcon } from '@/public/icons';
+import Catalog from '../Category/Catalog';
+import { fetchProducts } from '@/redux/products/productsOperations';
+import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
+import MobileNavBar from './MobileNavBar';
+import { LogoIcon } from '../Icons/Logo/LogoIcon';
+import { useContext, useState } from 'react';
+import { StatusContext } from '@/context/statusContext';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { resetLocalStorage } = useContext(StatusContext);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
   };
 
   const handleToHome = () => {
-    dispatch(fetchProducts());
+    dispatch(
+      fetchProducts({
+        page: 1,
+        query: '',
+        limit: 10,
+        countries: [],
+        trademarks: [],
+      })
+    );
+    resetLocalStorage();
   };
 
   return (
@@ -56,7 +66,7 @@ const Navbar = () => {
           </div>
           <div className="flex tablet1024:gap-[44px] desktop1200:gap-6">
             <ContactList />
-            <Link legacyBehavior href={{ pathname: "/cart" }}>
+            <Link legacyBehavior href={{ pathname: '/cart' }}>
               <div className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary">
                 <p>Кошик</p>
                 <CartIcon className="w-6 h-6 fill-iconSecondary" />

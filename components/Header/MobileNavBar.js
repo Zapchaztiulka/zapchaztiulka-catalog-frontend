@@ -1,32 +1,53 @@
-"use client";
-import React, { useState } from "react";
-import Sidebar from "./SideBar/SideBar";
-import { LogoIcon } from "../Icons/Logo/LogoIcon";
-import Link from "next/link";
+'use client';
+import React, { useContext, useState } from 'react';
+import Sidebar from './SideBar/SideBar';
+import { LogoIcon } from '../Icons/Logo/LogoIcon';
+import Link from 'next/link';
 import {
   CartIconSideBar,
   MenuOpenIcon,
   PhoneIcon,
   SearchIcon,
-} from "@/public/icons";
-import SearchBarMobile from "./Search/SearchBarMobile";
+} from '@/public/icons';
+import SearchBarMobile from './Search/SearchBarMobile';
+import { fetchProducts } from '@/redux/products/productsOperations';
+import { useDispatch } from 'react-redux';
+import { StatusContext } from '@/context/statusContext';
 
 const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { resetLocalStorage } = useContext(StatusContext);
+  const dispatch = useDispatch();
 
   const toggle = () => {
     setIsOpen(!isOpen);
+  };
+  const handleToHome = () => {
+    dispatch(
+      fetchProducts({
+        page: 1,
+        query: '',
+        limit: 10,
+        countries: [],
+        trademarks: [],
+      })
+    );
+    resetLocalStorage();
   };
 
   return (
     <>
       <div
         className={`${
-          showSearchBar ? "hidden" : "tablet1024:hidden flex justify-between"
+          showSearchBar ? 'hidden' : 'tablet1024:hidden flex justify-between'
         }`}
       >
         <div className="flex gap-xs2">
-          <Link href="/" className="justify-center flex items-center">
+          <Link
+            href={`/?page=1&query=`}
+            onClick={handleToHome}
+            className="justify-center flex items-center"
+          >
             <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
           </Link>
           <Sidebar isOpen={isOpen} toggle={toggle} />

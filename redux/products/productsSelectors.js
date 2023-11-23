@@ -1,14 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
-export const selectProducts = (state) => state.products.products;
-export const selectProduct = (state) => state.products.productById;
+export const selectProducts = state => state.products.products;
+export const selectProduct = state => state.products.productById;
 export const selectAllProducts = state => state.products.allProducts;
-export const selectIsLoading = (state) => state.products.isLoading;
-export const selectError = (state) => state.products.error;
-export const selectFilter = (state) => state.filter
-export const selectFilterSubCategory = (state) => state.filter.subcategoryName;
-export const selectFilterByCountry = (state) => state.filter.countryArr;
-export const selectFilterByTrademarks = state => state.filter.trademarksArr;
+export const selectIsLoading = state => state.products.isLoading;
+export const selectError = state => state.products.error;
+export const selectFilter = state => state.filter
 export const selectCountryPriceTrademark = (state) => state.products.productInfo;
+export const selectTotalCountProduct = state => state.products.totalCountProducts;
 
 export const selectFiltredByPrice = createSelector(
   [selectFilter, selectProducts],

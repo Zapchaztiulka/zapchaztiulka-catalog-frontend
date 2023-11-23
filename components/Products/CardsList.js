@@ -1,21 +1,18 @@
 'use client';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import {
-  selectCountryPriceTrademark,
-  selectFilterByCountry,
-  selectFilterByTrademarks,
-  selectFiltredByPrice,
   selectIsLoading,
   selectProducts,
 } from '@/redux/products/productsSelectors';
 import { fetchProducts } from '@/redux/products/productsOperations';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
+import { StatusContext } from '@/context/statusContext';
 
 const CardsList = () => {
   const router = useRouter();
@@ -25,21 +22,16 @@ const CardsList = () => {
   const isLoading = useSelector(selectIsLoading);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const pageSize = 10;
-  const searchValue = router.query.query || '';
+  const searchValue = router.isReady ? router.query.query : '';
+  let countries = router.query.countries || [];
+  let trademark = router.query.trademarks || [];
   const products = data?.products;
-  const countriesArray = useSelector(selectFilterByCountry);
-  const trademarksArray = useSelector(selectFilterByTrademarks);
-   const productInfo = useSelector(selectCountryPriceTrademark);
+  const { setCountry, setTrademarks } = useContext(StatusContext);
 
-  // console.log(productInfo);
-
-  const dataRequest = {
-    page: startPage,
-    query: searchValue,
-    limit: 10,
-    countries: countriesArray,
-    trademarks: trademarksArray,
-  };
+  const countriesUrlArray =
+    countries.length === 0 ? countries : countries?.split(',');
+  const trademarkUrlArray =
+    trademark.length === 0 ? trademark : trademark?.split(',');
 
   useEffect(() => {
     if (
@@ -49,38 +41,68 @@ const CardsList = () => {
       router.push(`/?page=1&query=`, undefined);
       setCurrentPage(1);
       dispatch(fetchProducts({ page: 1, query: '', limit: 10 }));
-      console.log('me ');
     }
   }, [dispatch, router.asPath, searchValue]);
 
-  // useEffect(() => {
-  //   if (countriesArray !== undefined) {
-  //    dispatch(fetchProducts(dataRequest));
-  //     setCurrentPage(startPage);
-  //     console.log('me 1');
-  //   }
-  // }, [dispatch, startPage, countriesArray, searchValue]);
+  useEffect(() => {
+    if (
+      countriesUrlArray.length === 0 &&
+      trademarkUrlArray.length === 0 &&
+      router.isReady
+    ) {
+      setCountry([]);
+      setTrademarks([]);
+      dispatch(
+        fetchProducts({
+          page: startPage,
+          query: searchValue,
+          limit: 10,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
+        })
+      );
+      setCurrentPage(startPage);
+    }
+  }, [
+    dispatch,
+    startPage,
+    countries.length,
+    trademark.length,
+    router.isReady,
+    searchValue,
+  ]);
 
   useEffect(() => {
-    if (startPage) dispatch(fetchProducts(dataRequest));
-    setCurrentPage(startPage);
-    console.log('me 1');
-  }, [dispatch, startPage, countriesArray, trademarksArray, searchValue]);
-
-  // useEffect(() => {
-  //   if (startPage && countriesArray === undefined) {
-  //     setCurrentPage(startPage);
-  //     dispatch(fetchProducts(dataRequest));
-  //     console.log('me 2');
-  //   }
-  // }, [dispatch, startPage, router.isReady, countriesArray, searchValue]);
+    if (countriesUrlArray.length !== 0 || trademarkUrlArray.length !== 0) {
+      setCountry(countriesUrlArray);
+      setTrademarks(trademarkUrlArray);
+      dispatch(
+        fetchProducts({
+          page: startPage,
+          query: searchValue,
+          limit: 10,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
+        })
+      );
+      setCurrentPage(startPage);
+    }
+  }, [dispatch, startPage, countries.length, trademark.length, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
   const handleChange = (event, value) => {
     event.preventDefault();
     setCurrentPage(value);
-    router.push(`/?page=${value}&query=${searchValue}`, undefined);
+    router.push({
+      pathname: `/`,
+      query: {
+        page: value,
+        query: searchValue,
+        countries: countriesUrlArray,
+        trademarks: trademarkUrlArray,
+      },
+    });
   };
 
   return (
