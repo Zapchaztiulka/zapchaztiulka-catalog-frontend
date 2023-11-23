@@ -2,11 +2,19 @@ import PriceFilter from './PriceFilter';
 import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { useContext, useEffect } from 'react';
-import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
-import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
+import { useContext, useEffect, useState } from 'react';
+import {
+  selectCountryPriceTrademark,
+  selectTotalCountProduct,
+} from '@/redux/products/productsSelectors';
+import {
+  fetchCountryPriceTrademark,
+  fetchTotalCount,
+} from '@/redux/products/productsOperations';
 import { useRouter } from 'next/router';
 import {
+  findMaxPrice,
+  findMinPrice,
   getNamesByBooleanArray,
   getTCountriesForTrademarks,
   getTrademarksForCountries,
@@ -17,6 +25,9 @@ const Filter = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
+  const totalCountFromRedux = useSelector(selectTotalCountProduct);
+  const [totalCountProducts, setTotalCountProducts] = useState(0);
+
   const {
     triggeredCountry,
     setTriggedCountry,
@@ -35,6 +46,8 @@ const Filter = () => {
     setCountriesIsDisabled,
     trademarksIsDisabled,
     setTrademarksIsDisabled,
+    setMinValue,
+    setMaxValue,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -66,6 +79,32 @@ const Filter = () => {
       setTriggedCountry(true);
     }
   };
+
+  const fetchData = async () => {
+    dispatch(
+      fetchTotalCount({
+        page: 1,
+        query: '',
+        limit: 10,
+        countries: country,
+        trademarks: trademarks,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (country.length > 0 || trademarks.length > 0) {
+      fetchData();
+    } else {
+      setTotalCountProducts(0);
+    }
+  }, [country, trademarks]);
+
+  useEffect(() => {
+    if (totalCountFromRedux) {
+      setTotalCountProducts(totalCountFromRedux.totalCount || 0);
+    }
+  }, [totalCountFromRedux]);
 
   const isMatchesTrademarks = country => {
     const trademarksForSelectedCountries = getTrademarksForCountries(
@@ -122,18 +161,20 @@ const Filter = () => {
 
   const resetResults = () => {
     resetLocalStorage();
-    if (router.query.countries !==undefined || router.query.trademarks !==undefined) {
-          router.push({
-      pathname: '/',
-      query: {
-        page: 1,
-        query: '',
-        countries: [],
-        trademarks: [],
-      },
-    });
+    if (
+      router.query.countries !== undefined ||
+      router.query.trademarks !== undefined
+    ) {
+      router.push({
+        pathname: '/',
+        query: {
+          page: 1,
+          query: '',
+          countries: [],
+          trademarks: [],
+        },
+      });
     }
-
   };
 
   const handleSubmit = e => {
@@ -154,7 +195,7 @@ const Filter = () => {
       className="flex flex-col gap-m filter-section"
       onSubmit={handleSubmit}
     >
-      <PriceFilter />
+      <PriceFilter productInfo={productInfo} />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
         handleOnChange={handleOnChangeByTradeMarks}
@@ -173,7 +214,9 @@ const Filter = () => {
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
-          Застосувати
+          {totalCountProducts !== 0
+            ? `Застосувати (${totalCountProducts})`
+            : 'Застосувати'}
         </button>
         <button
           type="button"

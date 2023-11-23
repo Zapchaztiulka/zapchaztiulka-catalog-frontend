@@ -215,7 +215,7 @@ a {
 }
 
 .price-input {
-  @apply border-0 outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs tablet1024:w-[109.5px] desktop1200:w-[119.5px] placeholder:text-base placeholder:text-textTertiary;
+  @apply outline-none ring-1 ring-inset ring-borderDefault focus:ring-inset  focus:ring-1 focus:ring-borderDefaultBlue  rounded-minimal p-xs tablet1024:w-[109.5px] desktop1200:w-[119.5px]  text-base leading-6 placeholder:text-textInputDefault hover:bg-bgHoverGrey;
 }
 
 .custom-checkBox:checked::after  {

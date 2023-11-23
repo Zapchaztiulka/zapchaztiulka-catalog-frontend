@@ -78,14 +78,14 @@ const TradeMarkFilter = ({
                 const isChecked = trademarksArray?.includes(item.name);
                 const disabledOnChange =
                   isVisibleTrademarks.length !== 0
-                    ? !isVisibleTrademarks.includes(item.name)
+                    ? !isVisibleTrademarks?.includes(item.name)
                     : false;
                 const disabledOnSubmit =
                   countryArray.length !== 0
-                    ? !trademarksIsDisabled.includes(item.name)
+                    ? !trademarksIsDisabled?.includes(item.name)
                     : false;
                 const isDisabled =
-                  trademarksIsDisabled.length === 0
+                  trademarksIsDisabled?.length === 0
                     ? disabledOnChange
                     : disabledOnSubmit;
                 return (
@@ -96,27 +96,15 @@ const TradeMarkFilter = ({
                     }`}
                   >
                     <label
-                      htmlFor={item.name}
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
                         isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
-                      {/* <CheckBox
-                        handleOnChange={handleOnChange}
-                        filtersArray={trademarksArray}
+                      <CheckBox
                         filterName={item.name}
-                        index={index}
-                        comparisonResults={comparisonResults[index]}
-                      /> */}
-                      <input
-                        type="checkbox"
-                        name={item.name}
-                        id={item.name}
-                        value={item.name}
-                        checked={isChecked}
-                        onChange={handleOnChange}
-                        disabled={isDisabled}
-                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
+                        handleOnChange={handleOnChange}
+                        isDisabled={isDisabled}
+                        isChecked={isChecked}
                       />
                       {item.name !== '' ? item.name : 'Інше'}
                     </label>

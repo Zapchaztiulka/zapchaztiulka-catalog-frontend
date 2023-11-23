@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/public/icons';
-import React, { useContext, useState } from 'react';
+import React, {useState } from 'react';
 import CheckBox from './CheckBox';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import SearchFilter from './SearchFilter';
@@ -101,22 +101,13 @@ const CountryFilter = ({
                         isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
-                      {/* <CheckBox
+                      <CheckBox
                           filterName={item.name}
                           handleOnChange={handleOnChange}
-                          filtersArray={countryArray}
-                          index={index}
-                          // comparisonResults={comparisonResults[index]}
-                        /> */}
-                      <input
-                        type="checkbox"
-                        name={item.name}
-                        value={item.name}
-                        checked={isChecked}
-                        onChange={handleOnChange}
-                        disabled={isDisabled}
-                        className="w-4 h-4 relative cursor-pointer border rounded-minimal border-borderDefault appearance-none custom-checkBox"
-                      />
+                          isDisabled={isDisabled}
+                          isChecked={isChecked}
+                      
+                        />
                       {item.name !== '' ? item.name : 'Інше'}
                     </label>
                     <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">

@@ -21,7 +21,7 @@ export const StatusProvider = ({ children }) => {
   const [countriesIsDisabled, setCountriesIsDisabled] = useState(countryTemp);
   const [trademarksIsDisabled, setTrademarksIsDisabled] =
     useState(trademarksTemp);
-
+  
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
     localStorage.removeItem('Trademark');
