@@ -61,8 +61,8 @@ export const findMinPrice = dataArray => {
     }
   });
 
-  return formatNumberWithSpace(minPrice);
-};
+    return formatNumberWithSpace(minPrice);
+  }
 
 export const findMaxPrice = dataArray => {
   if (dataArray?.length === 0) {
@@ -77,5 +77,5 @@ export const findMaxPrice = dataArray => {
     }
   });
 
-  return formatNumberWithSpace(maxPrice);
-};
+    return formatNumberWithSpace(maxPrice);
+  }

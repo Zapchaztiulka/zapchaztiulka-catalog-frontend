@@ -76,7 +76,6 @@ const TradeMarkFilter = ({
           <div className="overflow-auto max-h-[392px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-w-[235px] ">
               {filtredValue?.map((item, index) => {
-               
                 const isChecked = trademarksArray?.includes(item.name);
 
                 const disabledOnChange =
