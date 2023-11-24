@@ -1,7 +1,6 @@
 "use client";
 import { findMaxPrice, findMinPrice } from "@/helpers/checkForMatchValue";
 import { ArrowDown, ArrowUp } from "@/public/icons";
-import { filterProductsMax, filterProductsMin } from "@/redux/filterSlice";
 import { selectFilter } from "@/redux/products/productsSelectors";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +13,7 @@ const PriceFilter = ({ productInfo }) => {
    const [maxValue, setMaxValue] = useState();
   //  console.log('Максимльне значення maxPrice:', maxValue);
   // console.log('Мінімальне значення minPrice:', minValue);
-  console.log(productInfo);
+  // console.log(productInfo);
   const toggle = () => {
     setIsOpen(!isOpen);
   };

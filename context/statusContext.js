@@ -22,11 +22,16 @@ export const StatusProvider = ({ children }) => {
   const [trademarksIsDisabled, setTrademarksIsDisabled] =
     useState(trademarksTemp);
   
+  // let visibleTrademark = JSON.parse(localStorage.getItem('Visible Trademark') || '[]');
+  // const [visio, setVisio] = useState(visibleTrademark);
+  // console.log(visio);
+  
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
     localStorage.removeItem('Trademark');
     localStorage.removeItem('Trade1');
     localStorage.removeItem('Country1');
+    
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);

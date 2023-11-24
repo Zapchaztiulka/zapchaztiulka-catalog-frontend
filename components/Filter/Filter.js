@@ -48,6 +48,7 @@ const Filter = () => {
     setTrademarksIsDisabled,
     setMinValue,
     setMaxValue,
+    setVisio,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -136,6 +137,11 @@ const Filter = () => {
     comparisonResultsCountry,
     productInfo?.trademarks
   );
+  //  localStorage.setItem(
+  //    'Visible Trademark',
+  //    JSON.stringify(isVisibleTrademarks)
+  //  );
+
 
   const isVisibleCountries = getNamesByBooleanArray(
     comparisonResultsTrademarks,
@@ -198,6 +204,7 @@ const Filter = () => {
       <PriceFilter productInfo={productInfo} />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
+        data={productInfo}
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
         isVisibleTrademarks={isVisibleTrademarks}
