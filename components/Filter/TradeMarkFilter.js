@@ -11,7 +11,6 @@ const TradeMarkFilter = ({
   isVisibleTrademarks,
   trademarksIsDisabled,
   countryArray,
-  data,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -27,11 +26,11 @@ const TradeMarkFilter = ({
   const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);
-    const filtredItem = data.trademarks?.filter(item => {
+    const filtredItem = trademarks?.filter(item => {
       return item.name.toLowerCase().includes(searchValue.toLowerCase());
     });
     if (value === '') {
-      setFiltredValue(data.trademarks);
+      setFiltredValue(trademarks);
     } else {
       setFiltredValue(filtredItem);
     }
@@ -39,27 +38,8 @@ const TradeMarkFilter = ({
 
   const removeSearchTerm = () => {
     setValue('');
-    setFiltredValue(data.trademarks);
+    setFiltredValue(trademarks);
   };
-
-  console.log(data);
-
-  const arr3 = ['Бельгия', 'Болгария', 'Китай'];
-
-  const checkMatch = item => {
-    return data.countries.some(country => item.countries.includes(country));
-  };
-
-  // Фільтруємо та виводимо значення
-  const filteredValues = data.trademarks.filter(item => {
-    const match = checkMatch(item);
-    return match && arr3.includes(item.name);
-  });
-
-  // Рендеримо результат
-  filteredValues.forEach(item => {
-    console.log(item.name, 'true');
-  });
 
   return (
     <div>

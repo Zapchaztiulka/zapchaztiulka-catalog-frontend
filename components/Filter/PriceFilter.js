@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const PriceFilter = ({ productInfo }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const minPrice = findMinPrice(productInfo.trademarks);
-  const maxPrice = findMaxPrice(productInfo.trademarks);
+  const minPrice = findMinPrice(productInfo?.trademarks || null);
+  const maxPrice = findMaxPrice(productInfo?.trademarks || null);
    const [minValue, setMinValue] = useState();
    const [maxValue, setMaxValue] = useState();
   //  console.log('Максимльне значення maxPrice:', maxValue);

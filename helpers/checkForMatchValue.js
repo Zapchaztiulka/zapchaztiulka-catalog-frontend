@@ -49,13 +49,13 @@ export const formatNumberWithSpace = number => {
 };
 
 export const findMinPrice = dataArray => {
-  if (dataArray.length === 0) {
+  if (dataArray?.length === 0) {
     return null;
   }
 
-  let minPrice = dataArray[0].minPrice;
+  let minPrice = dataArray[0]?.minPrice;
 
-  dataArray.forEach(item => {
+  dataArray?.forEach(item => {
     if (item.minPrice < minPrice) {
       minPrice = item.minPrice;
     }
@@ -65,13 +65,13 @@ export const findMinPrice = dataArray => {
 };
 
 export const findMaxPrice = dataArray => {
-  if (dataArray.length === 0) {
+  if (dataArray?.length === 0) {
     return null;
   }
 
-  let maxPrice = dataArray[0].maxPrice;
+  let maxPrice = dataArray[0]?.maxPrice;
 
-  dataArray.forEach(item => {
+  dataArray?.forEach(item => {
     if (item.maxPrice > maxPrice) {
       maxPrice = item.maxPrice;
     }

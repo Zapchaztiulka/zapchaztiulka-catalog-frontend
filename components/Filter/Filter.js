@@ -102,8 +102,8 @@ const Filter = () => {
   }, [country, trademarks]);
 
   useEffect(() => {
-    if (totalCountFromRedux) {
-      setTotalCountProducts(totalCountFromRedux.totalCount || 0);
+    if (totalCountFromRedux) 
+      {setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
     }
   }, [totalCountFromRedux]);
 
@@ -113,7 +113,7 @@ const Filter = () => {
       country
     );
     const results = productInfo.trademarks.map(item => {
-      const isMatch = trademarksForSelectedCountries.includes(item.name);
+      const isMatch = trademarksForSelectedCountries?.includes(item.name);
       return !isMatch;
     });
     setComparisonResultsCountry(results);
@@ -126,7 +126,7 @@ const Filter = () => {
       trademark
     );
     const results = productInfo.countries.map(item => {
-      const isMatch = countryForSelectedTrademarks.includes(item.name);
+      const isMatch = countryForSelectedTrademarks?.includes(item.name);
       return !isMatch;
     });
     setComparisonResultsTrademarks(results);
