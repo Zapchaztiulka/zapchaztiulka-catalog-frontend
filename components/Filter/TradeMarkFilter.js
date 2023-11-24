@@ -119,18 +119,18 @@ const TradeMarkFilter = ({
                   <li
                     key={index}
                     className={`flex justify-between p-xs3 pl-xs2 ${
-                      des ? 'hidden' : 'flex'
+                      isDisabled ? 'hidden' : 'flex'
                     }`}
                   >
                     <label
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
-                        des ? 'text-textDisabled' : 'text-textPrimary'
+                        isDisabled ? 'text-textDisabled' : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
                       <CheckBox
                         filterName={item.name}
                         handleOnChange={handleOnChange}
-                        isDisabled={des}
+                        isDisabled={isDisabled}
                         isChecked={isChecked}
                       />
                       {item.name !== '' ? item.name : 'Інше'}
