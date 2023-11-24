@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
   const handleChatButtonClick = () => {
     setIsChatOpen(true);
     socket.emit('toggleChat', { userId: storedUserId, isChatRoomOpen: true });
+    socket.emit('leavePage', { userId: storedUserId, isLeavePage: false });
   };
 
   // handle when user minimizes a chat room
