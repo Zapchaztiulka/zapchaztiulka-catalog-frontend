@@ -1,7 +1,7 @@
 const BASE_URL =
   process.env.NODE_ENV === 'development'
-    ? process.env.BASE_DEV_URL
-    : process.env.BASE_PROD_URL;
+    ? process.env.NEXT_PUBLIC_BASE_DEV_URL
+    : process.env.NEXT_PUBLIC_BASE_PROD_URL;
 
 export const Chat = ({ windowWidth }) => {
   const storedUserId = localStorage.getItem('userId');

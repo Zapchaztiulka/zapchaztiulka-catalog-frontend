@@ -18,11 +18,13 @@ module.exports = (phase, { defaultConfig }) => {
         new webpack.DefinePlugin({
           'process.env.BACKEND_URL': JSON.stringify(
             isDevelopment
-              ? process.env.BACKEND_DEV_URL
-              : process.env.BACKEND_PROD_URL
+              ? process.env.NEXT_PUBLIC_BACKEND_DEV_URL
+              : process.env.NEXT_PUBLIC_BACKEND_PROD_URL
           ),
           'process.env.BASE_URL': JSON.stringify(
-            isDevelopment ? process.env.BASE_DEV_URL : process.env.BASE_PROD_URL
+            isDevelopment
+              ? process.env.NEXT_PUBLIC_BASE_DEV_URL
+              : process.env.NEXT_PUBLIC_BASE_PROD_URL
           ),
         })
       );
