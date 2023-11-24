@@ -51,13 +51,13 @@ const TradeMarkFilter = ({
   };
 
   // Фільтруємо та виводимо значення
-  const filteredValues = data.trademarks.filter(item => {
+  const filteredValues = data?.trademarks.filter(item => {
     const match = checkMatch(item);
     return match && arr3.includes(item.name);
   });
 
   // Рендеримо результат
-  filteredValues.forEach(item => {
+  filteredValues?.forEach(item => {
     console.log(item.name, 'true');
   });
 
@@ -96,7 +96,6 @@ const TradeMarkFilter = ({
           <div className="overflow-auto max-h-[392px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-w-[235px] ">
               {filtredValue?.map((item, index) => {
-               
                 const isChecked = trademarksArray?.includes(item.name);
 
                 const disabledOnChange =

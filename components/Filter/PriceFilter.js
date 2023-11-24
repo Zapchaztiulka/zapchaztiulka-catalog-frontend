@@ -1,16 +1,16 @@
-"use client";
-import { findMaxPrice, findMinPrice } from "@/helpers/checkForMatchValue";
-import { ArrowDown, ArrowUp } from "@/public/icons";
-import { selectFilter } from "@/redux/products/productsSelectors";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+'use client';
+import { findMaxPrice, findMinPrice } from '@/helpers/checkForMatchValue';
+import { ArrowDown, ArrowUp } from '@/public/icons';
+import { selectFilter } from '@/redux/products/productsSelectors';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PriceFilter = ({ productInfo }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const minPrice = findMinPrice(productInfo.trademarks);
-  const maxPrice = findMaxPrice(productInfo.trademarks);
-   const [minValue, setMinValue] = useState();
-   const [maxValue, setMaxValue] = useState();
+  const minPrice = findMinPrice(productInfo?.trademarks || null);
+  const maxPrice = findMaxPrice(productInfo?.trademarks || null);
+  const [minValue, setMinValue] = useState();
+  const [maxValue, setMaxValue] = useState();
   //  console.log('Максимльне значення maxPrice:', maxValue);
   // console.log('Мінімальне значення minPrice:', minValue);
   // console.log(productInfo);
@@ -24,9 +24,9 @@ const PriceFilter = ({ productInfo }) => {
   };
 
   const handleOnChangeMaxPrice = e => {
-      const { value } = e.target;
-      setMaxValue(value);
-    };
+    const { value } = e.target;
+    setMaxValue(value);
+  };
 
   return (
     <div>
