@@ -27,6 +27,9 @@ const Filter = () => {
   const productInfo = useSelector(selectCountryPriceTrademark);
   const totalCountFromRedux = useSelector(selectTotalCountProduct);
   const [totalCountProducts, setTotalCountProducts] = useState(0);
+    const minPrice = findMinPrice(productInfo?.trademarks || null);
+    const maxPrice = findMaxPrice(productInfo?.trademarks || null);
+
 
   const {
     triggeredCountry,
@@ -46,9 +49,10 @@ const Filter = () => {
     setCountriesIsDisabled,
     trademarksIsDisabled,
     setTrademarksIsDisabled,
+    minValue,
     setMinValue,
+    maxValue,
     setMaxValue,
-    setVisio,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -92,6 +96,16 @@ const Filter = () => {
       })
     );
   };
+
+    const handleOnChangeMinPrice = e => {
+      const { value } = e.target;
+      setMinValue(value);
+    };
+
+    const handleOnChangeMaxPrice = e => {
+      const { value } = e.target;
+      setMaxValue(value);
+    };
 
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0) {
@@ -142,7 +156,6 @@ const Filter = () => {
   //    JSON.stringify(isVisibleTrademarks)
   //  );
 
-
   const isVisibleCountries = getNamesByBooleanArray(
     comparisonResultsTrademarks,
     productInfo?.countries
@@ -186,12 +199,15 @@ const Filter = () => {
   const handleSubmit = e => {
     e.preventDefault();
     router.push(
-      `/?page=1&query=&countries=${country}&trademarks=${trademarks}`
+      `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${minValue}&max=${maxValue}`
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
     localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
     localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
+    localStorage.setItem('MinPrice', JSON.stringify(minValue));
+    localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
+
     setTrademarksIsDisabled(isVisibleTrademarks);
     setCountriesIsDisabled(isVisibleCountries);
   };
@@ -201,7 +217,14 @@ const Filter = () => {
       className="flex flex-col gap-m filter-section"
       onSubmit={handleSubmit}
     >
-      <PriceFilter productInfo={productInfo} />
+      <PriceFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        minValue={minValue}
+        maxValue={maxValue}
+        handleOnChangeMinPrice={handleOnChangeMinPrice}
+        handleOnChangeMaxPrice={handleOnChangeMaxPrice}
+      />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
         data={productInfo}

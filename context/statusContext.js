@@ -22,6 +22,12 @@ export const StatusProvider = ({ children }) => {
   const [trademarksIsDisabled, setTrademarksIsDisabled] =
     useState(trademarksTemp);
   
+  // Save price
+  let minPriceStorage = JSON.parse(localStorage.getItem('MinPrice') || 0);
+  let maxPriceStorage = JSON.parse(localStorage.getItem('MaxPrice') || 0);
+  const [minValue, setMinValue] = useState();
+  const [maxValue, setMaxValue] = useState();
+  
   // let visibleTrademark = JSON.parse(localStorage.getItem('Visible Trademark') || '[]');
   // const [visio, setVisio] = useState(visibleTrademark);
   // console.log(visio);
@@ -31,11 +37,14 @@ export const StatusProvider = ({ children }) => {
     localStorage.removeItem('Trademark');
     localStorage.removeItem('Trade1');
     localStorage.removeItem('Country1');
-    
+    localStorage.removeItem('MinPrice');
+    localStorage.removeItem('MaxPrice');   
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);
     setTrademarks([]);
+    // setMinValue(0);
+    // setMaxValue(0);
     setTrademarksIsDisabled([]);
     setCountriesIsDisabled([]);
     setComparisonResultsCountry([]);
@@ -62,6 +71,10 @@ export const StatusProvider = ({ children }) => {
         setCountriesIsDisabled,
         trademarksIsDisabled,
         setTrademarksIsDisabled,
+        minValue,
+        setMinValue,
+        maxValue,
+        setMaxValue,
       }}
     >
       {children}

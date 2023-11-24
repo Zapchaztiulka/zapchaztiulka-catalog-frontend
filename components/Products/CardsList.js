@@ -59,6 +59,8 @@ const CardsList = () => {
           limit: 10,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
+          minPrice: 1,
+          maxPrice: 700000,
         })
       );
       setCurrentPage(startPage);
@@ -83,6 +85,8 @@ const CardsList = () => {
           limit: 10,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
+          minPrice: 1,
+          maxPrice: 700000,
         })
       );
       setCurrentPage(startPage);

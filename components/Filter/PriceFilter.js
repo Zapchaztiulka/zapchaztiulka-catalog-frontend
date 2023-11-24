@@ -5,27 +5,17 @@ import { selectFilter } from '@/redux/products/productsSelectors';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const PriceFilter = ({ productInfo }) => {
+const PriceFilter = ({
+  minPrice,
+  maxPrice,
+  minValue,
+  maxValue,
+  handleOnChangeMinPrice,
+  handleOnChangeMaxPrice,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
-  const minPrice = findMinPrice(productInfo?.trademarks || null);
-  const maxPrice = findMaxPrice(productInfo?.trademarks || null);
-  const [minValue, setMinValue] = useState();
-  const [maxValue, setMaxValue] = useState();
-  //  console.log('Максимльне значення maxPrice:', maxValue);
-  // console.log('Мінімальне значення minPrice:', minValue);
-  // console.log(productInfo);
   const toggle = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleOnChangeMinPrice = e => {
-    const { value } = e.target;
-    setMinValue(value);
-  };
-
-  const handleOnChangeMaxPrice = e => {
-    const { value } = e.target;
-    setMaxValue(value);
   };
 
   return (
@@ -57,14 +47,14 @@ const PriceFilter = ({ productInfo }) => {
           <div className="flex gap-xs3 items-center">
             <input
               className="price-input"
-              value={minValue}
+              value={minValue || 0}
               onChange={handleOnChangeMinPrice}
               placeholder={minPrice}
             />
             <p>—</p>
             <input
               className="price-input"
-              value={maxValue}
+              value={maxValue || 0}
               onChange={handleOnChangeMaxPrice}
               placeholder={maxPrice}
             />
