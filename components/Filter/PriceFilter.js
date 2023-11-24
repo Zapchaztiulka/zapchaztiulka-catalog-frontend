@@ -47,14 +47,14 @@ const PriceFilter = ({
           <div className="flex gap-xs3 items-center">
             <input
               className="price-input"
-              value={minValue || 0}
+              value={minValue}
               onChange={handleOnChangeMinPrice}
               placeholder={minPrice}
             />
             <p>—</p>
             <input
               className="price-input"
-              value={maxValue || 0}
+              value={maxValue}
               onChange={handleOnChangeMaxPrice}
               placeholder={maxPrice}
             />

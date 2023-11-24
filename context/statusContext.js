@@ -23,8 +23,8 @@ export const StatusProvider = ({ children }) => {
     useState(trademarksTemp);
   
   // Save price
-  let minPriceStorage = JSON.parse(localStorage.getItem('MinPrice') || 0);
-  let maxPriceStorage = JSON.parse(localStorage.getItem('MaxPrice') || 0);
+  // let minPriceStorage = JSON.parse(localStorage.getItem('MinPrice') || 0);
+  // let maxPriceStorage = JSON.parse(localStorage.getItem('MaxPrice') || 0);
   const [minValue, setMinValue] = useState();
   const [maxValue, setMaxValue] = useState();
   
@@ -37,8 +37,8 @@ export const StatusProvider = ({ children }) => {
     localStorage.removeItem('Trademark');
     localStorage.removeItem('Trade1');
     localStorage.removeItem('Country1');
-    localStorage.removeItem('MinPrice');
-    localStorage.removeItem('MaxPrice');   
+    // localStorage.removeItem('MinPrice');
+    // localStorage.removeItem('MaxPrice');   
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);

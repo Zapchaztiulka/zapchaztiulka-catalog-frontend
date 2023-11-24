@@ -205,8 +205,8 @@ const Filter = () => {
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
     localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
     localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
-    localStorage.setItem('MinPrice', JSON.stringify(minValue));
-    localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
+    // localStorage.setItem('MinPrice', JSON.stringify(minValue));
+    // localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
 
     setTrademarksIsDisabled(isVisibleTrademarks);
     setCountriesIsDisabled(isVisibleCountries);
