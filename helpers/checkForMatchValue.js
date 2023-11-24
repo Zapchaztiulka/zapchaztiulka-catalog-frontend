@@ -49,33 +49,37 @@ export const formatNumberWithSpace = number => {
 };
 
 export const findMinPrice = dataArray => {
-  if (dataArray.length === 0) {
-    return null;
-  }
-
-  let minPrice = dataArray[0].minPrice;
-
-  dataArray.forEach(item => {
-    if (item.minPrice < minPrice) {
-      minPrice = item.minPrice;
+  if (dataArray) {
+    if (dataArray.length === 0) {
+      return null;
     }
-  });
 
-  return formatNumberWithSpace(minPrice);
+    let minPrice = dataArray[0].minPrice;
+
+    dataArray.forEach(item => {
+      if (item.minPrice < minPrice) {
+        minPrice = item.minPrice;
+      }
+    });
+
+    return formatNumberWithSpace(minPrice);
+  }
 };
 
 export const findMaxPrice = dataArray => {
-  if (dataArray.length === 0) {
-    return null;
-  }
-
-  let maxPrice = dataArray[0].maxPrice;
-
-  dataArray.forEach(item => {
-    if (item.maxPrice > maxPrice) {
-      maxPrice = item.maxPrice;
+  if (dataArray) {
+    if (dataArray.length === 0) {
+      return null;
     }
-  });
 
-  return formatNumberWithSpace(maxPrice);
+    let maxPrice = dataArray[0].maxPrice;
+
+    dataArray.forEach(item => {
+      if (item.maxPrice > maxPrice) {
+        maxPrice = item.maxPrice;
+      }
+    });
+
+    return formatNumberWithSpace(maxPrice);
+  }
 };
