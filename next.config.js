@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-const Dotenv = require("dotenv-webpack");
-const webpack = require("webpack");
+const Dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
 
 module.exports = (phase, { defaultConfig }) => {
-  const isDevelopment = phase === "development";
+  const isDevelopment = phase === 'development';
 
   return {
     ...defaultConfig,
@@ -16,12 +16,12 @@ module.exports = (phase, { defaultConfig }) => {
       // Переключение переменных окружения в зависимости от режима
       config.plugins.push(
         new webpack.DefinePlugin({
-          "process.env.BACKEND_URL": JSON.stringify(
+          'process.env.BACKEND_URL': JSON.stringify(
             isDevelopment
               ? process.env.BACKEND_DEV_URL
               : process.env.BACKEND_PROD_URL
           ),
-          "process.env.BASE_URL": JSON.stringify(
+          'process.env.BASE_URL': JSON.stringify(
             isDevelopment ? process.env.BASE_DEV_URL : process.env.BASE_PROD_URL
           ),
         })
@@ -32,14 +32,14 @@ module.exports = (phase, { defaultConfig }) => {
         test: /\.svg$/,
         use: [
           {
-            loader: "@svgr/webpack",
+            loader: '@svgr/webpack',
             options: {
               icon: true,
               svgo: true,
               svgoConfig: {
                 plugins: [
                   {
-                    name: "preset-default",
+                    name: 'preset-default',
                     params: {
                       overrides: { removeViewBox: false },
                     },
@@ -56,11 +56,10 @@ module.exports = (phase, { defaultConfig }) => {
     images: {
       remotePatterns: [
         {
-          protocol: "https",
-          hostname: "**",
+          protocol: 'https',
+          hostname: '**',
         },
       ],
     },
   };
 };
-
