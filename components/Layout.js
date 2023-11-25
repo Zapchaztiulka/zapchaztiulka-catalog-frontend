@@ -9,7 +9,8 @@ const Layout = ({ children }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [countUnreadMessages, setCountUnreadMessages] = useState(null);
   const storedUserId = localStorage.getItem('userId');
-  const windowWidth = window.innerWidth;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const breakpoint = 600;
 
   // handle when user open a chat
   const handleChatButtonClick = () => {
@@ -70,9 +71,31 @@ const Layout = ({ children }) => {
     };
   }, [storedUserId]);
 
+  // handle window resize if width is more or less breakpoint
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+
+      if (
+        (windowWidth < breakpoint && newWidth >= breakpoint) ||
+        (windowWidth >= breakpoint && newWidth < breakpoint)
+      ) {
+        setWindowWidth(newWidth);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [windowWidth]);
+
   return (
     <>
-      <div className={`${isChatOpen && windowWidth < 600 ? 'hidden' : ''}`}>
+      <div
+        className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
+      >
         <Navbar />
         <main className="main-container mt-[50px]">{children}</main>
         <div id="modal-root"></div>
