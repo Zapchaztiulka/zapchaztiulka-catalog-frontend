@@ -20,17 +20,6 @@ a {
   text-decoration: none;
 }
 
-.os-scrollbar-vertical .os-scrollbar-track .os-scrollbar-handle {
-  max-width: 6px;
-  min-width: 6px;
-}
-
-.os-scrollbar-vertical {
-  background: rgb(221, 221, 221);
-  max-width: 7px;
-  border-radius: 15px;
-}
-
 .container {
   @apply px-s mobile480:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] mx-auto;
 }
@@ -61,6 +50,10 @@ a {
 
 .product-card-popular {
   @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] desktop1200:w-[276px] desktop1440:w-[285px];
+}
+
+.product-card-special {
+    @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px];
 }
 
 .footer-items {
@@ -234,28 +227,20 @@ a {
   @apply tablet600:rounded-b-lg bottom-0 absolute h-[194px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
 }
 
+.wave-shape-card {
+  @apply  -bottom-[1px] absolute h-[228px] mobile375:h-[205px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] desktop1200:h-[321px] w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
+}
+
 .special-order-image {
   @apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[198px] tablet1024:bottom-[182px] desktop1200:h-[227px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
 }
 
+.special-order-cards {
+   @apply rounded-lg absolute h-[194px] tablet768:h-[188px] tablet1024:h-[181px] tablet768:bottom-[174px] tablet1024:bottom-[182px] desktop1200:h-[213px] desktop1200:bottom-[205px] w-full bg-cover bg-no-repeat bg-left tablet600:bg-left bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+}
+
 .close-chat-btn {
   @apply absolute right-0 top-xs cursor-pointer transform hover:rotate-180 transition-transform duration-300 ease-in-out;
-}
-
-
-.os-scrollbar.os-scrollbar-vertical.os-scrollbar-cornerless, .os-scrollbar.os-scrollbar-vertical.os-scrollbar-cornerless.os-scrollbar-rtl {
-@apply bg-bgWhite;
-}
-
-.os-scrollbar.os-scrollbar-track-interactive .os-scrollbar-track, .os-scrollbar.os-scrollbar-handle-interactive .os-scrollbar-handle {
-  @apply bg-borderDefault w-[6px];
-}
-.os-scrollbar.os-scrollbar-vertical.os-scrollbar-cornerless.os-scrollbar-rtl .os-scrollbar-track .os-scrollbar-handle {
-  height:96px;
-}
-
-.os-scrollbar .os-scrollbar-vertical .os-theme-dark .os-scrollbar-track-interactive .os-scrollbar-track .os-scrollbar.os-scrollbar-handle-interactive .os-scrollbar-handle {
-  height:96px;
 }
 
 #style-scroll::-webkit-scrollbar {

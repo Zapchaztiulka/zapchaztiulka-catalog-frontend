@@ -22,6 +22,8 @@ const Catalog = () => {
   const refBtn = useRef();
   const refCategory = useRef();
 
+  // console.log(categories);
+
   const close = () => {
     if (showCategory) {
       setShowCategory(false);
@@ -64,18 +66,21 @@ const Catalog = () => {
     setLengthSubCategory(test.subcategories.length);
   };
 
-    const clickBySubCategory = (subCategory) => {
+    const clickBySubCategory = (idSubCategory) => {
     router.push({
-      pathname: "/",
-      query: { query: subCategory.toLowerCase(), page: 1 },
+      pathname: '/',
+      query: { subcategories: idSubCategory, page: 1 },
     });
     clearSubMenuByClick();
   };
 
-  const clickByCategory = (nameCategory) => {
+  const clickByCategory = (idCategory) => {
     router.push({
       pathname: '/',
-      query: { query: nameCategory.toLowerCase(), page: 1 },
+      query: {
+        categories: idCategory,
+        page: 1,
+      },
     });
       close();   
   };

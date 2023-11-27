@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+
 export const selectProducts = state => state.products.products;
 export const selectProduct = state => state.products.productById;
 export const selectAllProducts = state => state.products.allProducts;
@@ -24,4 +25,6 @@ export const selectFiltredByPrice = createSelector(
     return products.products;
   }
 );
+
+
 

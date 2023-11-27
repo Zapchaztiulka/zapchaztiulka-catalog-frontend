@@ -14,10 +14,12 @@ export const fetchProducts = createAsyncThunk(
         trademarks,
         minPrice,
         maxPrice,
+        categories,
+        subcategories,
       } = dataValue;
       const { data } = await axios.post(
         `/products?page=${page}&limit=${limit}&query=${query}`,
-        { countries, trademarks, minPrice, maxPrice }
+        { countries, trademarks, minPrice, maxPrice, subcategories, categories }
       );
       return data;
     } 
@@ -58,10 +60,12 @@ export const fetchTotalCount = createAsyncThunk(
       trademarks,
       minPrice,
       maxPrice,
+      categories,
+      subcategories,
     } = dataValue;
     const { data } = await axios.post(
       `/products?page=${page}&limit=${limit}&query=${query}`,
-      { countries, trademarks, minPrice, maxPrice }
+      { countries, trademarks, minPrice, maxPrice, categories, subcategories }
     );
     return data;
   }

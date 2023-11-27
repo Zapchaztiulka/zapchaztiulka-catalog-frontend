@@ -165,10 +165,6 @@ const Filter = () => {
     comparisonResultsCountry,
     productInfo?.trademarks
   );
-  //  localStorage.setItem(
-  //    'Visible Trademark',
-  //    JSON.stringify(isVisibleTrademarks)
-  //  );
 
   const isVisibleCountries = getNamesByBooleanArray(
     comparisonResultsTrademarks,

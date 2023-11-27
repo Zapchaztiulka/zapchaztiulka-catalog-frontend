@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
@@ -13,6 +14,11 @@ import { fetchProducts } from '@/redux/products/productsOperations';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
 import { StatusContext } from '@/context/statusContext';
+import { selectCategories, selectCategoryById } from '@/redux/categories/categoriesSelector';
+import { getLimitByScreenWidth, getNumberOfSpecialCard } from '@/helpers/getLimitByScreenWidth';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import SpecialProduct from './SpecialProduct';
+import { ArrowRight } from '@/public/icons';
 
 const CardsList = () => {
   const router = useRouter();
@@ -20,6 +26,7 @@ const CardsList = () => {
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
   const isLoading = useSelector(selectIsLoading);
+  const categoryName = useSelector(selectCategories);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const pageSize = 10;
   const searchValue = router.isReady ? router.query.query : '';
@@ -27,14 +34,25 @@ const CardsList = () => {
   let trademark = router.query.trademarks || [];
   let minPrice = router.query.min;
   let maxPrice = router.query.max;
+  let idCategory = router.query.categories || [];
+  let idSubCategory = router.query.subcategories || [];
   const products = data?.products;
   const { setCountry, setTrademarks } = useContext(StatusContext);
-  console.log(products);
+  // console.log(products);
+
+  const size = useWindowSize();
 
   const countriesUrlArray =
     countries.length === 0 ? countries : countries?.split(',');
   const trademarkUrlArray =
     trademark.length === 0 ? trademark : trademark?.split(',');
+  const caterogyUrl =
+    idCategory.length === 0 ? idCategory : idCategory?.split(',');
+  const subcategoryUrl =
+    idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+
+  const limit = getLimitByScreenWidth(size);
+  const indexOfSpecialCards = getNumberOfSpecialCard(size)
 
   useEffect(() => {
     if (
@@ -43,15 +61,17 @@ const CardsList = () => {
     ) {
       router.push(`/?page=1&query=`, undefined);
       setCurrentPage(1);
-      dispatch(fetchProducts({ page: 1, query: '', limit: 10 }));
+      dispatch(fetchProducts({ page: 1, query: '', limit: limit }));
     }
-  }, [dispatch, router.asPath, searchValue]);
+  }, [dispatch, router.asPath, searchValue, limit]);
 
   useEffect(() => {
     if (
       countriesUrlArray.length === 0 &&
-      trademarkUrlArray.length === 0 && !minPrice && !maxPrice &&
-      router.isReady 
+      trademarkUrlArray.length === 0 &&
+      !minPrice &&
+      !maxPrice &&
+      router.isReady
     ) {
       setCountry([]);
       setTrademarks([]);
@@ -59,11 +79,13 @@ const CardsList = () => {
         fetchProducts({
           page: startPage,
           query: searchValue,
-          limit: 10,
+          limit: limit,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
           minPrice: minPrice,
           maxPrice: maxPrice,
+          categories: caterogyUrl,
+          subcategories: subcategoryUrl,
         })
       );
       setCurrentPage(startPage);
@@ -75,7 +97,10 @@ const CardsList = () => {
     countries.length,
     trademark.length,
     router.isReady,
+    limit,
     searchValue,
+    caterogyUrl[0],
+    subcategoryUrl[0],
   ]);
 
   useEffect(() => {
@@ -91,7 +116,7 @@ const CardsList = () => {
         fetchProducts({
           page: startPage,
           query: searchValue,
-          limit: 10,
+          limit: limit,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
           minPrice: minPrice,
@@ -99,9 +124,18 @@ const CardsList = () => {
         })
       );
       setCurrentPage(startPage);
-        console.log('me2');
+      console.log('me2');
     }
-  }, [dispatch, startPage, countries.length, trademark.length,minPrice,maxPrice, searchValue]);
+  }, [
+    dispatch,
+    startPage,
+    countries.length,
+    trademark.length,
+    minPrice,
+    maxPrice,
+    searchValue,
+    limit
+  ]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
@@ -115,8 +149,10 @@ const CardsList = () => {
         query: searchValue,
         countries: countriesUrlArray,
         trademarks: trademarkUrlArray,
-        minPrice: minPrice !== undefined? minPrice: [],
-        maxPrice: maxPrice !== undefined? maxPrice: [],
+        minPrice: minPrice !== undefined ? minPrice : [],
+        maxPrice: maxPrice !== undefined ? maxPrice : [],
+        categories: idCategory,
+        subcategories: subcategoryUrl,
       },
     });
   };
@@ -125,10 +161,23 @@ const CardsList = () => {
     <>
       <div className="z-10">
         {searchValue !== undefined && searchValue !== '' && !isLoading && (
-          <div className="mb-m">
-            <h1 className="block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
-              Результати пошуку “{`${searchValue}`}”{' '}
-            </h1>
+          <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
+            {searchValue && (
+              <p className="inline-block">
+                Результати пошуку “{`${searchValue}`}”{' '}
+              </p>
+            )}
+            {caterogyUrl && (
+              <p className="inline-block">
+                Результати пошуку “{`${searchValue}`}”{' '}
+              </p>
+            )}
+            {subcategoryUrl && (
+              <p className="inline-block">
+                Результати пошуку “{`${searchValue}`}”{' '}
+              </p>
+            )}
+
             <span className="block desktop1200:inline text-textTertiary text-sm">
               {`${data.totalCount}`} товарів
             </span>
@@ -136,16 +185,49 @@ const CardsList = () => {
         )}
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {data &&
-            products?.map(({ name, _id, photo, price, vendorCode }) => {
+            products?.map(({ name, _id, photo, price, vendorCode }, index) => {
               return (
-                <CardItem
-                  key={_id}
-                  name={name}
-                  id={_id}
-                  photo={photo}
-                  price={price}
-                  vendorCode={vendorCode}
-                />
+                <React.Fragment key={_id}>
+                  {index === indexOfSpecialCards && (
+                    <div
+                      key="additional"
+                      className="product-card-special relative hover:shadow-lg cursor-pointer rounded-lg"
+                    >
+                      <>
+                        <div className="special-order-cards border border-borderDefault rounded-lg"></div>
+                        <div className="wave-shape-card border-x border-b border-borderDefault rounded-lg  hover:shadow-m"></div>
+                        <div className="mt-[97px] mobile375:mt-[146px] tablet600:mt-[181px] desktop1200:mt-[223px] flex flex-col grow px-2 desktop1200:px-4 relative">
+                          <p className="mb-1 text-base/[22.4px] tablet600:mb-2 tablet600:text-lg/[25.2px] desktop1200:text-2xl/[28.8px] textPrimary text-medium">
+                            Не знайшли потрібний товар?
+                          </p>
+                          <p className="text-textSecondary text-[10px]/[14px] tablet600:text-sm/[19.6px] desktop1200px:text-base/[24px] mb-3 desktop1200:mb-4">
+                            Розкажіть, що ви шукаєте, а ми спробуємо доставити.
+                          </p>
+                          <button
+                            type="button"
+                            className="relative flex items-center py-xs2 mx-0 gap-1 cursor-pointer border-none active:bg-bgPressedGrey"
+                          >
+                            <span className="text-sm tablet600:text-base/[22.4px] text-textBrand font-medium">
+                              Дізнатись більше
+                            </span>
+                            {size >= 375 && (
+                              <ArrowRight className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
+                            )}
+                          </button>
+                        </div>
+                      </>
+                    </div>
+                  )}
+                  <CardItem
+                    name={name}
+                    id={_id}
+                    photo={photo}
+                    price={price}
+                    vendorCode={vendorCode}
+                    index={index}
+                    limit={limit}
+                  />
+                </React.Fragment>
               );
             })}
         </ul>
@@ -156,6 +238,8 @@ const CardsList = () => {
                 <Pagination
                   shape="rounded"
                   count={pagesCount}
+                  siblingCount={0}
+                  boundaryCount={3}
                   page={currentPage}
                   onChange={handleChange}
                   onClick={scrollToTop}

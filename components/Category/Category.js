@@ -18,7 +18,7 @@ const Category = (props) => {
               type="button"
               className="w-full border-none b-transparent flex justify-between items-center"
               onClick={() => {
-                clickByCategory(el.categoryName);
+                clickByCategory(el._id);
               }}
             >
               <p>{el.categoryName}</p>

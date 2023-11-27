@@ -10,10 +10,7 @@ const SubCategory = (props) => {
               key={sub._id}
               className="cursor-pointer hover:text-textBrand focus:text-textBrand py-[11px]"
             >
-              <button
-                type="button"
-                onClick={() => clickBySubCategory(sub.subcategoryName)}
-              >
+              <button type="button" onClick={() => clickBySubCategory(sub._id)}>
                 {sub.subcategoryName}
               </button>
             </li>

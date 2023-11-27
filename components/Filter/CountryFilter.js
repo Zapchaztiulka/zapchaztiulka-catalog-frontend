@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowUp } from '@/public/icons';
 import React, {useState } from 'react';
 import CheckBox from './CheckBox';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import SearchFilter from './SearchFilter';
 
 const CountryFilter = ({
