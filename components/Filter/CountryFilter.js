@@ -105,13 +105,15 @@ const CountryFilter = ({
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
                       <CheckBox
-                          filterName={item.name}
-                          handleOnChange={handleOnChange}
-                          isDisabled={isDisabled}
-                          isChecked={isChecked}
-                      
-                        />
-                      {item.name !== '' ? item.name : 'Інше'}
+                        filterName={item.name}
+                        handleOnChange={handleOnChange}
+                        isDisabled={isDisabled}
+                        isChecked={isChecked}
+                      />
+                      <p className="text-ellipsis max-w-[170px]">
+                        {' '}
+                        {item.name !== '' ? item.name : 'Інше'}
+                      </p>
                     </label>
                     <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
                       {item.countProducts}

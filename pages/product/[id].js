@@ -137,7 +137,7 @@ const ProductDetails = () => {
                                 {showModal && (
                                   <Modal onClose={() => setShowModal(false)}>
                                     <div className="wrapper-modal-content">
-                                      <p className="text-[18px] tablet600:text-[24px] tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
+                                      <p className="text-[18px] tablet600:text-[24px] text-center tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
                                         {product?.name}
                                       </p>
                                       <Splide options={modalOptions}>
@@ -225,7 +225,7 @@ const ProductDetails = () => {
             <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
               <button
                 onClick={() => setShowModalCart(!showModalCart)}
-                className="flex justify-center state-button lg:px-6 px-3 py-3 border border-bgBrandDark"
+                className="flex justify-center state-button lg:px-6 px-3 py-3 "
               >
                 <div className="flex justify-center products-center gap-xs4">
                   <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
@@ -253,7 +253,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-      <h2 className="mb-s text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
+      <h2 className="mb-s text-textPrimary text-lg/[25.2px] tablet600:text-2xl/[28.8px] desktop1200:text-2xl/[36.4px] -tracking-[0.36px] desktop1200:-tracking-[0.42px] container">
         Найбільш популярні
       </h2>
       <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
@@ -261,7 +261,7 @@ const ProductDetails = () => {
       </div>
       {productFromLocalStorage.length > 0 && (
         <>
-          <h2 className="mb-s mt-6 text-textPrimary text-2xl leading-7 -tracking-[0.36px] container">
+          <h2 className="mb-s mt-6 text-textPrimary text-lg/[25.2px] tablet600:text-2xl/[28.8px] desktop1200:text-2xl/[36.4px] -tracking-[0.36px] desktop1200:-tracking-[0.42px] container">
             Переглянуті товари
           </h2>
           <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">

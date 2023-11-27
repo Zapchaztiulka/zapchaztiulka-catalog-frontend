@@ -5,7 +5,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
   return (
     <>
       <section className="">
-        <h3 className="mb-3 text-lg desktop1200:text-xl text-textPrimary font-medium">
+        <h3 className="mb-3 text-lg/[25.2px] desktop1200:text-xl/[25px] text-textPrimary font-medium">
           Основні характеристики:
         </h3>
         <div className="characteristic">
@@ -56,7 +56,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
             className="flex items-center py-[9px] cursor-pointer border-none active:bg-bgPressedGrey"
           >
             <span className="text-base text-textBrand font-medium">
-              Усі характеристик
+              Усі характеристики
             </span>
             <ArrowDown className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
           </button>

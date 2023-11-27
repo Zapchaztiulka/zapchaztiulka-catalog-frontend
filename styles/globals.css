@@ -187,7 +187,7 @@ a {
 }
 
 .wrapper-modal-content {
-  @apply p-s pt-11 mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px] desktop1920:h-[531px];
+  @apply p-s pt-11 mobile320:w-[288px] mobile320:h-[550px] mobile375:w-[343px] mobile375:h-[526px] mobile480:w-[432px] mobile480:h-[550px] tablet600:w-[548px] tablet600:h-[408px] tablet1024:h-[555px] tablet1024:w-[664px] desktop1440:w-[732px] desktop1920:w-[976px];
 }
 
 .modal-body .custom-modal-pagination {

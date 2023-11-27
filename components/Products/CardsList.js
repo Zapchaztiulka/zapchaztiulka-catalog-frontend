@@ -29,7 +29,7 @@ const CardsList = () => {
   let maxPrice = router.query.max;
   const products = data?.products;
   const { setCountry, setTrademarks } = useContext(StatusContext);
-  console.log(products.categories);
+  console.log(products);
 
   const countriesUrlArray =
     countries.length === 0 ? countries : countries?.split(',');

@@ -43,7 +43,7 @@ const CardItem = ({ name, id, photo, price, vendorCode }) => {
             <h3 className="mobile320:mb-xs tablet600:mb-sPlus desktop1200:mb-m2 overflow-y-hidden mobile320:h-[58px] tablet600:h-[70px] tablet1024:h-[78px] desktop1200:h-[78px] mobile320:text-sm tablet600:text-base desktop1200:text-lg text-textPrimary">
               {cutText(name)}
             </h3>
-            <p className="tablet768:mb-2 mb-1 font-medium text-textPrimary tablet768:text-2xl text-lg">
+            <p className="tablet768:mb-2 mb-1 font-medium text-textPrimary tablet768:text-2xl/[28.8px] -tracking-[0.36px] text-lg">
               {price.value} &#8372;
             </p>
 
