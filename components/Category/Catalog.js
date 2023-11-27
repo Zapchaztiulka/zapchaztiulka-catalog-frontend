@@ -75,7 +75,7 @@ const Catalog = () => {
   const clickByCategory = (nameCategory) => {
     router.push({
       pathname: '/',
-      query: { query: nameCategory, page: 1 },
+      query: { query: nameCategory.toLowerCase(), page: 1 },
     });
       close();   
   };

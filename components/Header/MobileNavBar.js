@@ -10,29 +10,19 @@ import {
   SearchIcon,
 } from '@/public/icons';
 import SearchBarMobile from './Search/SearchBarMobile';
-import { fetchProducts } from '@/redux/products/productsOperations';
-import { useDispatch } from 'react-redux';
 import { StatusContext } from '@/context/statusContext';
 
 const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { resetLocalStorage } = useContext(StatusContext);
-  const dispatch = useDispatch();
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
   const handleToHome = () => {
-    dispatch(
-      fetchProducts({
-        page: 1,
-        query: '',
-        limit: 10,
-        countries: [],
-        trademarks: [],
-      })
-    );
     resetLocalStorage();
+    backToHomeUrl();
   };
 
   return (
@@ -43,13 +33,12 @@ const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
         }`}
       >
         <div className="flex gap-xs2">
-          <Link
-            href={`/?page=1&query=`}
+          <div          
             onClick={handleToHome}
-            className="justify-center flex items-center"
+            className="justify-center cursor-pointer flex items-center"
           >
             <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
-          </Link>
+          </div>
           <Sidebar isOpen={isOpen} toggle={toggle} />
           <div>
             <button

@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '@/redux/products/productsOperations';
 import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
 import { LogoIcon } from '../Icons/Logo/LogoIcon';
 import { fetchCategories } from '@/redux/categories/categoriesOperation';
@@ -17,23 +16,15 @@ const Footer = () => {
   const current_year = new Date().getFullYear();
   const data = useSelector(selectCategories);
   const categories = data?.categories;
-  const { resetLocalStorage } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
   const handleToHome = () => {
-    dispatch(
-      fetchProducts({
-        page: 1,
-        query: '',
-        limit: 10,
-        countries: [],
-        trademarks: [],
-      })
-    );
     resetLocalStorage();
+    backToHomeUrl();
   };
 
   const clickByCategory = category => {
@@ -47,29 +38,27 @@ const Footer = () => {
     <footer className="container border-t border-borderDefault lg:pt-[42px] py-6 ">
       <div className="flex flex-col justify-between tablet768:gap-3 gap-8">
         <div className=" tablet600:inline-flex  hidden desktop1920:hidden items-center">
-          <Link href={`/?page=1&query=`} onClick={handleToHome}>
+          <div onClick={handleToHome} className='cursor-pointer'>
             <LogoIconWithText />
-          </Link>
+          </div>
         </div>
 
-        <Link
-          href={`/?page=1&query=`}
+        <div        
           onClick={handleToHome}
-          className="flex tablet600:hidden items-center"
+          className="flex cursor-pointer tablet600:hidden items-center"
         >
           <LogoIcon width="56" height="56" />
-        </Link>
+        </div>
 
         <FooterTablet />
         <div className="footer-lists">
           <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
-            <Link
-              href={`/?page=1&query=`}
+            <div
               onClick={handleToHome}
-              className="absolute -top-[9px]"
+              className="absolute -top-[9px] cursor-pointer"
             >
               <LogoIconWithText />
-            </Link>
+            </div>
           </div>
           <div className="flex flex-col gap-3">
             <h4 className="text-textTertiary text-lg">Каталог</h4>

@@ -62,7 +62,7 @@ export const findMinPrice = dataArray => {
       }
     });
 
-    return formatNumberWithSpace(minPrice);
+    return minPrice
   }
 };
 
@@ -80,6 +80,46 @@ export const findMaxPrice = dataArray => {
       }
     });
 
-    return formatNumberWithSpace(maxPrice);
+    return maxPrice;
   }
 };
+
+function processNumber(input) {
+  // Видаляємо всі пробіли з рядка
+  const cleanedInput = input.replace(/\s/g, '');
+
+  // Перевіряємо, чи введено число
+  if (!isNaN(cleanedInput)) {
+    // Отримуємо цілу частину числа
+    const integerPart = Math.floor(parseFloat(cleanedInput));
+
+    // Перевіряємо, чи число чотиризначне і більше
+    if (integerPart >= 1000) {
+      // Розділяємо число
+      const formattedNumber = integerPart
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+      // Повертаємо отримане значення
+      return formattedNumber;
+    } else {
+      // Закруглюємо до найближчого цілого
+      const roundedNumber = Math.round(parseFloat(cleanedInput));
+
+      // Перевіряємо, чи закруглене число менше 100.5
+      if (roundedNumber < 100.5) {
+        return 100;
+      } else {
+        return 101;
+      }
+    }
+  } else {
+    // Якщо введено не число, повертаємо помилку або робимо необхідне дійство
+    return 'Введіть будь ласка правильне число.';
+  }
+}
+
+// Приклад використання:
+const userInput = '2 000';
+const result = processNumber(userInput);
+console.log(result); 

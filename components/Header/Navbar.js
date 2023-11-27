@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 import ContactList from './ContactList';
 import SearchBar from './Search/SearchBar';
 import { CartIcon } from '@/public/icons';
 import Catalog from '../Category/Catalog';
-import { fetchProducts } from '@/redux/products/productsOperations';
 import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
 import MobileNavBar from './MobileNavBar';
 import { LogoIcon } from '../Icons/Logo/LogoIcon';
@@ -14,25 +12,16 @@ import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
 const Navbar = () => {
-  const dispatch = useDispatch();
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { resetLocalStorage } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
   };
 
   const handleToHome = () => {
-    dispatch(
-      fetchProducts({
-        page: 1,
-        query: '',
-        limit: 10,
-        countries: [],
-        trademarks: [],
-      })
-    );
     resetLocalStorage();
+    backToHomeUrl()
   };
 
   return (
@@ -44,19 +33,18 @@ const Navbar = () => {
         />
         <div className="tablet1024:flex tablet1024:items-center tablet1024:justify-between hidden">
           <div className="flex items-center">
-            <Link
-              href={`/?page=1&query=`}
+            <div
               onClick={handleToHome}
-              className="justify-center desktop1200:flex hidden items-center desktop1200:mr-[30px] desktop1440:mr-[55px]"
+              className="justify-center cursor-pointer desktop1200:flex hidden items-center desktop1200:mr-[30px] desktop1440:mr-[55px]"
             >
               <LogoIconWithText />
-            </Link>
-            <Link
-              href="/"
-              className="justify-center tablet1024:flex hidden desktop1200:hidden items-center tablet1024:mr-[30px]"
+            </div>
+            <div
+              onClick={handleToHome}
+              className="justify-center cursor-pointer tablet1024:flex hidden desktop1200:hidden items-center tablet1024:mr-[30px]"
             >
               <LogoIcon width="67" height="60" />
-            </Link>
+            </div>
             <Catalog />
             <SearchBar
               showSearchBar={showSearchBar}

@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import { createContext, useState } from 'react';
 
 export const StatusContext = createContext();
 
 export const StatusProvider = ({ children }) => {
+      const router = useRouter();
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
@@ -23,33 +25,46 @@ export const StatusProvider = ({ children }) => {
     useState(trademarksTemp);
   
   // Save price
-  // let minPriceStorage = JSON.parse(localStorage.getItem('MinPrice') || 0);
-  // let maxPriceStorage = JSON.parse(localStorage.getItem('MaxPrice') || 0);
-  const [minValue, setMinValue] = useState();
-  const [maxValue, setMaxValue] = useState();
+  let minPriceStorage = localStorage.getItem('MinPrice') || '';
+  let maxPriceStorage = localStorage.getItem('MaxPrice') || '';
+  const [minValue, setMinValue] = useState(minPriceStorage);
+  const [maxValue, setMaxValue] = useState(maxPriceStorage);
   
   // let visibleTrademark = JSON.parse(localStorage.getItem('Visible Trademark') || '[]');
   // const [visio, setVisio] = useState(visibleTrademark);
-  // console.log(visio);
+  // console.log(minPriceStorage);
   
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
     localStorage.removeItem('Trademark');
     localStorage.removeItem('Trade1');
     localStorage.removeItem('Country1');
-    // localStorage.removeItem('MinPrice');
-    // localStorage.removeItem('MaxPrice');   
+    localStorage.removeItem('MinPrice');
+    localStorage.removeItem('MaxPrice');   
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);
     setTrademarks([]);
-    // setMinValue(0);
-    // setMaxValue(0);
+    setMinValue('');
+    setMaxValue('');
     setTrademarksIsDisabled([]);
     setCountriesIsDisabled([]);
     setComparisonResultsCountry([]);
     setComparisonResultsTrademarks([]);
+
   };
+
+  const backToHomeUrl = () => {
+          router.push({
+          pathname: '/',
+          query: {
+            page: 1,
+            query: '',
+            countries: [],
+            trademarks: [],
+          },
+        });
+  }
 
   return (
     <StatusContext.Provider
@@ -75,6 +90,7 @@ export const StatusProvider = ({ children }) => {
         setMinValue,
         maxValue,
         setMaxValue,
+        backToHomeUrl,
       }}
     >
       {children}

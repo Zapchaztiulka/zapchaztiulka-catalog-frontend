@@ -18,6 +18,9 @@ const PriceFilter = ({
     setIsOpen(!isOpen);
   };
 
+  // console.log(minValue);
+  // console.log(maxValue);
+
   return (
     <div>
       {!isOpen ? (
@@ -44,14 +47,14 @@ const PriceFilter = ({
             </button>
           </div>
 
-          <div className="flex gap-xs3 items-center">
+          <div className="flex gap-xs3 items-center justify-center">
             <input
               className="price-input"
               value={minValue}
               onChange={handleOnChangeMinPrice}
               placeholder={minPrice}
             />
-            <p>—</p>
+            <p className="text-sm/[19.6px] -tracking-[0.21px]">—</p>
             <input
               className="price-input"
               value={maxValue}

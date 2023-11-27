@@ -89,6 +89,9 @@ const CountryFilter = ({
                   countriesIsDisabled.length === 0
                     ? disabledOnChange
                     : disabledOnSubmit;
+                
+                  // console.log('before', disabledOnChange);
+                  // console.log(' after ', disabledOnSubmit);
                 return (
                   <li
                     key={`${item.name}+${index}`}

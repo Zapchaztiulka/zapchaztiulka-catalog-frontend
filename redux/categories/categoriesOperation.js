@@ -10,3 +10,11 @@ export const fetchCategories = createAsyncThunk(
     return data;
   }
 );
+
+export const fetchCategoryById = createAsyncThunk(
+  'categories/fetchCategoryById',
+  async (id) => {
+    const { data } = await axios.get(`/categories/${id}`);
+    return data;
+  }
+);

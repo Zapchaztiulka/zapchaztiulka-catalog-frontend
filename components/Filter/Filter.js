@@ -15,11 +15,13 @@ import { useRouter } from 'next/router';
 import {
   findMaxPrice,
   findMinPrice,
+  formatNumberWithSpace,
   getNamesByBooleanArray,
   getTCountriesForTrademarks,
   getTrademarksForCountries,
 } from '@/helpers/checkForMatchValue';
 import { StatusContext } from '@/context/statusContext';
+import { processNumber } from '@/helpers/actionsWithNumbers';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -27,9 +29,10 @@ const Filter = () => {
   const productInfo = useSelector(selectCountryPriceTrademark);
   const totalCountFromRedux = useSelector(selectTotalCountProduct);
   const [totalCountProducts, setTotalCountProducts] = useState(0);
-    const minPrice = findMinPrice(productInfo?.trademarks || null);
-    const maxPrice = findMaxPrice(productInfo?.trademarks || null);
-
+  const minPriceFromData = findMinPrice(productInfo?.trademarks || 0);
+  const maxPriceFromData = findMaxPrice(productInfo?.trademarks || 0);
+  const minPrice = formatNumberWithSpace(minPriceFromData);
+  const maxPrice = formatNumberWithSpace(maxPriceFromData);
 
   const {
     triggeredCountry,
@@ -97,15 +100,26 @@ const Filter = () => {
     );
   };
 
-    const handleOnChangeMinPrice = e => {
-      const { value } = e.target;
+  const handleOnChangeMinPrice = e => {
+    const { value } = e.target;
+    if (value === '') {
+      setMinValue('');
+    }
+  else {
       setMinValue(value);
-    };
+    }
+  };
 
-    const handleOnChangeMaxPrice = e => {
-      const { value } = e.target;
+  const handleOnChangeMaxPrice = e => {
+    const { value } = e.target;
+    if (value === '') {
+      setMaxValue('');
+    } else {
       setMaxValue(value);
-    };
+    }
+  };
+
+  // console.log(minValue)
 
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0) {
@@ -116,8 +130,8 @@ const Filter = () => {
   }, [country, trademarks]);
 
   useEffect(() => {
-    if (totalCountFromRedux) 
-      {setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
+    if (totalCountFromRedux) {
+      setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
     }
   }, [totalCountFromRedux]);
 
@@ -196,32 +210,42 @@ const Filter = () => {
     }
   };
 
+
+// const userInput = 0.1
+// const result = processNumber(userInput);
+// console.log(result); 
+
   const handleSubmit = e => {
     e.preventDefault();
     router.push(
-      `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${minValue}&max=${maxValue}`
+      `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${
+        minValue ? minValue : minPriceFromData
+      }&max=${maxValue ? maxValue : maxPriceFromData}`
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
     localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
     localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
-    // localStorage.setItem('MinPrice', JSON.stringify(minValue));
-    // localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
+    localStorage.setItem('MinPrice', JSON.stringify(minValue));
+    localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
 
     setTrademarksIsDisabled(isVisibleTrademarks);
     setCountriesIsDisabled(isVisibleCountries);
   };
 
+  //  console.log(minValue);
+  //  console.log(maxValue);
+
   return (
     <form
-      className="flex flex-col gap-m filter-section"
+      className="flex flex-col gap-m filter-section tablet1024:w-[241px] desktop1200:w-[261px]"
       onSubmit={handleSubmit}
     >
       <PriceFilter
         minPrice={minPrice}
         maxPrice={maxPrice}
-        minValue={minValue}
-        maxValue={maxValue}
+        minValue={Number(minValue)}
+        maxValue={Number(maxValue)}
         handleOnChangeMinPrice={handleOnChangeMinPrice}
         handleOnChangeMaxPrice={handleOnChangeMaxPrice}
       />

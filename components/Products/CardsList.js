@@ -25,8 +25,11 @@ const CardsList = () => {
   const searchValue = router.isReady ? router.query.query : '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
+  let minPrice = router.query.min;
+  let maxPrice = router.query.max;
   const products = data?.products;
   const { setCountry, setTrademarks } = useContext(StatusContext);
+  console.log(products.categories);
 
   const countriesUrlArray =
     countries.length === 0 ? countries : countries?.split(',');
@@ -47,8 +50,8 @@ const CardsList = () => {
   useEffect(() => {
     if (
       countriesUrlArray.length === 0 &&
-      trademarkUrlArray.length === 0 &&
-      router.isReady
+      trademarkUrlArray.length === 0 && !minPrice && !maxPrice &&
+      router.isReady 
     ) {
       setCountry([]);
       setTrademarks([]);
@@ -59,11 +62,12 @@ const CardsList = () => {
           limit: 10,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
-          minPrice: 1,
-          maxPrice: 700000,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
         })
       );
       setCurrentPage(startPage);
+      console.log('me1');
     }
   }, [
     dispatch,
@@ -75,7 +79,12 @@ const CardsList = () => {
   ]);
 
   useEffect(() => {
-    if (countriesUrlArray.length !== 0 || trademarkUrlArray.length !== 0) {
+    if (
+      countriesUrlArray.length !== 0 ||
+      trademarkUrlArray.length !== 0 ||
+      minPrice ||
+      maxPrice
+    ) {
       setCountry(countriesUrlArray);
       setTrademarks(trademarkUrlArray);
       dispatch(
@@ -85,13 +94,14 @@ const CardsList = () => {
           limit: 10,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
-          minPrice: 1,
-          maxPrice: 700000,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
         })
       );
       setCurrentPage(startPage);
+        console.log('me2');
     }
-  }, [dispatch, startPage, countries.length, trademark.length, searchValue]);
+  }, [dispatch, startPage, countries.length, trademark.length,minPrice,maxPrice, searchValue]);
 
   let pagesCount = Math.ceil(data?.totalCount / pageSize);
 
@@ -105,6 +115,8 @@ const CardsList = () => {
         query: searchValue,
         countries: countriesUrlArray,
         trademarks: trademarkUrlArray,
+        minPrice: minPrice !== undefined? minPrice: [],
+        maxPrice: maxPrice !== undefined? maxPrice: [],
       },
     });
   };
