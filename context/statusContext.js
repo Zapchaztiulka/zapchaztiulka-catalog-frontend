@@ -24,15 +24,8 @@ export const StatusProvider = ({ children }) => {
   const [trademarksIsDisabled, setTrademarksIsDisabled] =
     useState(trademarksTemp);
   
-  // Save price
-  let minPriceStorage = localStorage.getItem('MinPrice') || '';
-  let maxPriceStorage = localStorage.getItem('MaxPrice') || '';
-  const [minValue, setMinValue] = useState(minPriceStorage);
-  const [maxValue, setMaxValue] = useState(maxPriceStorage);
-  
-  // let visibleTrademark = JSON.parse(localStorage.getItem('Visible Trademark') || '[]');
-  // const [visio, setVisio] = useState(visibleTrademark);
-  // console.log(minPriceStorage);
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
   
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');

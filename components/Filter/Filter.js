@@ -100,27 +100,33 @@ const Filter = () => {
     );
   };
 
-  const handleOnChangeMinPrice = e => {
-    const { value } = e.target;
-    if (value === '') {
-      setMinValue('');
-    }
-  else {
-      setMinValue(value);
-    }
-  };
+    useEffect(() => {
+      const savedValueMin = localStorage.getItem('MinPrice');
+      const savedValueMax = localStorage.getItem('MaxPrice');
+      if (savedValueMin) {
+        setMinValue(savedValueMin);
+      }
+       if (savedValueMax) {
+         setMaxValue(savedValueMax);
+       }
+    }, []);
 
-  const handleOnChangeMaxPrice = e => {
-    const { value } = e.target;
-    if (value === '') {
-      setMaxValue('');
-    } else {
-      setMaxValue(value);
-    }
-  };
+    const handleOnChangeMinPrice = event => {
+      const enteredValue = event.target.value;
+      if (/^\d*$/.test(enteredValue)) {
+        setMinValue(enteredValue);
+        localStorage.setItem('MinPrice', enteredValue);
+      }
+    };
 
-  // console.log(minValue)
-
+    const handleOnChangeMaxPrice = event => {
+      const enteredValue = event.target.value;
+      if (/^\d*$/.test(enteredValue)) {
+        setMaxValue(enteredValue);
+        localStorage.setItem('MaxPrice', enteredValue);
+      }
+    };
+  
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0) {
       fetchData();
@@ -206,31 +212,28 @@ const Filter = () => {
     }
   };
 
-
-// const userInput = 0.1
-// const result = processNumber(userInput);
-// console.log(result); 
-
   const handleSubmit = e => {
     e.preventDefault();
     router.push(
       `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${
-        minValue ? minValue : minPriceFromData
+        minValue!=='' ? minValue : minPriceFromData
       }&max=${maxValue ? maxValue : maxPriceFromData}`
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
     localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
     localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
-    localStorage.setItem('MinPrice', JSON.stringify(minValue));
-    localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
+    // localStorage.setItem('MinPrice', JSON.stringify(minValue));
+    // localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
 
     setTrademarksIsDisabled(isVisibleTrademarks);
     setCountriesIsDisabled(isVisibleCountries);
+    // setMinValue(minValue);
+    // setMaxValue(maxValue);
   };
 
-  //  console.log(minValue);
-  //  console.log(maxValue);
+   console.log(minValue);
+   console.log(maxValue);
 
   return (
     <form
@@ -238,8 +241,8 @@ const Filter = () => {
       onSubmit={handleSubmit}
     >
       <PriceFilter
-        minPrice={minPrice}
         maxPrice={maxPrice}
+        minPrice={minPrice}
         minValue={Number(minValue)}
         maxValue={Number(maxValue)}
         handleOnChangeMinPrice={handleOnChangeMinPrice}

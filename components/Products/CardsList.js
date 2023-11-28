@@ -55,12 +55,13 @@ const CardsList = () => {
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   useEffect(() => {
-    if (Object.keys(router.query).length === 0) {
+    if (Object.keys(router.query).length === 0 && router.isReady) {
       setCurrentPage(1);
       dispatch(fetchProducts({ page: 1, limit: limit }));
       console.log('me first');
     }
-  }, [dispatch, limit, Object.keys(router.query).length, router.query.query]);
+  }, [dispatch,router.isReady, limit, Object.keys(router.query).length, router.query.query]);
+
 
   useEffect(() => {
     if (
@@ -99,8 +100,6 @@ const CardsList = () => {
     subcategoryUrl[0],
     router.query,
   ]);
-
-  console.log(Object.keys(router.query).length);
 
   useEffect(() => {
     if (

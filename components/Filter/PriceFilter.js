@@ -1,15 +1,13 @@
 'use client';
-import { findMaxPrice, findMinPrice } from '@/helpers/checkForMatchValue';
+import { findMaxPrice, findMinPrice, formatNumberWithSpace } from '@/helpers/checkForMatchValue';
 import { ArrowDown, ArrowUp } from '@/public/icons';
 import { selectFilter } from '@/redux/products/productsSelectors';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const PriceFilter = ({
-  minPrice,
-  maxPrice,
   minValue,
-  maxValue,
+  maxValue,minPrice,maxPrice,
   handleOnChangeMinPrice,
   handleOnChangeMaxPrice,
 }) => {
@@ -18,7 +16,8 @@ const PriceFilter = ({
     setIsOpen(!isOpen);
   };
 
-  // console.log(minValue);
+
+  // console.log(minPrice);
   // console.log(maxValue);
 
   return (
@@ -50,16 +49,18 @@ const PriceFilter = ({
           <div className="flex gap-xs3 items-center justify-center">
             <input
               className="price-input"
-              value={minValue}
+              value={minValue || ''}
               onChange={handleOnChangeMinPrice}
               placeholder={minPrice}
+              type="number"
             />
             <p className="text-sm/[19.6px] -tracking-[0.21px]">—</p>
             <input
               className="price-input"
-              value={maxValue}
+              value={maxValue || ''}
               onChange={handleOnChangeMaxPrice}
               placeholder={maxPrice}
+              type="number"
             />
           </div>
         </>
