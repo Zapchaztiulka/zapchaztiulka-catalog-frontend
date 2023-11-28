@@ -253,9 +253,21 @@ const ProductDetails = () => {
             )}
             {showModalOneClickOrder && (
               <Modal onClose={() => setShowModalOneClickOrder(false)}>
-                <div className="mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] h-[410px]">
+                <div className="flex-col px-[16px] py-[24px] h-[410px] mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]">
                   <h5>Швидке замовлення</h5>
                   <p>Залиште заявку і наш менеджер зв’яжеться з вами!</p>
+                  <form>
+                    <label>
+                      Номер телефону
+                      <input className="w-[258px] h-[72px]" />
+                    </label>
+                    <button
+                      type="submit"
+                      className="w-[210px] h-[24px] b-g: bgBrandDark"
+                    >
+                      Відправити
+                    </button>
+                  </form>
                 </div>
               </Modal>
             )}
