@@ -118,8 +118,3 @@ function processNumber(input) {
     return 'Введіть будь ласка правильне число.';
   }
 }
-
-// Приклад використання:
-const userInput = '2 000';
-const result = processNumber(userInput);
-console.log(result); 

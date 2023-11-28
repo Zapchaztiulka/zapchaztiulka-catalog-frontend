@@ -1,9 +1,7 @@
 "use client";
 import { getExtension } from "@/helpers/checkExtension";
-import { cutArticle, cutText } from "@/helpers/cutTiext";
 import Image from "next/image";
 import Link from "next/link";
-import SpecialProduct from "./SpecialProduct";
 
 const CardItem = ({ name, id, photo, price, vendorCode }) => {
 

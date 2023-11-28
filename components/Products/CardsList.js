@@ -14,11 +14,11 @@ import { fetchProducts } from '@/redux/products/productsOperations';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
 import { StatusContext } from '@/context/statusContext';
-import { selectCategories, selectCategoryById } from '@/redux/categories/categoriesSelector';
+import { selectCategories } from '@/redux/categories/categoriesSelector';
 import { getLimitByScreenWidth, getNumberOfSpecialCard } from '@/helpers/getLimitByScreenWidth';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import SpecialProduct from './SpecialProduct';
 import { ArrowRight } from '@/public/icons';
+import { getCategoryName, getSubCategoryName } from '@/helpers/getNameOfCategory';
 
 const CardsList = () => {
   const router = useRouter();
@@ -26,9 +26,8 @@ const CardsList = () => {
   const dispatch = useDispatch();
   const data = useSelector(selectProducts);
   const isLoading = useSelector(selectIsLoading);
-  const categoryName = useSelector(selectCategories);
+  const {categories} = useSelector(selectCategories);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
-  const pageSize = 10;
   const searchValue = router.isReady ? router.query.query : '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
@@ -38,7 +37,6 @@ const CardsList = () => {
   let idSubCategory = router.query.subcategories || [];
   const products = data?.products;
   const { setCountry, setTrademarks } = useContext(StatusContext);
-  // console.log(products);
 
   const size = useWindowSize();
 
@@ -52,7 +50,9 @@ const CardsList = () => {
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
 
   const limit = getLimitByScreenWidth(size);
-  const indexOfSpecialCards = getNumberOfSpecialCard(size)
+  const indexOfSpecialCards = getNumberOfSpecialCard(size);
+  const nameOfCategory = getCategoryName(categories, idCategory);
+  const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   useEffect(() => {
     if (
@@ -134,10 +134,10 @@ const CardsList = () => {
     minPrice,
     maxPrice,
     searchValue,
-    limit
+    limit,
   ]);
 
-  let pagesCount = Math.ceil(data?.totalCount / pageSize);
+  let pagesCount = Math.ceil(data?.totalCount / limit);
 
   const handleChange = (event, value) => {
     event.preventDefault();
@@ -160,21 +160,23 @@ const CardsList = () => {
   return (
     <>
       <div className="z-10">
-        {searchValue !== undefined && searchValue !== '' && !isLoading && (
+        {((searchValue !== undefined && searchValue !== '') ||
+          caterogyUrl.length === 1 ||
+          subcategoryUrl.length === 1) && (
           <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
             {searchValue && (
-              <p className="inline-block">
+              <p className="inline-block mb-2 desktop1200:mr-4">
                 Результати пошуку “{`${searchValue}`}”{' '}
               </p>
             )}
-            {caterogyUrl && (
-              <p className="inline-block">
-                Результати пошуку “{`${searchValue}`}”{' '}
+            {caterogyUrl.length === 1 && (
+              <p className="inline-block mb-2 desktop1200:mr-4">
+                {`${nameOfCategory}`}
               </p>
             )}
-            {subcategoryUrl && (
-              <p className="inline-block">
-                Результати пошуку “{`${searchValue}`}”{' '}
+            {subcategoryUrl.length === 1 && (
+              <p className="inline-block mb-2 desktop1200:mr-4">
+                {`${nameOfSubCategory}`}
               </p>
             )}
 
@@ -238,8 +240,8 @@ const CardsList = () => {
                 <Pagination
                   shape="rounded"
                   count={pagesCount}
-                  siblingCount={0}
-                  boundaryCount={3}
+                  siblingCount={1}
+                  boundaryCount={size > 480 ? 2 : 1}
                   page={currentPage}
                   onChange={handleChange}
                   onClick={scrollToTop}

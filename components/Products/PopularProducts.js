@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import Loader from "../Loader";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import Loader from '../Loader';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
   selectProducts,
-} from "@/redux/products/productsSelectors";
-import { cutArticle, cutText, cutProductsArray } from "@/helpers/cutTiext";
-import Image from "next/image";
-import Link from "next/link";
-import { fetchProducts } from "@/redux/products/productsOperations";
-import { getExtension } from "@/helpers/checkExtension";
-import { useWindowSize } from "@/hooks/useWindowSize";
-import SpecialProduct from "./SpecialProduct";
+} from '@/redux/products/productsSelectors';
+import { cutProductsArray } from '@/helpers/cutProductsArray';
+import Image from 'next/image';
+import Link from 'next/link';
+import { fetchProducts } from '@/redux/products/productsOperations';
+import { getExtension } from '@/helpers/checkExtension';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import SpecialProduct from './SpecialProduct';
 
 const PopularProducts = () => {
   const dispatch = useDispatch();
@@ -67,11 +67,11 @@ const PopularProducts = () => {
                       </div>
 
                       <div className="flex flex-col grow tablet768:px-3 tablet768:pt-2 tablet768:pb-3 p-2">
-                        <p className="mb-1 tablet768:text-sm text-[10px] text-textTertiary">
-                          Артикул: {cutArticle(vendorCode)}
+                        <p className="mb-1 tablet768:text-sm text-[10px] text-textTertiary truncate">
+                          Артикул: {vendorCode}
                         </p>
-                        <h3 className="mobile320:mb-xs tablet600:mb-sPlus desktop1200:mb-m2 overflow-y-hidden mobile320:h-[58px] tablet600:h-[70px] tablet1024:h-[78px] desktop1200:h-[78px] mobile320:text-sm tablet600:text-base desktop1200:text-lg text-textPrimary">
-                          {cutText(name)}
+                        <h3 className="mobile320:mb-xs tablet600:mb-sPlus desktop1200:mb-m2 text-ellipsis overflow-hidden h-[50px] desktop1200:h-[66px] text-sm/[16.8px] tablet600:text-base/[20.8px] tablet600:h-[63px] desktop1200:text-lg/[21.6px] text-textPrimary">
+                          {name}
                         </h3>
                         <p className="tablet768:mb-2 mb-1 font-medium text-textPrimary tablet768:text-2xl text-lg">
                           {price.value} &#8372;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { CatalogIcon } from "@/public/icons";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +21,6 @@ const Catalog = () => {
   const categories = data?.categories;
   const refBtn = useRef();
   const refCategory = useRef();
-
-  // console.log(categories);
 
   const close = () => {
     if (showCategory) {
@@ -74,7 +72,7 @@ const Catalog = () => {
     clearSubMenuByClick();
   };
 
-  const clickByCategory = (idCategory) => {
+  const clickByCategory = (idCategory, nameCategory) => {
     router.push({
       pathname: '/',
       query: {
@@ -82,7 +80,7 @@ const Catalog = () => {
         page: 1,
       },
     });
-      close();   
+    close();  
   };
 
   return (

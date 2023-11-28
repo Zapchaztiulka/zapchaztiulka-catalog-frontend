@@ -6,10 +6,21 @@ export const theme = createTheme({
     MuiPaginationItem: {
       styleOverrides: {
         root: {
-          "&:hover": { backgroundColor: "#C6CACD" },
-          "&.Mui-selected": {
-            backgroundColor: "#D1E9FF",
+          maxWidth: '24px',
+          minWidth: '24px',
+          '&:hover': { backgroundColor: '#C6CACD' },
+          '&.Mui-selected': {
+            backgroundColor: '#D1E9FF',
             fontWeight: 600,
+          },
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          '.MuiPagination-ul': {
+            flexWrap: 'nowrap',
           },
         },
       },

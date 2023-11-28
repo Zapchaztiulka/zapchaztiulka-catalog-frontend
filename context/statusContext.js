@@ -4,7 +4,7 @@ import { createContext, useState } from 'react';
 export const StatusContext = createContext();
 
 export const StatusProvider = ({ children }) => {
-      const router = useRouter();
+  const router = useRouter();
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
@@ -51,7 +51,7 @@ export const StatusProvider = ({ children }) => {
     setCountriesIsDisabled([]);
     setComparisonResultsCountry([]);
     setComparisonResultsTrademarks([]);
-
+    
   };
 
   const backToHomeUrl = () => {
