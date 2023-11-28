@@ -41,11 +41,13 @@ export const getNamesByBooleanArray = (booleanArray, objectArray) => {
 };
 
 export const formatNumberWithSpace = number => {
-  const parts = number
-    .toLocaleString('en-US', { useGrouping: false })
-    .split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-  return parts.join('.');
+  if (number) {
+    const parts = number
+      .toLocaleString('en-US', { useGrouping: false })
+      .split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join('.');
+  }
 };
 
 export const findMinPrice = dataArray => {

@@ -31,8 +31,8 @@ const Filter = () => {
   const [totalCountProducts, setTotalCountProducts] = useState(0);
   const minPriceFromData = findMinPrice(productInfo?.trademarks || 0);
   const maxPriceFromData = findMaxPrice(productInfo?.trademarks || 0);
-  const minPrice = formatNumberWithSpace(minPriceFromData);
-  const maxPrice = formatNumberWithSpace(maxPriceFromData);
+  const minPrice = formatNumberWithSpace(minPriceFromData || 0);
+  const maxPrice = formatNumberWithSpace(maxPriceFromData || 0);
 
   const {
     triggeredCountry,
@@ -223,8 +223,6 @@ const Filter = () => {
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
     localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
     localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
-    // localStorage.setItem('MinPrice', JSON.stringify(minValue));
-    // localStorage.setItem('MaxPrice', JSON.stringify(maxValue));
 
     setTrademarksIsDisabled(isVisibleTrademarks);
     setCountriesIsDisabled(isVisibleCountries);
@@ -232,8 +230,8 @@ const Filter = () => {
     // setMaxValue(maxValue);
   };
 
-   console.log(minValue);
-   console.log(maxValue);
+  //  console.log(minValue);
+  //  console.log(maxValue);
 
   return (
     <form
