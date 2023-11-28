@@ -55,23 +55,20 @@ const CardsList = () => {
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   useEffect(() => {
-    if (
-      (router.asPath =
-        '/' && !startPage && (searchValue === undefined || searchValue === ''))
-    ) {
-      router.push(`/?page=1&query=`, undefined);
+    if (Object.keys(router.query).length === 0) {
       setCurrentPage(1);
-      dispatch(fetchProducts({ page: 1, query: '', limit: limit }));
+      dispatch(fetchProducts({ page: 1, limit: limit }));
+      console.log('me first');
     }
-  }, [dispatch, router.asPath, searchValue, limit]);
+  }, [dispatch, limit, Object.keys(router.query).length, router.query.query]);
 
   useEffect(() => {
     if (
       countriesUrlArray.length === 0 &&
       trademarkUrlArray.length === 0 &&
-      !minPrice &&
-      !maxPrice &&
-      router.isReady
+      minPrice===undefined &&
+      maxPrice===undefined &&
+      Object.keys(router.query).length!==0
     ) {
       setCountry([]);
       setTrademarks([]);
@@ -89,19 +86,21 @@ const CardsList = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me1');
+      console.log('me second');
     }
   }, [
     dispatch,
     startPage,
     countries.length,
     trademark.length,
-    router.isReady,
     limit,
     searchValue,
     caterogyUrl[0],
     subcategoryUrl[0],
+    router.query,
   ]);
+
+  console.log(Object.keys(router.query).length);
 
   useEffect(() => {
     if (
@@ -124,7 +123,7 @@ const CardsList = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me2');
+      console.log('me third');
     }
   }, [
     dispatch,
