@@ -253,7 +253,7 @@ const ProductDetails = () => {
             )}
             {showModalOneClickOrder && (
               <Modal onClose={() => setShowModalOneClickOrder(false)}>
-                <div className="flex-col px-[16px] py-[24px] h-[410px] mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]">
+                <div className="px-[16px] py-[24px] h-[410px] mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]">
                   <h5>Швидке замовлення</h5>
                   <p>Залиште заявку і наш менеджер зв’яжеться з вами!</p>
                   <form>
@@ -263,7 +263,7 @@ const ProductDetails = () => {
                     </label>
                     <button
                       type="submit"
-                      className="w-[210px] h-[24px] b-g: bgBrandDark"
+                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium text-textContrast"
                     >
                       Відправити
                     </button>
