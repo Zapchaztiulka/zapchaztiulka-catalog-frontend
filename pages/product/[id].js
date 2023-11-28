@@ -37,6 +37,7 @@ const ProductDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
+  const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
@@ -210,7 +211,6 @@ const ProductDetails = () => {
             <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
               {product?.price?.value} &#8372;
             </p>
-
             <p
               style={{
                 backgroundColor: `${aviabilityType(product?.availability)}`,
@@ -221,7 +221,6 @@ const ProductDetails = () => {
             >
               {product?.availability}
             </p>
-
             <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
               <button
                 onClick={() => setShowModalCart(!showModalCart)}
@@ -234,13 +233,17 @@ const ProductDetails = () => {
                   </span>
                 </div>
               </button>
-              <button className="flex justify-center button-secondary lg:px-6 px-3 py-3 ">
+              <button
+                onClick={() =>
+                  setShowModalOneClickOrder(!showModalOneClickOrder)
+                }
+                className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+              >
                 <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
                   Купити в 1 клік
                 </span>
               </button>
             </div>
-
             {/* Modal for click add to cart */}
 
             {showModalCart && (
@@ -248,7 +251,14 @@ const ProductDetails = () => {
                 <div className="w-[200px] h-[100px]">Some content</div>
               </Modal>
             )}
-
+            {showModalOneClickOrder && (
+              <Modal onClose={() => setShowModalOneClickOrder(false)}>
+                <div className="mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] h-[410px]">
+                  <h5>Швидке замовлення</h5>
+                  <p>Залиште заявку і наш менеджер зв’яжеться з вами!</p>
+                </div>
+              </Modal>
+            )}
             <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
           </div>
         </div>
