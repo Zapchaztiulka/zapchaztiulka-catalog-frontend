@@ -29,11 +29,13 @@ git clone https://github.com/Zapchaztiulka/zapchaztiulka-catalog-frontend.git
 npm install
 ```
 
-3. Запусти режим розробки, виконавши команду 
+3. Створити в корні проекту файл .env та додати змінні (приклад в файлі .env.example)
+
+4. Запусти режим розробки, виконавши команду 
 
 ```bash
 npm run dev
 ```
 
-4. Відкрити [http://localhost:3000](http://localhost:3000) або посилання буде вказано в терміналі. 
+5. Відкрити [http://localhost:3000](http://localhost:3000) або посилання буде вказано в терміналі. 
 
