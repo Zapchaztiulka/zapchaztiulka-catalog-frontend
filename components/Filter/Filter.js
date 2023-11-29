@@ -127,6 +127,10 @@ const Filter = () => {
       }
     };
   
+  // const userInput = '50000';
+  // const result = processNumber(userInput);
+  // console.log(result);  
+  
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0) {
       fetchData();

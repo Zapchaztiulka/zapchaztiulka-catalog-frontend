@@ -87,10 +87,7 @@ export const findMaxPrice = dataArray => {
 };
 
 function processNumber(input) {
-  // Видаляємо всі пробіли з рядка
   const cleanedInput = input.replace(/\s/g, '');
-
-  // Перевіряємо, чи введено число
   if (!isNaN(cleanedInput)) {
     // Отримуємо цілу частину числа
     const integerPart = Math.floor(parseFloat(cleanedInput));
@@ -102,21 +99,18 @@ function processNumber(input) {
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
-      // Повертаємо отримане значення
       return formattedNumber;
     } else {
       // Закруглюємо до найближчого цілого
       const roundedNumber = Math.round(parseFloat(cleanedInput));
 
-      // Перевіряємо, чи закруглене число менше 100.5
-      if (roundedNumber < 100.5) {
-        return 100;
+      if (roundedNumber < 1) {
+        return 1;
       } else {
-        return 101;
+        return roundedNumber;
       }
     }
   } else {
-    // Якщо введено не число, повертаємо помилку або робимо необхідне дійство
-    return 'Введіть будь ласка правильне число.';
+    return 1;
   }
 }

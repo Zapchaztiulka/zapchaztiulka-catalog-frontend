@@ -89,8 +89,8 @@ const TradeMarkFilter = ({
                   trademarksIsDisabled?.length === 0
                     ? disabledOnChange
                     : disabledOnSubmit;
-                // console.log('before', isVisibleTrademarks);
-                // console.log(' after ', trademarksIsDisabled);
+                console.log('before', isVisibleTrademarks);
+                console.log(' after ', trademarksIsDisabled);
                 // // console.log('countryArray', countryArray);
                 // console.log('before', disabledOnChange);
                 // console.log(' after ', disabledOnSubmit);
