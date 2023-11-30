@@ -70,7 +70,7 @@ const CountryFilter = ({
             placeholderName="Введіть країну"
           />
 
-          <div className="overflow-auto max-h-[392px] " id="style-scroll">
+          <div className="overflow-auto max-h-[377px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
               {filtredValue?.map((item, index) => {
                 const isChecked = countryArray?.includes(item.name);

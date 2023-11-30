@@ -11,6 +11,7 @@ import {
 } from '@/redux/products/productsSelectors';
 import Loader from '@/components/Loader';
 import Filter from '@/components/Filter/Filter';
+import BtnPrimary from '@/components/Buttons/BtnPrimary';
 
 const Catalog = () => {
   const isLoading = useSelector(selectIsLoading);
@@ -24,12 +25,15 @@ const Catalog = () => {
 
   return (
     <>
-      <div className="container mt-[130px] flex gap-s desktop1920:gap-sPlus">
+      <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
         <div
           className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] 
                         border border-borderDefault rounded-lg shrink-0 p-xs"
         >
           <Filter />
+        </div>
+        <div className="tablet1024:hidden">
+          <BtnPrimary width={"w-full"}>Фільтр</BtnPrimary>
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         {error && <p>Тут буде повідомлення про помилку</p>}

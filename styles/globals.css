@@ -264,9 +264,18 @@ a {
   @apply block;
 }
 
-.lastVisibleItem {
-background: linear-gradient(180deg, #1C1F23 0%, rgba(217, 217, 217, 0.00) 100%);
-background-clip: text;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+.common-style {
+  @apply text-textPrimary font-medium px-m py-xs rounded-lg;
+}
+
+.standard-button {
+  @apply focus:outline-none focus:shadow-btFocus transition-colors duration-300;
+}
+
+.disabled-button {
+  @apply text-textDisabled bg-bgDisable cursor-not-allowed;
+}
+
+.primary-button {
+  @apply text-textContrast bg-bgDefaultBlue hover:bg-bgHoverBlue;
 }
