@@ -1,4 +1,5 @@
 'use client';
+import { formatNumber } from '@/helpers/actionsWithNumbers';
 import { findMaxPrice, findMinPrice, formatNumberWithSpace } from '@/helpers/checkForMatchValue';
 import { ArrowDown, ArrowUp } from '@/public/icons';
 import { selectFilter } from '@/redux/products/productsSelectors';
@@ -16,7 +17,8 @@ const PriceFilter = ({
     setIsOpen(!isOpen);
   };
 
-
+  const formattedValueMin = formatNumber(minValue);
+  const formattedValueMax = formatNumber(maxValue);
   // console.log(minPrice);
   // console.log(maxValue);
 
@@ -49,18 +51,16 @@ const PriceFilter = ({
           <div className="flex gap-xs3 items-center justify-center">
             <input
               className="price-input"
-              value={minValue || ''}
+              value={formattedValueMin || ''}
               onChange={handleOnChangeMinPrice}
               placeholder={minPrice}
-              type="number"
             />
             <p className="text-sm/[19.6px] -tracking-[0.21px]">—</p>
             <input
               className="price-input"
-              value={maxValue || ''}
+              value={formattedValueMax || ''}
               onChange={handleOnChangeMaxPrice}
               placeholder={maxPrice}
-              type="number"
             />
           </div>
         </>

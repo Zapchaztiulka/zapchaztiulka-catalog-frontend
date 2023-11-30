@@ -15,13 +15,11 @@ import { useRouter } from 'next/router';
 import {
   findMaxPrice,
   findMinPrice,
-  formatNumberWithSpace,
-  getNamesByBooleanArray,
   getTCountriesForTrademarks,
   getTrademarksForCountries,
 } from '@/helpers/checkForMatchValue';
 import { StatusContext } from '@/context/statusContext';
-import { processNumber } from '@/helpers/actionsWithNumbers';
+import { formatNumberWithSpace } from '@/helpers/actionsWithNumbers';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -48,10 +46,6 @@ const Filter = () => {
     setComparisonResultsCountry,
     comparisonResultsTrademarks,
     setComparisonResultsTrademarks,
-    countriesIsDisabled,
-    setCountriesIsDisabled,
-    trademarksIsDisabled,
-    setTrademarksIsDisabled,
     minValue,
     setMinValue,
     maxValue,
@@ -96,48 +90,52 @@ const Filter = () => {
         limit: 10,
         countries: country,
         trademarks: trademarks,
+        minPrice: minValue ? minValue : minPriceFromData,
+        maxPrice: maxValue ? maxValue : maxPriceFromData,
       })
     );
   };
 
-    useEffect(() => {
-      const savedValueMin = localStorage.getItem('MinPrice');
-      const savedValueMax = localStorage.getItem('MaxPrice');
-      if (savedValueMin) {
-        setMinValue(savedValueMin);
-      }
-       if (savedValueMax) {
-         setMaxValue(savedValueMax);
-       }
-    }, []);
+  useEffect(() => {
+    const savedValueMin = localStorage.getItem('MinPrice');
+    const savedValueMax = localStorage.getItem('MaxPrice');
+    if (savedValueMin) {
+      setMinValue(savedValueMin);
+    }
+    if (savedValueMax) {
+      setMaxValue(savedValueMax);
+    }
+  }, []);
 
     const handleOnChangeMinPrice = event => {
-      const enteredValue = event.target.value;
-      if (/^\d*$/.test(enteredValue)) {
-        setMinValue(enteredValue);
+      let enteredValue = event.target.value.replace(/\s/g, '');
+       if (enteredValue === '0') {
+         enteredValue = '1';
+       }
+      if (/^\d*\.?\d*$/.test(enteredValue)) {
+        setMinValue(enteredValue);    
         localStorage.setItem('MinPrice', enteredValue);
       }
-    };
+  };
 
-    const handleOnChangeMaxPrice = event => {
-      const enteredValue = event.target.value;
-      if (/^\d*$/.test(enteredValue)) {
-        setMaxValue(enteredValue);
-        localStorage.setItem('MaxPrice', enteredValue);
-      }
-    };
-  
-  // const userInput = '50000';
-  // const result = processNumber(userInput);
-  // console.log(result);  
-  
+  const handleOnChangeMaxPrice = event => {
+    let enteredValue = event.target.value.replace(/\s/g, '');
+     if (enteredValue === '0') {
+       enteredValue = '1';
+     }
+    if (/^\d*\.?\d*$/.test(enteredValue)) {
+      setMaxValue(enteredValue);
+      localStorage.setItem('MaxPrice', enteredValue);
+    }
+  };
+
   useEffect(() => {
-    if (country.length > 0 || trademarks.length > 0) {
+    if (country.length > 0 || trademarks.length > 0 || maxValue || minValue) {
       fetchData();
     } else {
       setTotalCountProducts(0);
     }
-  }, [country, trademarks]);
+  }, [country, trademarks, maxValue, minValue]);
 
   useEffect(() => {
     if (totalCountFromRedux) {
@@ -171,18 +169,8 @@ const Filter = () => {
     return results;
   };
 
-  const isVisibleTrademarks = getNamesByBooleanArray(
-    comparisonResultsCountry,
-    productInfo?.trademarks
-  );
-
-  const isVisibleCountries = getNamesByBooleanArray(
-    comparisonResultsTrademarks,
-    productInfo?.countries
-  );
-
   const isDisabledBtn =
-    country.length > 0 || trademarks.length > 0 ? true : false;
+    country.length > 0 || trademarks.length > 0 || minValue || maxValue ? true : false;
 
   useEffect(() => {
     if (triggeredCountry && !triggeredTrademark) {
@@ -202,7 +190,7 @@ const Filter = () => {
     resetLocalStorage();
     if (
       router.query.countries !== undefined ||
-      router.query.trademarks !== undefined
+      router.query.trademarks !== undefined || minValue || maxValue
     ) {
       router.push({
         pathname: '/',
@@ -220,22 +208,20 @@ const Filter = () => {
     e.preventDefault();
     router.push(
       `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${
-        minValue!=='' ? minValue : minPriceFromData
+        minValue !== '' ? minValue : minPriceFromData
       }&max=${maxValue ? maxValue : maxPriceFromData}`
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
-    localStorage.setItem('Trade1', JSON.stringify(isVisibleTrademarks));
-    localStorage.setItem('Country1', JSON.stringify(isVisibleCountries));
-
-    setTrademarksIsDisabled(isVisibleTrademarks);
-    setCountriesIsDisabled(isVisibleCountries);
-    // setMinValue(minValue);
-    // setMaxValue(maxValue);
+    localStorage.setItem(
+      'ForTrademarksDisable',
+      JSON.stringify(comparisonResultsCountry)
+    );
+    localStorage.setItem(
+      'ForCountriesDisable',
+      JSON.stringify(comparisonResultsTrademarks)
+    );
   };
-
-  //  console.log(minValue);
-  //  console.log(maxValue);
 
   return (
     <form
@@ -245,27 +231,22 @@ const Filter = () => {
       <PriceFilter
         maxPrice={maxPrice}
         minPrice={minPrice}
-        minValue={Number(minValue)}
-        maxValue={Number(maxValue)}
+        minValue={minValue}
+        maxValue={maxValue}
         handleOnChangeMinPrice={handleOnChangeMinPrice}
         handleOnChangeMaxPrice={handleOnChangeMaxPrice}
       />
       <TradeMarkFilter
         trademarks={productInfo?.trademarks}
-        data={productInfo}
         handleOnChange={handleOnChangeByTradeMarks}
         trademarksArray={trademarks}
-        isVisibleTrademarks={isVisibleTrademarks}
-        trademarksIsDisabled={trademarksIsDisabled}
-        countryArray={country}
+        comparisonResultsCountry={comparisonResultsCountry}
       />
       <CountryFilter
         countries={productInfo?.countries}
         countryArray={country}
         handleOnChange={handleOnChangeByCountry}
-        isVisibleCountries={isVisibleCountries}
-        countriesIsDisabled={countriesIsDisabled}
-        trademarksArray={trademarks}
+        comparisonResultsTrademarks={comparisonResultsTrademarks}
       />
       <div className="flex flex-col gap-2">
         <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">

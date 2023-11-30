@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/public/icons';
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import CheckBox from './CheckBox';
 import SearchFilter from './SearchFilter';
 
@@ -7,9 +7,7 @@ const CountryFilter = ({
   countries,
   handleOnChange,
   countryArray,
-  isVisibleCountries,
-  trademarksArray,
-  countriesIsDisabled,
+  comparisonResultsTrademarks,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -76,37 +74,25 @@ const CountryFilter = ({
             <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
               {filtredValue?.map((item, index) => {
                 const isChecked = countryArray?.includes(item.name);
-                const disabledOnChange =
-                  isVisibleCountries.length !== 0
-                    ? !isVisibleCountries.includes(item.name)
-                    : false;
-                const disabledOnSubmit =
-                  trademarksArray.length !== 0
-                    ? !countriesIsDisabled.includes(item.name)
-                    : false;
-                const isDisabled =
-                  countriesIsDisabled.length === 0
-                    ? disabledOnChange
-                    : disabledOnSubmit;
-                
-                  // console.log('before', disabledOnChange);
-                  // console.log(' after ', disabledOnSubmit);
+
                 return (
                   <li
-                    key={`${item.name}+${index}`}
+                    key={item.name}
                     className={`flex justify-between p-xs3 pl-xs2 ${
-                      isDisabled ? 'hidden' : 'flex'
+                      comparisonResultsTrademarks[index] ? 'hidden' : 'flex'
                     }`}
                   >
                     <label
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
-                        isDisabled ? 'text-textDisabled' : 'text-textPrimary'
+                        comparisonResultsTrademarks[index]
+                          ? 'text-textDisabled'
+                          : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
                       <CheckBox
                         filterName={item.name}
                         handleOnChange={handleOnChange}
-                        isDisabled={isDisabled}
+                        isDisabled={comparisonResultsTrademarks[index]}
                         isChecked={isChecked}
                       />
                       <p className="text-ellipsis max-w-[170px]">

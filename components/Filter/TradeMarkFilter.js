@@ -7,9 +7,7 @@ const TradeMarkFilter = ({
   trademarks,
   handleOnChange,
   trademarksArray,
-  isVisibleTrademarks,
-  trademarksIsDisabled,
-  countryArray,
+  comparisonResultsCountry,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -18,9 +16,6 @@ const TradeMarkFilter = ({
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // console.log('before', disabledOnChange);
-  // console.log(' after ', disabledOnSubmit);
 
   const handleSearch = e => {
     const searchValue = e.target.value;
@@ -77,40 +72,24 @@ const TradeMarkFilter = ({
               {filtredValue?.map((item, index) => {
                 const isChecked = trademarksArray?.includes(item.name);
 
-                const disabledOnChange =
-                  isVisibleTrademarks.length !== 0
-                    ? !isVisibleTrademarks?.includes(item.name)
-                    : false;
-                const disabledOnSubmit =
-                  countryArray.length !== 0 && trademarksIsDisabled !== 0
-                    ? !trademarksIsDisabled?.includes(item.name)
-                    : false;
-                const isDisabled =
-                  trademarksIsDisabled?.length === 0
-                    ? disabledOnChange
-                    : disabledOnSubmit;
-                console.log('before', isVisibleTrademarks);
-                console.log(' after ', trademarksIsDisabled);
-                // // console.log('countryArray', countryArray);
-                // console.log('before', disabledOnChange);
-                // console.log(' after ', disabledOnSubmit);
-
                 return (
                   <li
                     key={index}
                     className={`flex justify-between p-xs3 pl-xs2 ${
-                      isDisabled ? 'hidden' : 'flex'
+                      comparisonResultsCountry[index] ? 'hidden' : 'flex'
                     }`}
                   >
                     <label
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
-                        isDisabled ? 'text-textDisabled' : 'text-textPrimary'
+                        comparisonResultsCountry[index]
+                          ? 'text-textDisabled'
+                          : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
                     >
                       <CheckBox
                         filterName={item.name}
                         handleOnChange={handleOnChange}
-                        isDisabled={isDisabled}
+                        isDisabled={comparisonResultsCountry[index]}
                         isChecked={isChecked}
                       />
                       <p className="text-ellipsis max-w-[170px]">
