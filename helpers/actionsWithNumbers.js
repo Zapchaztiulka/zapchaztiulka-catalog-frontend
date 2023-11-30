@@ -16,3 +16,4 @@ export const formatNumberWithSpace = number => {
     return parts.join('.');
   }
 };
+
