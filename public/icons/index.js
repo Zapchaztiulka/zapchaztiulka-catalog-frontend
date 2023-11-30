@@ -19,3 +19,4 @@ export { default as EllipsePagination } from "./ellipse-pagination.svg";
 export { default as LoopEye } from "./loop-eye.svg";
 export { default as Check } from "./check.svg";
 export { default as SearchFilterIcon } from './search-filter.svg';
+export { default as FilterIcon } from './filter-icon.svg';

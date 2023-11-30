@@ -168,6 +168,7 @@ const Filter = () => {
     setComparisonResultsTrademarks(results);
     return results;
   };
+  console.log(isMatchesCountries);
 
   const isDisabledBtn =
     country.length > 0 || trademarks.length > 0 || minValue || maxValue ? true : false;

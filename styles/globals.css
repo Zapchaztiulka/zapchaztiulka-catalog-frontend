@@ -265,7 +265,7 @@ a {
 }
 
 .common-style {
-  @apply text-textPrimary font-medium px-m py-xs rounded-lg;
+  @apply text-textPrimary font-medium px-m py-xs rounded-lg flex gap-xs2 justify-center items-center;
 }
 
 .standard-button {
