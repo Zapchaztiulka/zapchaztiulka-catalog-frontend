@@ -16,7 +16,10 @@ export const getTCountriesForTrademarks = (array, trademarksName) => {
   const countries = [];
 
   for (const trademark of trademarksName) {
-    const trademarksData = array?.find(item => item.name === trademark);
+    const trademarksData = array?.find(
+      item =>
+        item.name === trademark
+    );
 
     if (trademarksData && trademarksData.countries) {
       countries.push(...trademarksData.countries);

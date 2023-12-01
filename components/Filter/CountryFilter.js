@@ -8,6 +8,7 @@ const CountryFilter = ({
   handleOnChange,
   countryArray,
   comparisonResultsTrademarks,
+  filtredResultForDisabledCountry,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -79,12 +80,12 @@ const CountryFilter = ({
                   <li
                     key={item.name}
                     className={`flex justify-between p-xs3 pl-xs2 ${
-                      comparisonResultsTrademarks[index] ? 'hidden' : 'flex'
+                      filtredResultForDisabledCountry[index] ? 'hidden' : 'flex'
                     }`}
                   >
                     <label
                       className={`flex items-center gap-xs3 text-base/[24px]   ${
-                        comparisonResultsTrademarks[index]
+                        filtredResultForDisabledCountry[index]
                           ? 'text-textDisabled'
                           : 'text-textPrimary'
                       }  cursor-pointer hover:text-textInputDefault checkbox`}
@@ -92,7 +93,7 @@ const CountryFilter = ({
                       <CheckBox
                         filterName={item.name}
                         handleOnChange={handleOnChange}
-                        isDisabled={comparisonResultsTrademarks[index]}
+                        isDisabled={filtredResultForDisabledCountry[index]}
                         isChecked={isChecked}
                       />
                       <p className="text-ellipsis max-w-[170px]">

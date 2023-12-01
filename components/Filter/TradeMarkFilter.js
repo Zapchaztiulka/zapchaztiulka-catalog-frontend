@@ -8,6 +8,7 @@ const TradeMarkFilter = ({
   handleOnChange,
   trademarksArray,
   comparisonResultsCountry,
+  filtredResultForDisabledTradeMark,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -68,25 +69,22 @@ const TradeMarkFilter = ({
             placeholderName="Введіть виробника"
           />
           <div className="relative">
-            <div
-              className="overflow-auto max-h-[377px]"
-              id="style-scroll"
-            >
-              <ul
-                className="flex flex-col gap-xs2 max-w-[235px] "
-              >
+            <div className="overflow-auto max-h-[377px]" id="style-scroll">
+              <ul className="flex flex-col gap-xs2 max-w-[235px] ">
                 {filtredValue?.map((item, index) => {
                   const isChecked = trademarksArray?.includes(item.name);
                   return (
                     <li
                       key={index}
                       className={`flex justify-between p-xs3 pl-xs2 ${
-                        comparisonResultsCountry[index] ? 'hidden' : 'flex'
+                        filtredResultForDisabledTradeMark[index]
+                          ? 'hidden'
+                          : 'flex'
                       }`}
                     >
                       <label
                         className={`flex items-center gap-xs3 text-base/[24px]   ${
-                          comparisonResultsCountry[index]
+                          filtredResultForDisabledTradeMark[index]
                             ? 'text-textDisabled'
                             : 'text-textPrimary'
                         }  cursor-pointer hover:text-textInputDefault checkbox`}
@@ -94,7 +92,7 @@ const TradeMarkFilter = ({
                         <CheckBox
                           filterName={item.name}
                           handleOnChange={handleOnChange}
-                          isDisabled={comparisonResultsCountry[index]}
+                          isDisabled={filtredResultForDisabledTradeMark[index]}
                           isChecked={isChecked}
                         />
                         <p className="text-ellipsis max-w-[170px]">

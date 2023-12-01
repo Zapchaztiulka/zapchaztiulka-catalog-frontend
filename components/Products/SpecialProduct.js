@@ -4,9 +4,9 @@ import React from 'react'
 const SpecialProduct = () => {
   return (
     <>
-      <div className="special-order-image special-order-image-background-url tablet600:border tablet600:border-borderDefault"></div>
+      <div className="special-order-image tablet600:border tablet600:border-borderDefault"></div>
       <div className="wave-shape tablet600:border-x tablet600:border-b border-borderDefault"></div>
-      <div className="mt-[51px] tablet600:mt-[125px] desktop1200:mt-[156px] flex flex-col grow px-s tablet600:pt-6 tablet600:pb-[15px] mb-xs w-[192px]  relative">
+      <div className="mt-[51px] tablet600:mt-[113px] desktop1200:mt-[156px] flex flex-col grow px-s tablet600:pt-6 tablet600:pb-[15px] mb-xs w-[192px]  relative">
         <p className="mb-1 text-base/[22.4px] tablet600:mb-2 tablet600:text-lg/[25.2px] textPrimary text-medium">
           Не знайшли потрібний товар?
         </p>
