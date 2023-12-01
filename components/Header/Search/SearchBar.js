@@ -21,8 +21,10 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const products = data?.products;
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    if (searchTerm!=='') {
+      dispatch(fetchAllProducts());
+    }
+  }, [dispatch, searchTerm]);
 
   const getFilteredProducts = (event) => {
     const searchWord = event.target.value;
@@ -32,7 +34,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
 
-    if (searchTerm === "") {
+    if (searchWord === '') {
       setFilteredData([]);
     } else {
       setFilteredData(newFilter);
