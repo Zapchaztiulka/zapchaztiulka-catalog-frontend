@@ -19,7 +19,7 @@ import {
   getTrademarksForCountries,
 } from '@/helpers/checkForMatchValue';
 import { StatusContext } from '@/context/statusContext';
-import { formatNumberWithSpace } from '@/helpers/actionsWithNumbers';
+import { formatNumber } from '@/helpers/actionsWithNumbers';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -29,8 +29,8 @@ const Filter = () => {
   const [totalCountProducts, setTotalCountProducts] = useState(0);
   const minPriceFromData = findMinPrice(productInfo?.trademarks || 0);
   const maxPriceFromData = findMaxPrice(productInfo?.trademarks || 0);
-  const minPrice = formatNumberWithSpace(minPriceFromData || 0);
-  const maxPrice = formatNumberWithSpace(maxPriceFromData || 0);
+  const minPrice = formatNumber(minPriceFromData || 0);
+  const maxPrice = formatNumber(maxPriceFromData || 0);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
   const [matchPriceForTrademark, setMatchPriceForTrademark] = useState([]);
   const [filtredResultForDisabledCountry, setFiltredResultForDisabledCountry] =
