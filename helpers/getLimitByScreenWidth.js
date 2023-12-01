@@ -1,5 +1,5 @@
 export const getLimitByScreenWidth = (screenWidth) => {
-  if (screenWidth !== 0) {
+ 
     if (screenWidth >= 1920) {
       return 11;
     } else if (screenWidth >= 768) {
@@ -13,11 +13,11 @@ export const getLimitByScreenWidth = (screenWidth) => {
     } else {
       return 6;
     }
-  }
+  
 }
 
 export const getNumberOfSpecialCard = screenWidth => {
-  if (screenWidth !== 0) {
+
     if (screenWidth >= 1920) {
       return 10;
     } else if (screenWidth >= 768) {
@@ -31,5 +31,5 @@ export const getNumberOfSpecialCard = screenWidth => {
     } else {
       return 5;
     }
-  }
+  
 };

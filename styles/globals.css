@@ -279,3 +279,11 @@ a {
 .primary-button {
   @apply text-textContrast bg-bgDefaultBlue hover:bg-bgHoverBlue;
 }
+
+.tertiary-button {
+  @apply px-s py-xs3 text-base/[22.4px] -tracking-[0.24px] font-medium flex justify-center items-center gap-xs2;
+}
+
+.chips-button {
+  @apply py-xs3 px-xs2 text-base/[24px] text-textInputActive bg-bgGreyLigth border rounded border-borderDefault flex justify-center items-center gap-[10px];
+}

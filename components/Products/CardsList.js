@@ -19,6 +19,7 @@ import { getLimitByScreenWidth, getNumberOfSpecialCard } from '@/helpers/getLimi
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { ArrowRight } from '@/public/icons';
 import { getCategoryName, getSubCategoryName } from '@/helpers/getNameOfCategory';
+import Chips from '../Chips/Chips';
 
 const CardsList = () => {
   const router = useRouter();
@@ -182,7 +183,8 @@ const CardsList = () => {
               {`${data.totalCount}`} товарів
             </span>
           </div>
-        )}
+          )}
+        <Chips/>
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {data &&
             products?.map(({ name, _id, photo, price, vendorCode }, index) => {
