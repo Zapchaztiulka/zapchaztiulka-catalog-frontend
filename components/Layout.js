@@ -114,7 +114,7 @@ const Layout = ({ children }) => {
           isChatOpen ? '' : 'hidden'
         }`}
       >
-        {/* <Chat windowWidth={windowWidth} /> */}
+        <Chat windowWidth={windowWidth} />
       </div>
     </>
   );
