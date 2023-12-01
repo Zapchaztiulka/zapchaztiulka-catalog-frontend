@@ -44,8 +44,8 @@ const Catalog = () => {
           </BtnPrimary>
           <FilterMobile showFilter={isOpen} toggle={toggle} />
         </div>
-        {isLoading && data?.length === 0 && <Loader />}
-        {error && <p>Тут буде повідомлення про помилку</p>}
+        {/* {isLoading && data?.length === 0 && <Loader />}
+        {error && <p>Тут буде повідомлення про помилку</p>} */}
         <CardsList />
       </div>
     </>
