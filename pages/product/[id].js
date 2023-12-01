@@ -23,6 +23,8 @@ import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
 
+import { CloseModal } from '@/public/icons';
+
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
 const empty = '/empty-img.jpeg';
@@ -253,24 +255,28 @@ const ProductDetails = () => {
             )}
             {showModalOneClickOrder && (
               <Modal onClose={() => setShowModalOneClickOrder(false)}>
-                <div className="px-[16px] py-[24px] h-[410px] mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]">
+                <div
+                  className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
+                >
+                  <CloseModal width={50} height={50} className="mb-[22px]" />
                   <h5
-                    className="mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
                   desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
                   >
                     Швидке замовлення
                   </h5>
                   <p
-                    className="mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
                   >
                     Залиште заявку і наш менеджер зв’яжеться з вами!
                   </p>
-                  <form>
-                    <label className="text-[14px] leading-[19.6px] decoration-textSecondary">
-                      Номер телефону
+                  <form className="flex flex-col">
+                    <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
+                      <span className="mb-[4px]">Номер телефону</span>
                       <input
-                        className="p-[12px] w-[258px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+                        className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
                         placeholder="+38"
                       />
