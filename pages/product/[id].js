@@ -53,12 +53,12 @@ const ProductDetails = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchProductByID(id));
+    if (id) { dispatch(fetchProductByID(id)); }
   }, [dispatch, id]);
 
-    useEffect(() => {
-      dispatch(fetchProducts());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchProducts({page:1, limit:10}));
+  }, [dispatch]);
 
   useEffect(() => {
     if (productId === id && productId !== null) {
@@ -109,267 +109,273 @@ const ProductDetails = () => {
       router.push('/');
     }
   };
+  console.log(data)
 
   return (
     <>
-      <div className="container">
-        <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8 tablet1024:px-5 ">
-          <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
-            <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
-              {product?.name}
-            </h1>
-            <p className="mb-s text-[15px] text-textTertiary -tracking-[0.225px] tablet600:hidden">
-              Артикул: {product?.vendorCode}
-            </p>
-            {product && (
-              <>
-                <div className="sticky top-[120px]">
-                  {product?.photo?.length === 0 ||
-                  !getExtension(product?.photo[0]?.url) ? (
-                    <Image
-                      src="/empty-img.jpeg"
-                      alt="no image"
-                      className="product-card-img-byId"
-                      width="0"
-                      height="0"
-                      priority
-                      sizes="100vw"
-                    />
-                  ) : (
-                    <>
-                      {' '}
-                      <div className="custom-class-slide relative">
-                        <div className="absolute right-[40px] top-[10px] z-10">
-                          <button onClick={() => setShowModal(!showModal)}>
-                            <LoopEye height="18" width="18" />
-                          </button>
-                        </div>
-                        <Splide options={mainOptions} ref={mainRef}>
-                          {product?.photo?.map((item, i) => (
-                            <SplideSlide key={item._id}>
-                              <Image
-                                src={
-                                  getExtension(item.url)
-                                    ? `${item.url}`
-                                    : { empty }
-                                }
-                                alt={item.alt}
-                                width="0"
-                                height="0"
-                                priority
-                                sizes="100vw"
-                                className="product-card-img-byId"
-                              />
-
-                              {/* Modal window - show products`s images */}
-                              <div>
-                                {showModal && (
-                                  <Modal onClose={() => setShowModal(false)}>
-                                    <div className="wrapper-modal-content">
-                                      <p className="text-[18px] tablet600:text-[24px] text-center tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
-                                        {product?.name}
-                                      </p>
-                                      <Splide options={modalOptions}>
-                                        {product?.photo?.map(item => (
-                                          <SplideSlide key={item._id}>
-                                            <Image
-                                              src={
-                                                getExtension(item.url)
-                                                  ? `${item.url}`
-                                                  : { empty }
-                                              }
-                                              alt={item.alt}
-                                              width="0"
-                                              height="0"
-                                              priority
-                                              sizes="100vw"
-                                              className="product-card-img-modal"
-                                            />
-                                          </SplideSlide>
-                                        ))}
-                                      </Splide>
-                                    </div>
-                                  </Modal>
-                                )}
-                              </div>
-                            </SplideSlide>
-                          ))}
-                        </Splide>
-                      </div>
-                      <div className="hidden tablet600:block custom-class-slide-thumbs">
-                        <Splide options={optionThumb}>
-                          {product?.photo?.map((thumbnail, index) => (
-                            <SplideSlide key={thumbnail._id}>
-                              <button onClick={() => handleThumbs(index)}>
+      {product && (
+        <div className="container">
+          <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8 tablet1024:px-5 ">
+            <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
+              <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
+                {product?.name}
+              </h1>
+              <p className="mb-s text-[15px] text-textTertiary -tracking-[0.225px] tablet600:hidden">
+                Артикул: {product?.vendorCode}
+              </p>
+              {product && (
+                <>
+                  <div className="sticky top-[120px]">
+                    {product?.photo?.length === 0 ||
+                    !getExtension(product?.photo[0]?.url) ? (
+                      <Image
+                        src="/empty-img.jpeg"
+                        alt="no image"
+                        className="product-card-img-byId"
+                        width="0"
+                        height="0"
+                        priority
+                        sizes="100vw"
+                      />
+                    ) : (
+                      <>
+                        {' '}
+                        <div className="custom-class-slide relative">
+                          <div className="absolute right-[40px] top-[10px] z-10">
+                            <button onClick={() => setShowModal(!showModal)}>
+                              <LoopEye height="18" width="18" />
+                            </button>
+                          </div>
+                          <Splide options={mainOptions} ref={mainRef}>
+                            {product?.photo?.map((item, i) => (
+                              <SplideSlide key={item._id}>
                                 <Image
                                   src={
-                                    getExtension(thumbnail.url)
-                                      ? `${thumbnail.url}`
+                                    getExtension(item.url)
+                                      ? `${item.url}`
                                       : { empty }
                                   }
-                                  alt="product thumbnail"
+                                  alt={item.alt}
                                   width="0"
                                   height="0"
                                   priority
                                   sizes="100vw"
-                                  className={`${
-                                    indexThumb === index
-                                      ? 'border border-borderDefaultBlue rounded-lg'
-                                      : 'border-none'
-                                  } w-[78px] h-[52px] tablet768:w-[114px] tablet768:h-[76px] desktop1200:w-[134px] desktop1200:h-[90px] cursor-pointer object-contain overflow-hidden m-1`}
+                                  className="product-card-img-byId"
                                 />
-                              </button>
-                            </SplideSlide>
-                          ))}
-                        </Splide>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-          <div className="tablet600:w-[50%] ">
-            <p className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">
-              {product?.name}
-            </p>
-            <p className="hidden tablet600:block  tablet600:mb-m desktop1200:mb-m2 text-[15px] desktop1200:text-[16px] text-textTertiary -tracking-[0.225px]">
-              Артикул: {product?.vendorCode}
-            </p>
-            <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
-              {product?.price?.value} &#8372;
-            </p>
-            <p
-              style={{
-                backgroundColor: `${aviabilityType(product?.availability)}`,
-                color: `${availabilityText(product?.availability)}`,
-                borderColor: `${aviabilityType(product?.availability)}`,
-              }}
-              className="inline-block text-sm font-medium py-xs3 px-xs2 mb-s border rounded-medium3 text-center"
-            >
-              {product?.availability}
-            </p>
-            <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-              <button
-                onClick={() => setShowModalCart(!showModalCart)}
-                className="flex justify-center state-button lg:px-6 px-3 py-3 "
-              >
-                <div className="flex justify-center products-center gap-xs4">
-                  <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-                  <span className="text-textContrast text-sm tracking-[-0.21px]">
-                    Додати в кошик
-                  </span>
-                </div>
-              </button>
-              <button
-                onClick={() =>
-                  setShowModalOneClickOrder(!showModalOneClickOrder)
-                }
-                className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
-              >
-                <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
-                  Купити в 1 клік
-                </span>
-              </button>
-            </div>
-            {/* Modal for click add to cart */}
-            {showModalCart && (
-              <Modal onClose={() => setShowModalCart(false)}>
-                <div className="w-[200px] h-[100px]">Some content</div>
-              </Modal>
-            )}
-            {/* Modal for One Click Order */}
-            {showModalOneClickOrder && (
-              <Modal onClose={() => setShowModalOneClickOrder(false)}>
-                <div
-                  className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
-                >
-                  <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
-                    <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
-                      <Lightning width={24} height={24} />
-                    </div>
-                  </div>
-                  <h5
-                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                  >
-                    Швидке замовлення
-                  </h5>
-                  <p
-                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                  >
-                    Залиште заявку і наш менеджер зв’яжеться з вами!
-                  </p>
-                  <form
-                    className="flex flex-col"
-                    onSubmit={handleSubmitOneClickOrder}
-                  >
-                    <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
-                      <span className="mb-[4px]">Номер телефону</span>
-                      <input
-                        className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
-                        placeholder="+38"
-                        name="phone"
-                      />
-                    </label>
-                    <button
-                      type="submit"
-                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
-                    >
-                      Відправити
-                    </button>
-                  </form>
-                </div>
-              </Modal>
-            )}
-            {/* Modal for click add to cart */}
-            {showModalOrderSuccessful && (
-              <Modal onClose={() => setShowModalOrderSuccessful(false)}>
-                <div
-                  className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
-                >
-                  <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
-                    <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
-                      <SuccessfulOrderIcon width={24} height={24} />
-                    </div>
-                  </div>
-                  <h5
-                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                  >
-                    Замовлення успішне!
-                  </h5>
-                  <p
-                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                  >
-                    Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
-                  </p>
-                  <button
-                    type="button"
-                    className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
-                    onClick={handleClickOrderSuccessful}
-                  >
-                    Перейти до каталогу
-                  </button>
-                </div>
-              </Modal>
-            )}
 
-            <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
+                                {/* Modal window - show products`s images */}
+                                <div>
+                                  {showModal && (
+                                    <Modal onClose={() => setShowModal(false)}>
+                                      <div className="wrapper-modal-content">
+                                        <p className="text-[18px] tablet600:text-[24px] text-center tablet1024:text-[28px] leading-7 -tracking-[0.36px] text-textPrimary mb-[114px] mobile375:mb-[90px]  tablet600:mb-[20px] tablet1024:mb-[40px] ">
+                                          {product?.name}
+                                        </p>
+                                        <Splide options={modalOptions}>
+                                          {product?.photo?.map(item => (
+                                            <SplideSlide key={item._id}>
+                                              <Image
+                                                src={
+                                                  getExtension(item.url)
+                                                    ? `${item.url}`
+                                                    : { empty }
+                                                }
+                                                alt={item.alt}
+                                                width="0"
+                                                height="0"
+                                                priority
+                                                sizes="100vw"
+                                                className="product-card-img-modal"
+                                              />
+                                            </SplideSlide>
+                                          ))}
+                                        </Splide>
+                                      </div>
+                                    </Modal>
+                                  )}
+                                </div>
+                              </SplideSlide>
+                            ))}
+                          </Splide>
+                        </div>
+                        <div className="hidden tablet600:block custom-class-slide-thumbs">
+                          <Splide options={optionThumb}>
+                            {product?.photo?.map((thumbnail, index) => (
+                              <SplideSlide key={thumbnail._id}>
+                                <button onClick={() => handleThumbs(index)}>
+                                  <Image
+                                    src={
+                                      getExtension(thumbnail.url)
+                                        ? `${thumbnail.url}`
+                                        : { empty }
+                                    }
+                                    alt="product thumbnail"
+                                    width="0"
+                                    height="0"
+                                    priority
+                                    sizes="100vw"
+                                    className={`${
+                                      indexThumb === index
+                                        ? 'border border-borderDefaultBlue rounded-lg'
+                                        : 'border-none'
+                                    } w-[78px] h-[52px] tablet768:w-[114px] tablet768:h-[76px] desktop1200:w-[134px] desktop1200:h-[90px] cursor-pointer object-contain overflow-hidden m-1`}
+                                  />
+                                </button>
+                              </SplideSlide>
+                            ))}
+                          </Splide>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="tablet600:w-[50%] ">
+              <p className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">
+                {product?.name}
+              </p>
+              <p className="hidden tablet600:block  tablet600:mb-m desktop1200:mb-m2 text-[15px] desktop1200:text-[16px] text-textTertiary -tracking-[0.225px]">
+                Артикул: {product?.vendorCode}
+              </p>
+              <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
+                {product?.price?.value} &#8372;
+              </p>
+              <p
+                style={{
+                  backgroundColor: `${aviabilityType(product?.availability)}`,
+                  color: `${availabilityText(product?.availability)}`,
+                  borderColor: `${aviabilityType(product?.availability)}`,
+                }}
+                className="inline-block text-sm font-medium py-xs3 px-xs2 mb-s border rounded-medium3 text-center"
+              >
+                {product?.availability}
+              </p>
+              <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
+                <button
+                  onClick={() => setShowModalCart(!showModalCart)}
+                  className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                >
+                  <div className="flex justify-center products-center gap-xs4">
+                    <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+                    <span className="text-textContrast text-sm tracking-[-0.21px]">
+                      Додати в кошик
+                    </span>
+                  </div>
+                </button>
+                <button
+                  onClick={() =>
+                    setShowModalOneClickOrder(!showModalOneClickOrder)
+                  }
+                  className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+                >
+                  <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
+                    Купити в 1 клік
+                  </span>
+                </button>
+              </div>
+              {/* Modal for click add to cart */}
+              {showModalCart && (
+                <Modal onClose={() => setShowModalCart(false)}>
+                  <div className="w-[200px] h-[100px]">Some content</div>
+                </Modal>
+              )}
+              {/* Modal for One Click Order */}
+              {showModalOneClickOrder && (
+                <Modal onClose={() => setShowModalOneClickOrder(false)}>
+                  <div
+                    className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
+                  >
+                    <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
+                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
+                        <Lightning width={24} height={24} />
+                      </div>
+                    </div>
+                    <h5
+                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                    >
+                      Швидке замовлення
+                    </h5>
+                    <p
+                      className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                    >
+                      Залиште заявку і наш менеджер зв’яжеться з вами!
+                    </p>
+                    <form
+                      className="flex flex-col"
+                      onSubmit={handleSubmitOneClickOrder}
+                    >
+                      <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
+                        <span className="mb-[4px]">Номер телефону</span>
+                        <input
+                          className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+                        placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
+                          placeholder="+38"
+                          name="phone"
+                        />
+                      </label>
+                      <button
+                        type="submit"
+                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                      >
+                        Відправити
+                      </button>
+                    </form>
+                  </div>
+                </Modal>
+              )}
+              {/* Modal for click add to cart */}
+              {showModalOrderSuccessful && (
+                <Modal onClose={() => setShowModalOrderSuccessful(false)}>
+                  <div
+                    className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
+                  >
+                    <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
+                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
+                        <SuccessfulOrderIcon width={24} height={24} />
+                      </div>
+                    </div>
+                    <h5
+                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                    >
+                      Замовлення успішне!
+                    </h5>
+                    <p
+                      className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                    >
+                      Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
+                    </p>
+                    <button
+                      type="button"
+                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                      onClick={handleClickOrderSuccessful}
+                    >
+                      Перейти до каталогу
+                    </button>
+                  </div>
+                </Modal>
+              )}
+
+              <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       <h2 className="mb-s text-textPrimary text-lg/[25.2px] tablet600:text-2xl/[28.8px] desktop1200:text-2xl/[36.4px] -tracking-[0.36px] desktop1200:-tracking-[0.42px] container">
         Найбільш популярні
       </h2>
-      <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-        <PopularProducts products={data.products} isLoading={isLoading} />
-      </div>
+      {data && (
+        <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
+          <PopularProducts products={data.products} isLoading={isLoading} />
+        </div>
+      )}
       {productFromLocalStorage.length > 0 && (
         <>
           <h2 className="mb-s mt-6 tablet600:mt-0 text-textPrimary text-lg/[25.2px] tablet600:text-2xl/[28.8px] desktop1200:text-2xl/[36.4px] -tracking-[0.36px] desktop1200:-tracking-[0.42px] container">
@@ -384,6 +390,7 @@ const ProductDetails = () => {
       )}
     </>
   );
+
 };
 
 export default ProductDetails;

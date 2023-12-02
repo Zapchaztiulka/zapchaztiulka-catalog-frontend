@@ -9,13 +9,12 @@ import SpecialProduct from './SpecialProduct';
 
 const PopularProducts = ({ products, isLoading }) => {
   const size = useWindowSize();
-
   const cuttingProducts = cutProductsArray(products, size);
 
   return (
     <>
       <section className="tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
-        {isLoading && products.length === 0 && <Loader />}
+        {isLoading &&  <Loader />}
 
         <div className="flex gap-4 mb-5  tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5 tablet600:mb-5">
           {/* special order 600-1440px */}
