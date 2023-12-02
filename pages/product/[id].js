@@ -5,7 +5,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { CartIcon, LoopEye } from '@/public/icons';
+import {
+  CartIcon,
+  LoopEye,
+  Lightning,
+  SuccesfulOrderIcon,
+} from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
@@ -23,8 +28,6 @@ import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
 
-import { Lightning } from '@/public/icons';
-
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
 const empty = '/empty-img.jpeg';
@@ -40,6 +43,7 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
+  const [showModalOrderSucceful, setShowModalOrderSucceful] = useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
@@ -84,11 +88,12 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
     // phone: event.target.elements.phone.value;
     console.log('Телефон : ', event.target.elements.phone.value);
     setShowModalOneClickOrder(false);
+    setShowModalOrderSucceful(!showModalOrderSucceful);
   };
 
   return (
@@ -254,13 +259,12 @@ const ProductDetails = () => {
               </button>
             </div>
             {/* Modal for click add to cart */}
-
             {showModalCart && (
               <Modal onClose={() => setShowModalCart(false)}>
                 <div className="w-[200px] h-[100px]">Some content</div>
               </Modal>
             )}
-
+            {/* Modal for One Click Order */}
             {showModalOneClickOrder && (
               <Modal onClose={() => setShowModalOneClickOrder(false)}>
                 <div
@@ -284,7 +288,10 @@ const ProductDetails = () => {
                   >
                     Залиште заявку і наш менеджер зв’яжеться з вами!
                   </p>
-                  <form className="flex flex-col" onSubmit={handleSubmit}>
+                  <form
+                    className="flex flex-col"
+                    onSubmit={handleSubmitOneClickOrder}
+                  >
                     <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
                       <span className="mb-[4px]">Номер телефону</span>
                       <input
@@ -304,6 +311,19 @@ const ProductDetails = () => {
                 </div>
               </Modal>
             )}
+            {/* Modal for click add to cart */}
+            {showModalOrderSucceful && (
+              <Modal onClose={() => setShowModalOrderSucceful(false)}>
+                <div className="w-[200px] h-[100px]">
+                  <div className="flex items-center justify-center mb-[16px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
+                    <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
+                      <SuccesfulOrderIcon width={24} height={24} />
+                    </div>
+                  </div>
+                </div>
+              </Modal>
+            )}
+
             <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
           </div>
         </div>
