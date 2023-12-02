@@ -7,12 +7,11 @@ const TradeMarkFilter = ({
   trademarks,
   handleOnChange,
   trademarksArray,
-  comparisonResultsCountry,
   filtredResultForDisabledTradeMark,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
-  const [filtredValue, setFiltredValue] = useState(trademarks);
+  const [filtredValue, setFiltredValue] = useState(trademarks || []);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -21,13 +20,15 @@ const TradeMarkFilter = ({
   const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);
-    const filtredItem = trademarks?.filter(item => {
-      return item.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
-    if (value === '') {
-      setFiltredValue(trademarks);
-    } else {
-      setFiltredValue(filtredItem);
+    if (trademarks) {
+      const filtredItem = trademarks?.filter(item => {
+        return item.name.toLowerCase().includes(searchValue.toLowerCase());
+      });
+      if (value === '') {
+        setFiltredValue(trademarks);
+      } else {
+        setFiltredValue(filtredItem);
+      }
     }
   };
 
@@ -71,7 +72,7 @@ const TradeMarkFilter = ({
           <div className="relative">
             <div className="overflow-auto max-h-[377px]" id="style-scroll">
               <ul className="flex flex-col gap-xs2 max-w-[235px] ">
-                {filtredValue?.map((item, index) => {
+                {trademarks.length>0 && filtredValue?.map((item, index) => {
                   const isChecked = trademarksArray?.includes(item.name);
                   return (
                     <li

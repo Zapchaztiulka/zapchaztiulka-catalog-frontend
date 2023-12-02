@@ -11,7 +11,7 @@ import { LogoIcon } from '../Icons/Logo/LogoIcon';
 import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
-const Navbar = () => {
+const Navbar = ({ categories }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const handleToHome = () => {
     resetLocalStorage();
-    backToHomeUrl()
+    backToHomeUrl();
   };
 
   return (
@@ -45,7 +45,7 @@ const Navbar = () => {
             >
               <LogoIcon width="67" height="60" />
             </div>
-            <Catalog />
+            <Catalog categories={categories} />
             <SearchBar
               showSearchBar={showSearchBar}
               toggleSearchBar={toggleSearchBar}

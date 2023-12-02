@@ -7,12 +7,11 @@ const CountryFilter = ({
   countries,
   handleOnChange,
   countryArray,
-  comparisonResultsTrademarks,
   filtredResultForDisabledCountry,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
-  const [filtredValue, setFiltredValue] = useState(countries);
+  const [filtredValue, setFiltredValue] = useState(countries || []);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -21,14 +20,16 @@ const CountryFilter = ({
   const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);
-    const filtredItem = countries?.filter(item => {
-      return item.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
+    if (countries) {
+      const filtredItem = countries?.filter(item => {
+        return item.name.toLowerCase().includes(searchValue.toLowerCase());
+      });
 
-    if (value === '') {
-      setFiltredValue(countries);
-    } else {
-      setFiltredValue(filtredItem);
+      if (value === '') {
+        setFiltredValue(countries);
+      } else {
+        setFiltredValue(filtredItem);
+      }
     }
   };
 
@@ -73,40 +74,43 @@ const CountryFilter = ({
 
           <div className="overflow-auto max-h-[377px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
-              {filtredValue?.map((item, index) => {
-                const isChecked = countryArray?.includes(item.name);
+              {countries &&
+                filtredValue?.map((item, index) => {
+                  const isChecked = countryArray?.includes(item.name);
 
-                return (
-                  <li
-                    key={item.name}
-                    className={`flex justify-between p-xs3 pl-xs2 ${
-                      filtredResultForDisabledCountry[index] ? 'hidden' : 'flex'
-                    }`}
-                  >
-                    <label
-                      className={`flex items-center gap-xs3 text-base/[24px]   ${
+                  return (
+                    <li
+                      key={item.name}
+                      className={`flex justify-between p-xs3 pl-xs2 ${
                         filtredResultForDisabledCountry[index]
-                          ? 'text-textDisabled'
-                          : 'text-textPrimary'
-                      }  cursor-pointer hover:text-textInputDefault checkbox`}
+                          ? 'hidden'
+                          : 'flex'
+                      }`}
                     >
-                      <CheckBox
-                        filterName={item.name}
-                        handleOnChange={handleOnChange}
-                        isDisabled={filtredResultForDisabledCountry[index]}
-                        isChecked={isChecked}
-                      />
-                      <p className="text-ellipsis max-w-[170px]">
-                        {' '}
-                        {item.name !== '' ? item.name : 'Інше'}
-                      </p>
-                    </label>
-                    <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
-                      {item.countProducts}
-                    </span>
-                  </li>
-                );
-              })}
+                      <label
+                        className={`flex items-center gap-xs3 text-base/[24px]   ${
+                          filtredResultForDisabledCountry[index]
+                            ? 'text-textDisabled'
+                            : 'text-textPrimary'
+                        }  cursor-pointer hover:text-textInputDefault checkbox`}
+                      >
+                        <CheckBox
+                          filterName={item.name}
+                          handleOnChange={handleOnChange}
+                          isDisabled={filtredResultForDisabledCountry[index]}
+                          isChecked={isChecked}
+                        />
+                        <p className="text-ellipsis max-w-[170px]">
+                          {' '}
+                          {item.name !== '' ? item.name : 'Інше'}
+                        </p>
+                      </label>
+                      <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
+                        {item.countProducts}
+                      </span>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

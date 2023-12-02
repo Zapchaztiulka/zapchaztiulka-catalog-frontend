@@ -1,24 +1,19 @@
 "use client";
-import React, {  useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { CatalogIcon } from "@/public/icons";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCategories } from "@/redux/categories/categoriesSelector";
 import { useOnKeyDown, useOutsideClick} from "@/hooks/useOnClickOutside";
-import { fetchCategories } from "@/redux/categories/categoriesOperation";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
 
-const Catalog = () => {
+const Catalog = ({ categories }) => {
   const [showCategory, setShowCategory] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState([]);
   const [lengthSubCategory, setLengthSubCategory] = useState();
 
   const router = useRouter();
-  const dispatch = useDispatch();
-  const data = useSelector(selectCategories);
   const [index, setIndex] = useState();
-  const categories = data?.categories;
+
   const refBtn = useRef();
   const refCategory = useRef();
 
@@ -46,25 +41,19 @@ const Catalog = () => {
   useOnKeyDown(clearSubMenuByEscape);
   useOutsideClick(refCategory, refBtn, clearSubMenuByClick);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  const subCategoriesOnclickHandler = (subCategoryId) => {
-    setShowSubMenu((prev) => {
+  const subCategoriesOnclickHandler = subCategoryId => {
+    setShowSubMenu(prev => {
       let arr = [...prev];
       arr[subCategoryId] = true;
       return arr;
     });
-    const indexCategory = categories.findIndex(
-      (el) => el._id === subCategoryId
-    );
+    const indexCategory = categories.findIndex(el => el._id === subCategoryId);
     setIndex(indexCategory);
-    const test = categories.find((el) => el._id === subCategoryId);
+    const test = categories.find(el => el._id === subCategoryId);
     setLengthSubCategory(test.subcategories.length);
   };
 
-    const clickBySubCategory = (idSubCategory) => {
+  const clickBySubCategory = idSubCategory => {
     router.push({
       pathname: '/',
       query: { subcategories: idSubCategory, page: 1 },
@@ -80,7 +69,7 @@ const Catalog = () => {
         page: 1,
       },
     });
-    close();  
+    close();
   };
 
   return (
