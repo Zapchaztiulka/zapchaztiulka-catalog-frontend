@@ -108,6 +108,7 @@ const Filter = () => {
 
     setMatchPriceForCountry(resultArr1);
     setMatchPriceForTrademark(resultArr2);
+   
   }, [minValue, maxValue, productInfo.trademarks, productInfo.countries]);
 
   useEffect(() => {
@@ -134,6 +135,7 @@ const Filter = () => {
       );
       setFiltredResultForDisabledTrademark(reverseResultArr2);
     } else setFiltredResultForDisabledTrademark(comparisonResultsCountry);
+     console.log('filter');
   }, [
     comparisonResultsTrademarks,
     matchPriceForTrademark,
