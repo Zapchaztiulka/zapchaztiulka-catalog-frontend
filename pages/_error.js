@@ -1,16 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-
-export default function Error({ error, reset }) {
-  const router = useRouter();
-  useEffect(() => {
-    if ((router.asPath = '/')) {
-      router.push(`/?page=1&query=`);
-    }
-    console.error(error);
-  }, [error]);
+export default function Error({  reset }) {
 
   return (
     <div className="mt-[100px]">

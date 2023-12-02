@@ -20,7 +20,7 @@ const StartPage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   // const data = useSelector(selectAllProducts);
-    const data = useSelector(selectProducts);
+  const data = useSelector(selectProducts);
   const error = useSelector(selectError);
   const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
