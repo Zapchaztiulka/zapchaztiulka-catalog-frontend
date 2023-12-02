@@ -15,8 +15,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
   selectProduct,
+  selectProducts,
 } from '@/redux/products/productsSelectors';
-import { fetchProductByID } from '@/redux/products/productsOperations';
+import { fetchProductByID, fetchProducts } from '@/redux/products/productsOperations';
 import { availabilityText, aviabilityType } from '@/helpers/aviabilityProduct';
 import {
   mainOptions,
@@ -37,6 +38,7 @@ const ProductDetails = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
+  const data = useSelector(selectProducts);
   const productId = product?._id;
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +55,10 @@ const ProductDetails = () => {
   useEffect(() => {
     dispatch(fetchProductByID(id));
   }, [dispatch, id]);
+
+    useEffect(() => {
+      dispatch(fetchProducts());
+    }, [dispatch]);
 
   useEffect(() => {
     if (productId === id && productId !== null) {
@@ -362,7 +368,7 @@ const ProductDetails = () => {
         Найбільш популярні
       </h2>
       <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-        <PopularProducts />
+        <PopularProducts products={data.products} isLoading={isLoading} />
       </div>
       {productFromLocalStorage.length > 0 && (
         <>

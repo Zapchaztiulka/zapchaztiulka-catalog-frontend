@@ -1,4 +1,3 @@
-'use client';
 import { getExtension } from '@/helpers/checkExtension';
 import { cutProductsViewedArray } from '@/helpers/cutProductsArray';
 import { useWindowSize } from '@/hooks/useWindowSize';
@@ -8,7 +7,6 @@ import React from 'react';
 
 const RecentlyViewProducts = ({ productFromLocalStorage }) => {
   const size = useWindowSize();
-
   const cuttingProducts = cutProductsViewedArray(productFromLocalStorage, size);
 
   return (

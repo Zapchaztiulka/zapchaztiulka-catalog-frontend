@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
   selectError,
-  selectAllProducts,
   selectCountryPriceTrademark,
   selectProducts,
 } from '@/redux/products/productsSelectors';
