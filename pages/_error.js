@@ -7,7 +7,7 @@ export default function Error({ error, reset }) {
   const router = useRouter();
   useEffect(() => {
     if ((router.asPath = '/')) {
-      router.push(`/?page=1&query=`, undefined);
+      router.push(`/?page=1&query=`);
     }
     console.error(error);
   }, [error]);

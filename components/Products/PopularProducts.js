@@ -28,10 +28,10 @@ const PopularProducts = () => {
 
   return (
     <>
-      <section className="mb-6 tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
+      <section className="tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
         {isLoading && data.length === 0 && <Loader />}
 
-        <div className="flex gap-4 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5">
+        <div className="flex gap-4 mb-5  tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5 tablet600:mb-5">
           {/* special order 600-1440px */}
           <div className="desktop1920:hidden hidden tablet600:block product-card-popular relative">
             <SpecialProduct />
@@ -98,7 +98,7 @@ const PopularProducts = () => {
       </section>
 
       {/* special order 320-480px */}
-      <div className=" tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px] border border-borderDefault rounded-lg relative">
+      <div className="mt-1 tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px] border border-borderDefault rounded-lg relative">
         <SpecialProduct />
       </div>
     </>

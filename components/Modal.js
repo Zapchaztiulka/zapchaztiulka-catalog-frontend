@@ -16,7 +16,7 @@ const Modal = ({ onClose, children }) => {
       <div className="modal-wrapper">
         <div
           className="modal"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
           }}
         >
@@ -25,7 +25,11 @@ const Modal = ({ onClose, children }) => {
               onClick={() => onClose()}
               className="hover:bg-borderDisabled p-xs4 hover:rounded-minimal"
             >
-              <CloseModal width={24} height={24} />
+              <CloseModal
+                width={24}
+                height={24}
+                className="stroke-iconPrimary"
+              />
             </button>
           </div>
           <div className="modal-body">{children}</div>

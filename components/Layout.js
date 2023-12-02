@@ -4,8 +4,13 @@ import { socket } from './Chat/socket';
 import Navbar from './Header/Navbar';
 import Footer from './Footer/Footer';
 import { Chat, ChatButton } from './Chat';
+import { fetchCategories } from '@/redux/categories/categoriesOperation';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCategories } from '@/redux/categories/categoriesSelector';
 
 const Layout = ({ children }) => {
+  const dispatch = useDispatch();
+  const { categories } = useSelector(selectCategories);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [countUnreadMessages, setCountUnreadMessages] = useState(null);
   const storedUserId = localStorage.getItem('userId');
@@ -91,15 +96,23 @@ const Layout = ({ children }) => {
     };
   }, [windowWidth]);
 
+  // get categories of products
+  useEffect(() => {
+      dispatch(fetchCategories());
+  }, [dispatch]);
+  
+
   return (
     <>
       <div
         className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
       >
-        <Navbar />
-        <main className="main-container mt-[50px]">{children}</main>
+        <Navbar categories={categories} />
+        <main className="main-container mt-[50px]">
+          {children}
+        </main>
         <div id="modal-root"></div>
-        <Footer />
+        <Footer categories={categories} />
       </div>
       <div
         className={`fixed bottom-s right-s z-50 ${isChatOpen ? 'hidden' : ''}`}

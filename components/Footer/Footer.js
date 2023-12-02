@@ -1,26 +1,16 @@
 'use client';
-import React, { useContext, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
 import { LogoIcon } from '../Icons/Logo/LogoIcon';
-import { fetchCategories } from '@/redux/categories/categoriesOperation';
-import { selectCategories } from '@/redux/categories/categoriesSelector';
+
 import FooterTablet from './FooterTablet';
 import { StatusContext } from '@/context/statusContext';
 
-const Footer = () => {
-  const dispatch = useDispatch();
+const Footer = ({ categories }) => {
   const router = useRouter();
   const current_year = new Date().getFullYear();
-  const data = useSelector(selectCategories);
-  const categories = data?.categories;
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
 
   const handleToHome = () => {
     resetLocalStorage();
@@ -38,19 +28,19 @@ const Footer = () => {
     <footer className="container border-t border-borderDefault lg:pt-[42px] py-6 ">
       <div className="flex flex-col justify-between tablet768:gap-3 gap-8">
         <div className=" tablet600:inline-flex  hidden desktop1920:hidden items-center">
-          <div onClick={handleToHome} className='cursor-pointer'>
+          <div onClick={handleToHome} className="cursor-pointer">
             <LogoIconWithText />
           </div>
         </div>
 
-        <div        
+        <div
           onClick={handleToHome}
           className="flex cursor-pointer tablet600:hidden items-center"
         >
           <LogoIcon width="56" height="56" />
         </div>
 
-        <FooterTablet />
+        <FooterTablet categories={categories} />
         <div className="footer-lists">
           <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
             <div

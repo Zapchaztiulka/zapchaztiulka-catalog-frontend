@@ -1,26 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "@/redux/categories/categoriesOperation";
-import { selectCategories } from "@/redux/categories/categoriesSelector";
 import { useRouter } from "next/router";
 
-const FooterTablet = () => {
-  const dispatch = useDispatch();
+const FooterTablet = ({ categories }) => {
   const router = useRouter();
-  const data = useSelector(selectCategories);
-  const categories = data?.categories;
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-      const clickByCategory = (category) => {
-        router.push({
-          pathname: "/",
-          query: { query: category.toLowerCase() },
-        });
-      };
+  const clickByCategory = category => {
+    router.push({
+      pathname: '/',
+      query: { query: category.toLowerCase() },
+    });
+  };
 
   return (
     <div className="mobile320:hidden tablet1024:hidden tablet768:flex tablet768:justify-between">
@@ -28,7 +19,7 @@ const FooterTablet = () => {
         <div className="flex flex-col gap-3">
           <h4 className="text-textTertiary text-lg">Каталог</h4>
           <ul className="text-textPrimary text-base">
-            {categories?.map((el) => {
+            {categories?.map(el => {
               return (
                 <li
                   key={el._id}
