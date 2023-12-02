@@ -98,8 +98,10 @@ const ProductDetails = () => {
   };
 
   const handleClickOrderSuccessful = async event => {
-    console.log('Перехід до каталогу ');
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    if (typeof window !== 'undefined') {
+      router.push('/');
+    }
   };
 
   return (
