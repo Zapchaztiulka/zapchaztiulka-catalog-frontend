@@ -5,7 +5,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { CartIcon, LoopEye } from '@/public/icons';
+import {
+  CartIcon,
+  LoopEye,
+  Lightning,
+  SuccessfulOrderIcon,
+} from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
@@ -37,6 +42,9 @@ const ProductDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
+  const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
+  const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
+    useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
@@ -79,6 +87,21 @@ const ProductDetails = () => {
       mainRef.current.go(id);
     }
     setIndexThumb(id);
+  };
+
+  const handleSubmitOneClickOrder = async event => {
+    event.preventDefault();
+    // phone: event.target.elements.phone.value;
+    console.log('Телефон : ', event.target.elements.phone.value);
+    setShowModalOneClickOrder(false);
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+  };
+
+  const handleClickOrderSuccessful = async event => {
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    if (typeof window !== 'undefined') {
+      router.push('/');
+    }
   };
 
   return (
@@ -210,7 +233,6 @@ const ProductDetails = () => {
             <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
               {product?.price?.value} &#8372;
             </p>
-
             <p
               style={{
                 backgroundColor: `${aviabilityType(product?.availability)}`,
@@ -221,7 +243,6 @@ const ProductDetails = () => {
             >
               {product?.availability}
             </p>
-
             <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
               <button
                 onClick={() => setShowModalCart(!showModalCart)}
@@ -234,18 +255,102 @@ const ProductDetails = () => {
                   </span>
                 </div>
               </button>
-              <button className="flex justify-center button-secondary lg:px-6 px-3 py-3 ">
+              <button
+                onClick={() =>
+                  setShowModalOneClickOrder(!showModalOneClickOrder)
+                }
+                className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+              >
                 <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
                   Купити в 1 клік
                 </span>
               </button>
             </div>
-
             {/* Modal for click add to cart */}
-
             {showModalCart && (
               <Modal onClose={() => setShowModalCart(false)}>
                 <div className="w-[200px] h-[100px]">Some content</div>
+              </Modal>
+            )}
+            {/* Modal for One Click Order */}
+            {showModalOneClickOrder && (
+              <Modal onClose={() => setShowModalOneClickOrder(false)}>
+                <div
+                  className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
+                >
+                  <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
+                    <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
+                      <Lightning width={24} height={24} />
+                    </div>
+                  </div>
+                  <h5
+                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                  >
+                    Швидке замовлення
+                  </h5>
+                  <p
+                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                  >
+                    Залиште заявку і наш менеджер зв’яжеться з вами!
+                  </p>
+                  <form
+                    className="flex flex-col"
+                    onSubmit={handleSubmitOneClickOrder}
+                  >
+                    <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
+                      <span className="mb-[4px]">Номер телефону</span>
+                      <input
+                        className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+                        placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
+                        placeholder="+38"
+                        name="phone"
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                    >
+                      Відправити
+                    </button>
+                  </form>
+                </div>
+              </Modal>
+            )}
+            {/* Modal for click add to cart */}
+            {showModalOrderSuccessful && (
+              <Modal onClose={() => setShowModalOrderSuccessful(false)}>
+                <div
+                  className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
+                >
+                  <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
+                    <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
+                      <SuccessfulOrderIcon width={24} height={24} />
+                    </div>
+                  </div>
+                  <h5
+                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                  >
+                    Замовлення успішне!
+                  </h5>
+                  <p
+                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                  >
+                    Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
+                  </p>
+                  <button
+                    type="button"
+                    className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                    onClick={handleClickOrderSuccessful}
+                  >
+                    Перейти до каталогу
+                  </button>
+                </div>
               </Modal>
             )}
 
