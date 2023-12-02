@@ -9,7 +9,7 @@ import {
   CartIcon,
   LoopEye,
   Lightning,
-  SuccesfulOrderIcon,
+  successfulOrderIcon,
 } from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -93,6 +93,11 @@ const ProductDetails = () => {
     // phone: event.target.elements.phone.value;
     console.log('Телефон : ', event.target.elements.phone.value);
     setShowModalOneClickOrder(false);
+    setShowModalOrderSucceful(!showModalOrderSucceful);
+  };
+
+  const handleClickOrderSucceful = async event => {
+    console.log('Перехід до каталогу ');
     setShowModalOrderSucceful(!showModalOrderSucceful);
   };
 
@@ -314,12 +319,34 @@ const ProductDetails = () => {
             {/* Modal for click add to cart */}
             {showModalOrderSucceful && (
               <Modal onClose={() => setShowModalOrderSucceful(false)}>
-                <div className="w-[200px] h-[100px]">
-                  <div className="flex items-center justify-center mb-[16px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
+                <div
+                  className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
+                >
+                  <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
                     <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
-                      <SuccesfulOrderIcon width={24} height={24} />
+                      <successfulOrderIcon width={24} height={24} />
                     </div>
                   </div>
+                  <h5
+                    className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                  >
+                    Замовлення успішне!
+                  </h5>
+                  <p
+                    className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                  >
+                    Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
+                  </p>
+                  <button
+                    type="button"
+                    className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                    onClick={handleClickOrderSucceful}
+                  >
+                    Перейти до каталогу
+                  </button>
                 </div>
               </Modal>
             )}
