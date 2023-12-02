@@ -6,10 +6,6 @@ import Pagination from '@mui/material/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
-import {
-  selectIsLoading,
-  selectProducts,
-} from '@/redux/products/productsSelectors';
 import { fetchProducts } from '@/redux/products/productsOperations';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
@@ -36,7 +32,6 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   let idSubCategory = router.query.subcategories || [];
   const { setCountry, setTrademarks, minValue, maxValue } =
     useContext(StatusContext);
-
   const size = useWindowSize();
 
   const countriesUrlArray =
@@ -61,10 +56,8 @@ const CardsList = ({ isLoading, products, totalCount }) => {
     }
   }, [
     dispatch,
-    router.isReady,
     limit,
-    Object.keys(router.query).length,
-    router.query.query,
+    Object.keys(router.query).length
   ]);
 
   useEffect(() => {

@@ -131,6 +131,9 @@ module.exports = {
         focusButton: '0px 0px 4px #2E90FA',
       },
       important: true,
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+      },
     },
   },
   plugins: [],

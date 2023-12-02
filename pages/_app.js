@@ -9,9 +9,10 @@ import { persistor, store } from "@/redux/store";
 import { StatusProvider } from "@/context/statusContext";
 
 const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal"],
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal'],
+  variable: '--font-inter',
 });
 
 function MyApp({ Component, pageProps }) {
