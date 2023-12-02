@@ -35,17 +35,17 @@ const Catalog = () => {
     <>
       <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
         <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
-          {/* <Filter /> */}
+          <Filter />
         </div>
         <div className="tablet1024:hidden">
-          {/* <BtnPrimary width={'w-full'} onClick={toggle}>
+          <BtnPrimary width={'w-full'} onClick={toggle}>
             <FilterIcon className="w-[24px] h-[24px]" />
             <span>Фільтр</span>
           </BtnPrimary>
-          <FilterMobile showFilter={isOpen} toggle={toggle} /> */}
+          <FilterMobile showFilter={isOpen} toggle={toggle} />
         </div>
-        {/* {isLoading && data?.length === 0 && <Loader />}
-        {error && <p>Тут буде повідомлення про помилку</p>} */}
+     {isLoading && data?.length === 0 && <Loader />} 
+        {error && <p>Тут буде повідомлення про помилку</p>} 
         <CardsList />
       </div>
     </>

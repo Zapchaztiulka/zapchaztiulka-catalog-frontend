@@ -94,13 +94,13 @@ const Filter = () => {
     const numericMinValue = parseFloat(minValue || minPriceFromData);
     const numericMaxValue = parseFloat(maxValue || maxPriceFromData);
 
-    const resultArr1 = productInfo.countries.map(country => {
+    const resultArr1 = productInfo?.countries.map(country => {
       const minInRange = country.minPrice >= numericMinValue;
       const maxInRange = country.maxPrice <= numericMaxValue;
       return !(minInRange && maxInRange);
     });
 
-    const resultArr2 = productInfo.trademarks.map(country => {
+    const resultArr2 = productInfo?.trademarks?.map(country => {
       const minInRange = country.minPrice >= numericMinValue;
       const maxInRange = country.maxPrice <= numericMaxValue;
       return !(minInRange && maxInRange);
@@ -108,8 +108,9 @@ const Filter = () => {
 
     setMatchPriceForCountry(resultArr1);
     setMatchPriceForTrademark(resultArr2);
+    console.log(productInfo.trademarks.length);
    
-  }, [minValue, maxValue, productInfo.trademarks, productInfo.countries]);
+  }, [minValue, maxValue, productInfo?.trademarks.length, productInfo?.countries.length]);
 
   useEffect(() => {
     const shouldReturnArr1 = matchPriceForCountry.some(
@@ -135,7 +136,7 @@ const Filter = () => {
       );
       setFiltredResultForDisabledTrademark(reverseResultArr2);
     } else setFiltredResultForDisabledTrademark(comparisonResultsCountry);
-     console.log('filter');
+   
   }, [
     comparisonResultsTrademarks,
     matchPriceForTrademark,
