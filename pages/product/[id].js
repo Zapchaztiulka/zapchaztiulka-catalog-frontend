@@ -9,6 +9,7 @@ import {
   CartIcon,
   LoopEye,
   Lightning,
+  AbsentOrderIcon,
   SuccessfulOrderIcon,
 } from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +49,8 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalCart, setShowModalCart] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
+  const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
+
   const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
     useState(false);
   const isLoading = useSelector(selectIsLoading);
@@ -104,8 +107,15 @@ const ProductDetails = () => {
     event.preventDefault();
     // phone: event.target.elements.phone.value;
     console.log('Телефон : ', event.target.elements.phone.value);
-    console.log('Наявність товару : ', product?.availability);
     setShowModalOneClickOrder(false);
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+  };
+
+  const handleSubmitAbsentOrder = async event => {
+    event.preventDefault();
+    // mail: event.target.elements.mail.value;
+    console.log('E-mail : ', event.target.elements.mail.value);
+    setShowModalAbsentOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
@@ -281,7 +291,9 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'відсутній' && (
                   <button
-                    onClick={() => setShowModalCart(!showModalCart)}
+                    onClick={() =>
+                      setShowModalAbsentOrder(!showModalAbsentOrder)
+                    }
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Повідомити про наявність
@@ -353,6 +365,49 @@ const ProductDetails = () => {
                   </div>
                 </Modal>
               )}
+              {/* Modal for Absent Order */}
+              {showModalAbsentOrder && (
+                <Modal onClose={() => setShowModalAbsentOrder(false)}>
+                  <div
+                    className="flex flex-col items-center justify-end px-[16px] py-[24px] mobile320:h-[385px] desktop1440:h-[380px] 
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
+                  >
+                    <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgErrorLight rounded-[50%]">
+                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgErrorDark rounded-[50%]">
+                        <AbsentOrderIcon width={24} height={24} />
+                      </div>
+                    </div>
+                    <h5
+                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                    >
+                      Немає в наявності
+                    </h5>
+                    <p
+                      className="text-center mobile320:mb-[24px] desktop1440:mb-[32px] mobile320:w-[258px] mobile375:w-[315px] desktop1440:w-[632px] mobile320:text-[14px] mobile320:leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                    >
+                      Введіть адресу своєї пошти і як тільки товар з’явиться Вам
+                      прийде лист
+                    </p>
+                    <form
+                      className="flex flex-col"
+                      onSubmit={handleSubmitAbsentOrder}
+                    >
+                      <input
+                        className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
+                        name="mail"
+                      />
+                      <button
+                        type="submit"
+                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
+                      >
+                        Відправити
+                      </button>
+                    </form>
+                  </div>
+                </Modal>
+              )}
               {/* Modal for click add to cart */}
               {showModalOrderSuccessful && (
                 <Modal onClose={() => setShowModalOrderSuccessful(false)}>
@@ -366,16 +421,28 @@ const ProductDetails = () => {
                       </div>
                     </div>
                     <h5
-                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
+                      className="mobile320:mb-[12px] desktop1440:mb-[8px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
                   desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
                     >
-                      Замовлення успішне!
+                      {product?.quantity !== 0 ? (
+                        <span>Замовлення успішне!</span>
+                      ) : (
+                        <span>Ваша заяка прийнята!</span>
+                      )}
                     </h5>
                     <p
                       className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
                     >
-                      Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
+                      {product?.quantity !== 0 ? (
+                        <span>
+                          Очікуйте дзвінка нашого менеджера протягом 5 хвилин.
+                        </span>
+                      ) : (
+                        <span>
+                          Ми сповістимо Вас, коли товар з'явиться в продажі.
+                        </span>
+                      )}
                     </p>
                     <button
                       type="button"

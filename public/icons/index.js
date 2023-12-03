@@ -22,3 +22,4 @@ export { default as SearchFilterIcon } from './search-filter.svg';
 export { default as Lightning } from './lightning.svg';
 export { default as SuccessfulOrderIcon } from './successful-order-icon.svg';
 export { default as FilterIcon } from './filter-icon.svg';
+export { default as AbsentOrderIcon } from './absent-order-icon.svg';
