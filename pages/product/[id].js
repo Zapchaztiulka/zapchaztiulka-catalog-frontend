@@ -17,7 +17,10 @@ import {
   selectProduct,
   selectProducts,
 } from '@/redux/products/productsSelectors';
-import { fetchProductByID, fetchProducts } from '@/redux/products/productsOperations';
+import {
+  fetchProductByID,
+  fetchProducts,
+} from '@/redux/products/productsOperations';
 import { availabilityText, aviabilityType } from '@/helpers/aviabilityProduct';
 import {
   mainOptions,
@@ -53,11 +56,13 @@ const ProductDetails = () => {
   );
 
   useEffect(() => {
-    if (id) { dispatch(fetchProductByID(id)); }
+    if (id) {
+      dispatch(fetchProductByID(id));
+    }
   }, [dispatch, id]);
 
   useEffect(() => {
-    dispatch(fetchProducts({page:1, limit:10}));
+    dispatch(fetchProducts({ page: 1, limit: 10 }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -99,6 +104,7 @@ const ProductDetails = () => {
     event.preventDefault();
     // phone: event.target.elements.phone.value;
     console.log('Телефон : ', event.target.elements.phone.value);
+    console.log('Наявність товару : ', product?.availability);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -109,7 +115,7 @@ const ProductDetails = () => {
       router.push('/');
     }
   };
-  console.log(data)
+  console.log(data);
 
   return (
     <>
@@ -263,16 +269,18 @@ const ProductDetails = () => {
                     </span>
                   </div>
                 </button>
-                <button
-                  onClick={() =>
-                    setShowModalOneClickOrder(!showModalOneClickOrder)
-                  }
-                  className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
-                >
-                  <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
-                    Купити в 1 клік
-                  </span>
-                </button>
+                {product?.quantity ? (
+                  <button
+                    onClick={() =>
+                      setShowModalOneClickOrder(!showModalOneClickOrder)
+                    }
+                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+                  >
+                    <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
+                      Купити в 1 клік
+                    </span>
+                  </button>
+                ) : null}
               </div>
               {/* Modal for click add to cart */}
               {showModalCart && (
@@ -390,7 +398,6 @@ const ProductDetails = () => {
       )}
     </>
   );
-
 };
 
 export default ProductDetails;
