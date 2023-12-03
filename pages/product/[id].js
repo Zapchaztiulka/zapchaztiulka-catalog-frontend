@@ -345,7 +345,7 @@ const ProductDetails = () => {
                       </label>
                       <button
                         type="submit"
-                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
                       >
                         Відправити
                       </button>
@@ -379,7 +379,7 @@ const ProductDetails = () => {
                     </p>
                     <button
                       type="button"
-                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] bg-bgBrandDark rounded-medium font-medium text-[16px] leading-[22.4px] text-textContrast"
+                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
                       onClick={handleClickOrderSuccessful}
                     >
                       Перейти до каталогу
