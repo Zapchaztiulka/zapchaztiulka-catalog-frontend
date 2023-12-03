@@ -258,17 +258,35 @@ const ProductDetails = () => {
                 {product?.availability}
               </p>
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-                <button
-                  onClick={() => setShowModalCart(!showModalCart)}
-                  className="flex justify-center state-button lg:px-6 px-3 py-3 "
-                >
-                  <div className="flex justify-center products-center gap-xs4">
-                    <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-                    <span className="text-textContrast text-sm tracking-[-0.21px]">
-                      Додати в кошик
-                    </span>
-                  </div>
-                </button>
+                {product?.availability === 'в наявності' && (
+                  <button
+                    onClick={() => setShowModalCart(!showModalCart)}
+                    className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                  >
+                    <div className="flex justify-center products-center gap-xs4">
+                      <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+                      <span className="text-textContrast text-sm tracking-[-0.21px]">
+                        Додати в кошик
+                      </span>
+                    </div>
+                  </button>
+                )}
+                {product?.availability === 'під замовлення' && (
+                  <button
+                    onClick={() => setShowModalCart(!showModalCart)}
+                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                  >
+                    Зробити передзамовлення
+                  </button>
+                )}
+                {product?.availability === 'відсутній' && (
+                  <button
+                    onClick={() => setShowModalCart(!showModalCart)}
+                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                  >
+                    Повідомити про наявність
+                  </button>
+                )}
                 {product?.quantity ? (
                   <button
                     onClick={() =>
