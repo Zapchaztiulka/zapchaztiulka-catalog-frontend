@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
-import { fetchCategories } from "@/redux/categories/categoriesOperation";
+import React from "react";
 import { useRouter } from "next/router";
 
 const FooterTablet = ({ categories }) => {

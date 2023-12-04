@@ -61,7 +61,7 @@ const Catalog = ({ categories }) => {
     clearSubMenuByClick();
   };
 
-  const clickByCategory = (idCategory, nameCategory) => {
+  const clickByCategory = idCategory=> {
     router.push({
       pathname: '/',
       query: {

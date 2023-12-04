@@ -12,7 +12,7 @@ import {
 import SearchBarMobile from './Search/SearchBarMobile';
 import { StatusContext } from '@/context/statusContext';
 
-const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
+const MobileNavBar = ({ toggleSearchBar, showSearchBar, categories }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
@@ -33,13 +33,13 @@ const MobileNavBar = ({ toggleSearchBar, showSearchBar }) => {
         }`}
       >
         <div className="flex gap-xs2">
-          <div          
+          <div
             onClick={handleToHome}
             className="justify-center cursor-pointer flex items-center"
           >
             <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
           </div>
-          <Sidebar isOpen={isOpen} toggle={toggle} />
+          <Sidebar isOpen={isOpen} toggle={toggle} categories={categories} />
           <div>
             <button
               className="flex item-center outline-none text-gray-700 rounded-md focus:border-gray-400"

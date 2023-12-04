@@ -134,7 +134,6 @@ const ProductDetails = () => {
       router.push('/');
     }
   };
-  console.log(data);
 
   return (
     <>

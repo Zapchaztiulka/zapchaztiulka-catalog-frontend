@@ -12,7 +12,7 @@ import { LogoIcon } from "../../Icons/Logo/LogoIcon";
 import { useState } from "react";
 import SideBarCatalog from "./SideBarCatalog";
 
-const Sidebar = ({ isOpen, toggle }) => {
+const Sidebar = ({ isOpen, toggle, categories }) => {
   const [showCategory, setShowCategory] = useState(false);
 
   const togglShow = () => {
@@ -25,9 +25,9 @@ const Sidebar = ({ isOpen, toggle }) => {
   };
 
   const visibleStyle = {
-    opacity: `${isOpen ? "1" : "0"}`,
-    top: ` ${isOpen ? "0" : "-100%"}`,
-    left: `${isOpen ? "0" : "0"}`,
+    opacity: `${isOpen ? '1' : '0'}`,
+    top: ` ${isOpen ? '0' : '-100%'}`,
+    left: `${isOpen ? '0' : '0'}`,
   };
 
   return (
@@ -35,13 +35,13 @@ const Sidebar = ({ isOpen, toggle }) => {
       <div
         className={`${
           showCategory
-            ? "hidden"
-            : "flex flex-col fixed tablet1024:hidden h-full overflow-hidden bg-bgWhite pt-m z-10 px-s rounded-minimal mobile320:min-w-[288px] mobile375:min-w-[347px] shadow-md shadow-gray-300"
+            ? 'hidden'
+            : 'flex flex-col fixed tablet1024:hidden h-full overflow-hidden bg-bgWhite pt-m z-10 px-s rounded-minimal mobile320:min-w-[288px] mobile375:min-w-[347px] shadow-md shadow-gray-300'
         }`}
         style={visibleStyle}
       >
         <div className="flex justify-between items-center mb-6">
-          <Link href="/" className="flex items-center" as={"image"}>
+          <Link href="/" className="flex items-center" as={'image'}>
             <LogoIcon size="44" />
           </Link>
           <button className="absolute right-0 p-5" onClick={closeMenu}>
@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, toggle }) => {
         <ul className="text-center leading-relaxed text-base text-textPrimary font-medium flex flex-col gap-s">
           <li>
             <button
-             type="button"
+              type="button"
               onClick={togglShow}
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
@@ -108,6 +108,7 @@ const Sidebar = ({ isOpen, toggle }) => {
         togglShow={togglShow}
         isOpen={isOpen}
         closeMenu={closeMenu}
+        categories={categories}
       />
     </>
   );

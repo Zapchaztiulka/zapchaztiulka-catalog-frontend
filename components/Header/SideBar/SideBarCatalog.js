@@ -1,37 +1,31 @@
 "use client";
 import { useRouter } from "next/router";
 import { ArrowRight, CloseIcon } from "@/public/icons";
-import { fetchCategories } from "@/redux/categories/categoriesOperation";
-import { selectCategories } from "@/redux/categories/categoriesSelector";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {  useState } from "react";
 import SideBarSubCategory from "./SideBarSubCategory";
 
-const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
-  const dispatch = useDispatch();
+const SideBarCatalog = ({
+  showCategory,
+  isOpen,
+  closeMenu,
+  togglShow,
+  categories,
+}) => {
   const router = useRouter();
-  const data = useSelector(selectCategories);
-  const categories = data?.categories;
   const [index, setIndex] = useState();
   const [lengthSubCategory, setLengthSubCategory] = useState();
   const [showSubMenu, setShowSubMenu] = useState([]);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  const subCategoriesOnclickHandler = (subCategoryId) => {
-    setShowSubMenu((prev) => {
+  const subCategoriesOnclickHandler = subCategoryId => {
+    setShowSubMenu(prev => {
       let arr = [...prev];
       arr[subCategoryId] = true;
       return arr;
     });
-    const indexCategory = categories.findIndex(
-      (el) => el._id === subCategoryId
-    );
+    const indexCategory = categories.findIndex(el => el._id === subCategoryId);
     setIndex(indexCategory);
-    const test = categories.find((el) => el._id === subCategoryId);
+    const test = categories.find(el => el._id === subCategoryId);
     setLengthSubCategory(test.subcategories.length);
     setShow(!show);
   };
@@ -41,34 +35,37 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
     setShow(false);
   };
 
-  const clickByCategory = (nameCategory) => {
+  const clickByCategory = idCategory => {
     router.push({
       pathname: '/',
-      query: { query: nameCategory, page: 1 },
+      query: {
+        categories: idCategory,
+        page: 1,
+      },
     });
     closeCategory();
   };
 
-  const clickBySubCategory = (subCategory) => {
-    router.push({
-      pathname: '/',
-      query: { query: subCategory.toLowerCase(), page: 1 },
-    });
-     closeCategory();
+  const clickBySubCategory = idSubCategory => {
+   router.push({
+     pathname: '/',
+     query: { subcategories: idSubCategory, page: 1 },
+   });
+    closeCategory();
   };
 
   const visibleStyle = {
-    opacity: `${isOpen ? "1" : "0"}`,
-    top: ` ${isOpen ? "0" : "-100%"}`,
-    left: `${isOpen ? "0" : "0"}`,
+    opacity: `${isOpen ? '1' : '0'}`,
+    top: ` ${isOpen ? '0' : '-100%'}`,
+    left: `${isOpen ? '0' : '0'}`,
   };
 
   return (
     <section
       className={`${
         showCategory
-          ? "flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m"
-          : "hidden"
+          ? 'flex flex-col fixed w-full min-h-screen bg-bgWhite px-s py-m'
+          : 'hidden'
       }   `}
       style={visibleStyle}
     >
@@ -79,7 +76,7 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
         </button>
       </div>
       <ul className="flex relative flex-col gap-s text-textPrimary text-base font-medium tracking-textBase">
-        {categories?.map((el) => {
+        {categories?.map(el => {
           return (
             <li
               className="cursor-pointer hover:text-textBrand focus:text-textBrand catalog-menu"
@@ -88,7 +85,7 @@ const SideBarCatalog = ({ showCategory, isOpen, closeMenu, togglShow }) => {
               <div className="border-none b-transparent flex justify-between items-center">
                 <p
                   onClick={() => {
-                    clickByCategory(el.categoryName);
+                    clickByCategory(el._id);
                   }}
                 >
                   {el.categoryName}

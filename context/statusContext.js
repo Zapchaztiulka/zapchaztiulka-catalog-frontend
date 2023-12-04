@@ -12,6 +12,7 @@ export const StatusProvider = ({ children }) => {
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
+  console.log(countryChecked);
 
   let disabledForTrademarks = JSON.parse(
     localStorage.getItem('ForTrademarksDisable') || '[]'
@@ -24,6 +25,7 @@ export const StatusProvider = ({ children }) => {
   );
   const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
     useState(disabledForCountries);
+  console.log(disabledForTrademarks);
 
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
@@ -35,7 +37,6 @@ export const StatusProvider = ({ children }) => {
     localStorage.removeItem('MaxPrice');
     localStorage.removeItem('ForTrademarksDisable');
     localStorage.removeItem('ForCountriesDisable');
-
     setTriggedTrademark(false);
     setTriggedCountry(false);
     setCountry([]);

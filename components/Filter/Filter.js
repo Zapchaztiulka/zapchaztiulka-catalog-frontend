@@ -102,35 +102,38 @@ const Filter = ({ productInfo }) => {
   }, [minValue, maxValue, productInfo]);
 
   useEffect(() => {
-    const shouldReturnArr1 = matchPriceForCountry.some(
-      (value, index) =>
-        value === true && comparisonResultsTrademarks[index] !== false
-    );
-
-    if (shouldReturnArr1) {
-      const reverseResultArr1 = comparisonResultsTrademarks.map(
+      const shouldReturnArr1 = matchPriceForCountry.some(
         (value, index) =>
-          matchPriceForCountry[index] === true && value === false ? true : value
+          value === true && comparisonResultsTrademarks[index] !== false
       );
-      setFiltredResultForDisabledCountry(reverseResultArr1);
-    } else setFiltredResultForDisabledCountry(comparisonResultsTrademarks);
 
-    const shouldReturnArr2 = matchPriceForTrademark.some(
-      (value, index) =>
-        value === true && comparisonResultsCountry[index] !== false
-    );
-    if (shouldReturnArr2) {
-      const reverseResultArr2 = comparisonResultsCountry.map((value, index) =>
-        matchPriceForTrademark[index] === true && value === false ? true : value
+      if (shouldReturnArr1) {
+        const reverseResultArr1 = comparisonResultsTrademarks.map(
+          (value, index) =>
+            matchPriceForCountry[index] === true && value === false ? true : value
+        );
+        setFiltredResultForDisabledCountry(reverseResultArr1);
+      } else setFiltredResultForDisabledCountry(comparisonResultsTrademarks);
+
+      const shouldReturnArr2 = matchPriceForTrademark.some(
+        (value, index) =>
+          value === true && comparisonResultsCountry[index] !== false
       );
-      setFiltredResultForDisabledTrademark(reverseResultArr2);
-    } else setFiltredResultForDisabledTrademark(comparisonResultsCountry);
+      if (shouldReturnArr2) {
+        const reverseResultArr2 = comparisonResultsCountry.map((value, index) =>
+          matchPriceForTrademark[index] === true && value === false ? true : value
+        );
+        setFiltredResultForDisabledTrademark(reverseResultArr2);
+      } else setFiltredResultForDisabledTrademark(comparisonResultsCountry);
+    
   }, [
     comparisonResultsTrademarks,
     matchPriceForTrademark,
     comparisonResultsCountry,
     matchPriceForCountry,
   ]);
+
+  // console.log(comparisonResultsCountry);
 
   const fetchData = async () => {
     if (minPriceFromData && maxPriceFromData) {
@@ -158,6 +161,21 @@ const Filter = ({ productInfo }) => {
       setMaxValue(savedValueMax);
     }
   }, []);
+
+  // useEffect(() => {
+  //    let disabledForTrademarks = JSON.parse(
+  //      localStorage.getItem('ForTrademarksDisable') || '[]'
+  //    );
+  //   let disabledForCountries = JSON.parse(
+  //     localStorage.getItem('ForCountriesDisable') || '[]'
+  //   );
+  //   if (disabledForTrademarks) {
+  //     setComparisonResultsCountry(disabledForTrademarks);
+  //   }
+  //   if (disabledForCountries) {
+  //     setComparisonResultsTrademarks(disabledForCountries);
+  //   }
+  // },[])
 
   const handleOnChangeMinPrice = event => {
     let enteredValue = event.target.value.replace(/\s/g, '');
@@ -275,6 +293,8 @@ const Filter = ({ productInfo }) => {
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
+
+     const resultsToSave = comparisonResultsCountry || [];
     localStorage.setItem(
       'ForTrademarksDisable',
       JSON.stringify(comparisonResultsCountry)
@@ -284,7 +304,7 @@ const Filter = ({ productInfo }) => {
       JSON.stringify(comparisonResultsTrademarks)
     );
   };
-
+console.log(comparisonResultsCountry);
   return (
     <>
       {productInfo && (

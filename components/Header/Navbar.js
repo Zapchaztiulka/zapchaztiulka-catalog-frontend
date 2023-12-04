@@ -30,6 +30,7 @@ const Navbar = ({ categories }) => {
         <MobileNavBar
           showSearchBar={showSearchBar}
           toggleSearchBar={toggleSearchBar}
+          categories={categories}
         />
         <div className="tablet1024:flex tablet1024:items-center tablet1024:justify-between hidden">
           <div className="flex items-center">
