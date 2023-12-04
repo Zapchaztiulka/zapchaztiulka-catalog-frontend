@@ -143,29 +143,30 @@ const CardsList = ({ isLoading, products, totalCount }) => {
         <div className="z-10">
           {((searchValue !== undefined && searchValue !== '') ||
             caterogyUrl.length === 1 ||
-            subcategoryUrl.length === 1) && (
-            <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
-              {searchValue && (
-                <p className="inline-block mb-2 desktop1200:mr-4">
-                  Результати пошуку “{`${searchValue}`}”{' '}
-                </p>
-              )}
-              {caterogyUrl.length === 1 && (
-                <p className="inline-block mb-2 desktop1200:mr-4">
-                  {`${nameOfCategory}`}
-                </p>
-              )}
-              {subcategoryUrl.length === 1 && (
-                <p className="inline-block mb-2 desktop1200:mr-4">
-                  {`${nameOfSubCategory}`}
-                </p>
-              )}
+            subcategoryUrl.length === 1) &&
+             (
+              <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
+                {searchValue && (
+                  <p className="inline-block mb-2 desktop1200:mr-4">
+                    Результати пошуку “{`${searchValue}`}”{' '}
+                  </p>
+                )}
+                {caterogyUrl.length === 1 && (
+                  <p className="inline-block mb-2 desktop1200:mr-4">
+                    {`${nameOfCategory}`}
+                  </p>
+                )}
+                {subcategoryUrl.length === 1 && (
+                  <p className="inline-block mb-2 desktop1200:mr-4">
+                    {`${nameOfSubCategory}`}
+                  </p>
+                )}
 
-              <span className="block desktop1200:inline text-textTertiary text-sm">
-                {`${data.totalCount}`} товарів
-              </span>
-            </div>
-          )}
+                <span className="block desktop1200:inline text-textTertiary text-sm">
+                  {`${totalCount}`} товарів
+                </span>
+              </div>
+            )}
           {minValue || (maxValue && <Chips />)}
           <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
             {products &&
@@ -227,7 +228,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
                     count={pagesCount}
                     siblingCount={1}
                     boundaryCount={size > 480 ? 2 : 1}
-                    page={router.query.page? currentPage : 1}
+                    page={router.query.page ? currentPage : 1}
                     onChange={handleChange}
                     onClick={scrollToTop}
                   />
