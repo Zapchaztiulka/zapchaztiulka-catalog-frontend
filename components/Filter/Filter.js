@@ -3,12 +3,8 @@ import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
-import {
-  selectTotalCountProduct,
-} from '@/redux/products/productsSelectors';
-import {
-  fetchTotalCount,
-} from '@/redux/products/productsOperations';
+import { selectTotalCountProduct } from '@/redux/products/productsSelectors';
+import { fetchTotalCount } from '@/redux/products/productsOperations';
 import { useRouter } from 'next/router';
 import {
   findMaxPrice,
@@ -103,11 +99,7 @@ const Filter = ({ productInfo }) => {
       setMatchPriceForCountry(resultArr1);
       setMatchPriceForTrademark(resultArr2);
     }
-  }, [
-    minValue,
-    maxValue,
-    productInfo
-  ]);
+  }, [minValue, maxValue, productInfo]);
 
   useEffect(() => {
     const shouldReturnArr1 = matchPriceForCountry.some(
@@ -141,17 +133,19 @@ const Filter = ({ productInfo }) => {
   ]);
 
   const fetchData = async () => {
-    dispatch(
-      fetchTotalCount({
-        page: 1,
-        query: '',
-        limit: 10,
-        countries: country,
-        trademarks: trademarks,
-        minPrice: minValue ? minValue : minPriceFromData,
-        maxPrice: maxValue ? maxValue : maxPriceFromData,
-      })
-    );
+    if (minPriceFromData && maxPriceFromData) {
+      dispatch(
+        fetchTotalCount({
+          page: 1,
+          query: '',
+          limit: 10,
+          countries: country,
+          trademarks: trademarks,
+          minPrice: minValue ? minValue : minPriceFromData,
+          maxPrice: maxValue ? maxValue : maxPriceFromData,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -189,7 +183,7 @@ const Filter = ({ productInfo }) => {
 
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0 || maxValue || minValue) {
-      console.log('total')
+      console.log('total');
       fetchData();
     } else {
       setTotalCountProducts(0);
@@ -201,6 +195,7 @@ const Filter = ({ productInfo }) => {
       setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
     }
   }, [totalCountFromRedux]);
+
 
   const isMatchesTrademarks = country => {
     if (productInfo) {

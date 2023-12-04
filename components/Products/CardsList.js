@@ -11,10 +11,16 @@ import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
 import { StatusContext } from '@/context/statusContext';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
-import { getLimitByScreenWidth, getNumberOfSpecialCard } from '@/helpers/getLimitByScreenWidth';
+import {
+  getLimitByScreenWidth,
+  getNumberOfSpecialCard,
+} from '@/helpers/getLimitByScreenWidth';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { ArrowRight } from '@/public/icons';
-import { getCategoryName, getSubCategoryName } from '@/helpers/getNameOfCategory';
+import {
+  getCategoryName,
+  getSubCategoryName,
+} from '@/helpers/getNameOfCategory';
 import Chips from '../Chips/Chips';
 
 const CardsList = ({ isLoading, products, totalCount }) => {
@@ -49,17 +55,27 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   useEffect(() => {
+    if (Object.keys(router.query).length === 0 && router.isReady && limit) {
+      setCurrentPage(1);
+      dispatch(fetchProducts({ page: 1, limit: limit }));
+      console.log('me first');
+    }
+  }, [dispatch, limit, Object.keys(router.query).length]);
+
+  useEffect(() => {
     if (
       countriesUrlArray.length === 0 &&
       trademarkUrlArray.length === 0 &&
       minPrice === undefined &&
-      maxPrice === undefined && limit 
+      maxPrice === undefined &&
+      Object.keys(router.query).length !== 0 &&
+      limit
     ) {
       setCountry([]);
       setTrademarks([]);
       dispatch(
         fetchProducts({
-          page: router.query.page? startPage :1,
+          page: startPage,
           query: searchValue,
           limit: limit,
           countries: countriesUrlArray,
@@ -71,6 +87,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
         })
       );
       setCurrentPage(startPage);
+      console.log('me second');
     }
   }, [
     dispatch,
@@ -81,40 +98,40 @@ const CardsList = ({ isLoading, products, totalCount }) => {
     searchValue,
     caterogyUrl[0],
     subcategoryUrl[0],
-
+    router.query,
   ]);
 
   useEffect(() => {
-    if (
-      countriesUrlArray.length !== 0 ||
-      trademarkUrlArray.length !== 0 ||
-      minPrice ||
-      maxPrice
-    ) {
-      setCountry(countriesUrlArray);
-      setTrademarks(trademarkUrlArray);
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue,
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-        })
-      );
-      setCurrentPage(startPage);
+      if (
+        countriesUrlArray.length !== 0 ||
+        trademarkUrlArray.length !== 0 ||
+        minPrice ||
+        maxPrice
+      ) {
+        setCountry(countriesUrlArray);
+        setTrademarks(trademarkUrlArray);
+        dispatch(
+          fetchProducts({
+            page: currentPage,
+            query: searchValue,
+            limit: limit,
+            countries: countriesUrlArray,
+            trademarks: trademarkUrlArray,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+          })
+        );
+        setCurrentPage(startPage);
+         console.log('me third');
     }
   }, [
     dispatch,
-    startPage,
+    currentPage,
     countries.length,
     trademark.length,
     minPrice,
     maxPrice,
     searchValue,
-    limit,
   ]);
 
   let pagesCount = Math.ceil(totalCount / limit);
@@ -139,35 +156,34 @@ const CardsList = ({ isLoading, products, totalCount }) => {
 
   return (
     <>
-      {!isLoading && (
+       
         <div className="z-10">
           {((searchValue !== undefined && searchValue !== '') ||
             caterogyUrl.length === 1 ||
-            subcategoryUrl.length === 1) &&
-             (
-              <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
-                {searchValue && (
-                  <p className="inline-block mb-2 desktop1200:mr-4">
-                    Результати пошуку “{`${searchValue}`}”{' '}
-                  </p>
-                )}
-                {caterogyUrl.length === 1 && (
-                  <p className="inline-block mb-2 desktop1200:mr-4">
-                    {`${nameOfCategory}`}
-                  </p>
-                )}
-                {subcategoryUrl.length === 1 && (
-                  <p className="inline-block mb-2 desktop1200:mr-4">
-                    {`${nameOfSubCategory}`}
-                  </p>
-                )}
+            subcategoryUrl.length === 1) && (
+            <div className="mb-m block desktop1200:inline text-2xl/[28.8px] -tracking-[0.36px] tablet600:text-4xl/[46.8px] tablet600:-tracking-[0.54px] font-normal text-textPrimary">
+              {searchValue && (
+                <p className="inline-block mb-2 desktop1200:mr-4">
+                  Результати пошуку “{`${searchValue}`}”{' '}
+                </p>
+              )}
+              {caterogyUrl.length === 1 && (
+                <p className="inline-block mb-2 desktop1200:mr-4">
+                  {`${nameOfCategory}`}
+                </p>
+              )}
+              {subcategoryUrl.length === 1 && (
+                <p className="inline-block mb-2 desktop1200:mr-4">
+                  {`${nameOfSubCategory}`}
+                </p>
+              )}
 
-                <span className="block desktop1200:inline text-textTertiary text-sm">
-                  {`${totalCount}`} товарів
-                </span>
-              </div>
-            )}
-          {minValue || (maxValue && <Chips />)}
+              <span className="block desktop1200:inline text-textTertiary text-sm">
+                {`${totalCount}`} товарів
+              </span>
+            </div>
+          )}
+          {/* {minValue || (maxValue && <Chips />)} */}
           <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
             {products &&
               products?.map(
@@ -237,7 +253,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
             )}
           </section>
         </div>
-      )}
+      
     </>
   );
 };
