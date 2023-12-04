@@ -49,30 +49,17 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   useEffect(() => {
-    if (Object.keys(router.query).length === 0 && router.isReady) {
-      setCurrentPage(1);
-      dispatch(fetchProducts({ page: 1, limit: limit }));
-      console.log('me first');
-    }
-  }, [
-    dispatch,
-    limit,
-    Object.keys(router.query).length
-  ]);
-
-  useEffect(() => {
     if (
       countriesUrlArray.length === 0 &&
       trademarkUrlArray.length === 0 &&
       minPrice === undefined &&
-      maxPrice === undefined &&
-      Object.keys(router.query).length !== 0
+      maxPrice === undefined && limit 
     ) {
       setCountry([]);
       setTrademarks([]);
       dispatch(
         fetchProducts({
-          page: startPage,
+          page: router.query.page? startPage :1,
           query: searchValue,
           limit: limit,
           countries: countriesUrlArray,
@@ -84,7 +71,6 @@ const CardsList = ({ isLoading, products, totalCount }) => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me second');
     }
   }, [
     dispatch,
@@ -95,7 +81,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
     searchValue,
     caterogyUrl[0],
     subcategoryUrl[0],
-    router.query,
+
   ]);
 
   useEffect(() => {
@@ -109,7 +95,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
       setTrademarks(trademarkUrlArray);
       dispatch(
         fetchProducts({
-          page: startPage,
+          page: router.query.page ? startPage : 1,
           query: searchValue,
           limit: limit,
           countries: countriesUrlArray,
@@ -119,7 +105,6 @@ const CardsList = ({ isLoading, products, totalCount }) => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me third');
     }
   }, [
     dispatch,
@@ -242,7 +227,7 @@ const CardsList = ({ isLoading, products, totalCount }) => {
                     count={pagesCount}
                     siblingCount={1}
                     boundaryCount={size > 480 ? 2 : 1}
-                    page={currentPage}
+                    page={router.query.page? currentPage : 1}
                     onChange={handleChange}
                     onClick={scrollToTop}
                   />
