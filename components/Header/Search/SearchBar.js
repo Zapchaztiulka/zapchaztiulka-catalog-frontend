@@ -30,14 +30,16 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     const searchWord = event.target.value;
     setSearchTerm(searchWord);
     dispatch(fetchAllProducts());
-    const newFilter = products?.filter((value) => {
-      return value.name.toLowerCase().includes(searchWord.toLowerCase());
-    });
+    if (products) {
+      const newFilter = products?.filter((value) => {
+        return value.name.toLowerCase().includes(searchWord.toLowerCase());
+      });
 
-    if (searchWord === '') {
-      setFilteredData([]);
-    } else {
-      setFilteredData(newFilter);
+      if (searchWord === '') {
+        setFilteredData([]);
+      } else {
+        setFilteredData(newFilter);
+      }
     }
   };
 
