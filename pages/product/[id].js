@@ -142,10 +142,10 @@ const ProductDetails = () => {
         <div className="container">
           <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8 tablet1024:px-5 ">
             <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
-              <h1 className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:hidden">
+              <h1 className="text-[28px] leading-9 -tracking-[0.42px] break-words text-textPrimary mb-3 tablet600:hidden">
                 {product?.name}
               </h1>
-              <p className="mb-s text-[15px] text-textTertiary -tracking-[0.225px] tablet600:hidden">
+              <p className="mb-s text-[15px] text-textTertiary break-words -tracking-[0.225px] tablet600:hidden">
                 Артикул: {product?.vendorCode}
               </p>
               {product && (
@@ -257,10 +257,10 @@ const ProductDetails = () => {
               )}
             </div>
             <div className="tablet600:w-[50%] ">
-              <p className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden">
+              <p className="text-[28px] leading-9 -tracking-[0.42px] text-textPrimary mb-3 tablet600:block hidden break-words">
                 {product?.name}
               </p>
-              <p className="hidden tablet600:block  tablet600:mb-m desktop1200:mb-m2 text-[15px] desktop1200:text-[16px] text-textTertiary -tracking-[0.225px]">
+              <p className="hidden tablet600:block  tablet600:mb-m desktop1200:mb-m2 text-[15px] desktop1200:text-[16px] text-textTertiary -tracking-[0.225px] break-words">
                 Артикул: {product?.vendorCode}
               </p>
               <p className="mb-xs2 font-medium text-textPrimary text-[28px] tablet600:text-m tablet1024:text-[28px]">
