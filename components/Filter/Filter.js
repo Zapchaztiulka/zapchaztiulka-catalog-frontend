@@ -53,31 +53,41 @@ const Filter = ({ productInfo }) => {
     setMaxValue,
   } = useContext(StatusContext);
 
-  const handleOnChangeByTradeMarks = e => {
-    const { value, checked } = e.target;
+const handleOnChangeByTradeMarks = e => {
+  const { value, checked } = e.target;
+  setTrademarks(prev => {
+    let updatedArray;
     if (checked) {
-      setTrademarks(prev => [...prev, value]);
-      setTriggedTrademark(true);
+      updatedArray = [...prev, value];
     } else {
-      setTrademarks(prev => {
-        return [...prev.filter(item => item !== value)];
-      });
-      setTriggedTrademark(true);
+      updatedArray = prev.filter(item => item !== value);
     }
-  };
+    const isEmptyValueAlreadyExists = prev.some(item => item === '');
+    if (checked && value === '' && !isEmptyValueAlreadyExists) {
+      updatedArray = [...updatedArray, ''];
+    }
+    return updatedArray;
+  });
+  setTriggedTrademark(true);
+};
 
-  const handleOnChangeByCountry = e => {
-    const { value, checked } = e.target;
+const handleOnChangeByCountry = e => {
+  const { value, checked } = e.target;
+  setCountry(prev => {
+    let updatedArray;
     if (checked) {
-      setCountry(prev => [...prev, value]);
-      setTriggedCountry(true);
+      updatedArray = [...prev, value];
     } else {
-      setCountry(prev => {
-        return [...prev.filter(item => item !== value)];
-      });
-      setTriggedCountry(true);
+      updatedArray = prev.filter(item => item !== value);
     }
-  };
+    const isEmptyValueAlreadyExists = prev.some(item => item === '');
+    if (checked && value === '' && !isEmptyValueAlreadyExists) {
+      updatedArray = [...updatedArray, ''];
+    }
+    return updatedArray;
+  });
+  setTriggedCountry(true);
+};
 
   useEffect(() => {
     if (productInfo) {
@@ -132,8 +142,6 @@ const Filter = ({ productInfo }) => {
     comparisonResultsCountry,
     matchPriceForCountry,
   ]);
-
-  // console.log(comparisonResultsCountry);
 
   const fetchData = async () => {
     if (minPriceFromData && maxPriceFromData) {
@@ -214,6 +222,19 @@ const Filter = ({ productInfo }) => {
     }
   }, [totalCountFromRedux]);
 
+    useEffect(() => {
+      if (triggeredCountry && !triggeredTrademark) {
+       isMatchesTrademarks(country)
+      } else if (triggeredCountry) {
+        setTriggedCountry(false);
+      }
+    }, [country, triggeredCountry]);
+  
+    useEffect(() => {
+      if (triggeredTrademark && !triggeredCountry) {
+        isMatchesCountries(trademarks);
+      } else setTriggedTrademark(false);
+    }, [trademarks, triggeredTrademark]);
 
   const isMatchesTrademarks = country => {
     if (productInfo) {
@@ -221,12 +242,17 @@ const Filter = ({ productInfo }) => {
         productInfo.countries,
         country
       );
-      const results = productInfo.trademarks.map(item => {
-        const isMatch = trademarksForSelectedCountries?.includes(item.name);
-        return !isMatch;
-      });
-      setComparisonResultsCountry(results);
-      return results;
+
+    const results = productInfo.trademarks.map(item => {
+      const isMatch = trademarksForSelectedCountries?.some(
+        selectedCountry =>
+          selectedCountry === item.name ||
+          (selectedCountry === '' && item.name === '')
+      );
+      return !isMatch;
+    });
+    setComparisonResultsCountry(results);
+    return results;
     }
   };
 
@@ -236,8 +262,13 @@ const Filter = ({ productInfo }) => {
         productInfo.trademarks,
         trademark
       );
+
       const results = productInfo.countries.map(item => {
-        const isMatch = countryForSelectedTrademarks?.includes(item.name);
+        const isMatch = countryForSelectedTrademarks?.some(
+          selectedCountry =>
+            selectedCountry === item.name ||
+            (selectedCountry === '' && item.name === '')
+        );
         return !isMatch;
       });
       setComparisonResultsTrademarks(results);
@@ -250,19 +281,6 @@ const Filter = ({ productInfo }) => {
       ? true
       : false;
 
-  useEffect(() => {
-    if (triggeredCountry && !triggeredTrademark) {
-      isMatchesTrademarks(country);
-    } else if (triggeredCountry) {
-      setTriggedCountry(false);
-    }
-  }, [country, triggeredCountry]);
-
-  useEffect(() => {
-    if (triggeredTrademark && !triggeredCountry) {
-      isMatchesCountries(trademarks);
-    } else setTriggedTrademark(false);
-  }, [trademarks, triggeredTrademark]);
 
   const resetResults = () => {
     resetLocalStorage();
@@ -293,8 +311,7 @@ const Filter = ({ productInfo }) => {
     );
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
-
-     const resultsToSave = comparisonResultsCountry || [];
+    
     localStorage.setItem(
       'ForTrademarksDisable',
       JSON.stringify(comparisonResultsCountry)
@@ -304,7 +321,7 @@ const Filter = ({ productInfo }) => {
       JSON.stringify(comparisonResultsTrademarks)
     );
   };
-console.log(comparisonResultsCountry);
+
   return (
     <>
       {productInfo && (

@@ -9,10 +9,13 @@ export const StatusProvider = ({ children }) => {
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
   let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
+  countryChecked = Array.isArray(countryChecked)
+    ? countryChecked
+    : [countryChecked];
+
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
-  console.log(countryChecked);
 
   let disabledForTrademarks = JSON.parse(
     localStorage.getItem('ForTrademarksDisable') || '[]'
@@ -25,7 +28,6 @@ export const StatusProvider = ({ children }) => {
   );
   const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
     useState(disabledForCountries);
-  console.log(disabledForTrademarks);
 
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
