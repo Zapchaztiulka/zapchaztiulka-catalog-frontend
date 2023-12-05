@@ -466,7 +466,10 @@ const ProductDetails = () => {
               )}
               {/* Modal for Successful Order*/}
               {showModalOrderSuccessful && (
-                <Modal onClose={() => setShowModalOrderSuccessful(false)}>
+                <Modal
+                  hideCloseBtn
+                  onClose={() => setShowModalOrderSuccessful(false)}
+                >
                   <div
                     className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
                 mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
