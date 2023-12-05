@@ -395,8 +395,8 @@ const ProductDetails = () => {
                       className="text-center mobile320:mb-[24px] desktop1440:mb-[32px] mobile320:w-[258px] mobile375:w-[315px] desktop1440:w-[632px] mobile320:text-[14px] mobile320:leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
                     >
-                      Введіть адресу своєї пошти і як тільки товар з’явиться Вам
-                      прийде лист
+                      Введіть адресу своєї пошти, і, як тільки товар з’явиться,
+                      Вам прийде лист
                     </p>
                     <form
                       className="flex flex-col"
@@ -483,7 +483,7 @@ const ProductDetails = () => {
                       {product?.availability !== 'відсутній' ? (
                         <span>Замовлення успішне!</span>
                       ) : (
-                        <span>Ваша заяка прийнята!</span>
+                        <span>Ваша заявка прийнята!</span>
                       )}
                     </h5>
                     <p
