@@ -33,6 +33,7 @@ import { getExtension } from '@/helpers/checkExtension';
 import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
+import { postOrder } from '../../services/orderAny';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -106,8 +107,9 @@ const ProductDetails = () => {
 
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
-    // phone: event.target.elements.phone.value;
-    console.log('Телефон : ', event.target.elements.phone.value);
+    const phone = event.target.elements.phone.value;
+    const _id = product?._id;
+    postOrder(phone, _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -122,8 +124,9 @@ const ProductDetails = () => {
 
   const handleSubmitPreOrder = async event => {
     event.preventDefault();
-    // phone: event.target.elements.phone.value;
-    console.log('Телефон : ', event.target.elements.phone.value);
+    const phone = event.target.elements.phone.value;
+    const _id = product?._id;
+    postOrder(phone, _id);
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
