@@ -33,6 +33,8 @@ export const StatusProvider = ({ children }) => {
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
 
+  const [isResetLocalStorage, setIsResetLocalStorage] = useState(true)
+
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
     localStorage.removeItem('Trademark');
@@ -86,6 +88,8 @@ export const StatusProvider = ({ children }) => {
         backToHomeUrl,
         totalCountProducts,
         setTotalCountProducts,
+        isResetLocalStorage,
+        setIsResetLocalStorage,
       }}
     >
       {children}

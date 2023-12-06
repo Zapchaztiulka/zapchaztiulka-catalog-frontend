@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import BtnPrimary from '@/components/Buttons/BtnPrimary';
 import { FilterIcon } from '@/public/icons';
 import FilterMobile from '@/components/Filter/FilterMobile';
 import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
+import { StatusContext } from '@/context/statusContext';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const StartPage = () => {
   const error = useSelector(selectError);
   const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
+    const {
+      setCountry,
+      setTrademarks,
+      country,
+      trademarks,
+      resetLocalStorage,
+    } = useContext(StatusContext);
 
   const toggle = () => {
       setIsOpen(!isOpen);

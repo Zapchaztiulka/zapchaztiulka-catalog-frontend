@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
@@ -22,13 +22,14 @@ import {
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
 import Chips from '../Chips/Chips';
-import useResetLocalStorage from '@/hooks/useResetLocalStorage';
 
-const CardsList = ({ products, totalCount }) => {
+const CardsList = ({
+  products,
+  totalCount
+}) => {
   const router = useRouter();
   let startPage = router.isReady ? Number(router.query.page) : 1;
   const dispatch = useDispatch();
-  // const isResetLocalStorageCalled = useResetLocalStorage();
   const { categories } = useSelector(selectCategories);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const searchValue = router.isReady ? router.query.query : '';
@@ -38,45 +39,47 @@ const CardsList = ({ products, totalCount }) => {
   let maxPrice = router.query.max;
   let idCategory = router.query.categories || [];
   let idSubCategory = router.query.subcategories || [];
-  const { setCountry, setTrademarks, country, trademarks, resetLocalStorage } =
-    useContext(StatusContext);
+  const {
+    setCountry,
+    setTrademarks,
+    country,
+    trademarks,
+    resetLocalStorage,
+    isResetLocalStorage,
+    setIsResetLocalStorage,
+  } = useContext(StatusContext);
   const size = useWindowSize();
 
   const caterogyUrl =
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+  const countriesUrlArray =
+    countries.length === 0 ? countries : countries?.split(',');
+  const trademarkUrlArray =
+    trademark.length === 0 ? trademark : trademark?.split(',');
 
   const limit = getLimitByScreenWidth(size);
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
-    const isResetLocalStorageCalled = useRef(false);
-
-    useEffect(() => {
-      isResetLocalStorageCalled.current = false;
-    }, [router.query]);
-
-
   useEffect(() => {
-    if (Object.keys(router.query).length === 0  && limit) {
+    if (Object.keys(router.query).length === 0 && limit) {
       setCurrentPage(1);
-           if (!isResetLocalStorageCalled.current) {
-             resetLocalStorage();
-             isResetLocalStorageCalled.current = true;
-           }
-
+      if (isResetLocalStorage) {
+        resetLocalStorage();
+        setIsResetLocalStorage(false);
+      }
       dispatch(fetchProducts({ page: 1, limit: limit }));
-      console.log('me first');
-      console.log(isResetLocalStorageCalled);
+      // console.log('me first');
     }
   }, [dispatch, limit, Object.keys(router.query).length]);
 
   useEffect(() => {
     if (
       countries.length === 0 &&
-      trademark.length===0 &&
+      trademark.length === 0 &&
       minPrice === undefined &&
       maxPrice === undefined &&
       Object.keys(router.query).length !== 0 &&
@@ -84,13 +87,14 @@ const CardsList = ({ products, totalCount }) => {
     ) {
       setCountry([]);
       setTrademarks([]);
+      setIsResetLocalStorage(false);
       dispatch(
         fetchProducts({
           page: startPage,
           query: searchValue,
           limit: limit,
-          countries: country,
-          trademarks: trademarks,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
           minPrice: minPrice,
           maxPrice: maxPrice,
           categories: caterogyUrl,
@@ -126,8 +130,8 @@ const CardsList = ({ products, totalCount }) => {
           page: startPage,
           query: searchValue,
           limit: limit,
-          countries: country,
-          trademarks: trademarks,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
           minPrice: minPrice,
           maxPrice: maxPrice,
         })
@@ -155,8 +159,8 @@ const CardsList = ({ products, totalCount }) => {
       query: {
         page: value,
         query: searchValue,
-        countries: country,
-        trademarks: trademarks,
+        countries: countries,
+        trademarks: trademark,
         minPrice: minPrice !== undefined ? minPrice : [],
         maxPrice: maxPrice !== undefined ? maxPrice : [],
         categories: idCategory,

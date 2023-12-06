@@ -14,7 +14,6 @@ import {
 } from '@/helpers/checkForMatchValue';
 import { StatusContext } from '@/context/statusContext';
 import { formatNumber } from '@/helpers/actionsWithNumbers';
-import useResetLocalStorage from '@/hooks/useResetLocalStorage';
 
 const Filter = ({ productInfo }) => {
   const router = useRouter();
@@ -53,6 +52,8 @@ const Filter = ({ productInfo }) => {
     setMaxValue,
     totalCountProducts,
     setTotalCountProducts,
+    isResetLocalStorage,
+    setIsResetLocalStorage,
   } = useContext(StatusContext);
 
   const handleOnChangeByTradeMarks = e => {
@@ -144,33 +145,30 @@ const Filter = ({ productInfo }) => {
     matchPriceForCountry,
   ]);
 
-  const fetchData = () => {
-    if (minPriceFromData && maxPriceFromData) {
-      dispatch(
-        fetchTotalCount({
-          page: 1,
-          query: '',
-          limit: 10,
-          countries: country,
-          trademarks: trademarks,
-          minPrice: minValue ? minValue : minPriceFromData,
-          maxPrice: maxValue ? maxValue : maxPriceFromData,
-        })
-      );
-    }
+  const fetchData = () => {  
+      if (minPriceFromData && maxPriceFromData) {
+        dispatch(
+          fetchTotalCount({
+            page: 1,
+            query: '',
+            limit: 10,
+            countries: country,
+            trademarks: trademarks,
+            minPrice: minValue ? minValue : minPriceFromData,
+            maxPrice: maxValue ? maxValue : maxPriceFromData,
+          })
+        );
+      }  
   };
 
   useEffect(() => {
-    if (country.length > 0 || trademarks.length > 0 || maxValue || minValue) {
-      console.log('total');
-      fetchData();
-    } else {
-      setTotalCountProducts(0);
-    }
-  }, [country, trademarks, maxValue, minValue]);
-
-  console.log(country);
-
+      if ((country.length > 0 || trademarks.length > 0 || maxValue || minValue) && !isResetLocalStorage) {
+        console.log('total');
+        fetchData();
+      } else {
+        setTotalCountProducts(0);
+      }
+  }, [country, trademarks, maxValue, minValue, isResetLocalStorage]);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');
@@ -292,8 +290,14 @@ const Filter = ({ productInfo }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+  const filteredCountries = country.filter(
+    (value, index, array) => value !== '' || array.indexOf('') === index
+  );
+  const filteredTrademarks = trademarks.filter(
+       (value, index, array) => value !== '' || array.indexOf('') === index
+     );
     router.push(
-      `/?page=1&query=&countries=${country}&trademarks=${trademarks}&min=${
+      `/?page=1&query=&countries=${filteredCountries}&trademarks=${filteredTrademarks}&min=${
         minValue !== '' ? minValue : minPriceFromData
       }&max=${maxValue ? maxValue : maxPriceFromData}`
     );
