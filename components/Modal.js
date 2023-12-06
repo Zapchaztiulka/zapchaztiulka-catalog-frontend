@@ -1,9 +1,9 @@
-"use client";
-import { useOnKeyDown } from "@/hooks/useOnClickOutside";
-import { CloseModal } from "@/public/icons";
-import ReactDOM from "react-dom";
+'use client';
+import { useOnKeyDown } from '@/hooks/useOnClickOutside';
+import { CloseModal } from '@/public/icons';
+import ReactDOM from 'react-dom';
 
-const Modal = ({ onClose, children }) => {
+const Modal = ({ onClose, hideCloseBtn = false, children }) => {
   useOnKeyDown(onClose);
 
   const modalContent = (
@@ -21,16 +21,18 @@ const Modal = ({ onClose, children }) => {
           }}
         >
           <div className="modal-header">
-            <button
-              onClick={() => onClose()}
-              className="hover:bg-borderDisabled p-xs4 hover:rounded-minimal"
-            >
-              <CloseModal
-                width={24}
-                height={24}
-                className="stroke-iconPrimary"
-              />
-            </button>
+            {!hideCloseBtn && (
+              <button
+                onClick={() => onClose()}
+                className="hover:bg-borderDisabled p-xs4 hover:rounded-minimal"
+              >
+                <CloseModal
+                  width={24}
+                  height={24}
+                  className="stroke-iconPrimary"
+                />
+              </button>
+            )}
           </div>
           <div className="modal-body">{children}</div>
         </div>
@@ -40,7 +42,7 @@ const Modal = ({ onClose, children }) => {
 
   return ReactDOM.createPortal(
     modalContent,
-    document.getElementById("modal-root")
+    document.getElementById('modal-root')
   );
 };
 
