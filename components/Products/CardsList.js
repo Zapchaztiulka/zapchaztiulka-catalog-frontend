@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
@@ -22,11 +22,13 @@ import {
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
 import Chips from '../Chips/Chips';
+import useResetLocalStorage from '@/hooks/useResetLocalStorage';
 
-const CardsList = ({ isLoading, products, totalCount }) => {
+const CardsList = ({ products, totalCount }) => {
   const router = useRouter();
   let startPage = router.isReady ? Number(router.query.page) : 1;
   const dispatch = useDispatch();
+  // const isResetLocalStorageCalled = useResetLocalStorage();
   const { categories } = useSelector(selectCategories);
   const [currentPage, setCurrentPage] = useState(startPage || 1);
   const searchValue = router.isReady ? router.query.query : '';
@@ -36,14 +38,10 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   let maxPrice = router.query.max;
   let idCategory = router.query.categories || [];
   let idSubCategory = router.query.subcategories || [];
-  const { setCountry, setTrademarks, minValue, maxValue } =
+  const { setCountry, setTrademarks, country, trademarks, resetLocalStorage } =
     useContext(StatusContext);
   const size = useWindowSize();
 
-  const countriesUrlArray =
-    countries.length === 0 ? countries : countries?.split(',');
-  const trademarkUrlArray =
-    trademark.length === 0 ? trademark : trademark?.split(',');
   const caterogyUrl =
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
@@ -54,18 +52,31 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
+    const isResetLocalStorageCalled = useRef(false);
+
+    useEffect(() => {
+      isResetLocalStorageCalled.current = false;
+    }, [router.query]);
+
+
   useEffect(() => {
-    if (Object.keys(router.query).length === 0 && router.isReady && limit) {
+    if (Object.keys(router.query).length === 0  && limit) {
       setCurrentPage(1);
+           if (!isResetLocalStorageCalled.current) {
+             resetLocalStorage();
+             isResetLocalStorageCalled.current = true;
+           }
+
       dispatch(fetchProducts({ page: 1, limit: limit }));
       console.log('me first');
+      console.log(isResetLocalStorageCalled);
     }
   }, [dispatch, limit, Object.keys(router.query).length]);
 
   useEffect(() => {
     if (
-      countriesUrlArray.length === 0 &&
-      trademarkUrlArray.length === 0 &&
+      countries.length === 0 &&
+      trademark.length===0 &&
       minPrice === undefined &&
       maxPrice === undefined &&
       Object.keys(router.query).length !== 0 &&
@@ -78,8 +89,8 @@ const CardsList = ({ isLoading, products, totalCount }) => {
           page: startPage,
           query: searchValue,
           limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
+          countries: country,
+          trademarks: trademarks,
           minPrice: minPrice,
           maxPrice: maxPrice,
           categories: caterogyUrl,
@@ -102,31 +113,31 @@ const CardsList = ({ isLoading, products, totalCount }) => {
   ]);
 
   useEffect(() => {
-      if (
-        countriesUrlArray.length !== 0 ||
-        trademarkUrlArray.length !== 0 ||
-        minPrice ||
-        maxPrice
-      ) {
-        setCountry(countriesUrlArray);
-        setTrademarks(trademarkUrlArray);
-        dispatch(
-          fetchProducts({
-            page: currentPage,
-            query: searchValue,
-            limit: limit,
-            countries: countriesUrlArray,
-            trademarks: trademarkUrlArray,
-            minPrice: minPrice,
-            maxPrice: maxPrice,
-          })
-        );
-        setCurrentPage(startPage);
-         console.log('me third');
+    if (
+      countries.length !== 0 ||
+      trademark.length !== 0 ||
+      minPrice ||
+      maxPrice
+    ) {
+      setCountry(country);
+      setTrademarks(trademarks);
+      dispatch(
+        fetchProducts({
+          page: startPage,
+          query: searchValue,
+          limit: limit,
+          countries: country,
+          trademarks: trademarks,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+        })
+      );
+      setCurrentPage(startPage);
+      console.log('me third');
     }
   }, [
     dispatch,
-    currentPage,
+    startPage,
     countries.length,
     trademark.length,
     minPrice,
@@ -144,8 +155,8 @@ const CardsList = ({ isLoading, products, totalCount }) => {
       query: {
         page: value,
         query: searchValue,
-        countries: countriesUrlArray,
-        trademarks: trademarkUrlArray,
+        countries: country,
+        trademarks: trademarks,
         minPrice: minPrice !== undefined ? minPrice : [],
         maxPrice: maxPrice !== undefined ? maxPrice : [],
         categories: idCategory,
@@ -183,7 +194,9 @@ const CardsList = ({ isLoading, products, totalCount }) => {
           </div>
         )}
         {/* {minValue || (maxValue && <Chips />)} */}
-        {totalCount===0 && <div>На жаль, за вашим запитом нічого не знайдено</div>}
+        {totalCount === 0 && (
+          <div>На жаль, за вашим запитом нічого не знайдено</div>
+        )}
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
           {products &&
             products?.map(({ name, _id, photo, price, vendorCode }, index) => {

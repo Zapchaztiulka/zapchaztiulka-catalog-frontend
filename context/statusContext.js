@@ -28,6 +28,7 @@ export const StatusProvider = ({ children }) => {
   );
   const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
     useState(disabledForCountries);
+    const [totalCountProducts, setTotalCountProducts] = useState(0);
 
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
@@ -47,6 +48,7 @@ export const StatusProvider = ({ children }) => {
     setMaxValue('');
     setComparisonResultsCountry([]);
     setComparisonResultsTrademarks([]);
+    setTotalCountProducts(0);
   };
 
   const backToHomeUrl = () => {
@@ -82,6 +84,8 @@ export const StatusProvider = ({ children }) => {
         maxValue,
         setMaxValue,
         backToHomeUrl,
+        totalCountProducts,
+        setTotalCountProducts,
       }}
     >
       {children}
