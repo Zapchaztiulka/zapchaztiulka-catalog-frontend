@@ -32,11 +32,9 @@ export const getTCountriesForTrademarks = (array, trademarksName) => {
 export const findMinPrice = dataArray => {
   if (dataArray) {
     if (dataArray.length === 0) {
-      return null;
+      return [];
     }
-
     let minPrice = dataArray[0].minPrice;
-
     dataArray.forEach(item => {
       if (item.minPrice < minPrice) {
         minPrice = item.minPrice;
@@ -50,11 +48,9 @@ export const findMinPrice = dataArray => {
 export const findMaxPrice = dataArray => {
   if (dataArray) {
     if (dataArray.length === 0) {
-      return null;
+      return [];
     }
-
     let maxPrice = dataArray[0].maxPrice;
-
     dataArray.forEach(item => {
       if (item.maxPrice > maxPrice) {
         maxPrice = item.maxPrice;
@@ -64,4 +60,31 @@ export const findMaxPrice = dataArray => {
     return maxPrice;
   }
 };
+
+// Функція для відбору об'єктів з масиву за значеннями arr
+export const filterData = (data, arr) => {
+    if (!data || data.length === 0) {
+    return []; 
+  }    
+    return arr.length > 0 ? data.filter(item => arr.includes(item.name)) : [];
+  }
+
+export const findMaxPrice1 = (data, arr) => {
+    if (!data || data.length === 0 && arr) {
+      return findMaxPrice(arr);
+    }
+    return findMaxPrice(data);
+};
+
+// Функція для знаходження мінімальної ціни
+export const findMinPrice1 = (data, arr) => {
+  if (!data || (data.length === 0 && arr)) {
+    return findMinPrice(arr);
+  }
+    return findMinPrice(data);
+};
+
+
+
+
 

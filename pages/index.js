@@ -24,13 +24,7 @@ const StartPage = () => {
   const error = useSelector(selectError);
   const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
-    const {
-      setCountry,
-      setTrademarks,
-      country,
-      trademarks,
-      resetLocalStorage,
-    } = useContext(StatusContext);
+
 
   const toggle = () => {
       setIsOpen(!isOpen);
@@ -42,15 +36,20 @@ const StartPage = () => {
   }
 
   // get trademarks and countries for filter
-    useEffect(() => {
+  useEffect(() => {
       dispatch(fetchCountryPriceTrademark());
     }, [dispatch]);
+
 
   return (
     <>
       <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
         <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
-          <Filter productInfo={productInfo} isLoading={isLoading} />
+          {productInfo ? (
+            <Filter productInfo={productInfo} isLoading={isLoading} />
+          ) : (
+           <Loader />
+          )}
         </div>
         <div className="tablet1024:hidden">
           <BtnPrimary width={'w-full'} onClick={toggle}>

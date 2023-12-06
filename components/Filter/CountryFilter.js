@@ -8,6 +8,7 @@ const CountryFilter = ({
   handleOnChange,
   countryArray,
   filtredResultForDisabledCountry,
+  matchCountries,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
@@ -77,6 +78,12 @@ const CountryFilter = ({
               {countries &&
                 filtredValue?.map((item, index) => {
                   const isChecked = countryArray?.includes(item.name);
+                  const displayCount =
+                    matchCountries.length === 0
+                      ? item.countProducts
+                      : matchCountries.find(
+                          matchedItem => matchedItem.name === item.name
+                        )?.count;
 
                   return (
                     <li
@@ -106,7 +113,7 @@ const CountryFilter = ({
                         </p>
                       </label>
                       <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">
-                        {item.countProducts}
+                        {displayCount}
                       </span>
                     </li>
                   );

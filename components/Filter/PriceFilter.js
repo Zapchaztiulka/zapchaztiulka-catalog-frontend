@@ -1,10 +1,7 @@
 'use client';
 import { formatNumber } from '@/helpers/actionsWithNumbers';
-import { findMaxPrice, findMinPrice, formatNumberWithSpace } from '@/helpers/checkForMatchValue';
 import { ArrowDown, ArrowUp } from '@/public/icons';
-import { selectFilter } from '@/redux/products/productsSelectors';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 const PriceFilter = ({
   minValue,
@@ -19,8 +16,7 @@ const PriceFilter = ({
 
   const formattedValueMin = formatNumber(minValue);
   const formattedValueMax = formatNumber(maxValue);
-  // console.log(minPrice);
-  // console.log(maxValue);
+
 
   return (
     <div>

@@ -9,10 +9,6 @@ export const StatusProvider = ({ children }) => {
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
   let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  countryChecked = Array.isArray(countryChecked)
-    ? countryChecked
-    : [countryChecked];
-
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
@@ -28,12 +24,14 @@ export const StatusProvider = ({ children }) => {
   );
   const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
     useState(disabledForCountries);
-    const [totalCountProducts, setTotalCountProducts] = useState(0);
+  const [totalCountProducts, setTotalCountProducts] = useState(0);
 
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
+  const [matchTrademarks, setMatchTrademarks] = useState([]);
+  const [matchCountries, setMatchCountries] = useState([]);
 
-  const [isResetLocalStorage, setIsResetLocalStorage] = useState(true)
+  const [isResetLocalStorage, setIsResetLocalStorage] = useState(true);
 
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
@@ -51,6 +49,8 @@ export const StatusProvider = ({ children }) => {
     setComparisonResultsCountry([]);
     setComparisonResultsTrademarks([]);
     setTotalCountProducts(0);
+    setMatchTrademarks([]);
+    setMatchCountries([]);
   };
 
   const backToHomeUrl = () => {
@@ -88,6 +88,10 @@ export const StatusProvider = ({ children }) => {
         backToHomeUrl,
         totalCountProducts,
         setTotalCountProducts,
+        matchTrademarks,
+        setMatchTrademarks,
+        matchCountries,
+        setMatchCountries,
         isResetLocalStorage,
         setIsResetLocalStorage,
       }}
