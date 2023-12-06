@@ -229,7 +229,6 @@ const Filter = ({ productInfo }) => {
         productInfo.countries,
         country
       );
-
       const results = productInfo.trademarks.map(item => {
         const isMatch = trademarksForSelectedCountries?.some(
           selectedCountry =>

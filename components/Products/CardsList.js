@@ -85,8 +85,6 @@ const CardsList = ({
       Object.keys(router.query).length !== 0 &&
       limit
     ) {
-      setCountry([]);
-      setTrademarks([]);
       setIsResetLocalStorage(false);
       dispatch(
         fetchProducts({
