@@ -33,6 +33,7 @@ import { getExtension } from '@/helpers/checkExtension';
 import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
+import { postOrder } from '../../services/orderAny';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -106,8 +107,9 @@ const ProductDetails = () => {
 
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
-    // phone: event.target.elements.phone.value;
-    console.log('Телефон : ', event.target.elements.phone.value);
+    const phone = event.target.elements.phone.value;
+    const _id = product?._id;
+    postOrder(phone, _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -122,8 +124,9 @@ const ProductDetails = () => {
 
   const handleSubmitPreOrder = async event => {
     event.preventDefault();
-    // phone: event.target.elements.phone.value;
-    console.log('Телефон : ', event.target.elements.phone.value);
+    const phone = event.target.elements.phone.value;
+    const _id = product?._id;
+    postOrder(phone, _id);
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -395,8 +398,8 @@ const ProductDetails = () => {
                       className="text-center mobile320:mb-[24px] desktop1440:mb-[32px] mobile320:w-[258px] mobile375:w-[315px] desktop1440:w-[632px] mobile320:text-[14px] mobile320:leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
                     >
-                      Введіть адресу своєї пошти і як тільки товар з’явиться Вам
-                      прийде лист
+                      Введіть адресу своєї пошти, і, як тільки товар з’явиться,
+                      Вам прийде лист
                     </p>
                     <form
                       className="flex flex-col"
@@ -466,7 +469,10 @@ const ProductDetails = () => {
               )}
               {/* Modal for Successful Order*/}
               {showModalOrderSuccessful && (
-                <Modal onClose={() => setShowModalOrderSuccessful(false)}>
+                <Modal
+                  hideCloseBtn
+                  onClose={() => setShowModalOrderSuccessful(false)}
+                >
                   <div
                     className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
                 mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
@@ -483,7 +489,7 @@ const ProductDetails = () => {
                       {product?.availability !== 'відсутній' ? (
                         <span>Замовлення успішне!</span>
                       ) : (
-                        <span>Ваша заяка прийнята!</span>
+                        <span>Ваша заявка прийнята!</span>
                       )}
                     </h5>
                     <p
