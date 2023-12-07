@@ -46,7 +46,7 @@ const StartPage = () => {
       <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
         <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
           {productInfo ? (
-            <Filter productInfo={productInfo} isLoading={isLoading} />
+            <Filter isLoading={isLoading} />
           ) : (
            <Loader />
           )}

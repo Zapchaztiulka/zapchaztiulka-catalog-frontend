@@ -17,7 +17,6 @@ const PriceFilter = ({
   const formattedValueMin = formatNumber(minValue);
   const formattedValueMax = formatNumber(maxValue);
 
-
   return (
     <div>
       {!isOpen ? (
