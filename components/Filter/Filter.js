@@ -11,8 +11,8 @@ import { fetchTotalCount } from '@/redux/products/productsOperations';
 import { useRouter } from 'next/router';
 import {
   filterData,
-  findMaxPrice1,
-  findMinPrice1,
+  findMaxPrice,
+  findMinPrice,
   getTCountriesForTrademarks,
   getTrademarksForCountries,
 } from '@/helpers/checkForMatchValue';
@@ -22,6 +22,13 @@ import { formatNumber } from '@/helpers/actionsWithNumbers';
 const Filter = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+    let startPage = router.query.page ? Number(router.query.page) : 1;
+    let countries = router.query.countries || [];
+    let trademark = router.query.trademarks || [];
+    let minPrice1 = router.query.min;
+    let maxPrice1 = router.query.max;
+    let idCategory = router.query.categories || [];
+    let idSubCategory = router.query.subcategories || [];
   const productInfo = useSelector(selectCountryPriceTrademark);
   const totalCountFromRedux = useSelector(selectTotalCountProduct);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
@@ -64,10 +71,12 @@ const Filter = () => {
   const filteredCountries = filterData(productInfo?.countries, country);
   const filteredTrademarks = filterData(productInfo?.trademarks, trademarks);
   const filtredArray = [...filteredCountries, ...filteredTrademarks];
-  const minPriceProduct = findMinPrice1(filtredArray, productInfo?.trademarks);
-  const maxPriceProduct = findMaxPrice1(filtredArray, productInfo?.trademarks);
+  const minPriceProduct = findMinPrice(filtredArray, productInfo?.trademarks);
+  const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
+
+  console.log(router.query)
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
@@ -174,12 +183,17 @@ const Filter = () => {
 
   useEffect(() => {
     if (country.length > 0 || trademarks.length > 0 || maxValue || minValue) {
-      console.log('total');
+      // console.log('total');
       fetchData();
     } else {
       setTotalCountProducts(0);
     }
-  }, [country, trademarks, maxValue, minValue]);
+  }, [
+    country,
+    trademarks,
+    maxValue,
+    minValue,
+  ]);
 
   useEffect(() => {
     if (
@@ -188,7 +202,15 @@ const Filter = () => {
     ) {
       setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
     }
-  }, [totalCountFromRedux]);
+  }, [
+    country,
+    trademarks,
+    maxValue,
+    minValue,
+    totalCountFromRedux?.totalCount,
+  ]);
+
+  // console.log(totalCountFromRedux?.totalCount);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');
@@ -284,13 +306,9 @@ const Filter = () => {
       : false;
 
   const resetResults = () => {
+     setTotalCountProducts(0);
     resetLocalStorage();
-    if (
-      router.query.countries !== undefined ||
-      router.query.trademarks !== undefined ||
-      minValue ||
-      maxValue
-    ) {
+    if (Object.keys(router.query).length !== 0) {
       router.push({
         pathname: '/',
         query: {
@@ -298,6 +316,8 @@ const Filter = () => {
           query: '',
           countries: [],
           trademarks: [],
+          min: [],
+          max: [],
         },
       });
     }
@@ -388,3 +408,4 @@ const Filter = () => {
 };
 
 export default Filter;
+

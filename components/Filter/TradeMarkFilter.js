@@ -76,6 +76,8 @@ const TradeMarkFilter = ({
                 {trademarks !== undefined &&
                   filtredValue?.map((item, index) => {
                     const isChecked = trademarksArray?.includes(item.name);
+
+                    // Shows the current quantity of the product depending on the selected values
                     const displayCount =
                       matchTrademarks.length === 0
                         ? item.countProducts

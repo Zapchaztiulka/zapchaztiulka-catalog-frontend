@@ -78,6 +78,8 @@ const CountryFilter = ({
               {countries &&
                 filtredValue?.map((item, index) => {
                   const isChecked = countryArray?.includes(item.name);
+
+                  // Shows the current quantity of the product depending on the selected values
                   const displayCount =
                     matchCountries.length === 0
                       ? item.countProducts

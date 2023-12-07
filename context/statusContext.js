@@ -25,12 +25,10 @@ export const StatusProvider = ({ children }) => {
   const [comparisonResultsTrademarks, setComparisonResultsTrademarks] =
     useState(disabledForCountries);
   const [totalCountProducts, setTotalCountProducts] = useState(0);
-
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [matchTrademarks, setMatchTrademarks] = useState([]);
   const [matchCountries, setMatchCountries] = useState([]);
-
   const [isResetLocalStorage, setIsResetLocalStorage] = useState(true);
 
   const resetLocalStorage = () => {
