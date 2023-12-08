@@ -37,7 +37,9 @@ const StartPage = () => {
 
   // get trademarks and countries for filter
   useEffect(() => {
-      dispatch(fetchCountryPriceTrademark());
+   
+    dispatch(fetchCountryPriceTrademark());
+    console.log('fetch filters')
     }, [dispatch]);
 
 

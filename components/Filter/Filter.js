@@ -95,7 +95,7 @@ const Filter = () => {
   useEffect(() => {
     if (
       (country && countriesUrlArray) ||
-      (trademarks && trademarkUrlArray)
+      (trademarks && trademarkUrlArray) && router.isReady
     ) {
       if (countriesUrlArray.length > 0 && country.length === 0) {
         console.log('can use url');
