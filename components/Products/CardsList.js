@@ -123,7 +123,7 @@ const CardsList = ({ products, totalCount }) => {
       maxPrice) && limit
     ) {
       setCountry(countriesUrlArray);
-      setTrademarks(trademarks);
+      setTrademarks(trademarkUrlArray);
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
