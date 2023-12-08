@@ -22,13 +22,10 @@ import { formatNumber } from '@/helpers/actionsWithNumbers';
 const Filter = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-    let startPage = router.query.page ? Number(router.query.page) : 1;
-    let countries = router.query.countries || [];
-    let trademark = router.query.trademarks || [];
-    let minPrice1 = router.query.min;
-    let maxPrice1 = router.query.max;
-    let idCategory = router.query.categories || [];
-    let idSubCategory = router.query.subcategories || [];
+  let countries = router.query.countries || [];
+  let trademark = router.query.trademarks || [];
+  let minPrice1 = router.query.min;
+  let maxPrice1 = router.query.max;
   const productInfo = useSelector(selectCountryPriceTrademark);
   const totalCountFromRedux = useSelector(selectTotalCountProduct);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
@@ -75,8 +72,26 @@ const Filter = () => {
   const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
+  const countriesUrlArray =
+    Array.isArray(country) &&
+    country.length === 2 &&
+    country[0] === '' &&
+    country[1] === ''
+      ? ['']
+      : countries.length > 0
+      ? countries.split(',')
+      : [];
 
-  console.log(router.query)
+  useEffect(() => {
+    if (country && countriesUrlArray && router.isReady) {
+      if (countriesUrlArray.length > 0 && country.length === 0) {
+        console.log('can use url');
+        setCountry(countriesUrlArray);
+        setTriggedCountry(true);
+      }
+    }
+  }, []);
+
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
@@ -188,12 +203,7 @@ const Filter = () => {
     } else {
       setTotalCountProducts(0);
     }
-  }, [
-    country,
-    trademarks,
-    maxValue,
-    minValue,
-  ]);
+  }, [country, trademarks, maxValue, minValue]);
 
   useEffect(() => {
     if (
@@ -306,7 +316,7 @@ const Filter = () => {
       : false;
 
   const resetResults = () => {
-     setTotalCountProducts(0);
+    setTotalCountProducts(0);
     resetLocalStorage();
     if (Object.keys(router.query).length !== 0) {
       router.push({
@@ -314,10 +324,6 @@ const Filter = () => {
         query: {
           page: 1,
           query: '',
-          countries: [],
-          trademarks: [],
-          min: [],
-          max: [],
         },
       });
     }
@@ -348,6 +354,11 @@ const Filter = () => {
       JSON.stringify(comparisonResultsTrademarks)
     );
   };
+  console.log(countries);
+  console.log(country);
+  console.log(countriesUrlArray);
+  console.log(comparisonResultsCountry);
+  console.log(router.isReady);
 
   return (
     <>
