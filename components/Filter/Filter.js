@@ -102,8 +102,8 @@ const Filter = () => {
       setTrademarks(trademarkUrlArray);
       setTriggedTrademark(true);
     }
-    console.log('filter empty local')
-  }, []);
+    console.log('filter empty local');
+  }, [countriesUrlArray.length, trademarkUrlArray.length]);
 
 
 
@@ -366,10 +366,9 @@ const Filter = () => {
       JSON.stringify(comparisonResultsTrademarks)
     );
   };
-  console.log(country);
-  console.log(countriesUrlArray);
-  console.log(comparisonResultsCountry);
-  console.log(router.isReady);
+  console.log("country",country);
+  console.log('countriesUrlArray', countriesUrlArray);
+  console.log('disable',comparisonResultsCountry);
 
   return (
     <>
