@@ -92,22 +92,32 @@ const Filter = () => {
         ? trademark.split(',')
         : [];
 
+//   useEffect(() => {
+//  if ((country && countriesUrlArray) || (trademarks && trademarkUrlArray)) {
+//    if (countriesUrlArray.length > 0 && country.length === 0) {
+//      console.log('can use url');
+//      setCountry(countriesUrlArray);
+//      setTriggedCountry(true);
+//    }
+//    if (trademarkUrlArray.length > 0 && trademarks.length === 0) {
+//      setTrademarks(trademarkUrlArray);
+//      setTriggedTrademark(true);
+//    }
+//  }
+//   }, []);
+
   useEffect(() => {
-    if (
-      (country && countriesUrlArray) ||
-      (trademarks && trademarkUrlArray) && router.isReady
-    ) {
-      if (countriesUrlArray.length > 0 && country.length === 0) {
-        console.log('can use url');
-        setCountry(countriesUrlArray);
-        setTriggedCountry(true);
-      }
-      if (trademarkUrlArray.length > 0 && trademarks.length === 0) {
-        setTrademarks(trademarkUrlArray);
-        setTriggedTrademark(true);
-      }
+    // Викликайте тільки раз при монтуванні
+    if (countriesUrlArray.length > 0 && country.length === 0) {
+      setCountry(countriesUrlArray);
+      setTriggedCountry(true);
+    }
+    if (trademarkUrlArray.length > 0 && trademarks.length === 0) {
+      setTrademarks(trademarkUrlArray);
+      setTriggedTrademark(true);
     }
   }, []);
+
 
 
   const handleOnChangeByTradeMarks = e => {
