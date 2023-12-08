@@ -122,7 +122,7 @@ const Filter = () => {
         console.log('can use url');
         setCountry(countriesUrlArray);
         setTriggedCountry(true);
-        localStorage.setItem('Country', JSON.stringify(countriesUrlArray));
+     
       }
     }
   }, [countriesUrlArray.length]);
@@ -391,7 +391,6 @@ const Filter = () => {
   console.log('country', country);
   console.log('countriesUrlArray', countriesUrlArray);
   console.log('triggeredCountry', triggeredCountry);
-  console.log('triggeredTrademark',router);
 
   return (
     <>
