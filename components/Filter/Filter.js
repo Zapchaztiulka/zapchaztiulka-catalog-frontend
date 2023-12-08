@@ -80,14 +80,31 @@ const Filter = () => {
       ? ['']
       : countries.length > 0
       ? countries.split(',')
-      : [];
+        : [];
+  
+    const trademarkUrlArray =
+      Array.isArray(trademarks) &&
+      trademarks.length === 2 &&
+      trademarks[0] === '' &&
+      trademarks[1] === ''
+        ? ['']
+        : trademark.length > 0
+        ? trademark.split(',')
+        : [];
 
   useEffect(() => {
-    if (country && countriesUrlArray && router.isReady) {
+    if (
+      (country && countriesUrlArray) ||
+      (trademarks && trademarkUrlArray) && router.isReady
+    ) {
       if (countriesUrlArray.length > 0 && country.length === 0) {
         console.log('can use url');
         setCountry(countriesUrlArray);
         setTriggedCountry(true);
+      }
+      if (trademarkUrlArray.length > 0 && trademarks.length === 0) {
+        setTrademarks(trademarkUrlArray);
+        setTriggedTrademark(true);
       }
     }
   }, []);
