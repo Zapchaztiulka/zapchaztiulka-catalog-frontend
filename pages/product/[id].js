@@ -109,7 +109,7 @@ const ProductDetails = () => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
-    postOrder(phone, _id);
+    postOrder(phone.replace(/[-]/g, ''), _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -126,7 +126,7 @@ const ProductDetails = () => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
-    postOrder(phone, _id);
+    // postOrder(phone.replace(/[-]/g, ''), _id);
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -364,6 +364,10 @@ const ProductDetails = () => {
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
                           placeholder="+38"
                           name="phone"
+                          type="tel"
+                          pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                          title="096-123-45-67"
+                          required
                         />
                       </label>
                       <button
@@ -408,6 +412,10 @@ const ProductDetails = () => {
                       <input
                         className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
                         name="mail"
+                        type="email"
+                        pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
+                        title="example@mail.com"
+                        required
                       />
                       <button
                         type="submit"
@@ -455,6 +463,10 @@ const ProductDetails = () => {
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
                           placeholder="+38"
                           name="phone"
+                          type="tel"
+                          pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                          title="096-123-45-67"
+                          required
                         />
                       </label>
                       <button
