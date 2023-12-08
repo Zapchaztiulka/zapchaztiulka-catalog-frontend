@@ -38,10 +38,7 @@ export const StatusProvider = ({ children }) => {
     localStorage.removeItem('MaxPrice');
     localStorage.removeItem('ForTrademarksDisable');
     localStorage.removeItem('ForCountriesDisable');
-    setTriggedTrademark(false);
-    setTriggedCountry(false);
-    setCountry([]);
-    setTrademarks([]);
+
     setMinValue('');
     setMaxValue('');
     setComparisonResultsCountry([]);
