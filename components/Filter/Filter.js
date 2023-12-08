@@ -81,31 +81,51 @@ const Filter = () => {
       ? ['']
       : countries.length > 0
       ? countries.split(',')
-        : [];
-  
-    const trademarkUrlArray =
-      Array.isArray(trademarks) &&
-      trademarks.length === 2 &&
-      trademarks[0] === '' &&
-      trademarks[1] === ''
-        ? ['']
-        : trademark.length > 0
-        ? trademark.split(',')
-        : [];
+      : [];
+
+  const trademarkUrlArray =
+    Array.isArray(trademarks) &&
+    trademarks.length === 2 &&
+    trademarks[0] === '' &&
+    trademarks[1] === ''
+      ? ['']
+      : trademark.length > 0
+      ? trademark.split(',')
+      : [];
+
+  // useEffect(() => {
+  //   const hasValuesInRouter = router.query.countries || router.query.trademarks;
+  //   const areArraysEmpty = country.length === 0 && trademarks.length === 0;
+
+  //   if (hasValuesInRouter || areArraysEmpty) {
+
+  //     if (countriesUrlArray.length > 0 && country.length === 0) {
+  //       setCountry(countriesUrlArray);
+  //       setTriggedCountry(true);
+  //     }
+  //     if (countriesUrlArray.length > 0 && trademarks.length === 0) {
+  //       setTrademarks(trademarkUrlArray);
+  //       setTriggedTrademark(true);
+  //     }
+  //     console.log('filter empty local');
+  //   }
+  // }, [router.query.countries, router.query.trademarks]);
 
   useEffect(() => {
-    if (countriesUrlArray.length > 0 && country.length === 0) {
-      setCountry(countriesUrlArray);
-      setTriggedCountry(true);
+    if (
+      country &&
+      countriesUrlArray &&
+      router.isReady &&
+      router.query.countries
+    ) {
+      if (countriesUrlArray.length > 0 && country.length === 0) {
+        console.log('can use url');
+        setCountry(countriesUrlArray);
+        setTriggedCountry(true);
+        localStorage.setItem('Country', JSON.stringify(countriesUrlArray));
+      }
     }
-    if (trademarkUrlArray.length > 0 && trademarks.length === 0) {
-      setTrademarks(trademarkUrlArray);
-      setTriggedTrademark(true);
-    }
-    console.log('filter empty local');
-  }, [countriesUrlArray.length, trademarkUrlArray.length]);
-
-
+  }, [countriesUrlArray.length]);
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
@@ -143,6 +163,7 @@ const Filter = () => {
     setTriggedCountry(true);
   };
 
+  // getting an array of values to enter the price range
   useEffect(() => {
     if (productInfo) {
       const numericMinValue = parseFloat(minValue || minPriceProduct);
@@ -165,6 +186,7 @@ const Filter = () => {
     }
   }, [minValue, maxValue, productInfo]);
 
+  // getting an array of boolean values to set when the filter values are displayed depending on the price in the filter
   useEffect(() => {
     const shouldReturnArr1 = matchPriceForCountry?.some(
       (value, index) =>
@@ -366,9 +388,10 @@ const Filter = () => {
       JSON.stringify(comparisonResultsTrademarks)
     );
   };
-  console.log("country",country);
+  console.log('country', country);
   console.log('countriesUrlArray', countriesUrlArray);
-  console.log('disable',comparisonResultsCountry);
+  console.log('triggeredCountry', triggeredCountry);
+  console.log('triggeredTrademark',router);
 
   return (
     <>
