@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import PriceFilter from './PriceFilter';
 import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
@@ -73,35 +73,20 @@ const Filter = () => {
   const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
+
   const countriesUrlArray =
-    Array.isArray(country) &&
-    country.length === 2 &&
-    country[0] === '' &&
-    country[1] === ''
-      ? ['']
-      : countries.length > 0
-      ? countries.split(',')
+    countries.length > 0
+      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
 
   const trademarkUrlArray =
-    Array.isArray(trademarks) &&
-    trademarks.length === 2 &&
-    trademarks[0] === '' &&
-    trademarks[1] === ''
-      ? ['']
-      : trademark.length > 0
-      ? trademark.split(',')
+    trademark.length > 0
+      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
 
   useEffect(() => {
-    if (
-      country &&
-      countriesUrlArray &&
-      router.isReady &&
-      router.query
-    ) {
+    if (country && countriesUrlArray && router.isReady && router.query) {
       if (countriesUrlArray.length > 0 && country.length === 0) {
-        console.log('can use url');
         setCountry(countriesUrlArray);
         setTriggedCountry(true);
       }
@@ -112,6 +97,7 @@ const Filter = () => {
     }
   }, [countriesUrlArray.length, trademarkUrlArray.length]);
 
+  console.log(country);
   console.log(countriesUrlArray);
 
   const handleOnChangeByTradeMarks = e => {
@@ -122,10 +108,6 @@ const Filter = () => {
         updatedArray = [...prev, value];
       } else {
         updatedArray = prev.filter(item => item !== value);
-      }
-      const isEmptyValueAlreadyExists = prev.some(item => item === '');
-      if (checked && value === '' && !isEmptyValueAlreadyExists) {
-        updatedArray = [...updatedArray, ''];
       }
       return updatedArray;
     });
@@ -140,10 +122,6 @@ const Filter = () => {
         updatedArray = [...prev, value];
       } else {
         updatedArray = prev.filter(item => item !== value);
-      }
-      const isEmptyValueAlreadyExists = prev.some(item => item === '');
-      if (checked && value === '' && !isEmptyValueAlreadyExists) {
-        updatedArray = [...updatedArray, ''];
       }
       return updatedArray;
     });
@@ -352,11 +330,11 @@ const Filter = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const filteredCountries = country.filter(
-      (value, index, array) => value !== '' || array.indexOf('') === index
+    const filteredCountries = country.map(value =>
+      value !== '' ? value : 'Інше'
     );
-    const filteredTrademarks = trademarks.filter(
-      (value, index, array) => value !== '' || array.indexOf('') === index
+    const filteredTrademarks = trademarks.map(value =>
+      value !== '' ? value : 'Інше'
     );
     router.push(
       `/?page=1&query=&countries=${filteredCountries}&trademarks=${filteredTrademarks}&min=${
@@ -435,4 +413,3 @@ const Filter = () => {
 };
 
 export default Filter;
-

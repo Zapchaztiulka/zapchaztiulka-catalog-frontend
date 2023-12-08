@@ -51,31 +51,21 @@ const CardsList = ({ products, totalCount }) => {
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+
   const countriesUrlArray =
-    Array.isArray(country) &&
-    country.length === 2 &&
-    country[0] === '' &&
-    country[1] === ''
-      ? ['']
-      : countries.length > 0
-      ? countries.split(',')
+    countries.length > 0
+      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
 
   const trademarkUrlArray =
-    Array.isArray(trademarks) &&
-    trademarks.length === 2 &&
-    trademarks[0] === '' &&
-    trademarks[1] === ''
-      ? ['']
-      : trademark.length > 0
-      ? trademark.split(',')
+    trademark.length > 0
+      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
 
   const limit = getLimitByScreenWidth(size);
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
-
 
   useEffect(() => {
     if (
@@ -118,9 +108,10 @@ const CardsList = ({ products, totalCount }) => {
   useEffect(() => {
     if (
       (countries.length !== 0 ||
-      trademark.length !== 0 ||
-      minPrice ||
-      maxPrice) && limit
+        trademark.length !== 0 ||
+        minPrice ||
+        maxPrice) &&
+      limit
     ) {
       setCountry(countriesUrlArray);
       setTrademarks(trademarkUrlArray);
@@ -146,7 +137,7 @@ const CardsList = ({ products, totalCount }) => {
     minPrice,
     maxPrice,
     searchValue,
-    limit
+    limit,
   ]);
 
   let pagesCount = Math.ceil(totalCount / limit);
