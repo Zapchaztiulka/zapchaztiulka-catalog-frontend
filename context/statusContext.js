@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 export const StatusContext = createContext();
 
@@ -8,10 +8,12 @@ export const StatusProvider = ({ children }) => {
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
-  let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
-  const [country, setCountry] = useState(countryChecked);
-  const [trademarks, setTrademarks] = useState(trademarksChecked);
+  // let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
+  // let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
+  // const [country, setCountry] = useState(countryChecked);
+  // const [trademarks, setTrademarks] = useState(trademarksChecked);
+    const [country, setCountry] = useState([]);
+    const [trademarks, setTrademarks] = useState([]);
 
   let disabledForTrademarks = JSON.parse(
     localStorage.getItem('ForTrademarksDisable') || '[]'
@@ -38,7 +40,10 @@ export const StatusProvider = ({ children }) => {
     localStorage.removeItem('MaxPrice');
     localStorage.removeItem('ForTrademarksDisable');
     localStorage.removeItem('ForCountriesDisable');
-
+    setTriggedTrademark(false);
+    setTriggedCountry(false);
+    setCountry([]);
+    setTrademarks([]);
     setMinValue('');
     setMaxValue('');
     setComparisonResultsCountry([]);
@@ -47,6 +52,18 @@ export const StatusProvider = ({ children }) => {
     setMatchTrademarks([]);
     setMatchCountries([]);
   };
+
+  console.log("comparisonResultsCountry", comparisonResultsCountry);
+    useEffect(() => {
+  let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
+  let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
+      if (countryChecked) {
+        setCountry(countryChecked);
+      }
+      if (trademarksChecked) {
+        setTrademarks(trademarksChecked);
+      }
+    }, []);
 
   const backToHomeUrl = () => {
     router.push({

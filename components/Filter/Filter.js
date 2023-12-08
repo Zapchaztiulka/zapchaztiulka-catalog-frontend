@@ -112,11 +112,17 @@ const Filter = () => {
   // }, [router.query.countries, router.query.trademarks]);
 
   useEffect(() => {
-    if (country && countriesUrlArray && router.isReady) {
+    if (
+      country &&
+      countriesUrlArray &&
+      router.isReady &&
+      router.query.countries
+    ) {
       if (countriesUrlArray.length > 0 && country.length === 0) {
         console.log('can use url');
         setCountry(countriesUrlArray);
         setTriggedCountry(true);
+        localStorage.setItem('Country', JSON.stringify(countriesUrlArray));
       }
     }
   }, [countriesUrlArray.length]);
@@ -346,10 +352,6 @@ const Filter = () => {
   const resetResults = () => {
     setTotalCountProducts(0);
     resetLocalStorage();
-    setTriggedTrademark(false);
-    setTriggedCountry(false);
-    setCountry([]);
-    setTrademarks([]);
     if (Object.keys(router.query).length !== 0) {
       router.push({
         pathname: '/',
@@ -389,7 +391,7 @@ const Filter = () => {
   console.log('country', country);
   console.log('countriesUrlArray', countriesUrlArray);
   console.log('triggeredCountry', triggeredCountry);
-  console.log('triggeredTrademark', triggeredTrademark);
+  console.log('triggeredTrademark',router);
 
   return (
     <>

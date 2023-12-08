@@ -122,7 +122,7 @@ const CardsList = ({ products, totalCount }) => {
       minPrice ||
       maxPrice) && limit
     ) {
-      setCountry(country);
+      setCountry(countriesUrlArray);
       setTrademarks(trademarks);
       dispatch(
         fetchProducts({
