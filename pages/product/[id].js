@@ -110,17 +110,26 @@ const ProductDetails = () => {
     let formattedNumber = '';
     for (let i = 0; i < cleaned.length; i++) {
       if (i === 3 || i === 6 || i === 8) {
-        formattedNumber += '-';
+        formattedNumber += ' ';
       }
       formattedNumber += cleaned[i];
     }
     return formattedNumber;
   }
 
+  function displayError(message) {
+    errorMessage.textContent = message;
+  }
+
   const replacePhoneNumber = async () => {
+    let errorMessage = document.getElementById('errorMessage');
     let phoneNumberInput = document.getElementById('phone');
     phoneNumberInput.addEventListener('input', function (event) {
       let inputPhoneNumber = event.target.value;
+      if (event.target.value && event.target.value[0] !== '0') {
+        displayError('Номер телефону має починатись з "0"');
+      } else displayError('');
+
       phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
       if (inputPhoneNumber.length > 13) {
         let trimmedPhoneNumber = inputPhoneNumber.slice(0, 13);
@@ -134,7 +143,7 @@ const ProductDetails = () => {
     replacePhoneNumber();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
-    postOrder(phone.replace(/[-]/g, ''), _id);
+    postOrder(phone.replace(/[ ]/g, ''), _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -382,22 +391,28 @@ const ProductDetails = () => {
                       className="flex flex-col"
                       onSubmit={handleSubmitOneClickOrder}
                     >
-                      <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
+                      <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
                         <span className="mb-[4px]">Номер телефону</span>
+                        <span className="absolute grid items-center z-10 block top-[34px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
+                          +38
+                        </span>
                         <input
-                          className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+                          className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
-                          placeholder="+38"
                           name="phone"
                           id="phone"
                           type="tel"
-                          pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
-                          title="096-123-45-67"
+                          maxlength="13"
+                          pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+                          title="096 123 45 67"
                           autoComplete="off"
-                          size="10"
                           required
                           onChange={replacePhoneNumber}
                         />
+                        <span
+                          id="errorMessage"
+                          className="text-textWarning"
+                        ></span>
                       </label>
                       <button
                         type="submit"
@@ -438,6 +453,10 @@ const ProductDetails = () => {
                       className="flex flex-col"
                       onSubmit={handleSubmitAbsentOrder}
                     >
+                      <span
+                        id="errorMessage"
+                        className="text-textWarning"
+                      ></span>
                       <input
                         className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
                         name="mail"
@@ -485,20 +504,27 @@ const ProductDetails = () => {
                       className="flex flex-col"
                       onSubmit={handleSubmitPreOrder}
                     >
-                      <label className="mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
+                      <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
                         <span className="mb-[4px]">Номер телефону</span>
+                        <span className="absolute grid items-center z-10 block top-[34px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
+                          +38
+                        </span>
                         <input
-                          className="p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+                          className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
-                          placeholder="+38"
                           name="phone"
                           type="tel"
                           id="phone"
-                          pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
-                          title="096-123-45-67"
+                          pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+                          title="096 123 45 67"
                           autoComplete="off"
                           required
+                          onChange={replacePhoneNumber}
                         />
+                        <span
+                          id="errorMessage"
+                          className="text-textWarning"
+                        ></span>
                       </label>
                       <button
                         type="submit"
