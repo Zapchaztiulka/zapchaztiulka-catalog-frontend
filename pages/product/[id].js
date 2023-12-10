@@ -105,8 +105,33 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
+  function formatPhoneNumber(input) {
+    let cleaned = ('' + input).replace(/\D/g, '');
+    let formattedNumber = '';
+    for (let i = 0; i < cleaned.length; i++) {
+      if (i === 3 || i === 6 || i === 8) {
+        formattedNumber += '-';
+      }
+      formattedNumber += cleaned[i];
+    }
+    return formattedNumber;
+  }
+
+  const replacePhoneNumber = async () => {
+    let phoneNumberInput = document.getElementById('phone');
+    phoneNumberInput.addEventListener('input', function (event) {
+      let inputPhoneNumber = event.target.value;
+      phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
+      if (inputPhoneNumber.length > 13) {
+        let trimmedPhoneNumber = inputPhoneNumber.slice(0, 13);
+        phoneNumberInput.value = trimmedPhoneNumber;
+      }
+    });
+  };
+
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
+    replacePhoneNumber();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
     postOrder(phone.replace(/[-]/g, ''), _id);
@@ -364,10 +389,14 @@ const ProductDetails = () => {
                         placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
                           placeholder="+38"
                           name="phone"
+                          id="phone"
                           type="tel"
                           pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
                           title="096-123-45-67"
+                          autoComplete="off"
+                          size="10"
                           required
+                          onChange={replacePhoneNumber}
                         />
                       </label>
                       <button
@@ -464,8 +493,10 @@ const ProductDetails = () => {
                           placeholder="+38"
                           name="phone"
                           type="tel"
+                          id="phone"
                           pattern="0[0-9]{2}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
                           title="096-123-45-67"
+                          autoComplete="off"
                           required
                         />
                       </label>
