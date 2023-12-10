@@ -126,11 +126,12 @@ const ProductDetails = () => {
     let phoneNumberInput = document.getElementById('phone');
     phoneNumberInput.addEventListener('input', function (event) {
       let inputPhoneNumber = event.target.value;
-      if (event.target.value && event.target.value[0] !== '0') {
+      phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
+
+      if (event.target.value[0] !== '0') {
+        phoneNumberInput.value = inputPhoneNumber.slice(0, 1);
         displayError('Номер телефону має починатись з "0"');
       } else displayError('');
-
-      phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
       if (inputPhoneNumber.length > 13) {
         let trimmedPhoneNumber = inputPhoneNumber.slice(0, 13);
         phoneNumberInput.value = trimmedPhoneNumber;
