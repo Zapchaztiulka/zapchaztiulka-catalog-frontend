@@ -22,7 +22,7 @@ import {
 import { StatusContext } from '@/context/statusContext';
 import { formatNumber } from '@/helpers/actionsWithNumbers';
 
-const Filter = ({ searchValue, products }) => {
+const Filter = ({ searchValue }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   let countries = router.query.countries || [];
@@ -167,10 +167,10 @@ const Filter = ({ searchValue, products }) => {
       setMatchPriceForTrademark(resultArr2);
     }
   }, [minValue, maxValue, productInfo]);
-  console.log("matchPriceForTrademark",matchPriceForTrademark);
-  console.log('matchPriceForCountry', matchPriceForCountry);
-  console.log("comparisonResultsTrademarks",comparisonResultsTrademarks);
-  console.log("comparisonResultsCountry",comparisonResultsCountry);
+  // console.log("matchPriceForTrademark",matchPriceForTrademark);
+  // console.log('matchPriceForCountry', matchPriceForCountry);
+  // console.log("comparisonResultsTrademarks",comparisonResultsTrademarks);
+  // console.log("comparisonResultsCountry",comparisonResultsCountry);
 
   // getting an array of boolean values to set when the filter values are displayed depending on the price in the filter
   useEffect(() => {
@@ -273,28 +273,30 @@ const Filter = ({ searchValue, products }) => {
   };
 
   useEffect(() => {
-    if (matchCountries.length === 0) {
-      const result = calculateSumsAndCompare(
-        productInfo.countries,
-        matchTrademarks,
-        country,
-        trademarks
-      );
-      setTotalCountProducts(result);
-    }
-    if (matchTrademarks.length === 0) {
-      const result = calculateSumsAndCompare(
-        productInfo.trademarks,
-        matchCountries,
-        trademarks,
-        country
-      );
-      console.log(result);
-      setTotalCountProducts(result);
+    if (productInfo) {
+      if (matchCountries.length === 0) {
+        const result = calculateSumsAndCompare(
+          productInfo.countries,
+          matchTrademarks,
+          country,
+          trademarks
+        );
+        setTotalCountProducts(result);
+      }
+      if (matchTrademarks.length === 0) {
+        const result = calculateSumsAndCompare(
+          productInfo.trademarks,
+          matchCountries,
+          trademarks,
+          country
+        );
+        console.log(result);
+        setTotalCountProducts(result);
+      }
     }
   }, [country, trademarks, matchTrademarks, matchCountries]);
 
-  console.log(resultCount);
+  // console.log(resultCount);
   // console.log('country', country);
   // console.log('matchTrademarks', matchTrademarks);
   // console.log('trademarks', trademarks);
