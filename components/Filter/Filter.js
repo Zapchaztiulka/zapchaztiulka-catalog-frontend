@@ -22,17 +22,18 @@ import {
 import { StatusContext } from '@/context/statusContext';
 import { formatNumber } from '@/helpers/actionsWithNumbers';
 
-const Filter = () => {
+const Filter = ({ searchValue, products }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
-  let minPrice1 = router.query.min;
-  let maxPrice1 = router.query.max;
+
   const productInfo = useSelector(selectCountryPriceTrademark);
   const totalCountFromRedux = useSelector(selectTotalCountProduct);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
   const [matchPriceForTrademark, setMatchPriceForTrademark] = useState([]);
+  const [resultCount, setResultCount] = useState(0);
+  console.log(products)
 
   const {
     triggeredCountry,
@@ -75,6 +76,8 @@ const Filter = () => {
   const maxBasePrice = findMax(productInfo?.trademarks);
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
+  const [priceCountry, setPriceCountry] = useState([])
+   const [priceTrademark, setPriceTrademark] = useState([]);
 
   const countriesUrlArray =
     countries.length > 0
@@ -99,8 +102,19 @@ const Filter = () => {
     }
   }, [countriesUrlArray.length, trademarkUrlArray.length]);
 
-  console.log(country);
-  console.log(countriesUrlArray);
+
+  // const trademarksArr = [];
+
+  // products?.forEach(product => {
+  //   if (product.manufacturer && product.manufacturer.trademark) {
+  //     trademarks.push(product.manufacturer.trademark);
+  //   }
+  // });
+
+  // console.log(trademarksArr);
+
+  // console.log(country);
+  // console.log(countriesUrlArray);
 
   const handleOnChangeByTradeMarks = e => {
     const { value, checked } = e.target;
@@ -141,20 +155,33 @@ const Filter = () => {
         const maxInRange = country.maxPrice <= numericMaxValue;
         return !(minInRange && maxInRange);
       });
-      // console.log("resultArr1", resultArr1);
-      // console.log('productInfo?.countries', productInfo?.countries);
+        const resultArrCountry = productInfo?.countries?.filter(country => {
+          const minInRange = country.minPrice >= numericMinValue;
+          const maxInRange = country.maxPrice <= numericMaxValue;
+          return minInRange && maxInRange;
+        });
+      console.log(resultArrCountry);
 
-      const resultArr2 = productInfo?.trademarks?.map(country => {
-        const minInRange = country.minPrice >= numericMinValue;
-        const maxInRange = country.maxPrice <= numericMaxValue;
+      const resultArr2 = productInfo?.trademarks?.map(trademark => {
+        const minInRange = trademark.minPrice >= numericMinValue;
+        const maxInRange = trademark.maxPrice <= numericMaxValue;
         return !(minInRange && maxInRange);
       });
-      console.log('resultArr2', resultArr2);
+          const resultArrTrademark = productInfo?.trademarks?.filter(trademark => {
+            const minInRange = trademark.minPrice >= numericMinValue;
+            const maxInRange = trademark.maxPrice <= numericMaxValue;
+            return minInRange && maxInRange;
+          });
+      console.log(resultArrTrademark);
 
       setMatchPriceForCountry(resultArr1);
       setMatchPriceForTrademark(resultArr2);
     }
   }, [minValue, maxValue, productInfo]);
+  console.log("matchPriceForTrademark",matchPriceForTrademark);
+  console.log('matchPriceForCountry', matchPriceForCountry);
+  console.log("comparisonResultsTrademarks",comparisonResultsTrademarks);
+  console.log("comparisonResultsCountry",comparisonResultsCountry);
 
   // getting an array of boolean values to set when the filter values are displayed depending on the price in the filter
   useEffect(() => {
@@ -171,8 +198,6 @@ const Filter = () => {
       setFiltredResultForDisabledCountry(reverseResultArr1);
     } else setFiltredResultForDisabledCountry(comparisonResultsTrademarks);
 
-
-
     const shouldReturnArr2 = matchPriceForTrademark?.some(
       (value, index) =>
         value === true && comparisonResultsCountry[index] !== false
@@ -183,7 +208,6 @@ const Filter = () => {
       );
       setFiltredResultForDisabledTrademark(reverseResultArr2);
     } else setFiltredResultForDisabledTrademark(comparisonResultsCountry);
-
   }, [
     comparisonResultsTrademarks,
     matchPriceForTrademark,
@@ -191,55 +215,102 @@ const Filter = () => {
     matchPriceForCountry,
   ]);
 
-  // console.log("matchPriceForCountry",matchPriceForCountry);
-  // console.log("comparisonResultsTrademarks",comparisonResultsTrademarks);
-    console.log('matchPriceForTrademark', matchPriceForTrademark);
-  console.log('comparisonResultsCountry', comparisonResultsCountry);
-  console.log(
-    'filtredResultForDisabledTradeMark',
-    filtredResultForDisabledTradeMark
-  );
-  console.log('minValue', minValue);
-  console.log("maxValue", maxValue);
-  console.log('minPriceProduct', minPriceProduct);
-  console.log('maxPriceProduct', maxPriceProduct);
+  // const fetchData = () => {
+  //   dispatch(
+  //     fetchTotalCount({
+  //       page: 1,
+  //       query: searchValue,
+  //       limit: 10,
+  //       countries: country,
+  //       trademarks: trademarks,
+  //       minPrice: minValue ? minValue : minBasePrice,
+  //       maxPrice: maxValue ? maxValue : maxBasePrice,
+  //     })
+  //   );
+  // };
 
-  const fetchData = () => {
-    dispatch(
-      fetchTotalCount({
-        page: 1,
-        query: '',
-        limit: 10,
-        countries: country,
-        trademarks: trademarks,
-        minPrice: minValue ? minValue : minPriceProduct,
-        maxPrice: maxValue ? maxValue : maxPriceProduct,
-      })
-    );
+  // useEffect(() => {
+  //   if (
+  //     country.length > 0 ||
+  //     trademarks.length > 0 ||
+  //     maxValue ||
+  //     minValue ||
+  //     searchValue
+  //   ) {
+  //     fetchData();
+  //   } else {
+  //     setTotalCountProducts(0);
+  //   }
+  // }, [country, trademarks, maxValue, minValue, searchValue]);
+
+  // useEffect(() => {
+  //   if (
+  //     totalCountFromRedux &&
+  //     (country.length > 0 ||
+  //       trademarks.length > 0 ||
+  //       maxValue ||
+  //       minValue ||
+  //       searchValue)
+  //   ) {
+  //     setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
+  //   }
+  // }, [
+  //   country,
+  //   trademarks,
+  //   maxValue,
+  //   minValue,
+  //   searchValue,
+  //   totalCountFromRedux?.totalCount,
+  // ]);
+
+
+  const calculateSumsAndCompare = (data1, data2, arr1, arr2) => {
+    let countProductsSum1 = 0;
+    let countProductsSum2 = 0;
+    data1.forEach(country => {
+      if (arr1.includes(country.name)) {
+        countProductsSum1 += country.countProducts;
+      }
+    });
+
+    data2.forEach(item => {
+      if (arr2.includes(item.name)) {
+        countProductsSum2 += item.count;
+      }
+    });
+    return countProductsSum2 === 0
+      ? countProductsSum1
+      : Math.min(countProductsSum1, countProductsSum2);
   };
 
   useEffect(() => {
-    if (country.length > 0 || trademarks.length > 0 || maxValue || minValue) {
-      fetchData();
-    } else {
-      setTotalCountProducts(0);
+    if (matchCountries.length === 0) {
+      const result = calculateSumsAndCompare(
+        productInfo.countries,
+        matchTrademarks,
+        country,
+        trademarks
+      );
+      setTotalCountProducts(result);
     }
-  }, [country, trademarks, maxValue, minValue]);
+    if (matchTrademarks.length === 0) {
+      const result = calculateSumsAndCompare(
+        productInfo.trademarks,
+        matchCountries,
+        trademarks,
+        country
+      );
+      console.log(result);
+      setTotalCountProducts(result);
+    }
+  }, [country, trademarks, matchTrademarks, matchCountries]);
 
-  useEffect(() => {
-    if (
-      totalCountFromRedux &&
-      (country.length > 0 || trademarks.length > 0 || maxValue || minValue)
-    ) {
-      setTotalCountProducts(totalCountFromRedux?.totalCount || 0);
-    }
-  }, [
-    country,
-    trademarks,
-    maxValue,
-    minValue,
-    totalCountFromRedux?.totalCount,
-  ]);
+  console.log(resultCount);
+  // console.log('country', country);
+  // console.log('matchTrademarks', matchTrademarks);
+  // console.log('trademarks', trademarks);
+  // console.log('matchCountries', matchCountries);
+  // console.log('matchPriceForTrademark', matchPriceForTrademark);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');
@@ -297,8 +368,7 @@ const Filter = () => {
       setMatchTrademarks(trademarksForSelectedCountries);
       const results = productInfo.trademarks.map(item => {
         const isMatch = trademarksForSelectedCountries?.some(
-          selectedCountry =>
-            selectedCountry.name === item.name
+          selectedCountry => selectedCountry.name === item.name
         );
         return !isMatch;
       });
@@ -317,8 +387,7 @@ const Filter = () => {
 
       const results = productInfo.countries.map(item => {
         const isMatch = countryForSelectedTrademarks?.some(
-          selectedCountry =>
-            selectedCountry.name === item.name
+          selectedCountry => selectedCountry.name === item.name
         );
         return !isMatch;
       });
@@ -326,7 +395,6 @@ const Filter = () => {
       return results;
     }
   };
-
 
   const isDisabledBtn =
     country.length > 0 || trademarks.length > 0 || minValue || maxValue
@@ -356,7 +424,7 @@ const Filter = () => {
       value !== '' ? value : 'Інше'
     );
     router.push(
-      `/?page=1&query=&countries=${filteredCountries}&trademarks=${filteredTrademarks}&min=${
+      `/?page=1&query=${searchValue}&countries=${filteredCountries}&trademarks=${filteredTrademarks}&min=${
         minValue !== '' ? minValue : minPriceProduct
       }&max=${maxValue ? maxValue : maxPriceProduct}`
     );

@@ -29,7 +29,7 @@ const CardsList = ({ products, totalCount }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector(selectCategories);
   const [currentPage, setCurrentPage] = useState(startPage);
-  const searchValue = router.isReady ? router.query.query : '';
+  let searchValue = router.isReady ? router.query.query : '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
   let minPrice = router.query.min;
@@ -39,13 +39,10 @@ const CardsList = ({ products, totalCount }) => {
   const {
     setCountry,
     setTrademarks,
-    country,
-    trademarks,
-    resetLocalStorage,
-    isResetLocalStorage,
     setIsResetLocalStorage,
   } = useContext(StatusContext);
   const size = useWindowSize();
+
 
   const caterogyUrl =
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
