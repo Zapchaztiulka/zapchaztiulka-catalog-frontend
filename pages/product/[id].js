@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
 import {
@@ -34,6 +34,7 @@ import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
 import { postOrder } from '../../services/orderAny';
+import { StatusContext } from '@/context/statusContext';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -59,6 +60,7 @@ const ProductDetails = () => {
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
+    const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   useEffect(() => {
     if (id) {
@@ -134,7 +136,9 @@ const ProductDetails = () => {
   const handleClickOrderSuccessful = async event => {
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
     if (typeof window !== 'undefined') {
-      router.push('/');
+      // router.push('/');
+       resetLocalStorage();
+       backToHomeUrl();
     }
   };
 

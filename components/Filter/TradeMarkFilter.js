@@ -18,6 +18,8 @@ const TradeMarkFilter = ({
     setIsOpen(!isOpen);
   };
 
+  console.log(filtredResultForDisabledTradeMark);
+
   const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);

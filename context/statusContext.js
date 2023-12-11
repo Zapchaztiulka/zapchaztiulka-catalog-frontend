@@ -12,8 +12,6 @@ export const StatusProvider = ({ children }) => {
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
-    // const [country, setCountry] = useState([]);
-    // const [trademarks, setTrademarks] = useState([]);
 
   let disabledForTrademarks = JSON.parse(
     localStorage.getItem('ForTrademarksDisable') || '[]'
@@ -32,6 +30,14 @@ export const StatusProvider = ({ children }) => {
   const [matchTrademarks, setMatchTrademarks] = useState([]);
   const [matchCountries, setMatchCountries] = useState([]);
   const [isResetLocalStorage, setIsResetLocalStorage] = useState(true);
+    const [
+      filtredResultForDisabledCountry,
+      setFiltredResultForDisabledCountry,
+    ] = useState([]);
+    const [
+      filtredResultForDisabledTradeMark,
+      setFiltredResultForDisabledTrademark,
+    ] = useState([]);
 
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
@@ -51,20 +57,9 @@ export const StatusProvider = ({ children }) => {
     setTotalCountProducts(0);
     setMatchTrademarks([]);
     setMatchCountries([]);
+    setFiltredResultForDisabledCountry([]);
+    setFiltredResultForDisabledTrademark([]);
   };
-
-  console.log("comparisonResultsCountry", comparisonResultsCountry);
-
-  //   useEffect(() => {
-  // let countryChecked = JSON.parse(localStorage.getItem('Country') || '[]');
-  // let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
-  //     if (countryChecked) {
-  //       setCountry(countryChecked);
-  //     }
-  //     if (trademarksChecked) {
-  //       setTrademarks(trademarksChecked);
-  //     }
-  //   }, []);
 
   const backToHomeUrl = () => {
     router.push({
@@ -107,6 +102,10 @@ export const StatusProvider = ({ children }) => {
         setMatchCountries,
         isResetLocalStorage,
         setIsResetLocalStorage,
+        filtredResultForDisabledCountry,
+        setFiltredResultForDisabledCountry,
+        filtredResultForDisabledTradeMark,
+        setFiltredResultForDisabledTrademark,
       }}
     >
       {children}
