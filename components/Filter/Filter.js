@@ -33,7 +33,7 @@ const Filter = ({ searchValue, products }) => {
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
   const [matchPriceForTrademark, setMatchPriceForTrademark] = useState([]);
   const [resultCount, setResultCount] = useState(0);
-  console.log(products)
+
 
   const {
     triggeredCountry,
@@ -76,8 +76,8 @@ const Filter = ({ searchValue, products }) => {
   const maxBasePrice = findMax(productInfo?.trademarks);
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
-  const [priceCountry, setPriceCountry] = useState([])
-   const [priceTrademark, setPriceTrademark] = useState([]);
+  // const [priceCountry, setPriceCountry] = useState([])
+  //  const [priceTrademark, setPriceTrademark] = useState([]);
 
   const countriesUrlArray =
     countries.length > 0
@@ -101,17 +101,6 @@ const Filter = ({ searchValue, products }) => {
       }
     }
   }, [countriesUrlArray.length, trademarkUrlArray.length]);
-
-
-  // const trademarksArr = [];
-
-  // products?.forEach(product => {
-  //   if (product.manufacturer && product.manufacturer.trademark) {
-  //     trademarks.push(product.manufacturer.trademark);
-  //   }
-  // });
-
-  // console.log(trademarksArr);
 
   // console.log(country);
   // console.log(countriesUrlArray);
