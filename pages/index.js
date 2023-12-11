@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import {
   selectIsLoading,
   selectError,
@@ -19,12 +20,13 @@ import { StatusContext } from '@/context/statusContext';
 
 const StartPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const isLoading = useSelector(selectIsLoading);
   const data = useSelector(selectProducts);
   const error = useSelector(selectError);
   const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
-
+  let searchValue = router.query.query || '';
 
   const toggle = () => {
       setIsOpen(!isOpen);
@@ -35,22 +37,26 @@ const StartPage = () => {
     localStorage.setItem('userId', customAlphabet('0123456789', 24)());
   }
 
-  // get trademarks and countries for filter
-  useEffect(() => {
-   
-    dispatch(fetchCountryPriceTrademark());
-    console.log('fetch filters')
-    }, [dispatch]);
+  console.log(searchValue);
 
+ useEffect(() => {
+   if (router.isReady) {
+     dispatch(fetchCountryPriceTrademark(searchValue));
+   }
+ }, [searchValue, dispatch, router.isReady]);
 
   return (
     <>
       <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
         <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
           {productInfo ? (
-            <Filter isLoading={isLoading} />
+            <Filter
+              isLoading={isLoading}
+              searchValue={searchValue}
+              products={data.products}
+            />
           ) : (
-           <Loader />
+            <Loader />
           )}
         </div>
         <div className="tablet1024:hidden">

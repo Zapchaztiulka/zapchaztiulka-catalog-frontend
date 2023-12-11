@@ -43,8 +43,10 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchCountryPriceTrademark = createAsyncThunk(
   'products/fetchCountryPriceTrademark',
-  async () => {
-    const { data } = await axios.get(`/products/filters/by-product-name`);
+  async (query) => {
+    const { data } = await axios.get(
+      `/products/filters/by-product-name?query=${query}`
+    );
     return data;
   }
 );

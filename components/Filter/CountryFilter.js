@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/public/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckBox from './CheckBox';
 import SearchFilter from './SearchFilter';
 
@@ -33,6 +33,10 @@ const CountryFilter = ({
       }
     }
   };
+
+    useEffect(() => {
+      setFiltredValue(countries);
+    }, [countries]);
 
   const removeSearchTerm = () => {
     setValue('');

@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '@/public/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckBox from './CheckBox';
 import SearchFilter from './SearchFilter';
 
@@ -18,8 +18,6 @@ const TradeMarkFilter = ({
     setIsOpen(!isOpen);
   };
 
-  console.log(filtredResultForDisabledTradeMark);
-
   const handleSearch = e => {
     const searchValue = e.target.value;
     setValue(searchValue);
@@ -27,6 +25,7 @@ const TradeMarkFilter = ({
       const filtredItem = trademarks?.filter(item => {
         return item.name.toLowerCase().includes(searchValue.toLowerCase());
       });
+      console.log(filtredItem);
       if (value === '') {
         setFiltredValue(trademarks);
       } else {
@@ -34,6 +33,11 @@ const TradeMarkFilter = ({
       }
     }
   };
+
+  useEffect(() => {
+    setFiltredValue(trademarks);
+  }, [trademarks]);
+
 
   const removeSearchTerm = () => {
     setValue('');
