@@ -1,9 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Pagination from '@mui/material/Pagination';
-import { scrollToTop } from '@/helpers/scrollToTop';
-import { ThemeProvider } from '@mui/material';
-import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
 import { getNumberOfSpecialCard} from '@/helpers/getLimitByScreenWidth';
 import { ArrowRight } from '@/public/icons';
@@ -19,11 +15,9 @@ const CardsList = ({
   searchValue,
   size,
   limit,
-  currentPage,
   categories,
   idCategory,
   idSubCategory,
-  handleChange,
   caterogyUrl,
   subcategoryUrl,
 }) => {
@@ -32,8 +26,6 @@ const CardsList = ({
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
-
-  const pagesCount = Math.ceil(totalCount / limit);
 
   return (
     <>
@@ -63,7 +55,7 @@ const CardsList = ({
             </span>
           </div>
         )}
-        {/* {minValue || (maxValue && <Chips />)} */}
+      
         {totalCount === 0 && (
           <div>На жаль, за вашим запитом нічого не знайдено</div>
         )}
@@ -115,23 +107,7 @@ const CardsList = ({
               );
             })}
         </ul>
-        <section>
-          {products && pagesCount > 1 && (
-            <ThemeProvider theme={theme}>
-              <div className="flex justify-center relative">
-                <Pagination
-                  shape="rounded"
-                  count={pagesCount}
-                  siblingCount={1}
-                  boundaryCount={size > 480 ? 2 : 1}
-                  page={router.query.page ? currentPage : 1}
-                  onChange={handleChange}
-                  onClick={scrollToTop}
-                />
-              </div>
-            </ThemeProvider>
-          )}
-        </section>
+
       </div>
     </>
   );

@@ -23,6 +23,8 @@ import { StatusContext } from '@/context/statusContext';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { getLimitByScreenWidth } from '@/helpers/getLimitByScreenWidth';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
+import Chips from '@/components/Chips/Chips';
+import PaginationProducts from '@/components/Pagination/Pagination';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -44,14 +46,14 @@ const StartPage = () => {
   const [currentPage, setCurrentPage] = useState(startPage);
   const size = useWindowSize();
   const limit = getLimitByScreenWidth(size);
-  const { setCountry, setTrademarks, setIsResetLocalStorage } =
+  const { setCountry, setTrademarks, setMinValue, setMaxValue } =
     useContext(StatusContext);
 
-  const countriesUrlArray =
+  let countriesUrlArray =
     countries.length > 0
       ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
-  const trademarkUrlArray =
+  let trademarkUrlArray =
     trademark.length > 0
       ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
@@ -59,7 +61,30 @@ const StartPage = () => {
   const caterogyUrl =
       idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
-      idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+    idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+  
+  const pagesCount = Math.ceil(data?.totalCount / limit);
+
+  const handleDeleteChip = (chipType, index) => {
+    switch (chipType) {
+      case 'country':
+        const updatedCountries = [...countriesUrlArray];
+        updatedCountries.splice(index, 1);
+        
+        break;
+      case 'trademark':
+        const updatedTrademarks = [...trademarkUrlArray];
+        updatedTrademarks.splice(index, 1);
+      
+        break;
+      case 'price':
+        setMinValue('');
+        setMaxValue('');
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     if (
@@ -70,7 +95,6 @@ const StartPage = () => {
       limit &&
       router.isReady
     ) {
-      setIsResetLocalStorage(false);
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
@@ -85,7 +109,6 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('second');
     }
   }, [
     dispatch,
@@ -121,7 +144,6 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('third');
     }
   }, [
     dispatch,
@@ -176,6 +198,8 @@ const StartPage = () => {
               isLoading={isLoading}
               searchValue={searchValue}
               products={data.products}
+              countriesUrlArray={countriesUrlArray}
+              trademarkUrlArray={trademarkUrlArray}
             />
           ) : (
             <Loader />
@@ -189,21 +213,33 @@ const StartPage = () => {
           <FilterMobile showFilter={isOpen} toggle={toggle} />
         </div>
         {isLoading && data?.length === 0 && <Loader />}
-        <CardsList
-          isLoading={isLoading}
-          products={data.products}
-          totalCount={data?.totalCount}
-          searchValue={searchValue}
-          size={size}
-          limit={limit}
-          currentPage={currentPage}
-          categories={categories}
-          idCategory={idCategory}
-          handleChange={handleChange}
-          idSubCategory={idSubCategory}
-          caterogyUrl={caterogyUrl}
-          subcategoryUrl={subcategoryUrl}
-        />
+        <div>
+          <Chips
+            countriesUrlArray={countriesUrlArray}
+            trademarkUrlArray={trademarkUrlArray}
+            handleDeleteChip={handleDeleteChip}
+          />
+          <CardsList
+            isLoading={isLoading}
+            products={data.products}
+            totalCount={data?.totalCount}
+            searchValue={searchValue}
+            size={size}
+            limit={limit}
+            categories={categories}
+            idCategory={idCategory}
+            idSubCategory={idSubCategory}
+            caterogyUrl={caterogyUrl}
+            subcategoryUrl={subcategoryUrl}
+          />
+          <PaginationProducts
+            pagesCount={pagesCount}
+            products={data.products}
+            handleChange={handleChange}
+            currentPage={currentPage}
+            size={size}
+          />
+        </div>
       </div>
     </>
   );
