@@ -21,15 +21,14 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const products = data?.products;
 
   useEffect(() => {
-    if (searchTerm!=='') {
+    if (searchTerm) {
       dispatch(fetchAllProducts());
     }
   }, [dispatch, searchTerm]);
 
   const getFilteredProducts = (event) => {
-    const searchWord = event.target.value;
-    setSearchTerm(searchWord);
-    dispatch(fetchAllProducts());
+      const searchWord = event.target.value;
+      setSearchTerm(searchWord);
     if (products) {
       const newFilter = products?.filter((value) => {
         return value.name.toLowerCase().includes(searchWord.toLowerCase());
@@ -75,8 +74,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
       ref={refForm}
       className={`${
         showSearchBar
-          ? "hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 "
-          : "flex items-center relative"
+          ? 'hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 '
+          : 'flex items-center relative'
       }`}
     >
       <div className="search w-full">
@@ -86,7 +85,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           className="search-input w-full"
           value={searchTerm}
         />
-        {searchTerm !== "" && (
+        {searchTerm !== '' && (
           <button
             className="close-btn"
             type="button"
@@ -103,12 +102,12 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           <SearchIconNavbar className="icon w-[24px] h-[24px] stroke-iconWhite stroke-2" />
         </button>
       </div>
-      {filteredData?.length !== 0 && searchTerm.length !== 0 && (
+      {filteredData?.length !== 0 && searchTerm.length !== 0 && products && (
         <ul
           ref={refList}
           className="absolute top-[80px] w-full tablet1024:top-[54px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
         >
-          {filteredData.slice(0, 15).map((item) => (
+          {filteredData.slice(0, 15).map(item => (
             <li
               key={item._id}
               onClick={clearSearchTerm}
