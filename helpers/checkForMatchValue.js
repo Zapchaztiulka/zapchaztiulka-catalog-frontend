@@ -75,3 +75,23 @@ export const findMinPrice = (data, arr) => {
   }
   return findMin(data);
 };
+
+// Receiving the count of products depending on the selected countries or trademarks
+export const calculateSumsAndCompare = (data1, data2, arr1, arr2) => {
+  let countProductsSum1 = 0;
+  let countProductsSum2 = 0;
+  data1.forEach(country => {
+    if (arr1.includes(country.name)) {
+      countProductsSum1 += country.countProducts;
+    }
+  });
+
+  data2.forEach(item => {
+    if (arr2.includes(item.name)) {
+      countProductsSum2 += item.count;
+    }
+  });
+  return countProductsSum2 === 0
+    ? countProductsSum1
+    : Math.min(countProductsSum1, countProductsSum2);
+};

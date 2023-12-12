@@ -1,10 +1,15 @@
+import { formatNumber } from '@/helpers/actionsWithNumbers';
+import { filterData, findMaxPrice, findMinPrice } from '@/helpers/checkForMatchValue';
+import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
 import { useRouter } from 'next/router';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const StatusContext = createContext();
 
 export const StatusProvider = ({ children }) => {
   const router = useRouter();
+  const productInfo = useSelector(selectCountryPriceTrademark);
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
@@ -29,12 +34,11 @@ export const StatusProvider = ({ children }) => {
   const [maxValue, setMaxValue] = useState('');
   const [matchTrademarks, setMatchTrademarks] = useState([]);
   const [matchCountries, setMatchCountries] = useState([]);
-  const [isResetLocalStorage, setIsResetLocalStorage] = useState(true);
-    const [
+  const [
       filtredResultForDisabledCountry,
       setFiltredResultForDisabledCountry,
     ] = useState([]);
-    const [
+  const [
       filtredResultForDisabledTradeMark,
       setFiltredResultForDisabledTrademark,
     ] = useState([]);
@@ -73,6 +77,14 @@ export const StatusProvider = ({ children }) => {
     });
   };
 
+    const filteredCountries = filterData(productInfo?.countries, country);
+    const filteredTrademarks = filterData(productInfo?.trademarks, trademarks);
+    const filtredArray = [...filteredCountries, ...filteredTrademarks];
+    const minPriceProduct = findMinPrice(filtredArray, productInfo?.trademarks);
+    const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
+    const minPrice = formatNumber(minPriceProduct || 0);
+    const maxPrice = formatNumber(maxPriceProduct || 0);
+
   return (
     <StatusContext.Provider
       value={{
@@ -100,12 +112,14 @@ export const StatusProvider = ({ children }) => {
         setMatchTrademarks,
         matchCountries,
         setMatchCountries,
-        isResetLocalStorage,
-        setIsResetLocalStorage,
         filtredResultForDisabledCountry,
         setFiltredResultForDisabledCountry,
         filtredResultForDisabledTradeMark,
         setFiltredResultForDisabledTrademark,
+        minPriceProduct,
+        maxPriceProduct,
+        minPrice,
+        maxPrice,
       }}
     >
       {children}

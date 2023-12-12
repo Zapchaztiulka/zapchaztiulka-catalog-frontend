@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const PriceFilter = ({
   minValue,
-  maxValue,minPrice,maxPrice,
+  maxValue, minPrice,maxPrice,
   handleOnChangeMinPrice,
   handleOnChangeMaxPrice,
 }) => {
