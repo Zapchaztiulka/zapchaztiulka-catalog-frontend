@@ -149,7 +149,7 @@ const Filter = ({ searchValue }) => {
           const maxInRange = country.maxPrice <= numericMaxValue;
           return minInRange && maxInRange;
         });
-      console.log(resultArrCountry);
+      // console.log(resultArrCountry);
 
       const resultArr2 = productInfo?.trademarks?.map(trademark => {
         const minInRange = trademark.minPrice >= numericMinValue;
@@ -161,7 +161,7 @@ const Filter = ({ searchValue }) => {
             const maxInRange = trademark.maxPrice <= numericMaxValue;
             return minInRange && maxInRange;
           });
-      console.log(resultArrTrademark);
+      // console.log(resultArrTrademark);
 
       setMatchPriceForCountry(resultArr1);
       setMatchPriceForTrademark(resultArr2);

@@ -15,8 +15,14 @@ import Filter from '@/components/Filter/Filter';
 import BtnPrimary from '@/components/Buttons/BtnPrimary';
 import { FilterIcon } from '@/public/icons';
 import FilterMobile from '@/components/Filter/FilterMobile';
-import { fetchCountryPriceTrademark } from '@/redux/products/productsOperations';
+import {
+  fetchCountryPriceTrademark,
+  fetchProducts,
+} from '@/redux/products/productsOperations';
 import { StatusContext } from '@/context/statusContext';
+import { useWindowSize } from '@/hooks/useWindowSize';
+import { getLimitByScreenWidth } from '@/helpers/getLimitByScreenWidth';
+import { selectCategories } from '@/redux/categories/categoriesSelector';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -26,24 +32,140 @@ const StartPage = () => {
   const error = useSelector(selectError);
   const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
+  const { categories } = useSelector(selectCategories);
+  let startPage = router.query.page ? Number(router.query.page) : 1;
   let searchValue = router.query.query || '';
+  let countries = router.query.countries || [];
+  let trademark = router.query.trademarks || [];
+  let minPrice = router.query.min;
+  let maxPrice = router.query.max;
+  let idCategory = router.query.categories || [];
+  let idSubCategory = router.query.subcategories || [];
+  const [currentPage, setCurrentPage] = useState(startPage);
+  const size = useWindowSize();
+  const limit = getLimitByScreenWidth(size);
+  const { setCountry, setTrademarks, setIsResetLocalStorage } =
+    useContext(StatusContext);
+
+  const countriesUrlArray =
+    countries.length > 0
+      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
+      : [];
+  const trademarkUrlArray =
+    trademark.length > 0
+      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
+      : [];
+  
+  const caterogyUrl =
+      idCategory.length === 0 ? idCategory : idCategory?.split(',');
+  const subcategoryUrl =
+      idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+
+  useEffect(() => {
+    if (
+      countries.length === 0 &&
+      trademark.length === 0 &&
+      minPrice === undefined &&
+      maxPrice === undefined &&
+      limit &&
+      router.isReady
+    ) {
+      setIsResetLocalStorage(false);
+      dispatch(
+        fetchProducts({
+          page: router.query.page ? startPage : 1,
+          query: searchValue,
+          limit: limit,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          categories: caterogyUrl,
+          subcategories: subcategoryUrl,
+        })
+      );
+      setCurrentPage(startPage);
+      console.log('second');
+    }
+  }, [
+    dispatch,
+    startPage,
+    countries.length,
+    trademark.length,
+    limit,
+    searchValue,
+    caterogyUrl[0],
+    subcategoryUrl[0],
+    router,
+  ]);
+
+  useEffect(() => {
+    if (
+      (countries.length !== 0 ||
+        trademark.length !== 0 ||
+        minPrice ||
+        maxPrice) &&
+      limit
+    ) {
+      setCountry(countriesUrlArray);
+      setTrademarks(trademarkUrlArray);
+      dispatch(
+        fetchProducts({
+          page: router.query.page ? startPage : 1,
+          query: searchValue,
+          limit: limit,
+          countries: countriesUrlArray,
+          trademarks: trademarkUrlArray,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+        })
+      );
+      setCurrentPage(startPage);
+      console.log('third');
+    }
+  }, [
+    dispatch,
+    startPage,
+    countries.length,
+    trademark.length,
+    minPrice,
+    maxPrice,
+    searchValue,
+    limit,
+  ]);
+
+  const handleChange = (event, value) => {
+    event.preventDefault();
+    setCurrentPage(value);
+    router.push({
+      pathname: `/`,
+      query: {
+        page: value,
+        query: searchValue,
+        countries: countries,
+        trademarks: trademark,
+        min: minPrice !== undefined ? minPrice : [],
+        max: maxPrice !== undefined ? maxPrice : [],
+        categories: idCategory,
+        subcategories: subcategoryUrl,
+      },
+    });
+  };
 
   const toggle = () => {
-      setIsOpen(!isOpen);
-    };
+    setIsOpen(!isOpen);
+  };
 
   const storedUserId = localStorage.getItem('userId');
   if (!storedUserId) {
     localStorage.setItem('userId', customAlphabet('0123456789', 24)());
   }
 
-  console.log(searchValue);
-
- useEffect(() => {
-   if (router.isReady) {
-     dispatch(fetchCountryPriceTrademark(searchValue));
-   }
- }, [searchValue, dispatch, router.isReady]);
+  useEffect(() => {
+    if (router.isReady) {
+      dispatch(fetchCountryPriceTrademark(searchValue));
+    }
+  }, [searchValue, dispatch, router.isReady]);
 
   return (
     <>
@@ -71,6 +193,16 @@ const StartPage = () => {
           isLoading={isLoading}
           products={data.products}
           totalCount={data?.totalCount}
+          searchValue={searchValue}
+          size={size}
+          limit={limit}
+          currentPage={currentPage}
+          categories={categories}
+          idCategory={idCategory}
+          handleChange={handleChange}
+          idSubCategory={idSubCategory}
+          caterogyUrl={caterogyUrl}
+          subcategoryUrl={subcategoryUrl}
         />
       </div>
     </>

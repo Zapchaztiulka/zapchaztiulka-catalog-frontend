@@ -1,21 +1,11 @@
-'use client';
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
-import { useDispatch, useSelector } from 'react-redux';
-import { ThemeProvider, getListItemTextUtilityClass } from '@mui/material';
-import { fetchProducts } from '@/redux/products/productsOperations';
+import { ThemeProvider } from '@mui/material';
 import { theme } from '@/helpers/themeMaterial';
 import CardItem from './CardItem';
-import { StatusContext } from '@/context/statusContext';
-import { selectCategories } from '@/redux/categories/categoriesSelector';
-import {
-  getLimitByScreenWidth,
-  getNumberOfSpecialCard,
-} from '@/helpers/getLimitByScreenWidth';
-import { useWindowSize } from '@/hooks/useWindowSize';
+import { getNumberOfSpecialCard} from '@/helpers/getLimitByScreenWidth';
 import { ArrowRight } from '@/public/icons';
 import {
   getCategoryName,
@@ -23,139 +13,27 @@ import {
 } from '@/helpers/getNameOfCategory';
 import Chips from '../Chips/Chips';
 
-const CardsList = ({ products, totalCount }) => {
+const CardsList = ({
+  products,
+  totalCount,
+  searchValue,
+  size,
+  limit,
+  currentPage,
+  categories,
+  idCategory,
+  idSubCategory,
+  handleChange,
+  caterogyUrl,
+  subcategoryUrl,
+}) => {
   const router = useRouter();
-  let startPage = router.query.page ? Number(router.query.page) : 1;
-  const dispatch = useDispatch();
-  const { categories } = useSelector(selectCategories);
-  const [currentPage, setCurrentPage] = useState(startPage);
-  let searchValue = router.isReady ? router.query.query : '';
-  let countries = router.query.countries || [];
-  let trademark = router.query.trademarks || [];
-  let minPrice = router.query.min;
-  let maxPrice = router.query.max;
-  let idCategory = router.query.categories || [];
-  let idSubCategory = router.query.subcategories || [];
-  const {
-    setCountry,
-    setTrademarks,
-    setIsResetLocalStorage,
-  } = useContext(StatusContext);
-  const size = useWindowSize();
 
-
-  const caterogyUrl =
-    idCategory.length === 0 ? idCategory : idCategory?.split(',');
-  const subcategoryUrl =
-    idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
-
-  const countriesUrlArray =
-    countries.length > 0
-      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
-      : [];
-
-  const trademarkUrlArray =
-    trademark.length > 0
-      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
-      : [];
-
-  const limit = getLimitByScreenWidth(size);
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
-  useEffect(() => {
-    if (
-      countries.length === 0 &&
-      trademark.length === 0 &&
-      minPrice === undefined &&
-      maxPrice === undefined &&
-      limit &&
-      router.isReady
-    ) {
-      setIsResetLocalStorage(false);
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue,
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-          categories: caterogyUrl,
-          subcategories: subcategoryUrl,
-        })
-      );
-      setCurrentPage(startPage);
-      console.log('second');
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    limit,
-    searchValue,
-    caterogyUrl[0],
-    subcategoryUrl[0],
-    router,
-  ]);
-
-  useEffect(() => {
-    if (
-      (countries.length !== 0 ||
-        trademark.length !== 0 ||
-        minPrice ||
-        maxPrice) &&
-      limit
-    ) {
-      setCountry(countriesUrlArray);
-      setTrademarks(trademarkUrlArray);
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue,
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-        })
-      );
-      setCurrentPage(startPage);
-      console.log('third');
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    minPrice,
-    maxPrice,
-    searchValue,
-    limit,
-  ]);
-
-  let pagesCount = Math.ceil(totalCount / limit);
-
-  const handleChange = (event, value) => {
-    event.preventDefault();
-    setCurrentPage(value);
-    router.push({
-      pathname: `/`,
-      query: {
-        page: value,
-        query: searchValue,
-        countries: countries,
-        trademarks: trademark,
-        min: minPrice !== undefined ? minPrice : [],
-        max: maxPrice !== undefined ? maxPrice : [],
-        categories: idCategory,
-        subcategories: subcategoryUrl,
-      },
-    });
-  };
+  const pagesCount = Math.ceil(totalCount / limit);
 
   return (
     <>
