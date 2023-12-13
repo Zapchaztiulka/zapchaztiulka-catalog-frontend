@@ -196,7 +196,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
     }
   }, [country, trademarks, matchTrademarks, matchCountries]);
 
-  // console.log(resultCount);
+  // console.log(totalCountProducts);
   // console.log('country', country);
   // console.log('matchTrademarks', matchTrademarks);
   // console.log('trademarks', trademarks);
@@ -318,11 +318,23 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
     const filteredTrademarks = trademarks.map(value =>
       value !== '' ? value : 'Інше'
     );
-    router.push(
-      `/?page=1&query=${searchValue}&countries=${filteredCountries}&trademarks=${filteredTrademarks}&min=${
-        minValue !== '' ? minValue : minPriceProduct
-      }&max=${maxValue ? maxValue : maxPriceProduct}`
-    );
+    router.push({
+      pathname: `/`,
+      query: {
+        page: 1,
+        query: searchValue,
+        countries:
+          filteredCountries.length > 0
+            ? filteredCountries.join(',')
+            : filteredCountries,
+        trademarks:
+          filteredTrademarks.length > 0
+            ? filteredTrademarks.join(',')
+            : filteredTrademarks,
+        min: minValue ? minValue : [] ,
+        max: maxValue ? maxValue : []
+      },
+    });
     localStorage.setItem('Country', JSON.stringify(country));
     localStorage.setItem('Trademark', JSON.stringify(trademarks));
 
