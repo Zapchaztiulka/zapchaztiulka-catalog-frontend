@@ -135,10 +135,10 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
       setMatchPriceForTrademark(resultArr2);
     }
   }, [minValue, maxValue, productInfo]);
-  console.log('matchPriceForTrademark', matchPriceForTrademark);
-  console.log('matchPriceForCountry', matchPriceForCountry);
-  console.log('comparisonResultsTrademarks', comparisonResultsTrademarks);
-  console.log('comparisonResultsCountry', comparisonResultsCountry);
+  // console.log('matchPriceForTrademark', matchPriceForTrademark);
+  // console.log('matchPriceForCountry', matchPriceForCountry);
+  // console.log('comparisonResultsTrademarks', comparisonResultsTrademarks);
+  // console.log('comparisonResultsCountry', comparisonResultsCountry);
 
   // getting an array of boolean values to set when the filter values are displayed depending on the price in the filter
   useEffect(() => {

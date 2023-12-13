@@ -109,6 +109,7 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
+      console.log('me')
     }
   }, [
     dispatch,
@@ -121,6 +122,8 @@ const StartPage = () => {
     subcategoryUrl[0],
     router,
   ]);
+
+  console.log(countries.length);
 
   useEffect(() => {
     if (
@@ -144,6 +147,7 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
+         console.log('me filter');
     }
   }, [
     dispatch,
