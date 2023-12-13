@@ -36,6 +36,8 @@ import PopularProducts from '@/components/Products/PopularProducts';
 import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
 
+import ModalCart from '@/components/Modals/ModalCart';
+
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
 const empty = '/empty-img.jpeg';
@@ -60,7 +62,7 @@ const ProductDetails = () => {
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
-    const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   useEffect(() => {
     if (id) {
@@ -172,8 +174,8 @@ const ProductDetails = () => {
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
     if (typeof window !== 'undefined') {
       // router.push('/');
-       resetLocalStorage();
-       backToHomeUrl();
+      resetLocalStorage();
+      backToHomeUrl();
     }
   };
 
@@ -363,11 +365,10 @@ const ProductDetails = () => {
                 ) : null}
               </div>
               {/* Modal for click add to cart */}
-              {showModalCart && (
-                <Modal onClose={() => setShowModalCart(false)}>
-                  <div className="w-[200px] h-[100px]">Some content</div>
-                </Modal>
-              )}
+              <ModalCart
+                showModalCart={showModalCart}
+                onClose={() => setShowModalCart(false)}
+              />
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
                 <Modal onClose={() => setShowModalOneClickOrder(false)}>
