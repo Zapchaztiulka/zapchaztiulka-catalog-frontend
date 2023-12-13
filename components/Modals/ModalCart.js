@@ -1,8 +1,7 @@
 import Modal from '../Modal';
 
-const ModalCart = ({ showModalCart, onClose }) => {
+const ModalCart = ({onClose }) => {
   return (
-    showModalCart && (
       <Modal onClose={onClose}>
         <div
           className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
@@ -12,7 +11,6 @@ const ModalCart = ({ showModalCart, onClose }) => {
         </div>
       </Modal>
     )
-  );
 };
 
 export default ModalCart;
