@@ -117,7 +117,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
         const maxInRange = country.maxPrice <= numericMaxValue;
         return minInRange && maxInRange;
       });
-      // console.log(resultArrCountry);
+      console.log(resultArrCountry);
 
       const resultArr2 = productInfo?.trademarks?.map(trademark => {
         const minInRange = trademark.minPrice >= numericMinValue;
@@ -129,7 +129,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
         const maxInRange = trademark.maxPrice <= numericMaxValue;
         return minInRange && maxInRange;
       });
-      // console.log(resultArrTrademark);
+      console.log(resultArrTrademark);
 
       setMatchPriceForCountry(resultArr1);
       setMatchPriceForTrademark(resultArr2);
@@ -195,13 +195,6 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
       }
     }
   }, [country, trademarks, matchTrademarks, matchCountries]);
-
-  // console.log(totalCountProducts);
-  // console.log('country', country);
-  // console.log('matchTrademarks', matchTrademarks);
-  // console.log('trademarks', trademarks);
-  // console.log('matchCountries', matchCountries);
-  // console.log('matchPriceForTrademark', matchPriceForTrademark);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');

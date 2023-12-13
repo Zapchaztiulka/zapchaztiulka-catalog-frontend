@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import CardItem from './CardItem';
 import { getNumberOfSpecialCard} from '@/helpers/getLimitByScreenWidth';
 import { ArrowRight } from '@/public/icons';
@@ -7,7 +6,6 @@ import {
   getCategoryName,
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
-import Chips from '../Chips/Chips';
 
 const CardsList = ({
   products,
@@ -21,8 +19,6 @@ const CardsList = ({
   caterogyUrl,
   subcategoryUrl,
 }) => {
-  const router = useRouter();
-
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
