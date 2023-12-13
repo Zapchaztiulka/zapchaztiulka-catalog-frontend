@@ -10,7 +10,16 @@ const Chips = ({ countriesUrlArray, trademarkUrlArray, handleDeleteChip }) => {
     maxValue,
     minPrice,
     maxPrice,
+    resetLocalStorage,
+    backToHomeUrl,
+    setCountry,
+    setTrademarks,
   } = useContext(StatusContext);
+
+  const handleClearAllChips = () => {
+    resetLocalStorage();
+    backToHomeUrl();
+  }
 
   return (
     <>
@@ -19,7 +28,7 @@ const Chips = ({ countriesUrlArray, trademarkUrlArray, handleDeleteChip }) => {
         minValue ||
         maxValue) && (
         <div className="mb-6 flex flex-wrap gap-2">
-          <BtnTertiary color={'text-textError'}>
+          <BtnTertiary color={'text-textError'} onClick={()=>handleClearAllChips()}>
             <CloseModal
               width={24}
               height={24}
