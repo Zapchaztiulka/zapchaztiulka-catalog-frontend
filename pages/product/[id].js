@@ -145,7 +145,7 @@ const ProductDetails = () => {
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
     console.log('phone = ', phone);
-    // postOrder(phone.replace(/[ ]/g, ''), _id);
+    postOrder(phone.replace(/[ ]/g, ''), _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -349,7 +349,7 @@ const ProductDetails = () => {
                     Повідомити про наявність
                   </button>
                 )}
-                {product?.quantity ? (
+                {product?.availability === 'в наявності' ? (
                   <button
                     onClick={() =>
                       setShowModalOneClickOrder(!showModalOneClickOrder)
