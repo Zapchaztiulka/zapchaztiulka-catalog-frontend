@@ -4,31 +4,36 @@ import { CloseModal } from '@/public/icons';
 import BtnChips from '../Buttons/BtnChips';
 import { StatusContext } from '@/context/statusContext';
 
-const Chips = ({ countriesUrlArray, trademarkUrlArray, handleDeleteChip }) => {
+const Chips = ({
+  countriesUrlArray,
+  trademarkUrlArray,
+  handleDeleteChip,
+  minPriceURL,
+  maxPriceURL,
+}) => {
   const {
-    minValue,
-    maxValue,
     minPrice,
     maxPrice,
     resetLocalStorage,
     backToHomeUrl,
-    setCountry,
-    setTrademarks,
   } = useContext(StatusContext);
 
   const handleClearAllChips = () => {
     resetLocalStorage();
     backToHomeUrl();
-  }
+  };
 
   return (
     <>
       {(countriesUrlArray?.length > 0 ||
         trademarkUrlArray?.length > 0 ||
-        minValue ||
-        maxValue) && (
+        minPriceURL ||
+        maxPriceURL) && (
         <div className="mb-6 flex flex-wrap gap-2">
-          <BtnTertiary color={'text-textError'} onClick={()=>handleClearAllChips()}>
+          <BtnTertiary
+            color={'text-textError'}
+            onClick={() => handleClearAllChips()}
+          >
             <CloseModal
               width={24}
               height={24}
@@ -67,11 +72,11 @@ const Chips = ({ countriesUrlArray, trademarkUrlArray, handleDeleteChip }) => {
               </BtnChips>
             );
           })}
-          {(minValue || maxValue) && (
+          {(minPriceURL || maxPriceURL) && (
             <BtnChips onClick={() => handleDeleteChip('price')}>
               <span>
-                {minValue ? minValue : minPrice} -{' '}
-                {maxValue ? maxValue : maxPrice} &#8372;
+                {minPriceURL ? minPriceURL : minPrice} -{' '}
+                {maxPriceURL ? maxPriceURL : maxPrice} &#8372;
               </span>
               <CloseModal
                 width={16}

@@ -48,7 +48,6 @@ const StartPage = () => {
   const limit = getLimitByScreenWidth(size);
   const { setCountry, setTrademarks, setMinValue, setMaxValue } =
     useContext(StatusContext);
-  const [triggerForEmptyChips, setTriggerForEmptyChips] = useState(true);
 
   let countriesUrlArray =
     countries.length > 0
@@ -65,15 +64,13 @@ const StartPage = () => {
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
 
   const pagesCount = Math.ceil(data?.totalCount / limit);
+  const updatedCountries = [...countriesUrlArray];
+  const updatedTrademarks = [...trademarkUrlArray];
 
   const handleDeleteChip = (chipType, index) => {
-  
     switch (chipType) {
-      case 'country':
-        const updatedCountries = [...countriesUrlArray];
+      case 'country':     
         updatedCountries.splice(index, 1);
-        dispatchProducts(updatedCountries, trademarkUrlArray);
-        console.log(countriesUrlArray);
         router.push({
           pathname: `/`,
           query: {
@@ -94,9 +91,7 @@ const StartPage = () => {
         setCountry([]);
         break;
       case 'trademark':
-        const updatedTrademarks = [...trademarkUrlArray];
         updatedTrademarks.splice(index, 1);
-        dispatchProducts(countriesUrlArray, updatedTrademarks);
         router.push({
           pathname: `/`,
           query: {
@@ -119,7 +114,6 @@ const StartPage = () => {
       case 'price':
         setMinValue('');
         setMaxValue('');
-        dispatchProducts(countriesUrlArray, trademarkUrlArray);
         router.push({
           pathname: `/`,
           query: {
@@ -133,8 +127,8 @@ const StartPage = () => {
               trademarkUrlArray.length > 0
                 ? trademarkUrlArray.join(',')
                 : trademarkUrlArray,
-            min: minPrice ? minPrice : [],
-            max: maxPrice ? maxPrice : [],
+            min:  [],
+            max: [],
           },
         });
         break;
@@ -143,88 +137,77 @@ const StartPage = () => {
     }
   };
 
-  const dispatchProducts = (updatedCountries, updatedTrademarks) => {
-    dispatch(
-      fetchProducts({
-        page: router.query.page ? startPage : 1,
-        query: searchValue,
-        limit: limit,
-        countries: updatedCountries,
-        trademarks: updatedTrademarks,
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-        categories: caterogyUrl,
-        subcategories: subcategoryUrl,
-      })
-    );
-    setCurrentPage(startPage);
-  };
+    useEffect(() => {
+      if (
+        countries.length === 0 &&
+        trademark.length === 0 &&
+        minPrice === undefined &&
+        maxPrice === undefined &&
+        limit &&
+        router.isReady
+      ) {
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue,
+            limit: limit,
+            countries: countriesUrlArray,
+            trademarks: trademarkUrlArray,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            categories: caterogyUrl,
+            subcategories: subcategoryUrl,
+          })
+        );
+        setCurrentPage(startPage);
+        console.log('me');
+      }
+    }, [
+      dispatch,
+      startPage,
+      countries.length,
+      trademark.length,
+      limit,
+      searchValue,
+      caterogyUrl[0],
+      subcategoryUrl[0],
+      router,
+    ]);
 
-  const emptyCountriesArray = [];
-  const emptyTrademarksArray = [];
-
-  // call effect to receive all products
-  useEffect(() => {
-    if (
-      router.query.countries === undefined &&
-      router.query.trademarks === undefined &&
-      minPrice === undefined &&
-      maxPrice === undefined &&
-      limit &&
-      router.isReady
-    ) {
-      setCountry([]);
-      setTrademarks([]);
-      dispatchProducts(emptyCountriesArray, emptyTrademarksArray);
-    }
-    console.log('me');
-  }, [
-    dispatch,
-    startPage,
-    limit,
-    searchValue,
-    caterogyUrl[0],
-    subcategoryUrl[0],
-    router.isReady,
-    emptyCountriesArray.length,
-    emptyTrademarksArray.length,
-    countries.length,
-    trademark.length,
-  ]);
-
-  // console.log(emptyCountriesArray.length);
-  // console.log(Object.keys(router.query).length);
-  // console.log(router.query);
-
-  // console.log(limit)
-  console.log(countries.length);
-
-  // call effect to receive  the selected products (by the filter`s options)
-  useEffect(() => {
-    if (
-      (countries.length !== 0 ||
-        trademark.length !== 0 ||
-        minPrice ||
-        maxPrice) &&
-      limit
-    ) {
-      setCountry(countriesUrlArray);
-      setTrademarks(trademarkUrlArray);
-      dispatchProducts(countriesUrlArray, trademarkUrlArray);
-      console.log('filter me');
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    minPrice,
-    maxPrice,
-    searchValue,
-    limit,
-    countriesUrlArray.length,
-    trademarkUrlArray.length,
-  ]);
+    useEffect(() => {
+      if (
+        (countries.length !== 0 ||
+          trademark.length !== 0 ||
+          minPrice ||
+          maxPrice) &&
+        limit
+      ) {
+        setCountry(countriesUrlArray);
+        setTrademarks(trademarkUrlArray);
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue,
+            limit: limit,
+            countries: updatedCountries,
+            trademarks: updatedTrademarks,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+          })
+        );
+        setCurrentPage(startPage);
+        console.log('me filter');
+      }
+    }, [
+      dispatch,
+      startPage,
+      countries.length,
+      trademark.length,
+      minPrice,
+      maxPrice,
+      searchValue,
+      limit,
+    ]);
 
   const handleChange = (event, value) => {
     event.preventDefault();
@@ -288,6 +271,8 @@ const StartPage = () => {
             countriesUrlArray={countriesUrlArray}
             trademarkUrlArray={trademarkUrlArray}
             handleDeleteChip={handleDeleteChip}
+            minPriceURL={minPrice}
+            maxPriceURL={maxPrice}
           />
           <CardsList
             isLoading={isLoading}
