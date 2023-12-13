@@ -10,6 +10,7 @@ export const StatusContext = createContext();
 export const StatusProvider = ({ children }) => {
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [triggeredCountry, setTriggedCountry] = useState(false);
   const [triggeredTrademark, setTriggedTrademark] = useState(false);
 
@@ -120,6 +121,8 @@ export const StatusProvider = ({ children }) => {
         maxPriceProduct,
         minPrice,
         maxPrice,
+        isModalOpen,
+        setIsModalOpen,
       }}
     >
       {children}

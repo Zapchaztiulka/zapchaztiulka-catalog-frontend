@@ -25,7 +25,7 @@ a {
 }
 
 .header {
-  @apply fixed border-b top-0 w-[100%] border-borderDefault pt-xs2 pb-xs3 tablet1024:py-s bg-bgBrandLight3 tablet1024:bg-bgWhite;
+  @apply  border-b top-0 w-[100%] border-borderDefault pt-xs2 pb-xs3 tablet1024:py-s bg-bgBrandLight3 tablet1024:bg-bgWhite;
 }
 
 .main-container {
@@ -208,7 +208,7 @@ a {
 }
 
 .price-input {
-  @apply outline-none border border-borderDefault focus:ring-inset  focus:ring-1 focus:border-borderDefaultBlue  rounded-minimal p-xs tablet1024:w-[109.5px] desktop1200:w-[119.5px]  text-base leading-6 placeholder:text-textInputDefault hover:bg-bgHoverGrey;
+  @apply outline-none border border-borderDefault focus:ring-inset  focus:ring-1 focus:border-borderDefaultBlue  rounded-minimal p-xs w-[160.5px] tablet1024:w-[109.5px] desktop1200:w-[119.5px]  text-base leading-6 placeholder:text-textInputDefault hover:bg-bgHoverGrey;
 }
 
 .custom-checkBox:checked::after {

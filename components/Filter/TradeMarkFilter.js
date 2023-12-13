@@ -78,7 +78,7 @@ const TradeMarkFilter = ({
           />
           <div className="relative">
             <div className="overflow-auto max-h-[377px]" id="style-scroll">
-              <ul className="flex flex-col gap-xs2 max-w-[235px] ">
+              <ul className="flex flex-col gap-xs2 tablet1024:max-w-[235px] ">
                 {trademarks !== undefined &&
                   filtredValue?.map((item, index) => {
                     const isChecked = trademarksArray?.includes(item.name);

@@ -115,7 +115,7 @@ const Layout = ({ children }) => {
         <Footer categories={categories} />
       </div>
       <div
-        className={`fixed bottom-s right-s z-50 ${isChatOpen ? 'hidden' : ''}`}
+        className={`fixed bottom-s right-s z-40 ${isChatOpen ? 'hidden' : ''}`}
       >
         <ChatButton
           onClick={handleChatButtonClick}

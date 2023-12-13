@@ -51,10 +51,9 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
     setFiltredResultForDisabledTrademark,
     filtredResultForDisabledCountry,
     setFiltredResultForDisabledCountry,
-    minPriceProduct,
-    maxPriceProduct,
     minPrice,
     maxPrice,
+    setIsModalOpen,
   } = useContext(StatusContext);
   const minBasePrice = findMin(productInfo?.trademarks);
   const maxBasePrice = findMax(productInfo?.trademarks);
@@ -305,6 +304,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setIsModalOpen(false);
     const filteredCountries = country.map(value =>
       value !== '' ? value : 'Інше'
     );
@@ -380,7 +380,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
                 : filtredResultForDisabledCountry
             }
           />
-          <div className="flex flex-col gap-2">
+          <div className="hidden tablet1024:flex tablet1024:flex-col gap-2">
             <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
               {totalCountProducts !== 0
                 ? `Застосувати (${totalCountProducts})`
@@ -393,6 +393,21 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
               className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-full tablet768:text-base text-sm tablet768:font-medium bg-bgDisable cursor-pointer disabled:cursor-not-allowed"
             >
               Скинути
+            </button>
+          </div>
+          <div className=" tablet1024:hidden flex gap-2 fixed w-full h-[64px] bottom-0 right-0 mt-[20px] px-s">
+            <button
+              type="button"
+              onClick={() => resetResults()}
+              disabled={!isDisabledBtn}
+              className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-[167.5px] tablet768:text-base text-sm tablet768:font-medium bg-bgDisable cursor-pointer disabled:cursor-not-allowed"
+            >
+              Скинути
+            </button>
+            <button className=" tablet768:px-6 tablet768:py-3 py-2 w-[167.5px] text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
+              {totalCountProducts !== 0
+                ? `Застосувати (${totalCountProducts})`
+                : 'Застосувати'}
             </button>
           </div>
         </form>

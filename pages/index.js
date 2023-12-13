@@ -1,12 +1,11 @@
 'use client';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
   selectIsLoading,
-  selectError,
   selectCountryPriceTrademark,
   selectProducts,
 } from '@/redux/products/productsSelectors';
@@ -25,13 +24,13 @@ import { getLimitByScreenWidth } from '@/helpers/getLimitByScreenWidth';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
 import Chips from '@/components/Chips/Chips';
 import PaginationProducts from '@/components/Pagination/Pagination';
+import { scrollToTop } from '@/helpers/scrollToTop';
 
 const StartPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const isLoading = useSelector(selectIsLoading);
   const data = useSelector(selectProducts);
-  const [isOpen, setIsOpen] = useState(false);
   const productInfo = useSelector(selectCountryPriceTrademark);
   const { categories } = useSelector(selectCategories);
   let startPage = router.query.page ? Number(router.query.page) : 1;
@@ -45,8 +44,14 @@ const StartPage = () => {
   const [currentPage, setCurrentPage] = useState(startPage);
   const size = useWindowSize();
   const limit = getLimitByScreenWidth(size);
-  const { setCountry, setTrademarks, setMinValue, setMaxValue } =
-    useContext(StatusContext);
+  const {
+    setCountry,
+    setTrademarks,
+    setMinValue,
+    setMaxValue,
+    isModalOpen,
+    setIsModalOpen,
+  } = useContext(StatusContext);
 
   let countriesUrlArray =
     countries.length > 0
@@ -229,8 +234,13 @@ const StartPage = () => {
     });
   };
 
-  const toggle = () => {
-    setIsOpen(!isOpen);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    scrollToTop();
   };
 
   const storedUserId = localStorage.getItem('userId');
@@ -246,7 +256,7 @@ const StartPage = () => {
 
   return (
     <>
-      <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus">
+      <div className="container mt-[130px] flex flex-col tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
         <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
           {productInfo ? (
             <Filter
@@ -261,11 +271,11 @@ const StartPage = () => {
           )}
         </div>
         <div className="tablet1024:hidden">
-          <BtnPrimary width={'w-full'} onClick={toggle}>
+          <BtnPrimary width={'w-full'} onClick={openModal}>
             <FilterIcon className="w-[24px] h-[24px]" />
             <span>Фільтр</span>
           </BtnPrimary>
-          <FilterMobile showFilter={isOpen} toggle={toggle} />
+          {isModalOpen && <FilterMobile onClose={closeModal} />}
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         <div className="w-full">

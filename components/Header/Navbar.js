@@ -14,6 +14,9 @@ import { StatusContext } from '@/context/statusContext';
 const Navbar = ({ categories }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+    const {
+      isModalOpen
+    } = useContext(StatusContext);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
@@ -25,7 +28,7 @@ const Navbar = ({ categories }) => {
   };
 
   return (
-    <header className="header z-50">
+    <header className={`${isModalOpen ? "relative" : "fixed"} header  z-50`}>
       <nav className="navbar container">
         <MobileNavBar
           showSearchBar={showSearchBar}

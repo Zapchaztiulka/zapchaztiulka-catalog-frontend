@@ -44,7 +44,7 @@ const CountryFilter = ({
   };
 
   return (
-    <div>
+    <div className="mb-[20px] tablet1024:mb-0">
       {!isOpen ? (
         <div className="flex justify-between items-center p-xs3 mb-xs2">
           <div className="font-lg text-textPrimary font-medium">Країна</div>
@@ -78,7 +78,7 @@ const CountryFilter = ({
           />
 
           <div className="overflow-auto max-h-[377px] " id="style-scroll">
-            <ul className="flex flex-col gap-xs2 max-h-[392px] max-w-[235px]">
+            <ul className="flex flex-col gap-xs2 max-h-[392px] tablet1024:max-w-[235px] ">
               {countries &&
                 filtredValue?.map((item, index) => {
                   const isChecked = countryArray?.includes(item.name);
