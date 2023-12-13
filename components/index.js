@@ -9,6 +9,7 @@ import Catalog from './Category/Catalog';
 import ModalCart from './Modals/ModalCart';
 import ModalOneClickOrder from './Modals/ModalOneClickOrder';
 import ModalAbsentOrder from './Modals/ModalAbsentOrder';
+import ModalOrderSuccessful from './Modals/ModalOrderSuccessful';
 
 export {
   Navbar,
@@ -21,4 +22,5 @@ export {
   ModalCart,
   ModalOneClickOrder,
   ModalAbsentOrder,
+  ModalOrderSuccessful,
 };
