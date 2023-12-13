@@ -7,6 +7,7 @@ import SideBar from './Header/SideBar/SideBar';
 import Catalog from './Category/Catalog';
 
 import ModalCart from './Modals/ModalCart';
+import ModalOneClickOrder from './Modals/ModalOneClickOrder';
 
 export {
   Navbar,
@@ -17,4 +18,5 @@ export {
   ContactList,
   SideBar,
   ModalCart,
+  ModalOneClickOrder,
 };
