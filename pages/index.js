@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,104 +57,157 @@ const StartPage = () => {
     trademark.length > 0
       ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
       : [];
-  
+
   const caterogyUrl =
-      idCategory.length === 0 ? idCategory : idCategory?.split(',');
+    idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
-  
+
   const pagesCount = Math.ceil(data?.totalCount / limit);
+  const updatedCountries = [...countriesUrlArray];
+  const updatedTrademarks = [...trademarkUrlArray];
 
   const handleDeleteChip = (chipType, index) => {
     switch (chipType) {
-      case 'country':
-        const updatedCountries = [...countriesUrlArray];
+      case 'country':     
         updatedCountries.splice(index, 1);
-        
+        router.push({
+          pathname: `/`,
+          query: {
+            page: currentPage,
+            query: searchValue,
+            countries:
+              updatedCountries.length > 0
+                ? updatedCountries.join(',')
+                : updatedCountries,
+            trademarks:
+              trademarkUrlArray.length > 0
+                ? trademarkUrlArray.join(',')
+                : trademarkUrlArray,
+            min: minPrice ? minPrice : [],
+            max: maxPrice ? maxPrice : [],
+          },
+        });
+        setCountry([]);
         break;
       case 'trademark':
-        const updatedTrademarks = [...trademarkUrlArray];
         updatedTrademarks.splice(index, 1);
-      
+        router.push({
+          pathname: `/`,
+          query: {
+            page: currentPage,
+            query: searchValue,
+            countries:
+              countriesUrlArray.length > 0
+                ? countriesUrlArray.join(',')
+                : countriesUrlArray,
+            trademarks:
+              updatedTrademarks.length > 0
+                ? updatedTrademarks.join(',')
+                : updatedTrademarks,
+            min: minPrice ? minPrice : [],
+            max: maxPrice ? maxPrice : [],
+          },
+        });
+        setTrademarks([]);
         break;
       case 'price':
         setMinValue('');
         setMaxValue('');
+        router.push({
+          pathname: `/`,
+          query: {
+            page: currentPage,
+            query: searchValue,
+            countries:
+              countriesUrlArray.length > 0
+                ? countriesUrlArray.join(',')
+                : countriesUrlArray,
+            trademarks:
+              trademarkUrlArray.length > 0
+                ? trademarkUrlArray.join(',')
+                : trademarkUrlArray,
+            min:  [],
+            max: [],
+          },
+        });
         break;
       default:
         break;
     }
   };
 
-  useEffect(() => {
-    if (
-      countries.length === 0 &&
-      trademark.length === 0 &&
-      minPrice === undefined &&
-      maxPrice === undefined &&
-      limit &&
-      router.isReady
-    ) {
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue,
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-          categories: caterogyUrl,
-          subcategories: subcategoryUrl,
-        })
-      );
-      setCurrentPage(startPage);
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    limit,
-    searchValue,
-    caterogyUrl[0],
-    subcategoryUrl[0],
-    router,
-  ]);
+    useEffect(() => {
+      if (
+        countries.length === 0 &&
+        trademark.length === 0 &&
+        minPrice === undefined &&
+        maxPrice === undefined &&
+        limit &&
+        router.isReady
+      ) {
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue,
+            limit: limit,
+            countries: countriesUrlArray,
+            trademarks: trademarkUrlArray,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            categories: caterogyUrl,
+            subcategories: subcategoryUrl,
+          })
+        );
+        setCurrentPage(startPage);
+        console.log('me');
+      }
+    }, [
+      dispatch,
+      startPage,
+      countries.length,
+      trademark.length,
+      limit,
+      searchValue,
+      caterogyUrl[0],
+      subcategoryUrl[0],
+      router,
+    ]);
 
-  useEffect(() => {
-    if (
-      (countries.length !== 0 ||
-        trademark.length !== 0 ||
-        minPrice ||
-        maxPrice) &&
-      limit
-    ) {
-      setCountry(countriesUrlArray);
-      setTrademarks(trademarkUrlArray);
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue,
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-        })
-      );
-      setCurrentPage(startPage);
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    minPrice,
-    maxPrice,
-    searchValue,
-    limit,
-  ]);
+    useEffect(() => {
+      if (
+        (countries.length !== 0 ||
+          trademark.length !== 0 ||
+          minPrice ||
+          maxPrice) &&
+        limit
+      ) {
+        setCountry(countriesUrlArray);
+        setTrademarks(trademarkUrlArray);
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue,
+            limit: limit,
+            countries: updatedCountries,
+            trademarks: updatedTrademarks,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+          })
+        );
+        setCurrentPage(startPage);
+        console.log('me filter');
+      }
+    }, [
+      dispatch,
+      startPage,
+      countries.length,
+      trademark.length,
+      minPrice,
+      maxPrice,
+      searchValue,
+      limit,
+    ]);
 
   const handleChange = (event, value) => {
     event.preventDefault();
@@ -218,6 +271,8 @@ const StartPage = () => {
             countriesUrlArray={countriesUrlArray}
             trademarkUrlArray={trademarkUrlArray}
             handleDeleteChip={handleDeleteChip}
+            minPriceURL={minPrice}
+            maxPriceURL={maxPrice}
           />
           <CardsList
             isLoading={isLoading}
