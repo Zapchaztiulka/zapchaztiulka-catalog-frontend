@@ -18,6 +18,14 @@ const ModalCart = ({ onClose }) => {
             <EmptyCartIcon width={24} height={24} />
           </div>
         </div>
+        <p>Кошик порожній</p>
+        <p>Почніть додавати товари прямо зараз!</p>
+        <button
+          type="submit"
+          className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
+        >
+          Перейти до каталогу
+        </button>
       </div>
     </Modal>
   );
