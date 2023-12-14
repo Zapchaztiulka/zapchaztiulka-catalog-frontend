@@ -11,6 +11,7 @@ const Modal = ({ onClose, hideCloseBtn = false, children }) => {
       className="modal-overlay"
       onClick={() => {
         onClose();
+        document.body.classList.remove('stop-scrolling');
       }}
     >
       <div className="modal-wrapper">
@@ -23,7 +24,10 @@ const Modal = ({ onClose, hideCloseBtn = false, children }) => {
           <div className="modal-header">
             {!hideCloseBtn && (
               <button
-                onClick={() => onClose()}
+                onClick={() => {
+                  onClose();
+                  document.body.classList.remove('stop-scrolling');
+                }}
                 className="hover:bg-borderDisabled p-xs4 hover:rounded-minimal"
               >
                 <CloseModal

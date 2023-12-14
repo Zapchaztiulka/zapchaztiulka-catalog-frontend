@@ -42,6 +42,7 @@ const ModalPreOrder = ({
               name="phone"
               type="tel"
               id="phone"
+              maxLength="13"
               pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
               title="096 123 45 67"
               autoComplete="off"

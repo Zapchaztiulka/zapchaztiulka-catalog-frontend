@@ -145,7 +145,7 @@ const ProductDetails = () => {
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
     console.log('phone = ', phone);
-    postOrder(phone.replace(/[ ]/g, ''), _id);
+    // postOrder(phone.replace(/[ ]/g, ''), _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -175,6 +175,7 @@ const ProductDetails = () => {
       resetLocalStorage();
       backToHomeUrl();
     }
+    document.body.classList.remove('stop-scrolling');
   };
 
   return (
@@ -320,7 +321,10 @@ const ProductDetails = () => {
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
                   <button
-                    onClick={() => setShowModalCart(!showModalCart)}
+                    onClick={() => {
+                      setShowModalCart(!showModalCart);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center state-button lg:px-6 px-3 py-3 "
                   >
                     <div className="flex justify-center products-center gap-xs4">
@@ -333,7 +337,10 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button
-                    onClick={() => setShowModalPreOrder(!showModalPreOrder)}
+                    onClick={() => {
+                      setShowModalPreOrder(!showModalPreOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Зробити передзамовлення
@@ -341,9 +348,10 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'відсутній' && (
                   <button
-                    onClick={() =>
-                      setShowModalAbsentOrder(!showModalAbsentOrder)
-                    }
+                    onClick={() => {
+                      setShowModalAbsentOrder(!showModalAbsentOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Повідомити про наявність
@@ -351,9 +359,10 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'в наявності' ? (
                   <button
-                    onClick={() =>
-                      setShowModalOneClickOrder(!showModalOneClickOrder)
-                    }
+                    onClick={() => {
+                      setShowModalOneClickOrder(!showModalOneClickOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
                   >
                     <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
