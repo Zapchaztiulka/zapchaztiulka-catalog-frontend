@@ -53,7 +53,7 @@ a {
 }
 
 .product-card-special {
-    @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px];
+  @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px];
 }
 
 .footer-items {
@@ -228,7 +228,7 @@ a {
 }
 
 .wave-shape-card {
-  @apply  -bottom-[1px] absolute h-[228px] mobile375:h-[205px] tablet600:h-[248px] tablet768:h-[285px] tablet1024:h-[310px] desktop1200:h-[321px] w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
+  @apply -bottom-[1px] absolute h-[228px] mobile375:h-[205px] tablet600:h-[248px] tablet768:h-[285px] tablet1024:h-[310px] desktop1200:h-[321px] w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
 }
 
 .special-order-image {
@@ -236,7 +236,7 @@ a {
 }
 
 .special-order-cards {
-   @apply rounded-lg absolute h-[194px] tablet768:h-[188px] tablet1024:h-[181px] tablet768:bottom-[174px] tablet1024:bottom-[182px] desktop1200:h-[213px] desktop1200:bottom-[205px] w-full bg-cover bg-no-repeat bg-left tablet600:bg-left bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+  @apply rounded-lg absolute h-[194px] tablet768:h-[188px] tablet1024:h-[181px] tablet768:bottom-[174px] tablet1024:bottom-[182px] desktop1200:h-[213px] desktop1200:bottom-[205px] w-full bg-cover bg-no-repeat bg-left tablet600:bg-left bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
 }
 
 .close-chat-btn {
@@ -244,20 +244,20 @@ a {
 }
 
 #style-scroll::-webkit-scrollbar {
-	width: 6px;
-	background-color: transparent;
+  width: 6px;
+  background-color: transparent;
 }
 
 #style-scroll::-webkit-scrollbar-thumb {
-	 @apply bg-borderDefault w-[6px] rounded h-[20px] max-h-[50px];
+  @apply bg-borderDefault w-[6px] rounded h-[20px] max-h-[50px];
 }
 
 #style-scroll::-webkit-scrollbar-button {
-  @apply h-0; 
+  @apply h-0;
 }
 
 #style-scroll::-webkit-scrollbar-thumb {
-  height:96px;
+  height: 96px;
 }
 
 .wrapper:hover .description {
@@ -286,4 +286,9 @@ a {
 
 .chips-button {
   @apply py-xs3 px-xs2 text-base/[24px] text-textInputActive bg-bgGreyLigth hover:bg-bgHoverGrey active:bg-bgPressedGrey active:border active:border-bgPressedBlue border rounded border-borderDefault flex justify-center items-center gap-[10px];
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
 }

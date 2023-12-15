@@ -5,14 +5,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import {
-  CartIcon,
-  LoopEye,
-  Lightning,
-  AbsentOrderIcon,
-  PreOrderIcon,
-  SuccessfulOrderIcon,
-} from '@/public/icons';
+import { CartIcon, LoopEye } from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
@@ -35,6 +28,12 @@ import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
 import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
+
+import ModalCart from '@/components/Modals/ModalCart';
+import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
+import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
+import ModalPreOrder from '@/components/Modals/ModalPreOrder';
+import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -60,7 +59,7 @@ const ProductDetails = () => {
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
-    const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
   useEffect(() => {
     if (id) {
@@ -143,10 +142,10 @@ const ProductDetails = () => {
 
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
-    replacePhoneNumber();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
-    postOrder(phone.replace(/[ ]/g, ''), _id);
+    console.log('phone = ', phone);
+    // postOrder(phone.replace(/[ ]/g, ''), _id);
     setShowModalOneClickOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
@@ -163,6 +162,7 @@ const ProductDetails = () => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
+    console.log('phone = ', phone);
     // postOrder(phone.replace(/[-]/g, ''), _id);
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
@@ -172,9 +172,10 @@ const ProductDetails = () => {
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
     if (typeof window !== 'undefined') {
       // router.push('/');
-       resetLocalStorage();
-       backToHomeUrl();
+      resetLocalStorage();
+      backToHomeUrl();
     }
+    document.body.classList.remove('stop-scrolling');
   };
 
   return (
@@ -320,7 +321,10 @@ const ProductDetails = () => {
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
                   <button
-                    onClick={() => setShowModalCart(!showModalCart)}
+                    onClick={() => {
+                      setShowModalCart(!showModalCart);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center state-button lg:px-6 px-3 py-3 "
                   >
                     <div className="flex justify-center products-center gap-xs4">
@@ -333,7 +337,10 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button
-                    onClick={() => setShowModalPreOrder(!showModalPreOrder)}
+                    onClick={() => {
+                      setShowModalPreOrder(!showModalPreOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Зробити передзамовлення
@@ -341,19 +348,21 @@ const ProductDetails = () => {
                 )}
                 {product?.availability === 'відсутній' && (
                   <button
-                    onClick={() =>
-                      setShowModalAbsentOrder(!showModalAbsentOrder)
-                    }
+                    onClick={() => {
+                      setShowModalAbsentOrder(!showModalAbsentOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Повідомити про наявність
                   </button>
                 )}
-                {product?.quantity ? (
+                {product?.availability === 'в наявності' ? (
                   <button
-                    onClick={() =>
-                      setShowModalOneClickOrder(!showModalOneClickOrder)
-                    }
+                    onClick={() => {
+                      setShowModalOneClickOrder(!showModalOneClickOrder);
+                      document.body.classList.add('stop-scrolling');
+                    }}
                     className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
                   >
                     <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
@@ -364,232 +373,42 @@ const ProductDetails = () => {
               </div>
               {/* Modal for click add to cart */}
               {showModalCart && (
-                <Modal onClose={() => setShowModalCart(false)}>
-                  <div className="w-[200px] h-[100px]">Some content</div>
-                </Modal>
+                <ModalCart onClose={() => setShowModalCart(false)} />
               )}
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
-                <Modal onClose={() => setShowModalOneClickOrder(false)}>
-                  <div
-                    className="flex flex-col items-center justify-end px-[16px] py-[24px] h-[410px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
-                  >
-                    <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
-                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
-                        <Lightning width={24} height={24} />
-                      </div>
-                    </div>
-                    <h5
-                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                    >
-                      Швидке замовлення
-                    </h5>
-                    <p
-                      className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                    >
-                      Залиште заявку і наш менеджер зв’яжеться з вами!
-                    </p>
-                    <form
-                      className="flex flex-col"
-                      onSubmit={handleSubmitOneClickOrder}
-                    >
-                      <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
-                        <span className="mb-[4px]">Номер телефону</span>
-                        <span className="absolute grid items-center z-10 block top-[34px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
-                          +38
-                        </span>
-                        <input
-                          className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
-                          name="phone"
-                          id="phone"
-                          type="tel"
-                          maxlength="13"
-                          pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
-                          title="096 123 45 67"
-                          autoComplete="off"
-                          required
-                          onChange={replacePhoneNumber}
-                        />
-                        <span
-                          id="errorMessage"
-                          className="text-textWarning"
-                        ></span>
-                      </label>
-                      <button
-                        type="submit"
-                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
-                      >
-                        Відправити
-                      </button>
-                    </form>
-                  </div>
-                </Modal>
+                <ModalOneClickOrder
+                  onClose={() => setShowModalOneClickOrder(false)}
+                  handleSubmitOneClickOrder={handleSubmitOneClickOrder}
+                  replacePhoneNumber={replacePhoneNumber}
+                />
               )}
+
               {/* Modal for Absent Order */}
               {showModalAbsentOrder && (
-                <Modal onClose={() => setShowModalAbsentOrder(false)}>
-                  <div
-                    className="flex flex-col items-center justify-end px-[16px] py-[24px] mobile320:h-[385px] desktop1440:h-[380px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
-                  >
-                    <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgErrorLight rounded-[50%]">
-                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgErrorDark rounded-[50%]">
-                        <AbsentOrderIcon width={24} height={24} />
-                      </div>
-                    </div>
-                    <h5
-                      className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                    >
-                      Немає в наявності
-                    </h5>
-                    <p
-                      className="text-center mobile320:mb-[24px] desktop1440:mb-[32px] mobile320:w-[258px] mobile375:w-[315px] desktop1440:w-[632px] mobile320:text-[14px] mobile320:leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                    >
-                      Введіть адресу своєї пошти, і, як тільки товар з’явиться,
-                      Вам прийде лист
-                    </p>
-                    <form
-                      className="flex flex-col"
-                      onSubmit={handleSubmitAbsentOrder}
-                    >
-                      <span
-                        id="errorMessage"
-                        className="text-textWarning"
-                      ></span>
-                      <input
-                        className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
-                        name="mail"
-                        type="email"
-                        pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
-                        title="example@mail.com"
-                        required
-                      />
-                      <button
-                        type="submit"
-                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
-                      >
-                        Відправити
-                      </button>
-                    </form>
-                  </div>
-                </Modal>
+                <ModalAbsentOrder
+                  onClose={() => setShowModalAbsentOrder(false)}
+                  handleSubmitAbsentOrder={handleSubmitAbsentOrder}
+                />
               )}
               {/* Modal for Pre Order */}
               {showModalPreOrder && (
-                <Modal onClose={() => setShowModalPreOrder(false)}>
-                  <div
-                    className="flex flex-col items-center justify-end px-[16px] py-[24px] mobile320:h-[431px] desktop1440:h-[408px]
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
-                  >
-                    <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[12px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
-                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
-                        <PreOrderIcon width={24} height={24} />
-                      </div>
-                    </div>
-                    <h5
-                      className="mobile320:mb-[12px] desktop1440:mb-[8px] mobile320:font-medium mobile320:text-[21px] mobile320:leading-[25px] mobile375:text-[24px] mobile375:leading-[28.8px]
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                    >
-                      Передзамовлення товару
-                    </h5>
-                    <p
-                      className="mb-[24px] text-center mobile320:w-[258px] mobile375:w-[300px] desktop1440:w-[500px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                    >
-                      Залиште заявку і наш менеджер зв’яжеться з вами та
-                      розповість про умови предзамовлення
-                    </p>
-                    <form
-                      className="flex flex-col"
-                      onSubmit={handleSubmitPreOrder}
-                    >
-                      <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] decoration-textSecondary">
-                        <span className="mb-[4px]">Номер телефону</span>
-                        <span className="absolute grid items-center z-10 block top-[34px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
-                          +38
-                        </span>
-                        <input
-                          className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:decoration-textTertiary border-[1px] border-borderDefault rounded-minimal"
-                          name="phone"
-                          type="tel"
-                          id="phone"
-                          pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
-                          title="096 123 45 67"
-                          autoComplete="off"
-                          required
-                          onChange={replacePhoneNumber}
-                        />
-                        <span
-                          id="errorMessage"
-                          className="text-textWarning"
-                        ></span>
-                      </label>
-                      <button
-                        type="submit"
-                        className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
-                      >
-                        Відправити
-                      </button>
-                    </form>
-                  </div>
-                </Modal>
+                <ModalPreOrder
+                  onClose={() => setShowModalPreOrder(false)}
+                  replacePhoneNumber={replacePhoneNumber}
+                  handleSubmitPreOrder={handleSubmitPreOrder}
+                />
               )}
               {/* Modal for Successful Order*/}
               {showModalOrderSuccessful && (
-                <Modal
-                  hideCloseBtn
+                <ModalOrderSuccessful
                   onClose={() => setShowModalOrderSuccessful(false)}
-                >
-                  <div
-                    className="flex flex-col items-center justify-center px-[16px] py-[24px] mobile320:h-[278px] desktop1440:h-[380px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px]"
-                  >
-                    <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
-                      <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
-                        <SuccessfulOrderIcon width={24} height={24} />
-                      </div>
-                    </div>
-                    <h5
-                      className="mobile320:mb-[12px] desktop1440:mb-[8px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
-                    >
-                      {product?.availability !== 'відсутній' ? (
-                        <span>Замовлення успішне!</span>
-                      ) : (
-                        <span>Ваша заявка прийнята!</span>
-                      )}
-                    </h5>
-                    <p
-                      className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
-                    >
-                      {product?.availability !== 'відсутній' ? (
-                        <span>
-                          Очікуйте дзвінка нашого менеджера протягом 5 хвилин
-                        </span>
-                      ) : (
-                        <span>
-                          Ми сповістимо Вас, коли товар з'явиться в продажі
-                        </span>
-                      )}
-                    </p>
-                    <button
-                      type="button"
-                      className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
-                      onClick={handleClickOrderSuccessful}
-                    >
-                      Перейти до каталогу
-                    </button>
-                  </div>
-                </Modal>
+                  hideCloseBtn
+                  handleClickOrderSuccessful={handleClickOrderSuccessful}
+                  availability={product?.availability}
+                />
               )}
+
               <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
             </div>
           </div>
