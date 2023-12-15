@@ -10,13 +10,13 @@ import MobileNavBar from './MobileNavBar';
 import { LogoIcon } from '../Icons/Logo/LogoIcon';
 import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
+import ModalCart from '@/components/Modals/ModalCart';
 
 const Navbar = ({ categories }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
-    const {
-      isModalOpen
-    } = useContext(StatusContext);
+  const { isModalOpen } = useContext(StatusContext);
+  const [showModalCart, setShowModalCart] = useState(false);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
@@ -27,13 +27,18 @@ const Navbar = ({ categories }) => {
     backToHomeUrl();
   };
 
+  const openModalCart = openModal => {
+    setShowModalCart(openModal);
+  };
+
   return (
-    <header className={`${isModalOpen ? "relative" : "fixed"} header  z-50`}>
+    <header className={`${isModalOpen ? 'relative' : 'fixed'} header  z-50`}>
       <nav className="navbar container">
         <MobileNavBar
           showSearchBar={showSearchBar}
           toggleSearchBar={toggleSearchBar}
           categories={categories}
+          openModalCart={openModalCart}
         />
         <div className="tablet1024:flex tablet1024:items-center tablet1024:justify-between hidden">
           <div className="flex items-center">
@@ -58,15 +63,27 @@ const Navbar = ({ categories }) => {
           </div>
           <div className="flex tablet1024:gap-[44px] desktop1200:gap-6">
             <ContactList />
-            <Link legacyBehavior href={{ pathname: '/cart' }}>
+            {/* <Link legacyBehavior href={{ pathname: '/cart' }}>
               <div className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary">
                 <p>Кошик</p>
                 <CartIcon className="w-6 h-6 fill-iconSecondary" />
               </div>
-            </Link>
+            </Link> */}
+            <button
+              className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary"
+              onClick={() => {
+                openModalCart(true);
+                document.body.classList.add('stop-scrolling');
+              }}
+            >
+              <p>Кошик</p>
+              <CartIcon className="w-6 h-6 fill-iconSecondary" />
+            </button>
           </div>
         </div>
       </nav>
+      {/* Modal for click add to cart */}
+      {showModalCart && <ModalCart onClose={() => setShowModalCart(false)} />}
     </header>
   );
 };

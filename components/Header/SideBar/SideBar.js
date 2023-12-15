@@ -1,5 +1,5 @@
-"use client";
-import Link from "next/link";
+'use client';
+import Link from 'next/link';
 import {
   CatalogIcon,
   ChatIcon,
@@ -7,10 +7,10 @@ import {
   CompanyIcon,
   CartIconSideBar,
   CloseIcon,
-} from "@/public/icons";
-import { LogoIcon } from "../../Icons/Logo/LogoIcon";
-import { useState } from "react";
-import SideBarCatalog from "./SideBarCatalog";
+} from '@/public/icons';
+import { LogoIcon } from '../../Icons/Logo/LogoIcon';
+import { useState } from 'react';
+import SideBarCatalog from './SideBarCatalog';
 
 const Sidebar = ({ isOpen, toggle, categories }) => {
   const [showCategory, setShowCategory] = useState(false);
@@ -62,14 +62,25 @@ const Sidebar = ({ isOpen, toggle, categories }) => {
             </button>
           </li>
           <li>
-            <Link
+            {/* <Link
               href="/"
               onClick={toggle}
               className="flex items-center hover:text-textBrand sidebar-menu"
             >
               <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
               <span>Кошик</span>
-            </Link>
+            </Link> */}
+            <button
+              className="flex items-center hover:text-textBrand sidebar-menu"
+              onClick={() => {
+                console.log('ModalCart from SideBar is open');
+                //   setShowModalCart(!showModalCart);
+                // document.body.classList.add('stop-scrolling');
+              }}
+            >
+              <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
+              <span>Кошик</span>
+            </button>
           </li>
           <li>
             <Link

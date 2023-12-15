@@ -29,7 +29,6 @@ import PopularProducts from '@/components/Products/PopularProducts';
 import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
 
-import ModalCart from '@/components/Modals/ModalCart';
 import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
 import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
@@ -49,7 +48,6 @@ const ProductDetails = () => {
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showModalCart, setShowModalCart] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
@@ -321,10 +319,11 @@ const ProductDetails = () => {
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
                   <button
-                    onClick={() => {
-                      setShowModalCart(!showModalCart);
-                      document.body.classList.add('stop-scrolling');
-                    }}
+                    // onClick={() => {
+                    //   setShowModalCart(!showModalCart);
+                    //   document.body.classList.add('stop-scrolling');
+                    // }}
+                    // Тут має бути кнопка "Додати в кошик", при натисканні на яку кнопка має змінюватись на + - додвання кількості товару
                     className="flex justify-center state-button lg:px-6 px-3 py-3 "
                   >
                     <div className="flex justify-center products-center gap-xs4">
@@ -371,10 +370,7 @@ const ProductDetails = () => {
                   </button>
                 ) : null}
               </div>
-              {/* Modal for click add to cart */}
-              {showModalCart && (
-                <ModalCart onClose={() => setShowModalCart(false)} />
-              )}
+
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
                 <ModalOneClickOrder

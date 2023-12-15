@@ -12,7 +12,12 @@ import {
 import SearchBarMobile from './Search/SearchBarMobile';
 import { StatusContext } from '@/context/statusContext';
 
-const MobileNavBar = ({ toggleSearchBar, showSearchBar, categories }) => {
+const MobileNavBar = ({
+  toggleSearchBar,
+  showSearchBar,
+  categories,
+  openModalCart,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
 
@@ -60,9 +65,18 @@ const MobileNavBar = ({ toggleSearchBar, showSearchBar, categories }) => {
           <Link href="/" className="justify-center flex items-center">
             <PhoneIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
           </Link>
-          <Link href="/" className="justify-center flex items-center">
+          {/* <Link href="/" className="justify-center flex items-center">
             <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
-          </Link>
+          </Link> */}
+          <button
+            className="justify-center flex items-center"
+            onClick={() => {
+              openModalCart(true);
+              document.body.classList.add('stop-scrolling');
+            }}
+          >
+            <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
+          </button>
         </div>
       </div>
       <SearchBarMobile
