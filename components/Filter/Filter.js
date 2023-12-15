@@ -10,6 +10,7 @@ import {
 import { useRouter } from 'next/router';
 import {
   calculateSumsAndCompare,
+  calculateTotalCount,
   findMax,
   findMin,
   getTCountriesForTrademarks,
@@ -22,6 +23,8 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
   const productInfo = useSelector(selectCountryPriceTrademark);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
   const [matchPriceForTrademark, setMatchPriceForTrademark] = useState([]);
+  const [matchPriceForCountryArray, setMatchPriceForCountryArray] = useState([]);
+  const [matchPriceForTrademarkArray, setMatchPriceForTrademarkArray] = useState([]);
 
   const {
     triggeredCountry,
@@ -116,7 +119,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
         const maxInRange = country.maxPrice <= numericMaxValue;
         return minInRange && maxInRange;
       });
-      console.log(resultArrCountry);
+      setMatchPriceForCountryArray(resultArrCountry);
 
       const resultArr2 = productInfo?.trademarks?.map(trademark => {
         const minInRange = trademark.minPrice >= numericMinValue;
@@ -128,16 +131,12 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
         const maxInRange = trademark.maxPrice <= numericMaxValue;
         return minInRange && maxInRange;
       });
-      console.log(resultArrTrademark);
+      setMatchPriceForTrademarkArray(resultArrTrademark);
 
       setMatchPriceForCountry(resultArr1);
       setMatchPriceForTrademark(resultArr2);
     }
   }, [minValue, maxValue, productInfo]);
-  // console.log('matchPriceForTrademark', matchPriceForTrademark);
-  // console.log('matchPriceForCountry', matchPriceForCountry);
-  // console.log('comparisonResultsTrademarks', comparisonResultsTrademarks);
-  // console.log('comparisonResultsCountry', comparisonResultsCountry);
 
   // getting an array of boolean values to set when the filter values are displayed depending on the price in the filter
   useEffect(() => {
@@ -194,6 +193,18 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
       }
     }
   }, [country, trademarks, matchTrademarks, matchCountries]);
+
+  useEffect(() => {
+    if (minValue || maxValue) {
+      const result = calculateTotalCount(
+        matchPriceForCountryArray,
+        matchPriceForTrademarkArray
+      );
+      setTotalCountProducts(result);
+    }
+  }, [matchPriceForCountryArray, matchPriceForTrademarkArray]);
+  // console.log(totalCountProducts);
+  // console.log(matchPriceForCountryArray);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');

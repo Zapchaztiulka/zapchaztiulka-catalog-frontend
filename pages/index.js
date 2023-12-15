@@ -166,7 +166,6 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me');
     }
   }, [
     dispatch,
@@ -203,7 +202,6 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me filter');
     }
   }, [
     dispatch,
