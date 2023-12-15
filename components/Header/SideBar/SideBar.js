@@ -12,7 +12,7 @@ import { LogoIcon } from '../../Icons/Logo/LogoIcon';
 import { useState } from 'react';
 import SideBarCatalog from './SideBarCatalog';
 
-const Sidebar = ({ isOpen, toggle, categories }) => {
+const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
   const [showCategory, setShowCategory] = useState(false);
 
   const togglShow = () => {
@@ -62,20 +62,11 @@ const Sidebar = ({ isOpen, toggle, categories }) => {
             </button>
           </li>
           <li>
-            {/* <Link
-              href="/"
-              onClick={toggle}
-              className="flex items-center hover:text-textBrand sidebar-menu"
-            >
-              <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
-              <span>Кошик</span>
-            </Link> */}
             <button
               className="flex items-center hover:text-textBrand sidebar-menu"
               onClick={() => {
-                console.log('ModalCart from SideBar is open');
-                //   setShowModalCart(!showModalCart);
-                // document.body.classList.add('stop-scrolling');
+                openModalCart(true);
+                document.body.classList.add('stop-scrolling');
               }}
             >
               <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />

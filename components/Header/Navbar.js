@@ -63,12 +63,6 @@ const Navbar = ({ categories }) => {
           </div>
           <div className="flex tablet1024:gap-[44px] desktop1200:gap-6">
             <ContactList />
-            {/* <Link legacyBehavior href={{ pathname: '/cart' }}>
-              <div className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary">
-                <p>Кошик</p>
-                <CartIcon className="w-6 h-6 fill-iconSecondary" />
-              </div>
-            </Link> */}
             <button
               className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary"
               onClick={() => {

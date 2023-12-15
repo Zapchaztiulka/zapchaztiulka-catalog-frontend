@@ -44,7 +44,12 @@ const MobileNavBar = ({
           >
             <LogoIcon color1="#fff" color2="#fff" width="44" height="44" />
           </div>
-          <Sidebar isOpen={isOpen} toggle={toggle} categories={categories} />
+          <Sidebar
+            isOpen={isOpen}
+            toggle={toggle}
+            categories={categories}
+            openModalCart={openModalCart}
+          />
           <div>
             <button
               className="flex item-center outline-none text-gray-700 rounded-md focus:border-gray-400"
@@ -65,9 +70,6 @@ const MobileNavBar = ({
           <Link href="/" className="justify-center flex items-center">
             <PhoneIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
           </Link>
-          {/* <Link href="/" className="justify-center flex items-center">
-            <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
-          </Link> */}
           <button
             className="justify-center flex items-center"
             onClick={() => {
