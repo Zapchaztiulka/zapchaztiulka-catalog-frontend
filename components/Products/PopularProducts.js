@@ -19,11 +19,10 @@ const PopularProducts = ({ products, isLoading }) => {
           <div className="desktop1920:hidden hidden tablet600:block product-card-popular relative">
             <SpecialProduct />
           </div>
-
           <ul className="flex gap-[7px] tablet600:gap-xs tablet600:max-w-[50%] tablet1024:max-w-none tablet1024:gap-s desktop1440:gap-sPlus">
             {products &&
               cuttingProducts?.map(
-                ({ name, _id, photo, price, vendorCode }) => {
+                ({ name, _id, photo, price, vendorCode, availability }) => {
                   return (
                     <CardItem
                       key={_id}
@@ -32,6 +31,7 @@ const PopularProducts = ({ products, isLoading }) => {
                       photo={photo}
                       price={price}
                       vendorCode={vendorCode}
+                      availability={availability}
                     />
                   );
                 }

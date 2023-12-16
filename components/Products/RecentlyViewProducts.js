@@ -12,18 +12,21 @@ const RecentlyViewProducts = ({ productFromLocalStorage }) => {
       <section className="mb-6 popular-products overflow-x-auto tablet1024:overflow-visible">
         <ul className="flex gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1440:gap-sPlus mb-5">
           {productFromLocalStorage &&
-            cuttingProducts?.map(({ name, _id, photo, price, vendorCode }) => {
-              return (
-                <CardItem
-                  key={_id}
-                  name={name}
-                  id={_id}
-                  photo={photo}
-                  price={price}
-                  vendorCode={vendorCode}
-                />
-              );
-            })}
+            cuttingProducts?.map(
+              ({ name, _id, photo, price, vendorCode, availability }) => {
+                return (
+                  <CardItem
+                    key={_id}
+                    name={name}
+                    id={_id}
+                    photo={photo}
+                    price={price}
+                    vendorCode={vendorCode}
+                    availability={availability}
+                  />
+                );
+              }
+            )}
         </ul>
       </section>
     </>
