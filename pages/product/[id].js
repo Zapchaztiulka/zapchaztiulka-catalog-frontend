@@ -324,7 +324,7 @@ const ProductDetails = () => {
                     }}
                     className="flex justify-center state-button lg:px-6 px-3 py-3 "
                   >
-                    <div className="z-50 flex justify-center products-center gap-xs4">
+                    <div className="flex justify-center products-center gap-xs4">
                       <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
                       <span className="text-textContrast text-sm tracking-[-0.21px]">
                         Додати в кошик
