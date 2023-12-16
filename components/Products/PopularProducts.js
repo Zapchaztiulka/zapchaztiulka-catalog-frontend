@@ -26,6 +26,7 @@ const PopularProducts = ({ products, isLoading }) => {
                 ({ name, _id, photo, price, vendorCode }) => {
                   return (
                     <CardItem
+                      key={_id}
                       name={name}
                       id={_id}
                       photo={photo}
