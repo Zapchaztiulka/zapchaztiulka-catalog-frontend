@@ -319,14 +319,12 @@ const ProductDetails = () => {
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
                   <button
-                    // onClick={() => {
-                    //   setShowModalCart(!showModalCart);
-                    //   document.body.classList.add('stop-scrolling');
-                    // }}
-                    // Тут має бути кнопка "Додати в кошик", при натисканні на яку кнопка має змінюватись на + - додвання кількості товару
+                    onClick={() => {
+                      console.log('Hello from ProductDetails :)');
+                    }}
                     className="flex justify-center state-button lg:px-6 px-3 py-3 "
                   >
-                    <div className="flex justify-center products-center gap-xs4">
+                    <div className="z-50 flex justify-center products-center gap-xs4">
                       <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
                       <span className="text-textContrast text-sm tracking-[-0.21px]">
                         Додати в кошик
