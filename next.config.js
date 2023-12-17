@@ -53,6 +53,20 @@ module.exports = (phase, { defaultConfig }) => {
         ],
       });
 
+      // Налаштування завантажувача для обробки .ts .tsx
+      config.module.rules.push({
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: require.resolve('ts-loader'),
+            options: {
+              allowTsInNodeModules: true,
+              transpileOnly: true,
+            },
+          },
+        ],
+      });
+
       return config;
     },
     images: {

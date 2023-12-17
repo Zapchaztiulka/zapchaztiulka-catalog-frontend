@@ -2,6 +2,7 @@
 import { getExtension } from '@/helpers/checkExtension';
 import Image from 'next/image';
 import Link from 'next/link';
+import BtnAddToCart from '../Buttons/BtnAddToCart';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   return (
@@ -54,20 +55,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         </div>
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
-        {availability !== 'відсутній' ? (
-          <button
-            className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
-            onClick={() => {
-              console.log('Add to Cart :)');
-            }}
-          >
-            Додати в кошик
-          </button>
-        ) : (
-          <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
-            Додати в кошик
-          </button>
-        )}
+        <BtnAddToCart availability={availability} />
       </div>
     </li>
   );
