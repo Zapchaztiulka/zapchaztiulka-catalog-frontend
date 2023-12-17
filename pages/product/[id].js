@@ -33,6 +33,7 @@ import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
 import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
+import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -204,7 +205,6 @@ const ProductDetails = () => {
                       />
                     ) : (
                       <>
-                        {' '}
                         <div className="custom-class-slide relative">
                           <div className="absolute right-[40px] top-[10px] z-10">
                             <button onClick={() => setShowModal(!showModal)}>
@@ -318,19 +318,20 @@ const ProductDetails = () => {
               </p>
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
-                  <button
-                    onClick={() => {
-                      console.log('Hello from ProductDetails :)');
-                    }}
-                    className="flex justify-center state-button lg:px-6 px-3 py-3 "
-                  >
-                    <div className="flex justify-center products-center gap-xs4">
-                      <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-                      <span className="text-textContrast text-sm tracking-[-0.21px]">
-                        Додати в кошик
-                      </span>
-                    </div>
-                  </button>
+                  // <button
+                  //   onClick={() => {
+                  //     console.log('Hello from ProductDetails :)');
+                  //   }}
+                  //   className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                  // >
+                  //   <div className="flex justify-center products-center gap-xs4">
+                  //     <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+                  //     <span className="text-textContrast text-sm tracking-[-0.21px]">
+                  //       Додати в кошик
+                  //     </span>
+                  //   </div>
+                  // </button>
+                  <BtnAddToCart />
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button

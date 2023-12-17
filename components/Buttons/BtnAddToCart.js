@@ -1,24 +1,32 @@
 import { PlusIcon } from 'universal-components-frontend/src/components/icons';
 import { MinusIcon } from 'universal-components-frontend/src/components/icons';
 
-const BtnAddToCart = ({ availability }) => {
+const BtnAddToCart = () => {
+  let counterValue = 1;
+  const counter = document.querySelector('#value');
+
+  const valueDecrement = () => {
+    if (counterValue > 1) {
+      counterValue -= 1;
+    }
+    counter.textContent = counterValue;
+  };
+
+  const valueIncrement = () => {
+    counterValue += 1;
+    counter.textContent = counterValue;
+  };
+
   return (
-    <>
-      {availability !== 'відсутній' ? (
-        <button
-          className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
-          onClick={() => {
-            console.log('Add to Cart :)');
-          }}
-        >
-          Додати в кошик
-        </button>
-      ) : (
-        <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
-          Додати в кошик
-        </button>
-      )}
-    </>
+    <div id="counter">
+      <button onClick={valueDecrement} type="button" data-action="decrement">
+        <MinusIcon />
+      </button>
+      <span id="value">1</span>
+      <button onClick={valueIncrement} type="button" data-action="increment">
+        <PlusIcon />
+      </button>
+    </div>
   );
 };
 
