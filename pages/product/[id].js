@@ -331,7 +331,10 @@ const ProductDetails = () => {
                   //     </span>
                   //   </div>
                   // </button>
-                  <BtnAddToCart />
+
+                  <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+                    <BtnAddToCart />
+                  </div>
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button
