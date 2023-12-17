@@ -322,7 +322,7 @@ const ProductDetails = () => {
                   //   onClick={() => {
                   //     console.log('Hello from ProductDetails :)');
                   //   }}
-                  //   className="flex justify-center state-button lg:px-6 px-3 py-3 "
+                  //   className="h-[48px] flex justify-center state-button lg:px-6 px-3 py-3 "
                   // >
                   //   <div className="flex justify-center products-center gap-xs4">
                   //     <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
@@ -342,7 +342,7 @@ const ProductDetails = () => {
                       setShowModalPreOrder(!showModalPreOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Зробити передзамовлення
                   </button>
@@ -353,7 +353,7 @@ const ProductDetails = () => {
                       setShowModalAbsentOrder(!showModalAbsentOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Повідомити про наявність
                   </button>
@@ -364,7 +364,7 @@ const ProductDetails = () => {
                       setShowModalOneClickOrder(!showModalOneClickOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 "
                   >
                     <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
                       Купити в 1 клік
