@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://spares-backend-i2mq.onrender.com/api";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_PROD_URL;
 
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
-    const { data } = await axios.get(`/categories`);
+    const { data } = await axios.get(`/api/categories`);
     return data;
   }
 );
@@ -14,7 +14,7 @@ export const fetchCategories = createAsyncThunk(
 export const fetchCategoryById = createAsyncThunk(
   'categories/fetchCategoryById',
   async (id) => {
-    const { data } = await axios.get(`/categories/${id}`);
+    const { data } = await axios.get(`/api/categories/${id}`);
     return data;
   }
 );

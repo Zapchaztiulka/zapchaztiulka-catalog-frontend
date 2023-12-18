@@ -96,28 +96,10 @@ export const calculateSumsAndCompare = (data1, data2, arr1, arr2) => {
     : Math.min(countProductsSum1, countProductsSum2);
 };
 
-export const calculateTotalCount=( arr1, arr2)=> {
-  const totalCountArr1 = arr1.reduce(
-    (sum, item) => sum + item.countProducts,
-    0
-  );
-  const totalCountArr2 = arr2.reduce(
-    (sum, item) => sum + item.countProducts,
-    0
-  );
+// Receiving the total count of products depending on the minValue or maxValue
+export const calculateTotalCount = arr => {
+  return arr.reduce((sum, item) => sum + item.countProducts, 0);
+};
 
-  return totalCountArr1 + totalCountArr2;
-}
 
-// export const calculateTotalCountWithDelay = (arr1, arr2, delay, callback) => {
-//   const calculateTotalCount = arr =>
-//     arr.reduce((sum, item) => sum + item.countProducts, 0);
 
-//   setTimeout(() => {
-//     const totalCountArr1 = calculateTotalCount(arr1);
-//     const totalCountArr2 = calculateTotalCount(arr2);
-
-//     const totalSum = totalCountArr1 + totalCountArr2;
-//     callback(totalSum);
-//   }, delay);
-// };

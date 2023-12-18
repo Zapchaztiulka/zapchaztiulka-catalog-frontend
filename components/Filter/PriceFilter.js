@@ -10,6 +10,9 @@ const PriceFilter = ({
   handleOnChangeMaxPrice,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isMinInputFocused, setIsMinInputFocused] = useState(false);
+  const [isMaxInputFocused, setIsMaxInputFocused] = useState(false);
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -45,17 +48,21 @@ const PriceFilter = ({
 
           <div className="flex gap-xs3 items-center justify-center">
             <input
-              className="price-input"
+              className={`price-input ${isMinInputFocused ? 'focused' : ''}`}
               value={formattedValueMin || ''}
               onChange={handleOnChangeMinPrice}
-              placeholder={minPrice}
+              onFocus={() => setIsMinInputFocused(true)}
+              onBlur={() => setIsMinInputFocused(false)}
+              placeholder={isMinInputFocused ? '' : minPrice}
             />
             <p className="text-sm/[19.6px] -tracking-[0.21px]">—</p>
             <input
-              className="price-input"
+              className={`price-input ${isMaxInputFocused ? 'focused' : ''}`}
               value={formattedValueMax || ''}
               onChange={handleOnChangeMaxPrice}
-              placeholder={maxPrice}
+              onFocus={() => setIsMaxInputFocused(true)}
+              onBlur={() => setIsMaxInputFocused(false)}
+              placeholder={isMaxInputFocused ? '' : maxPrice}
             />
           </div>
         </>

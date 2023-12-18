@@ -35,7 +35,6 @@ const TradeMarkFilter = ({
       }
     }
   };
-  console.log(filtredValue.length);
 
   useEffect(() => {
     setFiltredValue(trademarks);
