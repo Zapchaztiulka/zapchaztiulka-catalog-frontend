@@ -181,7 +181,7 @@ const ProductDetails = () => {
     <>
       {product && (
         <div className="container">
-          <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8 tablet1024:px-5 ">
+          <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8  tablet600:px-5 ">
             <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
               <h1 className="text-[28px] leading-9 -tracking-[0.42px] break-words text-textPrimary mb-3 tablet600:hidden">
                 {product?.name}

@@ -232,7 +232,7 @@ a {
 }
 
 .special-order-image {
-  @apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[192px] tablet1024:h-[185px] tablet1024:bottom-[182px] desktop1200:h-[217px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+  @apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[192px] tablet1024:h-[182px] tablet1024:bottom-[182px] desktop1200:h-[214px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
 }
 
 .special-order-cards {
