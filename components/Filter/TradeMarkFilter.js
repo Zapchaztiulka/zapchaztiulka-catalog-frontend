@@ -20,12 +20,14 @@ const TradeMarkFilter = ({
 
   const handleSearch = e => {
     const searchValue = e.target.value;
+    // setValue(searchValue.replace(/[^a-zA-Z0-9\u0400-\u04FF]/g, ''));
     setValue(searchValue);
+
     if (trademarks) {
       const filtredItem = trademarks?.filter(item => {
         return item.name.toLowerCase().includes(searchValue.toLowerCase());
       });
-      console.log(filtredItem);
+
       if (value === '') {
         setFiltredValue(trademarks);
       } else {
@@ -33,6 +35,7 @@ const TradeMarkFilter = ({
       }
     }
   };
+  console.log(filtredValue.length);
 
   useEffect(() => {
     setFiltredValue(trademarks);
@@ -125,6 +128,11 @@ const TradeMarkFilter = ({
                       </li>
                     );
                   })}
+                {filtredValue.length === 0 && (
+                  <li className="text-textPrimary text-base/[24px] pl-2">
+                    По вашому запиту нічого не знайдено. Уточніть свій запит
+                  </li>
+                )}
               </ul>
             </div>
           </div>

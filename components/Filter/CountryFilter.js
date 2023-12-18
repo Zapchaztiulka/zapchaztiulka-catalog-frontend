@@ -20,7 +20,9 @@ const CountryFilter = ({
 
   const handleSearch = e => {
     const searchValue = e.target.value;
+    // setValue(searchValue.replace(/[^a-zA-Z\u0400-\u04FF]/g, ''));
     setValue(searchValue);
+
     if (countries) {
       const filtredItem = countries?.filter(item => {
         return item.name.toLowerCase().includes(searchValue.toLowerCase());
@@ -34,9 +36,9 @@ const CountryFilter = ({
     }
   };
 
-    useEffect(() => {
-      setFiltredValue(countries);
-    }, [countries]);
+  useEffect(() => {
+    setFiltredValue(countries);
+  }, [countries]);
 
   const removeSearchTerm = () => {
     setValue('');
@@ -124,6 +126,11 @@ const CountryFilter = ({
                     </li>
                   );
                 })}
+              {filtredValue.length === 0 && (
+                <li className="text-textPrimary text-base/[24px] pl-2">
+                  По вашому запиту нічого не знайдено. Уточніть свій запит
+                </li>
+              )}
             </ul>
           </div>
         </div>
