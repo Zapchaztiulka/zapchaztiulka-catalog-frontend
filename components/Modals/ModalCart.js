@@ -6,9 +6,10 @@ const ModalCart = ({ onClose }) => {
     <Modal onClose={onClose}>
       <div
         className="flex flex-col items-center justify-end px-[16px] py-[24px] w-screen
-       mobile320:w-[320px] mobile320:h-[424px] mobile375:w-[357px] mobile375:h-[756px] mobile480:w-[480px] mobile480:h-[876px]
-       tablet600:w-[600px] tablet600:h-[904px] tablet768:w-[768px] tablet768:h-[1077px] tablet1024:w-[976px] tablet1024:h-[546px]
+      mobile320:h-[424px] mobile375:h-[756px] mobile480:h-[876px]
+       tablet600:h-[904px] tablet768:h-[1077px] tablet1024:w-[976px] tablet1024:h-[546px]
        desktop1440:w-[976px] desktop1440:w-[780px]"
+        //  mobile320:w-[320px] mobile375:w-[357px] mobile480:w-[480px] tablet600:w-[600px] tablet768:w-[768px]"
       >
         <h5>Кошик</h5>
         <button type="button">Очистити кошик</button>

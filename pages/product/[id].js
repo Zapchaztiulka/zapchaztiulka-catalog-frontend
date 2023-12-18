@@ -29,11 +29,11 @@ import PopularProducts from '@/components/Products/PopularProducts';
 import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
 
-import ModalCart from '@/components/Modals/ModalCart';
 import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
 import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
+import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -49,7 +49,6 @@ const ProductDetails = () => {
   const [indexThumb, setIndexThumb] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showModalCart, setShowModalCart] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
@@ -206,7 +205,6 @@ const ProductDetails = () => {
                       />
                     ) : (
                       <>
-                        {' '}
                         <div className="custom-class-slide relative">
                           <div className="absolute right-[40px] top-[10px] z-10">
                             <button onClick={() => setShowModal(!showModal)}>
@@ -320,20 +318,23 @@ const ProductDetails = () => {
               </p>
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
-                  <button
-                    onClick={() => {
-                      setShowModalCart(!showModalCart);
-                      document.body.classList.add('stop-scrolling');
-                    }}
-                    className="flex justify-center state-button lg:px-6 px-3 py-3 "
-                  >
-                    <div className="flex justify-center products-center gap-xs4">
-                      <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-                      <span className="text-textContrast text-sm tracking-[-0.21px]">
-                        Додати в кошик
-                      </span>
-                    </div>
-                  </button>
+                  // <button
+                  //   onClick={() => {
+                  //     console.log('Hello from ProductDetails :)');
+                  //   }}
+                  //   className="h-[48px] flex justify-center state-button lg:px-6 px-3 py-3 "
+                  // >
+                  //   <div className="flex justify-center products-center gap-xs4">
+                  //     <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+                  //     <span className="text-textContrast text-sm tracking-[-0.21px]">
+                  //       Додати в кошик
+                  //     </span>
+                  //   </div>
+                  // </button>
+
+                  <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+                    <BtnAddToCart />
+                  </div>
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button
@@ -341,7 +342,7 @@ const ProductDetails = () => {
                       setShowModalPreOrder(!showModalPreOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Зробити передзамовлення
                   </button>
@@ -352,7 +353,7 @@ const ProductDetails = () => {
                       setShowModalAbsentOrder(!showModalAbsentOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
                   >
                     Повідомити про наявність
                   </button>
@@ -363,7 +364,7 @@ const ProductDetails = () => {
                       setShowModalOneClickOrder(!showModalOneClickOrder);
                       document.body.classList.add('stop-scrolling');
                     }}
-                    className="flex justify-center button-secondary lg:px-6 px-3 py-3 "
+                    className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 "
                   >
                     <span className="text-textBrand text-base font-medium tracking-[-0.24px]">
                       Купити в 1 клік
@@ -371,10 +372,7 @@ const ProductDetails = () => {
                   </button>
                 ) : null}
               </div>
-              {/* Modal for click add to cart */}
-              {showModalCart && (
-                <ModalCart onClose={() => setShowModalCart(false)} />
-              )}
+
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
                 <ModalOneClickOrder

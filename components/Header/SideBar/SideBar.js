@@ -1,5 +1,5 @@
-"use client";
-import Link from "next/link";
+'use client';
+import Link from 'next/link';
 import {
   CatalogIcon,
   ChatIcon,
@@ -7,12 +7,12 @@ import {
   CompanyIcon,
   CartIconSideBar,
   CloseIcon,
-} from "@/public/icons";
-import { LogoIcon } from "../../Icons/Logo/LogoIcon";
-import { useState } from "react";
-import SideBarCatalog from "./SideBarCatalog";
+} from '@/public/icons';
+import { LogoIcon } from '../../Icons/Logo/LogoIcon';
+import { useState } from 'react';
+import SideBarCatalog from './SideBarCatalog';
 
-const Sidebar = ({ isOpen, toggle, categories }) => {
+const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
   const [showCategory, setShowCategory] = useState(false);
 
   const togglShow = () => {
@@ -62,14 +62,16 @@ const Sidebar = ({ isOpen, toggle, categories }) => {
             </button>
           </li>
           <li>
-            <Link
-              href="/"
-              onClick={toggle}
+            <button
               className="flex items-center hover:text-textBrand sidebar-menu"
+              onClick={() => {
+                openModalCart(true);
+                document.body.classList.add('stop-scrolling');
+              }}
             >
               <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
               <span>Кошик</span>
-            </Link>
+            </button>
           </li>
           <li>
             <Link
