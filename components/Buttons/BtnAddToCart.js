@@ -17,11 +17,10 @@ const BtnAddToCart = ({ id }) => {
   };
 
   return (
-    <div id="counter" className="flex justify-center items-center gap-[10px]">
+    <div className="flex justify-center items-center gap-[10px]">
       <button
         onClick={valueDecrement}
         type="button"
-        data-action="decrement"
         className="w-[40px] h-[40px] flex justify-center items-center"
       >
         <MinusIcon />
@@ -35,7 +34,6 @@ const BtnAddToCart = ({ id }) => {
       <button
         onClick={valueIncrement}
         type="button"
-        data-action="increment"
         className="w-[40px] h-[40px] flex justify-center items-center"
       >
         <PlusIcon />

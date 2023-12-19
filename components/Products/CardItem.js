@@ -11,7 +11,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
       onClick={() => {
         setButtonSwitch(
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
-            <BtnAddToCart id={id} />
+            {id && <BtnAddToCart id={id} />}
           </div>
         );
       }}

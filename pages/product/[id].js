@@ -65,7 +65,7 @@ const ProductDetails = () => {
       onClick={() => {
         setButtonSwitch(
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
-            <BtnAddToCart id={product?._id} />
+            {product?._id && <BtnAddToCart id={product?._id} />}
           </div>
         );
       }}
