@@ -5,10 +5,19 @@ import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
 import { useState } from 'react';
 
+let settings = {
+  products: [],
+};
+
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   const [buttonSwitch, setButtonSwitch] = useState(
     <button
       onClick={() => {
+        settings.products.push({
+          productId: id,
+          quantity: 1,
+        });
+        localStorage.setItem('cart', JSON.stringify(settings));
         setButtonSwitch(
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && <BtnAddToCart id={id} />}
