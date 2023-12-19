@@ -1,20 +1,19 @@
 import { PlusIcon } from 'universal-components-frontend/src/components/icons';
 import { MinusIcon } from 'universal-components-frontend/src/components/icons';
 
-const BtnAddToCart = () => {
+const BtnAddToCart = ({ id }) => {
   let counterValue = 1;
-  const counter = document.querySelector('#value');
 
   const valueDecrement = () => {
     if (counterValue > 1) {
       counterValue -= 1;
     }
-    counter.textContent = counterValue;
+    document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
   };
 
   const valueIncrement = () => {
     counterValue += 1;
-    counter.textContent = counterValue;
+    document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
   };
 
   return (
@@ -28,7 +27,7 @@ const BtnAddToCart = () => {
         <MinusIcon />
       </button>
       <span
-        id="value"
+        id={id.slice(18)}
         className="font-medium text-[16px] leading-[22.4px] text-textPrimary"
       >
         1
