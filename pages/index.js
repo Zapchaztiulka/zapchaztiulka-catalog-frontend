@@ -25,6 +25,7 @@ import { selectCategories } from '@/redux/categories/categoriesSelector';
 import Chips from '@/components/Chips/Chips';
 import PaginationProducts from '@/components/Pagination/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
+import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -277,6 +278,11 @@ const StartPage = () => {
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         <div className="w-full">
+          <Breadcrumbs
+            idCategory={idCategory}
+            idSubCategory={idSubCategory}
+            categories={categories}
+          />
           <Chips
             countriesUrlArray={countriesUrlArray}
             trademarkUrlArray={trademarkUrlArray}

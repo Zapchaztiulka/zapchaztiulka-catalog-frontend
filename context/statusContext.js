@@ -42,7 +42,7 @@ export const StatusProvider = ({ children }) => {
   const [
       filtredResultForDisabledTradeMark,
       setFiltredResultForDisabledTrademark,
-    ] = useState([]);
+  ] = useState([]);
 
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
@@ -71,9 +71,6 @@ export const StatusProvider = ({ children }) => {
       pathname: '/',
       query: {
         page: 1,
-
-        countries: [],
-        trademarks: [],
       },
     });
   };
