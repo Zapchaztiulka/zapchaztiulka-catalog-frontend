@@ -66,7 +66,7 @@ const Breadcrumbs = props => {
   };
 
   return (
-    <div className=" mb-3">
+    <div className=" mb-3 text-textTertiary">
       <button onClick={backToHome} className="breadcrumbs">
         {' '}
         Каталог
