@@ -155,7 +155,7 @@ const StartPage = () => {
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
-          query: searchValue,
+          query: searchValue ? searchValue : [],
           limit: limit,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
@@ -193,7 +193,7 @@ const StartPage = () => {
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
-          query: searchValue,
+          query: searchValue ? searchValue : [],
           limit: limit,
           countries: updatedCountries,
           trademarks: updatedTrademarks,
@@ -221,7 +221,7 @@ const StartPage = () => {
       pathname: `/`,
       query: {
         page: value,
-        query: searchValue,
+        query: searchValue ? searchValue : [],
         countries: countries,
         trademarks: trademark,
         min: minPrice !== undefined ? minPrice : [],

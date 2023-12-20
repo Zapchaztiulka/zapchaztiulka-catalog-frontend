@@ -71,7 +71,7 @@ export const StatusProvider = ({ children }) => {
       pathname: '/',
       query: {
         page: 1,
-        query: '',
+
         countries: [],
         trademarks: [],
       },

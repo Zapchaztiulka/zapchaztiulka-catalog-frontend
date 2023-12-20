@@ -13,6 +13,7 @@ const TradeMarkFilter = ({
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
   const [filtredValue, setFiltredValue] = useState(trademarks || []);
+  const [isAllDiasble, setIsAllDisable] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -46,6 +47,11 @@ const TradeMarkFilter = ({
     setFiltredValue(trademarks);
   };
 
+    useEffect(() => {
+      const isAllTrue = filtredResultForDisabledTradeMark.every(value => value);
+      setIsAllDisable(isAllTrue);
+    }, [filtredResultForDisabledTradeMark]);
+
   return (
     <div>
       {!isOpen ? (
@@ -71,13 +77,13 @@ const TradeMarkFilter = ({
               <ArrowUp className="w-[24px] h-[24px] stroke-iconPrimary fill-none" />
             </button>
           </div>
-          <SearchFilter
-            arrayOfValues={trademarks}
-            handleSearch={handleSearch}
-            removeSearchTerm={removeSearchTerm}
-            value={value}
-            placeholderName="Введіть виробника"
-          />
+            {!isAllDiasble && <SearchFilter
+              arrayOfValues={trademarks}
+              handleSearch={handleSearch}
+              removeSearchTerm={removeSearchTerm}
+              value={value}
+              placeholderName="Введіть виробника"
+            />}
           <div className="relative">
             <div className="overflow-auto max-h-[377px]" id="style-scroll">
               <ul className="flex flex-col gap-xs2 tablet1024:max-w-[235px] ">

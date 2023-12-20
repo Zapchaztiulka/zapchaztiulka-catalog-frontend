@@ -13,6 +13,7 @@ const CountryFilter = ({
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
   const [filtredValue, setFiltredValue] = useState(countries || []);
+  const [isAllDiasble, setIsAllDisable] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -45,6 +46,11 @@ const CountryFilter = ({
     setFiltredValue(countries);
   };
 
+  useEffect(() => {
+    const isAllTrue = filtredResultForDisabledCountry.every(value => value);
+    setIsAllDisable(isAllTrue);
+  }, [filtredResultForDisabledCountry]);
+
   return (
     <div className="mb-[20px] tablet1024:mb-0">
       {!isOpen ? (
@@ -71,13 +77,13 @@ const CountryFilter = ({
             </button>
           </div>
 
-          <SearchFilter
-            arrayOfValues={countries}
-            handleSearch={handleSearch}
-            removeSearchTerm={removeSearchTerm}
-            value={value}
-            placeholderName="Введіть країну"
-          />
+            {!isAllDiasble && <SearchFilter
+              arrayOfValues={countries}
+              handleSearch={handleSearch}
+              removeSearchTerm={removeSearchTerm}
+              value={value}
+              placeholderName="Введіть країну"
+            />}
 
           <div className="overflow-auto max-h-[377px] " id="style-scroll">
             <ul className="flex flex-col gap-xs2 max-h-[392px] tablet1024:max-w-[235px] ">

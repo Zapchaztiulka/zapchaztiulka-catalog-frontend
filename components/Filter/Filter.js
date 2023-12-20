@@ -197,26 +197,58 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
 
   // getting the count of products depending on the selected minValue || maxValue
   useEffect(() => {
-    if (minValue || maxValue) {
+    if (searchValue) {
       const result = calculateTotalCount([
-        ...matchPriceForCountryArray,
-        ...matchPriceForTrademarkArray,
+        ...productInfo.countries,
+        ...productInfo.trademarks,
       ]);
 
       // Receiving the count of products that matching in two arrays
-      const matchingResults = matchPriceForCountryArray.map(country => {
+      const matchingResults = productInfo.countries.map(country => {
         const matchingCountry = country.trademarks.find(trademark => {
-          const matchingTrademark = matchPriceForTrademarkArray.find(
+          const matchingTrademark = productInfo.trademarks.find(
             t => t.name === trademark.name
           );
           return matchingTrademark !== undefined;
         });
         return matchingCountry;
       });
-      const sumCount = matchingResults.reduce((sum, obj) => sum + obj.count, 0);
+
+      // Checking if matchingCountry is not undefined before accessing its properties
+      const sumCount = matchingResults.reduce(
+        (sum, obj) => sum + (obj?.count || 0),
+        0
+      );
       setTotalCountProducts(result - sumCount);
     }
-  }, [matchPriceForTrademarkArray, matchPriceForCountryArray]);
+  }, [searchValue, productInfo]);
+
+    useEffect(() => {
+      if (minValue || maxValue) {
+        const result = calculateTotalCount([
+          ...matchPriceForCountryArray,
+          ...matchPriceForTrademarkArray,
+        ]);
+
+        // Receiving the count of products that matching in two arrays
+        const matchingResults = matchPriceForCountryArray.map(country => {
+          const matchingCountry = country.trademarks.find(trademark => {
+            const matchingTrademark = matchPriceForTrademarkArray.find(
+              t => t.name === trademark.name
+            );
+            return matchingTrademark !== undefined;
+          });
+          return matchingCountry;
+        });
+
+        // Checking if matchingCountry is not undefined before accessing its properties
+        const sumCount = matchingResults.reduce(
+          (sum, obj) => sum + (obj?.count || 0),
+          0
+        );
+        setTotalCountProducts(result - sumCount);
+      }
+    }, [matchPriceForTrademarkArray, matchPriceForCountryArray]);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');
@@ -307,7 +339,11 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
   };
 
   const isDisabledBtn =
-    country.length > 0 || trademarks.length > 0 || minValue || maxValue
+    country.length > 0 ||
+    trademarks.length > 0 ||
+    minValue ||
+    maxValue ||
+    searchValue
       ? true
       : false;
 
@@ -319,7 +355,6 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
         pathname: '/',
         query: {
           page: 1,
-          query: '',
         },
       });
     }
@@ -338,7 +373,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
       pathname: `/`,
       query: {
         page: 1,
-        query: searchValue,
+        query: searchValue ? searchValue : [],
         countries:
           filteredCountries.length > 0
             ? filteredCountries.join(',')
