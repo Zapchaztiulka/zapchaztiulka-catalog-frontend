@@ -278,11 +278,16 @@ const StartPage = () => {
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         <div className="w-full">
-          <Breadcrumbs
-            idCategory={idCategory}
-            idSubCategory={idSubCategory}
-            categories={categories}
-          />
+          {(idCategory.length !== 0 ||
+            idSubCategory.length !== 0 ||
+            searchValue) && (
+            <Breadcrumbs
+              idCategory={idCategory}
+              idSubCategory={idSubCategory}
+              categories={categories}
+              searchValue={searchValue}
+            />
+          )}
           <Chips
             countriesUrlArray={countriesUrlArray}
             trademarkUrlArray={trademarkUrlArray}

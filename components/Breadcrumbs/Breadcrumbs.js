@@ -14,6 +14,7 @@ const Breadcrumbs = props => {
      product,
      nameOfCategoryForIDPage,
      nameOfSubCategoryForIDPage,
+     searchValue,
    } = props;
   const router = useRouter();
   const { backToHomeUrl,resetLocalStorage } = useContext(StatusContext);
@@ -67,12 +68,23 @@ const Breadcrumbs = props => {
 
   return (
     <div className=" mb-3 text-textTertiary">
-      <button onClick={backToHome} className="breadcrumbs">
-        {' '}
-        Каталог
-      </button>
+      {searchValue && (
+        <>
+          {' '}
+          <button onClick={backToHome} className="breadcrumbs">
+            {' '}
+            Каталог
+          </button>
+          <span className="p-xs3">{' / '}</span>
+          <button className="breadcrumbs">Результати пошуку</button>
+        </>
+      )}
       {(nameOfCategory || nameOfCategoryForIDPage) && (
         <>
+          <button onClick={backToHome} className="breadcrumbs">
+            {' '}
+            Каталог
+          </button>
           <span className="p-xs3">{' / '}</span>
           <button className="breadcrumbs" onClick={handleBreadCrumbsCategory}>
             {categories && nameOfCategory}
@@ -84,6 +96,10 @@ const Breadcrumbs = props => {
         <>
           {categories && (
             <>
+              <button onClick={backToHome} className="breadcrumbs">
+                {' '}
+                Каталог
+              </button>
               <span className="p-xs3">{' / '}</span>
               <button
                 onClick={handleBreadCrumbsCategory}
