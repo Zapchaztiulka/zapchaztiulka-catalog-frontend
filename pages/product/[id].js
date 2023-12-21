@@ -58,11 +58,27 @@ const ProductDetails = () => {
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
-  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl, cartProducts, setCartProducts } =
+    useContext(StatusContext);
 
   const [buttonSwitch, setButtonSwitch] = useState(
     <button
       onClick={() => {
+        const { photo, name, price, _id, quantity } = product;
+        const settings = {
+          photo: product?.photo,
+          name: name,
+          price: price,
+          productId: _id,
+          quantity: 1,
+        };
+        const parsedProducts = JSON.parse(localStorage.getItem('cart') || '[]');
+        // setCartProducts(prevCartProducts => [...prevCartProducts, settings]);
+        localStorage.setItem(
+          'cart',
+          JSON.stringify([...parsedProducts, settings])
+        );
+        // console.log('cartProducts = ', cartProducts);
         setButtonSwitch(
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {product?._id && <BtnAddToCart id={product?._id} />}

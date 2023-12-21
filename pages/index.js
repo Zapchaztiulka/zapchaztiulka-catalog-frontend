@@ -51,6 +51,8 @@ const StartPage = () => {
     setMaxValue,
     isModalOpen,
     setIsModalOpen,
+    cartProducts,
+    setCartProducts,
   } = useContext(StatusContext);
 
   let countriesUrlArray =
@@ -251,6 +253,17 @@ const StartPage = () => {
       dispatch(fetchCountryPriceTrademark(searchValue));
     }
   }, [searchValue, dispatch, router.isReady]);
+
+  // call effect to receive the products from localStorage (cart)
+  useEffect(() => {
+    const parsedProducts = JSON.parse(localStorage.getItem('cart') || '[]');
+    if (parsedProducts) setCartProducts(parsedProducts);
+  }, []);
+
+  // call effect to set the products to localStorage (cart)
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartProducts));
+  }, [cartProducts]);
 
   return (
     <>

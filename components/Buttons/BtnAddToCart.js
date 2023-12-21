@@ -1,5 +1,7 @@
-import { PlusIcon } from 'universal-components-frontend/src/components/icons';
-import { MinusIcon } from 'universal-components-frontend/src/components/icons';
+import {
+  MinusIcon,
+  PlusIcon,
+} from 'universal-components-frontend/src/components/icons';
 
 const BtnAddToCart = ({ id }) => {
   let counterValue = 1;

@@ -3,21 +3,23 @@ import { getExtension } from '@/helpers/checkExtension';
 import Image from 'next/image';
 import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
-import { useState } from 'react';
-
-let settings = {
-  products: [],
-};
+import { useState, useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
+  const { setCartProducts } = useContext(StatusContext);
+
   const [buttonSwitch, setButtonSwitch] = useState(
     <button
       onClick={() => {
-        settings.products.push({
+        const settings = {
+          photo,
+          name,
+          price,
           productId: id,
           quantity: 1,
-        });
-        localStorage.setItem('cart', JSON.stringify(settings));
+        };
+        setCartProducts(prevCartProducts => [...prevCartProducts, settings]);
         setButtonSwitch(
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && <BtnAddToCart id={id} />}
