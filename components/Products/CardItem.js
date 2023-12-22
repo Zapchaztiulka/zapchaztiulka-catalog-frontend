@@ -9,29 +9,6 @@ import { StatusContext } from '@/context/statusContext';
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   const { setCartProducts } = useContext(StatusContext);
 
-  const [buttonSwitch, setButtonSwitch] = useState(
-    <button
-      onClick={() => {
-        const settings = {
-          photo,
-          name,
-          price,
-          productId: id,
-          quantity: 1,
-        };
-        setCartProducts(prevCartProducts => [...prevCartProducts, settings]);
-        setButtonSwitch(
-          <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
-            {id && <BtnAddToCart id={id} />}
-          </div>
-        );
-      }}
-      className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
-    >
-      Додати в кошик
-    </button>
-  );
-
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
@@ -86,7 +63,9 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
         {availability !== 'відсутній' ? (
-          <div>{buttonSwitch}</div>
+          <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+            {id && <BtnAddToCart id={id} />}
+          </div>
         ) : (
           <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
             Додати в кошик

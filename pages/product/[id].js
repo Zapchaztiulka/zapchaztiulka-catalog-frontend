@@ -61,40 +61,40 @@ const ProductDetails = () => {
   const { resetLocalStorage, backToHomeUrl, cartProducts, setCartProducts } =
     useContext(StatusContext);
 
-  const [buttonSwitch, setButtonSwitch] = useState(
-    <button
-      onClick={() => {
-        const { photo, name, price, _id, quantity } = product;
-        const settings = {
-          photo: product?.photo,
-          name: name,
-          price: price,
-          productId: _id,
-          quantity: 1,
-        };
-        const parsedProducts = JSON.parse(localStorage.getItem('cart') || '[]');
-        // setCartProducts(prevCartProducts => [...prevCartProducts, settings]);
-        localStorage.setItem(
-          'cart',
-          JSON.stringify([...parsedProducts, settings])
-        );
-        // console.log('cartProducts = ', cartProducts);
-        setButtonSwitch(
-          <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
-            {product?._id && <BtnAddToCart id={product?._id} />}
-          </div>
-        );
-      }}
-      className="w-full h-[48px] flex justify-center state-button lg:px-6 px-3 py-3 "
-    >
-      <div className="flex justify-center products-center gap-xs4">
-        <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-        <span className="text-textContrast text-sm tracking-[-0.21px]">
-          Додати в кошик
-        </span>
-      </div>
-    </button>
-  );
+  // const [buttonSwitch, setButtonSwitch] = useState(
+  //   <button
+  //     onClick={() => {
+  //       const { photo, name, price, _id, quantity } = product;
+  //       const settings = {
+  //         photo: product?.photo,
+  //         name: name,
+  //         price: price,
+  //         productId: _id,
+  //         quantity: 1,
+  //       };
+  //       const parsedProducts = JSON.parse(localStorage.getItem('cart') || '[]');
+  //       // setCartProducts(prevCartProducts => [...prevCartProducts, settings]);
+  //       localStorage.setItem(
+  //         'cart',
+  //         JSON.stringify([...parsedProducts, settings])
+  //       );
+  //       // console.log('cartProducts = ', cartProducts);
+  //       setButtonSwitch(
+  //         <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+  //           {product?._id && <BtnAddToCart id={product?._id} />}
+  //         </div>
+  //       );
+  //     }}
+  //     className="w-full h-[48px] flex justify-center state-button lg:px-6 px-3 py-3 "
+  //   >
+  //     <div className="flex justify-center products-center gap-xs4">
+  //       <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+  //       <span className="text-textContrast text-sm tracking-[-0.21px]">
+  //         Додати в кошик
+  //       </span>
+  //     </div>
+  //   </button>
+  // );
 
   // <button
   //   onClick={() => {
@@ -366,7 +366,11 @@ const ProductDetails = () => {
                 {product?.availability}
               </p>
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
-                {product?.availability === 'в наявності' && <>{buttonSwitch}</>}
+                {product?.availability === 'в наявності' && (
+                  <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+                    {product?._id && <BtnAddToCart id={product?._id} />}
+                  </div>
+                )}
                 {product?.availability === 'під замовлення' && (
                   <button
                     onClick={() => {

@@ -22,7 +22,6 @@ export const StatusProvider = ({ children }) => {
   let trademarksChecked = JSON.parse(localStorage.getItem('Trademark') || '[]');
   const [country, setCountry] = useState(countryChecked);
   const [trademarks, setTrademarks] = useState(trademarksChecked);
-  const [cartProducts, setCartProducts] = useState([]);
 
   let disabledForTrademarks = JSON.parse(
     localStorage.getItem('ForTrademarksDisable') || '[]'
@@ -126,8 +125,6 @@ export const StatusProvider = ({ children }) => {
         maxPrice,
         isModalOpen,
         setIsModalOpen,
-        cartProducts,
-        setCartProducts,
       }}
     >
       {children}
