@@ -9,11 +9,14 @@ import {
   CloseIcon,
 } from '@/public/icons';
 import { LogoIcon } from '../../Icons/Logo/LogoIcon';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import SideBarCatalog from './SideBarCatalog';
+import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
+import { StatusContext } from '@/context/statusContext';
 
 const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
   const [showCategory, setShowCategory] = useState(false);
+  const { totalQuantity } = useContext(StatusContext);
 
   const togglShow = () => {
     setShowCategory(!showCategory);
@@ -69,7 +72,13 @@ const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
                 document.body.classList.add('stop-scrolling');
               }}
             >
-              <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
+              {totalQuantity() === 0 ? (
+                <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
+              ) : (
+                <div className="flex justify-center items-center w-11 h-11">
+                  <BasketCountIcon count={totalQuantity()} color="#888D92" />
+                </div>
+              )}
               <span>Кошик</span>
             </button>
           </li>

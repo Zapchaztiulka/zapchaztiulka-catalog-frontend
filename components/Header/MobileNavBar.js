@@ -82,7 +82,9 @@ const MobileNavBar = ({
             {totalQuantity() === 0 ? (
               <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
             ) : (
-              <BasketCountIcon count={totalQuantity()} color="#ffffff" />
+              <div className="flex justify-center items-center w-11 h-11">
+                <BasketCountIcon count={totalQuantity()} color="#ffffff" />
+              </div>
             )}
           </button>
         </div>
