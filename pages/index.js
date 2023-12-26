@@ -246,7 +246,7 @@ const StartPage = () => {
   if (!storedUserId) {
     localStorage.setItem('userId', customAlphabet('0123456789', 24)());
   }
-
+  
   useEffect(() => {
     if (router.isReady) {
       dispatch(fetchCountryPriceTrademark(searchValue));
@@ -274,7 +274,16 @@ const StartPage = () => {
             <FilterIcon className="w-[24px] h-[24px]" />
             <span>Фільтр</span>
           </BtnPrimary>
-          {isModalOpen && <FilterMobile onClose={closeModal} />}
+          {isModalOpen && (
+            <FilterMobile
+              onClose={closeModal}
+              countriesUrlArray={countriesUrlArray}
+              trademarkUrlArray={trademarkUrlArray}
+              handleDeleteChip={handleDeleteChip}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+            />
+          )}
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         <div className="w-full">

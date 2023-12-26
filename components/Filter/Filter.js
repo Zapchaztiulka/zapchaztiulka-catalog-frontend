@@ -15,8 +15,13 @@ import {
   getTrademarksForCountries,
 } from '@/helpers/checkForMatchValue';
 import { StatusContext } from '@/context/statusContext';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 
-const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
+const Filter = ({
+  searchValue,
+  trademarkUrlArray,
+  countriesUrlArray,
+}) => {
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
   const [matchPriceForCountry, setMatchPriceForCountry] = useState([]);
@@ -26,6 +31,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
   );
   const [matchPriceForTrademarkArray, setMatchPriceForTrademarkArray] =
     useState([]);
+  const [submitType, setSubmitType] = useState(''); 
 
   const {
     triggeredCountry,
@@ -223,32 +229,32 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
     }
   }, [searchValue, productInfo]);
 
-    useEffect(() => {
-      if (minValue || maxValue) {
-        const result = calculateTotalCount([
-          ...matchPriceForCountryArray,
-          ...matchPriceForTrademarkArray,
-        ]);
+  useEffect(() => {
+    if (minValue || maxValue) {
+      const result = calculateTotalCount([
+        ...matchPriceForCountryArray,
+        ...matchPriceForTrademarkArray,
+      ]);
 
-        // Receiving the count of products that matching in two arrays
-        const matchingResults = matchPriceForCountryArray.map(country => {
-          const matchingCountry = country.trademarks.find(trademark => {
-            const matchingTrademark = matchPriceForTrademarkArray.find(
-              t => t.name === trademark.name
-            );
-            return matchingTrademark !== undefined;
-          });
-          return matchingCountry;
+      // Receiving the count of products that matching in two arrays
+      const matchingResults = matchPriceForCountryArray.map(country => {
+        const matchingCountry = country.trademarks.find(trademark => {
+          const matchingTrademark = matchPriceForTrademarkArray.find(
+            t => t.name === trademark.name
+          );
+          return matchingTrademark !== undefined;
         });
+        return matchingCountry;
+      });
 
-        // Checking if matchingCountry is not undefined before accessing its properties
-        const sumCount = matchingResults.reduce(
-          (sum, obj) => sum + (obj?.count || 0),
-          0
-        );
-        setTotalCountProducts(result - sumCount);
-      }
-    }, [matchPriceForTrademarkArray, matchPriceForCountryArray]);
+      // Checking if matchingCountry is not undefined before accessing its properties
+      const sumCount = matchingResults.reduce(
+        (sum, obj) => sum + (obj?.count || 0),
+        0
+      );
+      setTotalCountProducts(result - sumCount);
+    }
+  }, [matchPriceForTrademarkArray, matchPriceForCountryArray]);
 
   useEffect(() => {
     const savedValueMin = localStorage.getItem('MinPrice');
@@ -362,7 +368,10 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    setIsModalOpen(false);
+       if (submitType === 'primaryMobile') {
+         setIsModalOpen(false);
+       }
+
     const filteredCountries = country.map(value =>
       value !== '' ? value : 'Інше'
     );
@@ -403,7 +412,7 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
     <>
       {productInfo && (
         <form
-          className="flex flex-col gap-m filter-section tablet1024:w-[241px] desktop1200:w-[261px]"
+          className="flex flex-col gap-m mb-[30px] filter-section tablet1024:w-[241px] desktop1200:w-[261px]"
           onSubmit={handleSubmit}
         >
           <PriceFilter
@@ -439,34 +448,49 @@ const Filter = ({ searchValue, trademarkUrlArray, countriesUrlArray }) => {
             }
           />
           <div className="hidden tablet1024:flex tablet1024:flex-col gap-2">
-            <button className=" tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
-              {totalCountProducts !== 0
-                ? `Застосувати (${totalCountProducts})`
-                : 'Застосувати'}
-            </button>
-            <button
+            <Button
+              buttonType="primary"
+              type="submit"
+              text={
+                totalCountProducts !== 0
+                  ? `Застосувати (${totalCountProducts})`
+                  : 'Застосувати'
+              }
+              className="bg-bgBrandDark w-full py-2 px-m "
+              size="small"
+            />
+            <Button
+              buttonType="tertiary"
               type="button"
-              onClick={() => resetResults()}
+              text="Скинути"
+              className=" w-full py-2 px-m bg-bgDisable"
               disabled={!isDisabledBtn}
-              className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-full tablet768:text-base text-sm tablet768:font-medium bg-bgDisable cursor-pointer disabled:cursor-not-allowed"
-            >
-              Скинути
-            </button>
+              size="small"
+              onClick={() => resetResults()}
+            />
           </div>
-          <div className=" tablet1024:hidden flex gap-2 fixed w-full h-[64px] bottom-0 right-0 mt-[20px] px-s">
-            <button
+          <div className=" tablet1024:hidden bg-bgWhite flex justify-center gap-2 px-s tablet600:px-m fixed w-full h-[64px] bottom-0 right-0 mt-[20px] py-xs">
+            <Button
+              buttonType="tertiary"
               type="button"
-              onClick={() => resetResults()}
+              text="Скинути"
+              className="tablet768:text-base text-sm w-full tablet768:font-medium tablet768:px-6 tablet768:py-3 py-2 px-m bg-bgDisable"
               disabled={!isDisabledBtn}
-              className="disabled:text-textTertiary text-textBrand tablet768:px-6 tablet768:py-3 py-2 w-[167.5px] tablet768:text-base text-sm tablet768:font-medium bg-bgDisable cursor-pointer disabled:cursor-not-allowed"
-            >
-              Скинути
-            </button>
-            <button className=" tablet768:px-6 tablet768:py-3 py-2 w-[167.5px] text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button ">
-              {totalCountProducts !== 0
-                ? `Застосувати (${totalCountProducts})`
-                : 'Застосувати'}
-            </button>
+              size="small"
+              onClick={() => resetResults()}
+            />
+            <Button
+              buttonType="primary"
+              onClick={() => setSubmitType('primaryMobile')}
+              type="submit"
+              text={
+                totalCountProducts !== 0
+                  ? `Застосувати (${totalCountProducts})`
+                  : 'Застосувати'
+              }
+              className="bg-bgBrandDark w-full tablet768:text-base text-sm tablet768:font-medium tablet768:px-6 tablet768:py-3 py-2 px-m "
+              size="small"
+            />
           </div>
         </form>
       )}

@@ -1,6 +1,6 @@
 'use client';
 import { formatNumber } from '@/helpers/actionsWithNumbers';
-import { ArrowDown, ArrowUp } from '@/public/icons';
+import {ArrowUpIcon, ArrowDownIcon } from 'universal-components-frontend/src/components/icons';
 import { useState } from 'react';
 
 const PriceFilter = ({
@@ -24,13 +24,13 @@ const PriceFilter = ({
     <div>
       {!isOpen ? (
         <div className="flex justify-between items-center p-xs3 mb-xs2">
-          <div className="font-lg text-textPrimary font-medium">Ціна</div>
+          <div className="text-lg/[21.6px] text-textPrimary font-medium">Ціна</div>
           <button
             type="button"
             onClick={toggle}
             className="flex items-center cursor-pointer border-none"
           >
-            <ArrowDown className="w-[24px] h-[24px] stroke-iconSecondary fill-none" />
+            <ArrowDownIcon  />
           </button>
         </div>
       ) : (
@@ -42,11 +42,11 @@ const PriceFilter = ({
               onClick={toggle}
               className="flex items-center justify-between cursor-pointer border-none"
             >
-              <ArrowUp className="w-[24px] h-[24px] stroke-iconPrimary fill-none" />
+              <ArrowUpIcon />
             </button>
           </div>
 
-          <div className="flex gap-xs3 items-center justify-center">
+          <div className="flex gap-xs3 items-center  w-full">
             <input
               className={`price-input ${isMinInputFocused ? 'focused' : ''}`}
               value={formattedValueMin || ''}
