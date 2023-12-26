@@ -16,11 +16,12 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
   }
 
   const changeQuantity = counterValue => {
-    const temp = JSON.parse(localStorage.getItem('cart'));
-    temp[cartProducts.findIndex(product => product.productId === id)].quantity =
-      counterValue;
-    setCartProducts(temp);
-    localStorage.setItem('cart', JSON.stringify(temp));
+    const parsedCart = JSON.parse(localStorage.getItem('cart'));
+    parsedCart[
+      cartProducts.findIndex(product => product.productId === id)
+    ].quantity = counterValue;
+    setCartProducts(parsedCart);
+    localStorage.setItem('cart', JSON.stringify(parsedCart));
   };
 
   const valueDecrement = () => {
@@ -56,13 +57,14 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
               quantity: 1,
             };
 
+            const parsedProducts = JSON.parse(
+              localStorage.getItem('cart') || '[]'
+            );
+
             setCartProducts(prevCartProducts => [
               ...prevCartProducts,
               settings,
             ]);
-            const parsedProducts = JSON.parse(
-              localStorage.getItem('cart') || '[]'
-            );
 
             localStorage.setItem(
               'cart',

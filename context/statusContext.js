@@ -90,6 +90,15 @@ export const StatusProvider = ({ children }) => {
 
   const [cartProducts, setCartProducts] = useState([]);
 
+  const totalQuantity = () => {
+    let total = 0;
+    if (cartProducts) {
+      cartProducts.forEach(product => {
+        total += product.quantity;
+      });
+    }
+    return total;
+  };
   return (
     <StatusContext.Provider
       value={{
@@ -129,6 +138,7 @@ export const StatusProvider = ({ children }) => {
         setIsModalOpen,
         cartProducts,
         setCartProducts,
+        totalQuantity,
       }}
     >
       {children}

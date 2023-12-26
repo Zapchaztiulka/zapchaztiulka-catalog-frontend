@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
 import ContactList from './ContactList';
 import SearchBar from './Search/SearchBar';
 import { CartIcon } from '@/public/icons';
@@ -14,7 +14,8 @@ import ModalCart from '@/components/Modals/ModalCart';
 
 const Navbar = ({ categories }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl, totalQuantity } =
+    useContext(StatusContext);
   const { isModalOpen } = useContext(StatusContext);
   const [showModalCart, setShowModalCart] = useState(false);
 
@@ -71,7 +72,11 @@ const Navbar = ({ categories }) => {
               }}
             >
               <p>Кошик</p>
-              <CartIcon className="w-6 h-6 fill-iconSecondary" />
+              {totalQuantity() === 0 ? (
+                <CartIcon className="w-6 h-6 fill-iconSecondary" />
+              ) : (
+                <BasketCountIcon count={totalQuantity()} color="#888D92" />
+              )}
             </button>
           </div>
         </div>
