@@ -88,6 +88,8 @@ export const StatusProvider = ({ children }) => {
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
 
+  const [cartProducts, setCartProducts] = useState([]);
+
   return (
     <StatusContext.Provider
       value={{
@@ -125,6 +127,8 @@ export const StatusProvider = ({ children }) => {
         maxPrice,
         isModalOpen,
         setIsModalOpen,
+        cartProducts,
+        setCartProducts,
       }}
     >
       {children}

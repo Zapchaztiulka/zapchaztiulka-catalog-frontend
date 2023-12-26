@@ -2,24 +2,40 @@ import {
   MinusIcon,
   PlusIcon,
 } from 'universal-components-frontend/src/components/icons';
-import { useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { StatusContext } from '@/context/statusContext';
+import { CartIcon } from '@/public/icons';
 
-const BtnAddToCart = ({ id }) => {
-  let counterValue = 1;
+const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
+  const { cartProducts, setCartProducts } = useContext(StatusContext);
+
+  let counterValue;
+  const temp = cartProducts.find(product => product.productId === id);
+  if (temp) {
+    counterValue = temp.quantity || 1;
+  }
+
+  const changeQuantity = counterValue => {
+    const temp = JSON.parse(localStorage.getItem('cart'));
+    temp[cartProducts.findIndex(product => product.productId === id)].quantity =
+      counterValue;
+    setCartProducts(temp);
+    localStorage.setItem('cart', JSON.stringify(temp));
+  };
 
   const valueDecrement = () => {
     if (counterValue > 1) {
       counterValue -= 1;
+      document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+      changeQuantity(counterValue);
     }
-    document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
   };
 
   const valueIncrement = () => {
     counterValue += 1;
     document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+    changeQuantity(counterValue);
   };
-
-  const [cartProducts, setCartProducts] = useState([]);
 
   // call effect to receive the products from localStorage (cart)
   useEffect(() => {
@@ -33,9 +49,9 @@ const BtnAddToCart = ({ id }) => {
         <button
           onClick={() => {
             const settings = {
-              // photo,
-              // name,
-              // price,
+              photo,
+              name,
+              price,
               productId: id,
               quantity: 1,
             };
@@ -55,7 +71,16 @@ const BtnAddToCart = ({ id }) => {
           }}
           className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
         >
-          Додати в кошик
+          {visibleCartIcon ? (
+            <div className="flex justify-center products-center gap-xs4">
+              <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+              <span className="text-textContrast text-sm tracking-[-0.21px]">
+                Додати в кошик
+              </span>
+            </div>
+          ) : (
+            <>Додати в кошик</>
+          )}
         </button>
       )}
 
@@ -72,7 +97,7 @@ const BtnAddToCart = ({ id }) => {
             id={id.slice(18)}
             className="font-medium text-[16px] leading-[22.4px] text-textPrimary"
           >
-            1
+            {counterValue}
           </span>
           <button
             onClick={valueIncrement}
