@@ -26,7 +26,6 @@ import { getExtension } from '@/helpers/checkExtension';
 import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
-import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
 
 import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
@@ -63,7 +62,7 @@ const ProductDetails = () => {
     setCartProducts,
     showModalPreOrder,
     setShowModalPreOrder,
-    temp,
+    setPreOrderId,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -301,6 +300,7 @@ const ProductDetails = () => {
                   <button
                     onClick={() => {
                       setShowModalPreOrder(!showModalPreOrder);
+                      setPreOrderId(product?._id);
                       document.body.classList.add('stop-scrolling');
                     }}
                     className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"

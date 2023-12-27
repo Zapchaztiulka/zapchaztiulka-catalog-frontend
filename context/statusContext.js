@@ -90,7 +90,7 @@ export const StatusProvider = ({ children }) => {
 
   const [cartProducts, setCartProducts] = useState([]);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
-
+  const [preOrderId, setPreOrderId] = useState(0);
   const totalQuantity = () => {
     let total = 0;
     if (cartProducts) {
@@ -143,6 +143,8 @@ export const StatusProvider = ({ children }) => {
         totalQuantity,
         showModalPreOrder,
         setShowModalPreOrder,
+        preOrderId,
+        setPreOrderId,
       }}
     >
       {children}

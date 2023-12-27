@@ -7,7 +7,8 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
-  const { showModalPreOrder, setShowModalPreOrder } = useContext(StatusContext);
+  const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
+    useContext(StatusContext);
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
@@ -72,6 +73,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
           <button
             onClick={() => {
               setShowModalPreOrder(!showModalPreOrder);
+              setPreOrderId(id);
               document.body.classList.add('stop-scrolling');
             }}
             className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textBrand tablet768:text-base text-sm tablet768:font-medium button-secondary"
