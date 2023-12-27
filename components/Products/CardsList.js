@@ -6,6 +6,9 @@ import {
   getCategoryName,
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
+import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 
 const CardsList = ({
   products,
@@ -22,6 +25,7 @@ const CardsList = ({
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
+  const { showModalPreOrder, setShowModalPreOrder } = useContext(StatusContext);
 
   return (
     <>
@@ -111,6 +115,10 @@ const CardsList = ({
             )}
         </ul>
       </div>
+      {/* Modal for Pre Order */}
+      {showModalPreOrder && (
+        <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+      )}
     </>
   );
 };

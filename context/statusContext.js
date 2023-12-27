@@ -89,6 +89,7 @@ export const StatusProvider = ({ children }) => {
   const maxPrice = formatNumber(maxPriceProduct || 0);
 
   const [cartProducts, setCartProducts] = useState([]);
+  const [showModalPreOrder, setShowModalPreOrder] = useState(false);
 
   const totalQuantity = () => {
     let total = 0;
@@ -99,6 +100,7 @@ export const StatusProvider = ({ children }) => {
     }
     return total;
   };
+
   return (
     <StatusContext.Provider
       value={{
@@ -139,6 +141,8 @@ export const StatusProvider = ({ children }) => {
         cartProducts,
         setCartProducts,
         totalQuantity,
+        showModalPreOrder,
+        setShowModalPreOrder,
       }}
     >
       {children}

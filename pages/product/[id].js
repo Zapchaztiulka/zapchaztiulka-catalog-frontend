@@ -51,15 +51,20 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
-  const [showModalPreOrder, setShowModalPreOrder] = useState(false);
   const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
     useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
-  const { resetLocalStorage, backToHomeUrl, setCartProducts } =
-    useContext(StatusContext);
+  const {
+    resetLocalStorage,
+    backToHomeUrl,
+    setCartProducts,
+    showModalPreOrder,
+    setShowModalPreOrder,
+    temp,
+  } = useContext(StatusContext);
 
   useEffect(() => {
     if (id) {
@@ -106,42 +111,6 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
-  //function who make format number phone with gaps(097 123 45 67)
-  function formatPhoneNumber(input) {
-    let cleaned = ('' + input).replace(/\D/g, '');
-    let formattedNumber = '';
-    for (let i = 0; i < cleaned.length; i++) {
-      if (i === 3 || i === 6 || i === 8) {
-        formattedNumber += ' ';
-      }
-      formattedNumber += cleaned[i];
-    }
-    return formattedNumber;
-  }
-
-  function displayError(message) {
-    errorMessage.textContent = message;
-  }
-
-  //function who make change format number phone in input field
-  const replacePhoneNumber = async () => {
-    let errorMessage = document.getElementById('errorMessage');
-    let phoneNumberInput = document.getElementById('phone');
-    phoneNumberInput.addEventListener('input', function (event) {
-      let inputPhoneNumber = event.target.value;
-      phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
-
-      if (event.target.value[0] !== '0') {
-        phoneNumberInput.value = inputPhoneNumber.slice(0, 1);
-        displayError('Номер телефону має починатись з "0"');
-      } else displayError('');
-      if (inputPhoneNumber.length > 13) {
-        let trimmedPhoneNumber = inputPhoneNumber.slice(0, 13);
-        phoneNumberInput.value = trimmedPhoneNumber;
-      }
-    });
-  };
-
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
@@ -157,16 +126,6 @@ const ProductDetails = () => {
     // mail: event.target.elements.mail.value;
     console.log('E-mail : ', event.target.elements.mail.value);
     setShowModalAbsentOrder(false);
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
-  };
-
-  const handleSubmitPreOrder = async event => {
-    event.preventDefault();
-    const phone = event.target.elements.phone.value;
-    const _id = product?._id;
-    console.log('phone = ', phone);
-    // postOrder(phone.replace(/[-]/g, ''), _id);
-    setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
@@ -374,7 +333,6 @@ const ProductDetails = () => {
                   </button>
                 ) : null}
               </div>
-
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
                 <ModalOneClickOrder
@@ -383,20 +341,15 @@ const ProductDetails = () => {
                   replacePhoneNumber={replacePhoneNumber}
                 />
               )}
-
+              {/* Modal for Pre Order */}
+              {showModalPreOrder && (
+                <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+              )}
               {/* Modal for Absent Order */}
               {showModalAbsentOrder && (
                 <ModalAbsentOrder
                   onClose={() => setShowModalAbsentOrder(false)}
                   handleSubmitAbsentOrder={handleSubmitAbsentOrder}
-                />
-              )}
-              {/* Modal for Pre Order */}
-              {showModalPreOrder && (
-                <ModalPreOrder
-                  onClose={() => setShowModalPreOrder(false)}
-                  replacePhoneNumber={replacePhoneNumber}
-                  handleSubmitPreOrder={handleSubmitPreOrder}
                 />
               )}
               {/* Modal for Successful Order*/}
@@ -408,7 +361,6 @@ const ProductDetails = () => {
                   availability={product?.availability}
                 />
               )}
-
               <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
             </div>
           </div>

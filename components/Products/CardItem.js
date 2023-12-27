@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
-  const { setCartProducts } = useContext(StatusContext);
+  const { showModalPreOrder, setShowModalPreOrder } = useContext(StatusContext);
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
@@ -62,12 +62,22 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         </div>
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
-        {availability !== 'відсутній' ? (
+        {availability === 'в наявності' ? (
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && (
               <BtnAddToCart photo={photo} name={name} price={price} id={id} />
             )}
           </div>
+        ) : availability === 'під замовлення' ? (
+          <button
+            onClick={() => {
+              setShowModalPreOrder(!showModalPreOrder);
+              document.body.classList.add('stop-scrolling');
+            }}
+            className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textBrand tablet768:text-base text-sm tablet768:font-medium button-secondary"
+          >
+            Передзамовити
+          </button>
         ) : (
           <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
             Додати в кошик
