@@ -50,8 +50,6 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
-  const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
-    useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
@@ -63,6 +61,8 @@ const ProductDetails = () => {
     showModalPreOrder,
     setShowModalPreOrder,
     setPreOrderId,
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -125,16 +125,7 @@ const ProductDetails = () => {
     // mail: event.target.elements.mail.value;
     console.log('E-mail : ', event.target.elements.mail.value);
     setShowModalAbsentOrder(false);
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
-  };
-
-  const handleClickOrderSuccessful = async event => {
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
-    if (typeof window !== 'undefined') {
-      resetLocalStorage();
-      backToHomeUrl();
-    }
-    document.body.classList.remove('stop-scrolling');
+    !showModalOrderSuccessful;
   };
 
   // call effect to receive the products from localStorage (cart)
@@ -357,7 +348,6 @@ const ProductDetails = () => {
                 <ModalOrderSuccessful
                   onClose={() => setShowModalOrderSuccessful(false)}
                   hideCloseBtn
-                  handleClickOrderSuccessful={handleClickOrderSuccessful}
                   availability={product?.availability}
                 />
               )}

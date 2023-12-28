@@ -89,6 +89,8 @@ export const StatusProvider = ({ children }) => {
   const maxPrice = formatNumber(maxPriceProduct || 0);
 
   const [cartProducts, setCartProducts] = useState([]);
+  const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
+    useState(false);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
   const [preOrderId, setPreOrderId] = useState(0);
   const totalQuantity = () => {
@@ -145,6 +147,8 @@ export const StatusProvider = ({ children }) => {
         setShowModalPreOrder,
         preOrderId,
         setPreOrderId,
+        showModalOrderSuccessful,
+        setShowModalOrderSuccessful,
       }}
     >
       {children}

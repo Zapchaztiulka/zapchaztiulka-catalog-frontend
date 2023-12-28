@@ -5,7 +5,12 @@ import { StatusContext } from '@/context/statusContext';
 import { postOrder } from '../../services/orderAny';
 
 const ModalPreOrder = ({ onClose }) => {
-  const { setShowModalPreOrder, preOrderId } = useContext(StatusContext);
+  const {
+    setShowModalPreOrder,
+    preOrderId,
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
+  } = useContext(StatusContext);
 
   //function who make format number phone with gaps(097 123 45 67)
   function formatPhoneNumber(input) {
@@ -50,7 +55,7 @@ const ModalPreOrder = ({ onClose }) => {
     console.log('preOrderId = ', preOrderId);
     // postOrder(phone.replace(/[ ]/g, ''), preOrderId);
     setShowModalPreOrder(false);
-    // setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
   return (

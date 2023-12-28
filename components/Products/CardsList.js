@@ -9,6 +9,7 @@ import {
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
+import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 
 const CardsList = ({
   products,
@@ -25,7 +26,12 @@ const CardsList = ({
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
-  const { showModalPreOrder, setShowModalPreOrder } = useContext(StatusContext);
+  const {
+    showModalPreOrder,
+    setShowModalPreOrder,
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
+  } = useContext(StatusContext);
 
   return (
     <>
@@ -118,6 +124,14 @@ const CardsList = ({
       {/* Modal for Pre Order */}
       {showModalPreOrder && (
         <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+      )}
+      {/* Modal for Successful Order*/}
+      {showModalOrderSuccessful && (
+        <ModalOrderSuccessful
+          onClose={() => setShowModalOrderSuccessful(false)}
+          hideCloseBtn
+          availability={products?.availability}
+        />
       )}
     </>
   );
