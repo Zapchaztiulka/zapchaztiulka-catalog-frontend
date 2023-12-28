@@ -125,7 +125,7 @@ const ProductDetails = () => {
     // mail: event.target.elements.mail.value;
     console.log('E-mail : ', event.target.elements.mail.value);
     setShowModalAbsentOrder(false);
-    !showModalOrderSuccessful;
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
   // call effect to receive the products from localStorage (cart)
