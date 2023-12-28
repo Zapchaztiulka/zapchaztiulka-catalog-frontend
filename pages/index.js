@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,6 +53,8 @@ const StartPage = () => {
     isModalOpen,
     setIsModalOpen,
   } = useContext(StatusContext);
+  const [firstEffectTriggered, setFirstEffectTriggered] = useState(false);
+  const isMounted = useRef(true);
 
   let countriesUrlArray =
     countries.length > 0
@@ -246,12 +248,15 @@ const StartPage = () => {
   if (!storedUserId) {
     localStorage.setItem('userId', customAlphabet('0123456789', 24)());
   }
-  
+
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchCountryPriceTrademark(searchValue));
+      {
+        dispatch(fetchCountryPriceTrademark(searchValue));
+      }
     }
   }, [searchValue, dispatch, router.isReady]);
+  console.log(productInfo)
 
   return (
     <>

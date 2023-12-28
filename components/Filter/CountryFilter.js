@@ -17,7 +17,7 @@ const CountryFilter = ({
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
-  const [filtredValue, setFiltredValue] = useState(countries || []);
+  const [filtredValue, setFiltredValue] = useState(countries);
   const [isAllDisable, setIsAllDisable] = useState(false);
   const windowSize = useWindowSize();
   const isTabletOrMobile = windowSize < 1024;
@@ -36,7 +36,7 @@ const CountryFilter = ({
     if (!isTabletOrMobile) {
       setVisibleItemsCount(filtredValue.length);
     }
-  }, [isTabletOrMobile]);
+  }, [isTabletOrMobile, filtredValue.length]);
 
   const handleShowAllItems = () => {
     setShowAllItems(!showAllItems);

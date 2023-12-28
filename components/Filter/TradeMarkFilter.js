@@ -17,7 +17,7 @@ const TradeMarkFilter = ({
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('');
-  const [filtredValue, setFiltredValue] = useState(trademarks || []);
+  const [filtredValue, setFiltredValue] = useState(trademarks);
   const [isAllDiasble, setIsAllDisable] = useState(false);
   const windowSize = useWindowSize();
   const isTabletOrMobile = windowSize < 1024;
@@ -34,7 +34,7 @@ const TradeMarkFilter = ({
     if (!isTabletOrMobile) {
       setVisibleItemsCount(filtredValue.length);
     }
-  }, [isTabletOrMobile]);
+  }, [isTabletOrMobile, filtredValue.length]);
 
   const handleShowAllItems = () => {
     setShowAllItems(!showAllItems);
