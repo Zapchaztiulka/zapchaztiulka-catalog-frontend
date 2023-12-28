@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
+import { Notification } from 'universal-components-frontend/src/components/notifications';
 
 const CardsList = ({
   products,
@@ -31,6 +32,7 @@ const CardsList = ({
     setShowModalPreOrder,
     showModalOrderSuccessful,
     setShowModalOrderSuccessful,
+    showCartNotification,
   } = useContext(StatusContext);
 
   return (
@@ -131,6 +133,13 @@ const CardsList = ({
           onClose={() => setShowModalOrderSuccessful(false)}
           hideCloseBtn
           availability={products?.availability}
+        />
+      )}
+      {showCartNotification && (
+        <Notification
+          message="Товар додано до кошика"
+          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2"
+          size="small"
         />
       )}
     </>

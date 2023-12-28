@@ -7,7 +7,12 @@ import { StatusContext } from '@/context/statusContext';
 import { CartIcon } from '@/public/icons';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
-  const { cartProducts, setCartProducts } = useContext(StatusContext);
+  const {
+    cartProducts,
+    setCartProducts,
+    showCartNotification,
+    setShowCartNotification,
+  } = useContext(StatusContext);
 
   let counterValue;
   const temp = cartProducts.find(product => product.productId === id);
@@ -57,6 +62,10 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
               quantity: 1,
             };
 
+            setShowCartNotification(!showCartNotification);
+            setTimeout(() => {
+              setShowCartNotification(false);
+            }, 2000);
             const parsedProducts = JSON.parse(
               localStorage.getItem('cart') || '[]'
             );

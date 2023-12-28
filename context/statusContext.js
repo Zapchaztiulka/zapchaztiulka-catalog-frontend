@@ -91,6 +91,7 @@ export const StatusProvider = ({ children }) => {
   const [cartProducts, setCartProducts] = useState([]);
   const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
     useState(false);
+  const [showCartNotification, setShowCartNotification] = useState(false);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
   const [preOrderId, setPreOrderId] = useState(0);
   const totalQuantity = () => {
@@ -149,6 +150,8 @@ export const StatusProvider = ({ children }) => {
         setPreOrderId,
         showModalOrderSuccessful,
         setShowModalOrderSuccessful,
+        showCartNotification,
+        setShowCartNotification,
       }}
     >
       {children}

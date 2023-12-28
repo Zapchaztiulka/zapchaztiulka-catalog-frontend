@@ -33,6 +33,7 @@ import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
+import { Notification } from 'universal-components-frontend/src/components/notifications';
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -55,14 +56,13 @@ const ProductDetails = () => {
     localStorage.getItem('ProductViewed') || '[]'
   );
   const {
-    resetLocalStorage,
-    backToHomeUrl,
     setCartProducts,
     showModalPreOrder,
     setShowModalPreOrder,
     setPreOrderId,
     showModalOrderSuccessful,
     setShowModalOrderSuccessful,
+    showCartNotification,
   } = useContext(StatusContext);
 
   useEffect(() => {
@@ -349,6 +349,13 @@ const ProductDetails = () => {
                   onClose={() => setShowModalOrderSuccessful(false)}
                   hideCloseBtn
                   availability={product?.availability}
+                />
+              )}
+              {showCartNotification && (
+                <Notification
+                  message="Товар додано до кошика"
+                  className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2"
+                  size="small"
                 />
               )}
               <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
