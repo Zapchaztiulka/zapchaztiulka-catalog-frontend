@@ -138,8 +138,7 @@ const CardsList = ({
       {showCartNotification && (
         <Notification
           message="Товар додано до кошика"
-          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2"
-          size="small"
+          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2 rounded-lg border-borderSuccess"
         />
       )}
     </>
