@@ -12,6 +12,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const refForm = useRef();
   const refList = useRef();
@@ -38,6 +39,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         setFilteredData([]);
       } else {
         setFilteredData(newFilter);
+        setLoading(true);
       }
     }
   };
@@ -51,10 +53,12 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
       });
     }
     clearSearchTerm();
+
   };
 
   const clearSearchTerm = () => {
-    setSearchTerm("");
+    setFilteredData([]);
+    setLoading(false);
     toggleSearchBar();
   };
 
@@ -123,19 +127,21 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           ))}
         </ul>
       )}
-      {filteredData?.length === 0 && searchTerm.length !== 0 && (
-        <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
-          <p className="text-textPrimary text-lg font-medium mb-2">
-            На жаль, за вашим запитом {`${searchTerm}`} нічого не знайдено
-          </p>
-          <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
-            Перевірте та змініть запит або пошукайте товар в каталозі.
-          </p>
-          <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
-            Перейти до каталогу
-          </button>
-        </div>
-      )}
+      {filteredData?.length === 0 &&
+        searchTerm.length !== 0 &&
+        loading && (
+          <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
+            <p className="text-textPrimary text-lg font-medium mb-2">
+              На жаль, за вашим запитом {`${searchTerm}`} нічого не знайдено
+            </p>
+            <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
+              Перевірте та змініть запит або пошукайте товар в каталозі.
+            </p>
+            <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
+              Перейти до каталогу
+            </button>
+          </div>
+        )}
     </form>
   );
 };

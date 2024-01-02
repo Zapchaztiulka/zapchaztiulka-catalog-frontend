@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ import { selectCategories } from '@/redux/categories/categoriesSelector';
 import Chips from '@/components/Chips/Chips';
 import PaginationProducts from '@/components/Pagination/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
+import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ const StartPage = () => {
     isModalOpen,
     setIsModalOpen,
   } = useContext(StatusContext);
+  const [firstEffectTriggered, setFirstEffectTriggered] = useState(false);
+  const isMounted = useRef(true);
 
   let countriesUrlArray =
     countries.length > 0
@@ -155,7 +158,7 @@ const StartPage = () => {
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
-          query: searchValue,
+          query: searchValue ? searchValue : [],
           limit: limit,
           countries: countriesUrlArray,
           trademarks: trademarkUrlArray,
@@ -193,7 +196,7 @@ const StartPage = () => {
       dispatch(
         fetchProducts({
           page: router.query.page ? startPage : 1,
-          query: searchValue,
+          query: searchValue ? searchValue : [],
           limit: limit,
           countries: updatedCountries,
           trademarks: updatedTrademarks,
@@ -221,7 +224,7 @@ const StartPage = () => {
       pathname: `/`,
       query: {
         page: value,
-        query: searchValue,
+        query: searchValue ? searchValue : [],
         countries: countries,
         trademarks: trademark,
         min: minPrice !== undefined ? minPrice : [],
@@ -248,9 +251,12 @@ const StartPage = () => {
 
   useEffect(() => {
     if (router.isReady) {
-      dispatch(fetchCountryPriceTrademark(searchValue));
+      {
+        dispatch(fetchCountryPriceTrademark(searchValue));
+      }
     }
   }, [searchValue, dispatch, router.isReady]);
+  console.log(productInfo)
 
   return (
     <>
@@ -273,10 +279,29 @@ const StartPage = () => {
             <FilterIcon className="w-[24px] h-[24px]" />
             <span>Фільтр</span>
           </BtnPrimary>
-          {isModalOpen && <FilterMobile onClose={closeModal} />}
+          {isModalOpen && (
+            <FilterMobile
+              onClose={closeModal}
+              countriesUrlArray={countriesUrlArray}
+              trademarkUrlArray={trademarkUrlArray}
+              handleDeleteChip={handleDeleteChip}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+            />
+          )}
         </div>
         {isLoading && data?.length === 0 && <Loader />}
         <div className="w-full">
+          {(idCategory.length !== 0 ||
+            idSubCategory.length !== 0 ||
+            searchValue) && (
+            <Breadcrumbs
+              idCategory={idCategory}
+              idSubCategory={idSubCategory}
+              categories={categories}
+              searchValue={searchValue}
+            />
+          )}
           <Chips
             countriesUrlArray={countriesUrlArray}
             trademarkUrlArray={trademarkUrlArray}

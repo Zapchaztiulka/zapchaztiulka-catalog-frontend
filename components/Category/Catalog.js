@@ -56,7 +56,10 @@ const Catalog = ({ categories }) => {
   const clickBySubCategory = idSubCategory => {
     router.push({
       pathname: '/',
-      query: { subcategories: idSubCategory, page: 1 },
+      query: {
+        page: 1,
+        subcategories: idSubCategory
+      },
     });
     clearSubMenuByClick();
   };
@@ -65,8 +68,8 @@ const Catalog = ({ categories }) => {
     router.push({
       pathname: '/',
       query: {
-        categories: idCategory,
         page: 1,
+        categories: idCategory,
       },
     });
     close();
@@ -95,6 +98,7 @@ const Catalog = ({ categories }) => {
                 categories={categories}
                 subCategoriesOnclickHandler={subCategoriesOnclickHandler}
                 clickByCategory={clickByCategory}
+
               />
             </div>
             {lengthSubCategory > 0 && (
@@ -103,6 +107,7 @@ const Catalog = ({ categories }) => {
                   categories={categories}
                   index={index}
                   clickBySubCategory={clickBySubCategory}
+
                 />
               </div>
             )}

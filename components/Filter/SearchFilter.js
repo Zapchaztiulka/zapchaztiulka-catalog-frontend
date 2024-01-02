@@ -1,4 +1,6 @@
-import { CloseIcon, SearchFilterIcon } from '@/public/icons';
+import theme from '@/presets';
+import { CloseIcon } from 'universal-components-frontend/src/components/icons';
+import { SearchIcon } from 'universal-components-frontend/src/components/icons';
 
 const SearchFilter = ({
   handleSearch,
@@ -7,25 +9,32 @@ const SearchFilter = ({
   placeholderName,
 }) => {
   return (
-    <div className="filter mb-2 flex items-center gap-[10px] py-xs pl-xs border rounded-minimal border-borderDefault">
-      <SearchFilterIcon className="w-[24px] h-[24px]" />
-      <input
-        className="text-base/[24px] placeholder:text-textInputDefault text-textPrimary focus:outline-none"
-        placeholder={placeholderName}
-        value={value}
-        onChange={handleSearch}
-      />
-      {value !== '' && (
-        <button className="close-btn" type="button" onClick={removeSearchTerm}>
-          <CloseIcon
-            className="close-icon stroke-iconPrimary"
-            width="24"
-            height="24"
+    <div className="filter mb-2 flex items-center gap-2 tablet600:w-[343px] tablet1024:w-full py-xs px-xs border rounded-minimal border-borderDefault">
+      <div className="flex items-center w-full gap-[10px]">
+        <div>
+          <SearchIcon color={theme.extend.colors.iconSecondary} />
+        </div>
+
+        <div className=" relative w-full">
+          <input
+            className="flex-grow w-full text-base placeholder:text-textInputDefault text-textPrimary focus:outline-none"
+            placeholder={placeholderName}
+            value={value}
+            onChange={handleSearch}
           />
-        </button>
-      )}
+          {value !== '' && (
+            <button
+              className=" absolute right-0 top-0"
+              type="button"
+              onClick={removeSearchTerm}
+            >
+              <CloseIcon color={theme.extend.colors.iconBrand} size="20" />
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default SearchFilter
+export default SearchFilter;

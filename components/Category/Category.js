@@ -2,7 +2,11 @@ import { ArrowRight } from "@/public/icons";
 import React from "react";
 
 const Category = (props) => {
-  const { categories, subCategoriesOnclickHandler, clickByCategory } = props;
+  const {
+    categories,
+    subCategoriesOnclickHandler,
+    clickByCategory,
+  } = props;
   return (
     <ul className="flex flex-col gap-xs text-textPrimary text-base font-medium tracking-textBase">
       {categories?.map((el) => {

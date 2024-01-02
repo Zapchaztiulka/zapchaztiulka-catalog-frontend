@@ -208,7 +208,7 @@ a {
 }
 
 .price-input {
-  @apply outline-none border border-borderDefault focus:ring-inset  focus:ring-1 focus:border-borderDefaultBlue  rounded-minimal p-xs w-[160.5px] tablet1024:w-[109.5px] desktop1200:w-[119.5px]  text-base leading-6 placeholder:text-textInputDefault hover:bg-bgHoverGrey;
+  @apply outline-none border border-borderDefault focus:ring-inset  focus:ring-1 focus:border-borderDefaultBlue  rounded-minimal p-xs  w-full tablet600:w-[160.5px] tablet1024:w-[109.5px] desktop1200:w-[119.5px]  text-base leading-6 placeholder:text-textInputDefault hover:bg-bgHoverGrey;
 }
 
 .custom-checkBox:checked::after {
@@ -224,7 +224,7 @@ a {
 }
 
 .wave-shape {
-  @apply tablet600:rounded-b-lg bottom-0 absolute h-[194px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
+  @apply tablet600:rounded-b-lg bottom-0 mobile480:-bottom-[3px] absolute h-[196px] w-[220px] mobile480:w-[262px] tablet600:h-[228px] tablet768:h-[285px] tablet1024:h-[310px] tablet600:w-full bg-auto bg-no-repeat bg-center bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet600:bg-[url('/wave-shape/shape600.png')] tablet768:bg-[url('/wave-shape/shape768.png')] tablet1024:bg-[url('/wave-shape/shape1024.png')] desktop1200:bg-[url('/wave-shape/shape-desktop.png')];
 }
 
 .wave-shape-card {
@@ -232,7 +232,7 @@ a {
 }
 
 .special-order-image {
-  @apply rounded-lg absolute h-[194px] tablet768:bottom-[174px] tablet768:h-[192px] tablet1024:h-[182px] tablet1024:bottom-[182px] desktop1200:h-[214px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
+  @apply rounded-lg absolute h-[196px] tablet768:bottom-[174px] tablet768:h-[192px] tablet1024:h-[182px] tablet1024:bottom-[182px] desktop1200:h-[214px] desktop1200:bottom-[205px] w-full bg-contain tablet600:bg-cover bg-no-repeat bg-right tablet600:bg-bottom bg-[url('/special-order/special320.jpg')] mobile375:bg-[url('/special-order/special375.jpg')] mobile480:bg-[url('/special-order/special480.jpg')] tablet600:bg-[url('/special-order/special600.jpg')]  tablet1024:bg-[url('/special-order/special1024.jpg')];
 }
 
 .special-order-cards {
@@ -274,4 +274,8 @@ a {
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
+}
+
+.breadcrumbs {
+  @apply text-sm/[19.6px] text-textTertiary hover:text-textBrand p-xs3 last:text-textPrimary;
 }

@@ -67,7 +67,7 @@ const CardsList = ({
         {totalCount === 0 && (
           <div>На жаль, за вашим запитом нічого не знайдено</div>
         )}
-        <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus justify-center mb-5">
+        <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus mb-5">
           {products &&
             products?.map(
               (

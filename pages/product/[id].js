@@ -34,6 +34,8 @@ import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
 import { Notification } from 'universal-components-frontend/src/components/notifications';
+import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -138,7 +140,19 @@ const ProductDetails = () => {
     <>
       {product && (
         <div className="container">
-          <div className="mt-[130px] mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8  tablet600:px-5 ">
+          <div className="mt-[117px] mb-3">
+            <Breadcrumbs
+              product={product}
+             
+              idCategory={product.categories[0]?._id}
+              idSubCategory={product.subcategories[0]?._id}
+              nameOfCategoryForIDPage={product.categories[0]?.categoryName}
+              nameOfSubCategoryForIDPage={
+                product.subcategories[0]?.subcategoryName
+              }
+            />
+          </div>
+          <div className="mt-2 mb-5 tablet600:mb-6 flex flex-col tablet600:flex-row gap-5 tablet600:border tablet600:border-borderDefault tablet600:rounded-lg tablet600:py-8  tablet600:px-5 ">
             <div className="tablet768:min-h-[650px] tablet600:w-[50%] ">
               <h1 className="text-[28px] leading-9 -tracking-[0.42px] break-words text-textPrimary mb-3 tablet600:hidden">
                 {product?.name}
