@@ -1,5 +1,9 @@
 import { formatNumber } from '@/helpers/actionsWithNumbers';
-import { filterData, findMaxPrice, findMinPrice } from '@/helpers/checkForMatchValue';
+import {
+  filterData,
+  findMaxPrice,
+  findMinPrice,
+} from '@/helpers/checkForMatchValue';
 import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
 import { useRouter } from 'next/router';
 import { createContext, useState } from 'react';
@@ -35,13 +39,11 @@ export const StatusProvider = ({ children }) => {
   const [maxValue, setMaxValue] = useState('');
   const [matchTrademarks, setMatchTrademarks] = useState([]);
   const [matchCountries, setMatchCountries] = useState([]);
+  const [filtredResultForDisabledCountry, setFiltredResultForDisabledCountry] =
+    useState([]);
   const [
-      filtredResultForDisabledCountry,
-      setFiltredResultForDisabledCountry,
-    ] = useState([]);
-  const [
-      filtredResultForDisabledTradeMark,
-      setFiltredResultForDisabledTrademark,
+    filtredResultForDisabledTradeMark,
+    setFiltredResultForDisabledTrademark,
   ] = useState([]);
 
   const resetLocalStorage = () => {
@@ -75,13 +77,29 @@ export const StatusProvider = ({ children }) => {
     });
   };
 
-    const filteredCountries = filterData(productInfo?.countries, country);
-    const filteredTrademarks = filterData(productInfo?.trademarks, trademarks);
-    const filtredArray = [...filteredCountries, ...filteredTrademarks];
-    const minPriceProduct = findMinPrice(filtredArray, productInfo?.trademarks);
-    const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
-    const minPrice = formatNumber(minPriceProduct || 0);
-    const maxPrice = formatNumber(maxPriceProduct || 0);
+  const filteredCountries = filterData(productInfo?.countries, country);
+  const filteredTrademarks = filterData(productInfo?.trademarks, trademarks);
+  const filtredArray = [...filteredCountries, ...filteredTrademarks];
+  const minPriceProduct = findMinPrice(filtredArray, productInfo?.trademarks);
+  const maxPriceProduct = findMaxPrice(filtredArray, productInfo?.trademarks);
+  const minPrice = formatNumber(minPriceProduct || 0);
+  const maxPrice = formatNumber(maxPriceProduct || 0);
+
+  const [cartProducts, setCartProducts] = useState([]);
+  const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
+    useState(false);
+  const [showCartNotification, setShowCartNotification] = useState(false);
+  const [showModalPreOrder, setShowModalPreOrder] = useState(false);
+  const [preOrderId, setPreOrderId] = useState(0);
+  const totalQuantity = () => {
+    let total = 0;
+    if (cartProducts) {
+      cartProducts.forEach(product => {
+        total += product.quantity;
+      });
+    }
+    return total;
+  };
 
   return (
     <StatusContext.Provider
@@ -120,6 +138,17 @@ export const StatusProvider = ({ children }) => {
         maxPrice,
         isModalOpen,
         setIsModalOpen,
+        cartProducts,
+        setCartProducts,
+        totalQuantity,
+        showModalPreOrder,
+        setShowModalPreOrder,
+        preOrderId,
+        setPreOrderId,
+        showModalOrderSuccessful,
+        setShowModalOrderSuccessful,
+        showCartNotification,
+        setShowCartNotification,
       }}
     >
       {children}

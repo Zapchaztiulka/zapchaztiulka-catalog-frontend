@@ -6,6 +6,11 @@ import {
   getCategoryName,
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
+import ModalPreOrder from '@/components/Modals/ModalPreOrder';
+import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
+import { Notification } from 'universal-components-frontend/src/components/notifications';
 
 const CardsList = ({
   products,
@@ -22,6 +27,13 @@ const CardsList = ({
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
+  const {
+    showModalPreOrder,
+    setShowModalPreOrder,
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
+    showCartNotification,
+  } = useContext(StatusContext);
 
   return (
     <>
@@ -111,6 +123,24 @@ const CardsList = ({
             )}
         </ul>
       </div>
+      {/* Modal for Pre Order */}
+      {showModalPreOrder && (
+        <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+      )}
+      {/* Modal for Successful Order*/}
+      {showModalOrderSuccessful && (
+        <ModalOrderSuccessful
+          onClose={() => setShowModalOrderSuccessful(false)}
+          hideCloseBtn
+          availability={products?.availability}
+        />
+      )}
+      {showCartNotification && (
+        <Notification
+          message="Товар додано до кошика"
+          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2 rounded-lg border-borderSuccess"
+        />
+      )}
     </>
   );
 };

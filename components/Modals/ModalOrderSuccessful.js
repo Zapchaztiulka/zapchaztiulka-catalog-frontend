@@ -1,12 +1,25 @@
 import Modal from '../Modal';
 import { SuccessfulOrderIcon } from '@/public/icons';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
 
-const ModalOrderSuccessful = ({
-  onClose,
-  hideCloseBtn,
-  handleClickOrderSuccessful,
-  availability,
-}) => {
+const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
+  const {
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
+    resetLocalStorage,
+    backToHomeUrl,
+  } = useContext(StatusContext);
+
+  const handleClickOrderSuccessful = async event => {
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    if (typeof window !== 'undefined') {
+      resetLocalStorage();
+      backToHomeUrl();
+    }
+    document.body.classList.remove('stop-scrolling');
+  };
+
   return (
     <Modal onClose={onClose} hideCloseBtn={hideCloseBtn}>
       <div

@@ -1,47 +1,125 @@
-import { PlusIcon } from 'universal-components-frontend/src/components/icons';
-import { MinusIcon } from 'universal-components-frontend/src/components/icons';
+import {
+  MinusIcon,
+  PlusIcon,
+} from 'universal-components-frontend/src/components/icons';
+import { useContext, useEffect } from 'react';
+import { StatusContext } from '@/context/statusContext';
+import { CartIcon } from '@/public/icons';
 
-const BtnAddToCart = () => {
-  let counterValue = 1;
-  const counter = document.querySelector('#value');
+const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
+  const {
+    cartProducts,
+    setCartProducts,
+    showCartNotification,
+    setShowCartNotification,
+  } = useContext(StatusContext);
+
+  let counterValue;
+  const temp = cartProducts.find(product => product.productId === id);
+  if (temp) {
+    counterValue = temp.quantity || 1;
+  }
+
+  const changeQuantity = counterValue => {
+    const parsedCart = JSON.parse(localStorage.getItem('cart'));
+    parsedCart[
+      cartProducts.findIndex(product => product.productId === id)
+    ].quantity = counterValue;
+    setCartProducts(parsedCart);
+    localStorage.setItem('cart', JSON.stringify(parsedCart));
+  };
 
   const valueDecrement = () => {
     if (counterValue > 1) {
       counterValue -= 1;
+      document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+      changeQuantity(counterValue);
     }
-    counter.textContent = counterValue;
   };
 
   const valueIncrement = () => {
     counterValue += 1;
-    counter.textContent = counterValue;
+    document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+    changeQuantity(counterValue);
   };
 
+  // call effect to receive the products from localStorage (cart)
+  useEffect(() => {
+    const parsedProducts = JSON.parse(localStorage.getItem('cart'));
+    if (parsedProducts) setCartProducts(parsedProducts);
+  }, []);
+
   return (
-    <div id="counter" className="flex justify-center items-center gap-[10px]">
-      <button
-        onClick={valueDecrement}
-        type="button"
-        data-action="decrement"
-        className="w-[40px] h-[40px] flex justify-center items-center"
-      >
-        <MinusIcon />
-      </button>
-      <span
-        id="value"
-        className="font-medium text-[16px] leading-[22.4px] text-textPrimary"
-      >
-        1
-      </span>
-      <button
-        onClick={valueIncrement}
-        type="button"
-        data-action="increment"
-        className="w-[40px] h-[40px] flex justify-center items-center"
-      >
-        <PlusIcon />
-      </button>
-    </div>
+    <>
+      {!cartProducts.find(product => product.productId === id) && (
+        <button
+          onClick={() => {
+            const settings = {
+              photo,
+              name,
+              price,
+              productId: id,
+              quantity: 1,
+            };
+
+            setShowCartNotification(!showCartNotification);
+            setTimeout(() => {
+              setShowCartNotification(false);
+            }, 2000);
+            const parsedProducts = JSON.parse(
+              localStorage.getItem('cart') || '[]'
+            );
+
+            setCartProducts(prevCartProducts => [
+              ...prevCartProducts,
+              settings,
+            ]);
+
+            localStorage.setItem(
+              'cart',
+              JSON.stringify([...parsedProducts, settings])
+            );
+          }}
+          className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
+        >
+          {visibleCartIcon ? (
+            <div className="flex justify-center products-center gap-xs4">
+              <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
+              <span className="text-textContrast text-sm tracking-[-0.21px]">
+                Додати в кошик
+              </span>
+            </div>
+          ) : (
+            <>Додати в кошик</>
+          )}
+        </button>
+      )}
+
+      {cartProducts.find(product => product.productId === id) && (
+        <div className="flex justify-center items-center gap-[10px]">
+          <button
+            onClick={valueDecrement}
+            type="button"
+            className="w-[40px] h-[40px] flex justify-center items-center"
+          >
+            <MinusIcon />
+          </button>
+          <span
+            id={id.slice(18)}
+            className="font-medium text-[16px] leading-[22.4px] text-textPrimary"
+          >
+            {counterValue}
+          </span>
+          <button
+            onClick={valueIncrement}
+            type="button"
+            className="w-[40px] h-[40px] flex justify-center items-center"
+          >
+            <PlusIcon />
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 

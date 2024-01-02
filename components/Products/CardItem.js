@@ -3,10 +3,15 @@ import { getExtension } from '@/helpers/checkExtension';
 import Image from 'next/image';
 import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
+  const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
+    useContext(StatusContext);
+
   return (
-    <li className="relative cursor-pointer cards border border-borderDefault rounded-lg hover:shadow-md">
+    <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
         <div className="absolute grid items-center text-center z-10 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
@@ -14,7 +19,10 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
           </span>
         </div>
       )}
-      <Link href={{ pathname: `/product/${id}` }} className="block">
+      <Link
+        href={{ pathname: `/product/${id}` }}
+        className="cursor-pointerblock"
+      >
         <div className="">
           <div className="">
             {photo.length === 0 || !getExtension(photo[0]?.url) ? (
@@ -55,21 +63,28 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         </div>
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
-        {availability !== 'відсутній' ? (
+        {availability === 'в наявності' ? (
+          <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+            {id && (
+              <BtnAddToCart photo={photo} name={name} price={price} id={id} />
+            )}
+          </div>
+        ) : availability === 'під замовлення' ? (
           <button
-            className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
             onClick={() => {
-              console.log('Add to Cart :)');
+              setShowModalPreOrder(!showModalPreOrder);
+              setPreOrderId(id);
+              document.body.classList.add('stop-scrolling');
             }}
+            className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textBrand tablet768:text-base text-sm tablet768:font-medium button-secondary"
           >
-            Додати в кошик
+            Передзамовити
           </button>
         ) : (
           <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
             Додати в кошик
           </button>
         )}
-        {/* <BtnAddToCart availability={availability} /> */}
       </div>
     </li>
   );

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { CartIcon, LoopEye } from '@/public/icons';
+import { LoopEye } from '@/public/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsLoading,
@@ -26,7 +26,6 @@ import { getExtension } from '@/helpers/checkExtension';
 import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
-import { postOrder } from '../../services/orderAny';
 import { StatusContext } from '@/context/statusContext';
 
 import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
@@ -34,7 +33,9 @@ import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
+import { Notification } from 'universal-components-frontend/src/components/notifications';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
@@ -52,14 +53,19 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalOneClickOrder, setShowModalOneClickOrder] = useState(false);
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
-  const [showModalPreOrder, setShowModalPreOrder] = useState(false);
-  const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
-    useState(false);
   const isLoading = useSelector(selectIsLoading);
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
-  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const {
+    setCartProducts,
+    showModalPreOrder,
+    setShowModalPreOrder,
+    setPreOrderId,
+    showModalOrderSuccessful,
+    setShowModalOrderSuccessful,
+    showCartNotification,
+  } = useContext(StatusContext);
 
   useEffect(() => {
     if (id) {
@@ -106,40 +112,6 @@ const ProductDetails = () => {
     setIndexThumb(id);
   };
 
-  function formatPhoneNumber(input) {
-    let cleaned = ('' + input).replace(/\D/g, '');
-    let formattedNumber = '';
-    for (let i = 0; i < cleaned.length; i++) {
-      if (i === 3 || i === 6 || i === 8) {
-        formattedNumber += ' ';
-      }
-      formattedNumber += cleaned[i];
-    }
-    return formattedNumber;
-  }
-
-  function displayError(message) {
-    errorMessage.textContent = message;
-  }
-
-  const replacePhoneNumber = async () => {
-    let errorMessage = document.getElementById('errorMessage');
-    let phoneNumberInput = document.getElementById('phone');
-    phoneNumberInput.addEventListener('input', function (event) {
-      let inputPhoneNumber = event.target.value;
-      phoneNumberInput.value = formatPhoneNumber(inputPhoneNumber);
-
-      if (event.target.value[0] !== '0') {
-        phoneNumberInput.value = inputPhoneNumber.slice(0, 1);
-        displayError('Номер телефону має починатись з "0"');
-      } else displayError('');
-      if (inputPhoneNumber.length > 13) {
-        let trimmedPhoneNumber = inputPhoneNumber.slice(0, 13);
-        phoneNumberInput.value = trimmedPhoneNumber;
-      }
-    });
-  };
-
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
@@ -158,25 +130,11 @@ const ProductDetails = () => {
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
-  const handleSubmitPreOrder = async event => {
-    event.preventDefault();
-    const phone = event.target.elements.phone.value;
-    const _id = product?._id;
-    console.log('phone = ', phone);
-    // postOrder(phone.replace(/[-]/g, ''), _id);
-    setShowModalPreOrder(false);
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
-  };
-
-  const handleClickOrderSuccessful = async event => {
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
-    if (typeof window !== 'undefined') {
-      // router.push('/');
-      resetLocalStorage();
-      backToHomeUrl();
-    }
-    document.body.classList.remove('stop-scrolling');
-  };
+  // call effect to receive the products from localStorage (cart)
+  useEffect(() => {
+    const parsedProducts = JSON.parse(localStorage.getItem('cart'));
+    if (parsedProducts) setCartProducts(parsedProducts);
+  }, []);
 
   return (
     <>
@@ -331,28 +289,23 @@ const ProductDetails = () => {
               </p>
               <div className="flex flex-col gap-3 w-full tablet768:w-[285px] mb-8">
                 {product?.availability === 'в наявності' && (
-                  // <button
-                  //   onClick={() => {
-                  //     console.log('Hello from ProductDetails :)');
-                  //   }}
-                  //   className="h-[48px] flex justify-center state-button lg:px-6 px-3 py-3 "
-                  // >
-                  //   <div className="flex justify-center products-center gap-xs4">
-                  //     <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
-                  //     <span className="text-textContrast text-sm tracking-[-0.21px]">
-                  //       Додати в кошик
-                  //     </span>
-                  //   </div>
-                  // </button>
-
                   <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
-                    <BtnAddToCart />
+                    {product?._id && (
+                      <BtnAddToCart
+                        photo={product?.photo}
+                        name={product?.name}
+                        price={product?.price}
+                        id={product?._id}
+                        visibleCartIcon
+                      />
+                    )}
                   </div>
                 )}
                 {product?.availability === 'під замовлення' && (
                   <button
                     onClick={() => {
                       setShowModalPreOrder(!showModalPreOrder);
+                      setPreOrderId(product?._id);
                       document.body.classList.add('stop-scrolling');
                     }}
                     className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"
@@ -385,7 +338,6 @@ const ProductDetails = () => {
                   </button>
                 ) : null}
               </div>
-
               {/* Modal for One Click Order */}
               {showModalOneClickOrder && (
                 <ModalOneClickOrder
@@ -394,7 +346,10 @@ const ProductDetails = () => {
                   replacePhoneNumber={replacePhoneNumber}
                 />
               )}
-
+              {/* Modal for Pre Order */}
+              {showModalPreOrder && (
+                <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+              )}
               {/* Modal for Absent Order */}
               {showModalAbsentOrder && (
                 <ModalAbsentOrder
@@ -402,24 +357,21 @@ const ProductDetails = () => {
                   handleSubmitAbsentOrder={handleSubmitAbsentOrder}
                 />
               )}
-              {/* Modal for Pre Order */}
-              {showModalPreOrder && (
-                <ModalPreOrder
-                  onClose={() => setShowModalPreOrder(false)}
-                  replacePhoneNumber={replacePhoneNumber}
-                  handleSubmitPreOrder={handleSubmitPreOrder}
-                />
-              )}
               {/* Modal for Successful Order*/}
               {showModalOrderSuccessful && (
                 <ModalOrderSuccessful
                   onClose={() => setShowModalOrderSuccessful(false)}
                   hideCloseBtn
-                  handleClickOrderSuccessful={handleClickOrderSuccessful}
                   availability={product?.availability}
                 />
               )}
-
+              {showCartNotification && (
+                <Notification
+                  message="Товар додано до кошика"
+                  className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2"
+                  size="small"
+                />
+              )}
               <ProductInfo product={product} isOpen={isOpen} toggle={toggle} />
             </div>
           </div>

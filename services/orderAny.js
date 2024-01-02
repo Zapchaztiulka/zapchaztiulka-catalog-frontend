@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export const postOrder = async (phone, _id) => {
+  console.log('phone = ', phone);
+  console.log('_id = ', _id);
   const postData = {
     phone: phone,
     products: [

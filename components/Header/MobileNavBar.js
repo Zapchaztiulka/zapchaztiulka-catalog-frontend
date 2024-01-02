@@ -11,6 +11,7 @@ import {
 } from '@/public/icons';
 import SearchBarMobile from './Search/SearchBarMobile';
 import { StatusContext } from '@/context/statusContext';
+import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
 
 const MobileNavBar = ({
   toggleSearchBar,
@@ -19,7 +20,8 @@ const MobileNavBar = ({
   openModalCart,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl, totalQuantity } =
+    useContext(StatusContext);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -77,7 +79,13 @@ const MobileNavBar = ({
               document.body.classList.add('stop-scrolling');
             }}
           >
-            <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
+            {totalQuantity() === 0 ? (
+              <CartIconSideBar className="w-11 h-11 fill-iconWhite" />
+            ) : (
+              <div className="flex justify-center items-center w-11 h-11">
+                <BasketCountIcon count={totalQuantity()} color="#ffffff" />
+              </div>
+            )}
           </button>
         </div>
       </div>
