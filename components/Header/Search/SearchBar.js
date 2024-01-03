@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAllProducts } from '@/redux/products/productsSelectors';
 import { fetchAllProducts } from "@/redux/products/productsOperations";
 import { useOutsideClick } from "@/hooks/useOnClickOutside";
+import { Button } from 'universal-components-frontend/src/components/buttons';
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm !== "" && filteredData.length !== 0) {
+    if (searchTerm !== "" ) {
       router.push({
         pathname: "/",
         query: { query: searchTerm.toLowerCase(), page: 1 },
@@ -71,6 +72,16 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   };
 
   useOutsideClick(refList, refForm, closeByClickOutside);
+
+    const backToHomeUrl = () => {
+    router.push({
+      pathname: '/',
+      query: {
+        page: 1,
+      },
+    });
+    clearSearchTerm()
+  };
 
   return (
     <form
@@ -127,21 +138,27 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           ))}
         </ul>
       )}
-      {filteredData?.length === 0 &&
-        searchTerm.length !== 0 &&
-        loading && (
-          <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
-            <p className="text-textPrimary text-lg font-medium mb-2">
-              На жаль, за вашим запитом {`${searchTerm}`} нічого не знайдено
-            </p>
-            <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
-              Перевірте та змініть запит або пошукайте товар в каталозі.
-            </p>
-            <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
+      {filteredData?.length === 0 && searchTerm.length !== 0 && loading && (
+        <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:text-start tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
+          <p className="text-textPrimary text-lg font-medium mb-2">
+            За вашим запитом нічого не знайдено
+          </p>
+          <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
+            Перевірте та змініть запит або пошукайте товар в каталозі.
+          </p>
+          <Button
+            buttonType="primary"
+            type="button"
+            text="Перейти до каталогу"
+            className="bg-bgBrandDark py-2 px-m w-auto"
+            size="small"
+            onClick={() => backToHomeUrl()}
+          />
+          {/* <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
               Перейти до каталогу
-            </button>
-          </div>
-        )}
+            </button> */}
+        </div>
+      )}
     </form>
   );
 };

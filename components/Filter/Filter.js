@@ -348,8 +348,7 @@ const Filter = ({
     country.length > 0 ||
     trademarks.length > 0 ||
     minValue ||
-    maxValue ||
-    searchValue
+    maxValue 
       ? true
       : false;
 
@@ -361,6 +360,7 @@ const Filter = ({
         pathname: '/',
         query: {
           page: 1,
+          query: searchValue ? searchValue : [],
         },
       });
     }
@@ -463,7 +463,7 @@ const Filter = ({
               buttonType="tertiary"
               type="button"
               text="Скинути"
-              className=" w-full py-2 px-m bg-bgDisable"
+              className=" w-full py-2 px-m bg-bgDisable disabled:text-textDisabled"
               disabled={!isDisabledBtn}
               size="small"
               onClick={() => resetResults()}
@@ -474,7 +474,7 @@ const Filter = ({
               buttonType="tertiary"
               type="button"
               text="Скинути"
-              className="tablet768:text-base text-sm w-full tablet768:font-medium tablet768:px-6 tablet768:py-3 py-2 px-m bg-bgDisable"
+              className="tablet768:text-base disabled:text-textDisabled text-sm w-full tablet768:font-medium tablet768:px-6 tablet768:py-3 py-2 px-m bg-bgDisable"
               disabled={!isDisabledBtn}
               size="small"
               onClick={() => resetResults()}
