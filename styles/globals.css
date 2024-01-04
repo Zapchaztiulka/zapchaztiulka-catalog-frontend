@@ -112,6 +112,10 @@ a {
   @apply focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive;
 }
 
+/* .search-form .empty-search {
+@apply flex justify-center flex-col;
+} */
+
 .sidebar-menu:hover .sidebar-icon,
 .sidebar-menu:focus .sidebar-icon {
   @apply fill-iconBrandDark stroke-iconBrandDark;
@@ -278,4 +282,12 @@ a {
 
 .breadcrumbs {
   @apply text-sm/[19.6px] text-textTertiary hover:text-textBrand p-xs3 last:text-textPrimary;
+}
+
+.containerStyles {
+  @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet600:w-[432px] tablet1024:w-[343px] relative border border-borderDefault rounded-lg bg-[url('/special-order/special.png')] mobile480:bg-[url('/special-order/special_480.png')] tablet1024:bg-[url('/special-order/special.png')] bg-contain bg-no-repeat bg-right-top
+}
+
+.waveImageStyles {
+  @apply bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet1024:bg-[url('/wave-shape/shape320.png')] bg-auto bg-no-repeat h-full w-full absolute z-10
 }

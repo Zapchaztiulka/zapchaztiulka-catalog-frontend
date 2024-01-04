@@ -266,7 +266,9 @@ const StartPage = () => {
         {isLoading && data?.length === 0 && <Loader />}
         {data?.totalCount === 0 && searchValue !== '' && (
           <div className="">
-            <EmptySearchPage searchValue={searchValue} />
+            <EmptySearchPage
+              searchValue={searchValue}
+            />
           </div>
         )}
         {data?.totalCount > 0 && router.isReady && (

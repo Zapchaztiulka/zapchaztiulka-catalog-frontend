@@ -90,8 +90,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
       className={`${
         showSearchBar
           ? 'hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 '
-          : 'flex items-center relative'
-      }`}
+          : 'flex items-center relative flex-col'
+      } search-form`}
     >
       <div className="search w-full">
         <input
@@ -139,24 +139,21 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         </ul>
       )}
       {filteredData?.length === 0 && searchTerm.length !== 0 && loading && (
-        <div className="absolute top-[80px] w-full tablet600:top-[250px] tablet600:text-center tablet1024:text-start tablet1024:top-[54px] mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10">
-          <p className="text-textPrimary text-lg font-medium mb-2">
+        <div className="empty-search mt-8 tablet600:mt-[280px] tablet768:mt-[331px] tablet768:w-[441px] tablet1024:w-full tablet1024:absolute w-full tablet1024:text-start tablet1024:top-[54px] tablet1024:mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none tablet1024:p-xs z-10">
+          <p className="text-textPrimary text-lg font-medium mb-2 pl-[3px] tablet1024:pl-0">
             За вашим запитом нічого не знайдено
           </p>
-          <p className="text-text-textSecondary text-[15px] mb-4 -tracking-[0.225px] leading-5">
+          <p className="text-textSecondary text-[15px] tablet600:text-base/[24px] tablet1024:text-[15px] mb-4 -tracking-[0.225px] leading-5 pl-[3px] pr-[8px] tablet1024:pl-0 tablet1024:pr-0 tablet768:w-[332px] tablet1024:w-full">
             Перевірте та змініть запит або пошукайте товар в каталозі.
           </p>
           <Button
             buttonType="primary"
             type="button"
             text="Перейти до каталогу"
-            className="bg-bgBrandDark py-2 px-m w-auto"
+            className="bg-bgBrandDark py-2 px-m w-full tablet600:w-auto"
             size="small"
             onClick={() => backToHomeUrl()}
           />
-          {/* <button className="w-full tablet600:w-[343px] tablet1024:w-fit state-button lg:px-6 px-3 py-3 text-textContrast text-base text-center">
-              Перейти до каталогу
-            </button> */}
         </div>
       )}
     </form>
