@@ -112,10 +112,6 @@ a {
   @apply focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive;
 }
 
-/* .search-form .empty-search {
-@apply flex justify-center flex-col;
-} */
-
 .sidebar-menu:hover .sidebar-icon,
 .sidebar-menu:focus .sidebar-icon {
   @apply fill-iconBrandDark stroke-iconBrandDark;

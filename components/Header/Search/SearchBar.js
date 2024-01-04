@@ -1,19 +1,20 @@
-"use client";
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { CloseIcon, SearchIconNavbar } from "@/public/icons";
-import { useDispatch, useSelector } from "react-redux";
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { CloseIcon, SearchIconNavbar } from '@/public/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllProducts } from '@/redux/products/productsSelectors';
-import { fetchAllProducts } from "@/redux/products/productsOperations";
-import { useOutsideClick } from "@/hooks/useOnClickOutside";
+import { fetchAllProducts } from '@/redux/products/productsOperations';
+import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { Button } from 'universal-components-frontend/src/components/buttons';
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const refForm = useRef();
   const refList = useRef();
@@ -28,11 +29,11 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     }
   }, [dispatch, searchTerm]);
 
-  const getFilteredProducts = (event) => {
-      const searchWord = event.target.value;
-      setSearchTerm(searchWord);
+  const getFilteredProducts = event => {
+    const searchWord = event.target.value;
+    setSearchTerm(searchWord);
     if (products) {
-      const newFilter = products?.filter((value) => {
+      const newFilter = products?.filter(value => {
         return value.name.toLowerCase().includes(searchWord.toLowerCase());
       });
 
@@ -45,16 +46,16 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    if (searchTerm !== "" ) {
+    if (searchTerm !== '') {
       router.push({
-        pathname: "/",
+        pathname: '/',
         query: { query: searchTerm.toLowerCase(), page: 1 },
       });
-    }
-    clearSearchTerm();
 
+      clearSearchTerm();
+    }
   };
 
   const clearSearchTerm = () => {
@@ -64,7 +65,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   };
 
   const removeSearchTerm = () => {
-    setSearchTerm("");
+    setSearchTerm('');
   };
 
   const closeByClickOutside = () => {
@@ -73,14 +74,14 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
 
   useOutsideClick(refList, refForm, closeByClickOutside);
 
-    const backToHomeUrl = () => {
+  const backToHomeUrl = () => {
     router.push({
       pathname: '/',
       query: {
         page: 1,
       },
     });
-    clearSearchTerm()
+    clearSearchTerm();
   };
 
   return (
@@ -91,7 +92,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         showSearchBar
           ? 'hidden tablet768:flex items-center  relative max-sm:gap-4 max-w-3xl gap-4 '
           : 'flex items-center relative flex-col'
-      } search-form`}
+      }`}
     >
       <div className="search w-full">
         <input
@@ -99,6 +100,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           placeholder="Я шукаю.."
           className="search-input w-full"
           value={searchTerm}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
         />
         {searchTerm !== '' && (
           <button
@@ -139,7 +142,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
         </ul>
       )}
       {filteredData?.length === 0 && searchTerm.length !== 0 && loading && (
-        <div className="empty-search mt-8 tablet600:mt-[280px] tablet768:mt-[331px] tablet768:w-[441px] tablet1024:w-full tablet1024:absolute w-full tablet1024:text-start tablet1024:top-[54px] tablet1024:mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none tablet1024:p-xs z-10">
+        <div className=" mt-8 tablet600:mt-[280px] tablet768:mt-[331px] tablet768:w-[441px] tablet1024:w-full tablet1024:absolute w-full tablet1024:text-start tablet1024:top-[54px] tablet1024:mt-1 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none tablet1024:p-xs z-10">
           <p className="text-textPrimary text-lg font-medium mb-2 pl-[3px] tablet1024:pl-0">
             За вашим запитом нічого не знайдено
           </p>
@@ -156,6 +159,19 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
           />
         </div>
       )}
+
+      <div
+        ref={refList}
+        className={`${
+          isInputFocused && searchTerm === ''
+            ? ' mt-2 tablet768:w-[441px] tablet1024:w-full tablet1024:absolute w-full tablet1024:text-start tablet1024:top-[54px] tablet1024:border tablet1024:border-borderDefault overflow-auto text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none tablet1024:p-xs z-10'
+            : 'hidden'
+        }`}
+      >
+        <p className="text-textSecondary text-[15px] tablet600:text-base/[24px] tablet1024:text-[15px] -tracking-[0.225px] leading-5 pl-[3px] pr-[8px] tablet1024:pl-0 tablet1024:pr-0 tablet768:w-[332px] tablet1024:w-full">
+          Введіть пошукове слово
+        </p>
+      </div>
     </form>
   );
 };
