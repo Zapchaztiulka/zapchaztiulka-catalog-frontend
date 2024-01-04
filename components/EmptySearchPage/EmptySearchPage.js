@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button } from 'universal-components-frontend/src/components/buttons';
+
 import NotFoundProduct from '../Products/NotFoundProduct';
 
 const EmptySearchPage = ({ searchValue }) => {
@@ -32,7 +33,10 @@ const EmptySearchPage = ({ searchValue }) => {
         />
       </div>
       <div className="mt-[183px] tablet1024:mt-[139px]">
-        <NotFoundProduct containerStyles="containerStyles" waveImageStyles="waveImageStyles"/>
+        <NotFoundProduct
+          containerStyles="containerStyles"
+          waveImageStyles="waveImageStyles"
+        />
       </div>
     </>
   );

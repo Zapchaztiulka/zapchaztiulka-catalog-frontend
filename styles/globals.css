@@ -277,7 +277,7 @@ a {
 }
 
 .breadcrumbs {
-  @apply text-sm/[19.6px] text-textTertiary hover:text-textBrand p-xs3 last:text-textPrimary;
+  @apply text-sm/[19.6px] text-textTertiary hover:text-textBrand  last:text-textPrimary;
 }
 
 .containerStyles {
