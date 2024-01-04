@@ -15,9 +15,12 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
 
   const refForm = useRef();
   const refList = useRef();
+  const refMessage = useRef(); 
 
   const dispatch = useDispatch();
   const data = useSelector(selectAllProducts);
@@ -56,6 +59,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
 
       clearSearchTerm();
     }
+    setIsFormSubmitted(true);
+
   };
 
   const clearSearchTerm = () => {
@@ -68,11 +73,23 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     setSearchTerm('');
   };
 
-  const closeByClickOutside = () => {
-    if (window.innerWidth >= 1024) removeSearchTerm();
-  };
+  useOutsideClick(refList, refForm, () => {
+    closeByClickOutside(refList);
+  });
 
-  useOutsideClick(refList, refForm, closeByClickOutside);
+
+  useOutsideClick(refMessage, refForm, () => {
+  closeByClickOutside(refMessage);
+});
+
+  const closeByClickOutside = (ref) => {
+  if (window.innerWidth >= 1024) {    
+    removeSearchTerm();
+    if (ref === refMessage) {
+      setIsFormSubmitted(false);
+    }
+  }
+};
 
   const backToHomeUrl = () => {
     router.push({
@@ -161,9 +178,9 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
       )}
 
       <div
-        ref={refList}
+        ref={refMessage}
         className={`${
-          isInputFocused && searchTerm === ''
+          isFormSubmitted && searchTerm === ''
             ? ' mt-2 tablet768:w-[441px] tablet1024:w-full tablet1024:absolute w-full tablet1024:text-start tablet1024:top-[54px] tablet1024:border tablet1024:border-borderDefault overflow-auto text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none tablet1024:p-xs z-10'
             : 'hidden'
         }`}
