@@ -27,7 +27,11 @@ const ModalCart = ({ onClose }) => {
           >
             Кошик
           </h5>
-          <button className="w-[152px] h-[40px]" type="button">
+          <button
+            className="disabled-button text-textBrand w-[152px] h-[40px] font-medium text-[16px] leading-[22.4px]"
+            //text-textBrand
+            type="button"
+          >
             Очистити кошик
           </button>
         </div>
