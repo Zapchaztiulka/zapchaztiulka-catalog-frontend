@@ -170,7 +170,7 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-        console.log('me1')
+
     }
   }, [
     dispatch,
@@ -208,7 +208,7 @@ const StartPage = () => {
         })
       );
       setCurrentPage(startPage);
-      console.log('me2')
+
     }
   }, [
     dispatch,

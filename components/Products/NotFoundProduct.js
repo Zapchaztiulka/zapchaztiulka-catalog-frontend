@@ -5,18 +5,23 @@ ArrowRightIcon
 import { Button } from 'universal-components-frontend/src/components/buttons';
 
 
-const NotFoundProduct = ({containerStyles, waveImageStyles }) => {
-
+const NotFoundProduct = ({
+  containerStyles,
+  waveImageStyles,
+  textStylesForNotFoundProduct,
+  headStyles,
+  textStyles
+}) => {
   return (
-    <div>
+    <div className="h-full">
       <div className={containerStyles}>
         <div className={waveImageStyles}></div>
-        <div className="flex flex-col gap-xs py-xs2 w-[185.22px] mt-[43px] relative z-10">
-          <div className="px-xs">
-            <h3 className="text-base/[22.4px] text-textPrimary font-medium mb-1">
+        <div className={`flex flex-col ${textStylesForNotFoundProduct} relative z-10`}>
+          <div>
+            <h3 className={`${headStyles} text-textPrimary font-medium`}>
               Не знайшли потрібний товар?
             </h3>
-            <p className="text-[12px]/[18px] text-textSecondary">
+            <p className={`${textStyles} text-textSecondary`}>
               Розкажіть, що ви шукаєте, а ми спробуємо доставити.
             </p>
           </div>
@@ -27,11 +32,12 @@ const NotFoundProduct = ({containerStyles, waveImageStyles }) => {
             iconProps={{ color: '#1570EF' }}
             iconSide="right"
             icon={ArrowRightIcon}
+            style={{ justifyContent: "flex-start" }}
           />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default NotFoundProduct

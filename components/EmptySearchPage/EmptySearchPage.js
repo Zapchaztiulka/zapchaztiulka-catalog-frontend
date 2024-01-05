@@ -36,6 +36,9 @@ const EmptySearchPage = ({ searchValue }) => {
         <NotFoundProduct
           containerStyles="containerStyles"
           waveImageStyles="waveImageStyles"
+          textStylesForNotFoundProduct="w-[185.22px] mt-[43px] gap-xs py-xs2 px-xs"
+          headStyles="text-base/[22.4px] mb-1"
+          textStyles="text-[12px]/[18px] "
         />
       </div>
     </>
