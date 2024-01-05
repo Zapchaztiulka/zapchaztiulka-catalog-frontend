@@ -16,8 +16,8 @@ const Navbar = ({ categories }) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { resetLocalStorage, backToHomeUrl, totalQuantity } =
     useContext(StatusContext);
-  const { isModalOpen } = useContext(StatusContext);
-  const [showModalCart, setShowModalCart] = useState(false);
+  const { isModalOpen, showModalCart, setShowModalCart } =
+    useContext(StatusContext);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
