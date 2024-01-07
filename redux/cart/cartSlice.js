@@ -1,24 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const getFromLocalStorage = () => {
-   if (typeof window !== 'undefined') {
-      const cart = localStorage.getItem('cart');
-  if (cart) {
-    return JSON.parse(localStorage.getItem('cart'));
-  } else {
-    return [];
-  }
-   }
-};
+// const getFromLocalStorage = () => {
+//    if (typeof window !== 'undefined') {
+//       const cart = localStorage.getItem('cart');
+//   if (cart) {
+//     return JSON.parse(localStorage.getItem('cart'));
+//   } else {
+//     return [];
+//   }
+//    }
+// };
 
-const setToLocalStorage = data => {
-  localStorage.setItem('cart', JSON.stringify(data));
-};
+// const setToLocalStorage = data => {
+//   localStorage.setItem('cart', JSON.stringify(data));
+// };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    data: getFromLocalStorage(),
+    data:[],
+    // data: getFromLocalStorage(),
     totalItems: 0,
     totalAmount: 0,
   },
@@ -40,16 +41,16 @@ const cartSlice = createSlice({
           }
         });
         state.data = cartItem;
-        setToLocalStorage(state.data);
+        // setToLocalStorage(state.data);
       } else {
         state.data.push(action.payload);
-        setToLocalStorage(state.data);
+        // setToLocalStorage(state.data);
       }
     },
     removeFromCart(state, action) {
       const cartItem = state.data.filter(item => item.id !== action.payload);
       state.data = cartItem;
-      setToLocalStorage(state.data);
+      // setToLocalStorage(state.data);
     },
     changeQuantity(state, action) {
       const cartItem = state.data.map(item => {
@@ -71,7 +72,7 @@ const cartSlice = createSlice({
         }
       });
       state.data = cartItem;
-      setToLocalStorage(state.data);
+      // setToLocalStorage(state.data);
     },
     getCartTotal(state) {
       state.totalAmount = state.data

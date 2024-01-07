@@ -2,83 +2,96 @@ import {
   MinusIcon,
   PlusIcon,
 } from 'universal-components-frontend/src/components/icons';
-import { useContext, useEffect } from 'react';
-import { StatusContext } from '@/context/statusContext';
+// import { useContext, useEffect } from 'react';
+// import { StatusContext } from '@/context/statusContext';
 import { CartIcon } from '@/public/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart, changeQuantity} from '../../redux/cart/cartSlice';
+import { selectCart } from '../../redux/cart/cartSelector';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
-  const {
-    cartProducts,
-    setCartProducts,
-    showCartNotification,
-    setShowCartNotification,
-  } = useContext(StatusContext);
+  const dispatch = useDispatch();
+  const { data: cartProducts } = useSelector(selectCart);
+  // const {
+  //   cartProducts,
+  //   setCartProducts,
+  //   showCartNotification,
+  //   setShowCartNotification,
+  // } = useContext(StatusContext);
 
   let counterValue;
-  const temp = cartProducts.find(product => product.productId === id);
+  const temp = cartProducts.find(product => product.id === id);
   if (temp) {
     counterValue = temp.quantity || 1;
   }
 
-  const changeQuantity = counterValue => {
-    const parsedCart = JSON.parse(localStorage.getItem('cart'));
-    parsedCart[
-      cartProducts.findIndex(product => product.productId === id)
-    ].quantity = counterValue;
-    setCartProducts(parsedCart);
-    localStorage.setItem('cart', JSON.stringify(parsedCart));
-  };
+  // const changeQuantity = counterValue => {
+  //   const parsedCart = JSON.parse(localStorage.getItem('cart'));
+  //   parsedCart[
+  //     cartProducts.findIndex(product => product.productId === id)
+  //   ].quantity = counterValue;
+  //   setCartProducts(parsedCart);
+  //   localStorage.setItem('cart', JSON.stringify(parsedCart));
+  // };
 
   const valueDecrement = () => {
-    if (counterValue > 1) {
-      counterValue -= 1;
-      document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
-      changeQuantity(counterValue);
-    }
+    // if (counterValue > 1) {
+      // counterValue -= 1;
+      // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+      // changeQuantity(counterValue);
+      dispatch(changeQuantity({ id, type: 'DEC' }))
+    // }
   };
 
   const valueIncrement = () => {
-    counterValue += 1;
-    document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
-    changeQuantity(counterValue);
+    // counterValue += 1;
+    // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+    // changeQuantity(counterValue);
+    dispatch(changeQuantity({ id, type: 'INC' }))
   };
 
   // call effect to receive the products from localStorage (cart)
-  useEffect(() => {
-    const parsedProducts = JSON.parse(localStorage.getItem('cart'));
-    if (parsedProducts) setCartProducts(parsedProducts);
-  }, []);
+  // useEffect(() => {
+  //   const parsedProducts = JSON.parse(localStorage.getItem('cart'));
+  //   if (parsedProducts) setCartProducts(parsedProducts);
+  // }, []);
 
   return (
     <>
-      {!cartProducts.find(product => product.productId === id) && (
+      {!cartProducts.find(product => product.id === id) && (
         <button
           onClick={() => {
             const settings = {
               photo,
               name,
               price,
-              productId: id,
+              id,
               quantity: 1,
             };
 
-            setShowCartNotification(!showCartNotification);
-            setTimeout(() => {
-              setShowCartNotification(false);
-            }, 2000);
-            const parsedProducts = JSON.parse(
-              localStorage.getItem('cart') || '[]'
+            dispatch(
+              addToCart({
+                ...settings,
+                quantity: 1,
+              })
             );
+            // setShowCartNotification(!showCartNotification);
+            // setTimeout(() => {
+            //   setShowCartNotification(false);
+            // }, 2000);
+            // const parsedProducts = JSON.parse(
+            //   localStorage.getItem('cart') || '[]'
+            // );
 
-            setCartProducts(prevCartProducts => [
-              ...prevCartProducts,
-              settings,
-            ]);
+            // setCartProducts(prevCartProducts => [
+            //   ...prevCartProducts,
+            //   settings,
+            // ]);
 
-            localStorage.setItem(
-              'cart',
-              JSON.stringify([...parsedProducts, settings])
-            );
+            // localStorage.setItem(
+            //   'cart',
+            //   JSON.stringify([...parsedProducts, settings])
+            // );
           }}
           className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
         >
@@ -95,7 +108,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
         </button>
       )}
 
-      {cartProducts.find(product => product.productId === id) && (
+      {cartProducts.find(product => product.id === id) && (
         <div className="flex justify-center items-center gap-[10px]">
           <button
             onClick={valueDecrement}

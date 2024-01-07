@@ -131,10 +131,10 @@ const ProductDetails = () => {
   };
 
   // call effect to receive the products from localStorage (cart)
-  useEffect(() => {
-    const parsedProducts = JSON.parse(localStorage.getItem('cart'));
-    if (parsedProducts) setCartProducts(parsedProducts);
-  }, []);
+  // useEffect(() => {
+  //   const parsedProducts = JSON.parse(localStorage.getItem('cart'));
+  //   if (parsedProducts) setCartProducts(parsedProducts);
+  // }, []);
 
   return (
     <>
