@@ -6,7 +6,11 @@ import {
 // import { StatusContext } from '@/context/statusContext';
 import { CartIcon } from '@/public/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart, changeQuantity } from '../../redux/cart/cartSlice';
+import {
+  addToCart,
+  changeQuantity,
+  getCartTotal,
+} from '../../redux/cart/cartSlice';
 import { selectCart } from '../../redux/cart/cartSelector';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
@@ -40,6 +44,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
     // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
     // changeQuantity(counterValue);
     dispatch(changeQuantity({ id, type: 'DEC' }));
+    dispatch(getCartTotal());
     // }
   };
 
@@ -48,6 +53,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
     // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
     // changeQuantity(counterValue);
     dispatch(changeQuantity({ id, type: 'INC' }));
+    dispatch(getCartTotal());
   };
 
   // call effect to receive the products from localStorage (cart)
@@ -67,6 +73,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
               price,
               id,
               quantity: 1,
+              totalPrice: price.value,
             };
 
             dispatch(
@@ -74,6 +81,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
                 ...settings,
               })
             );
+            dispatch(getCartTotal());
             // setShowCartNotification(!showCartNotification);
             // setTimeout(() => {
             //   setShowCartNotification(false);

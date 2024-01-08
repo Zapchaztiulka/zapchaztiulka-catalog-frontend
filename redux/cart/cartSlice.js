@@ -25,7 +25,6 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart(state, action) {
-      console.log('state', state);
       const cartItem = state.data.find(item => item.id === action.payload.id);
       if (cartItem) {
         const cartItem = state.data.map(item => {
@@ -81,7 +80,9 @@ const cartSlice = createSlice({
       state.totalAmount = state.data
         .map(item => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0);
-      state.totalItems = state.data.length;
+      state.totalItems = state.data
+        .map(item => item.quantity)
+        .reduce((prev, curr) => prev + curr, 0);
     },
   },
 });
