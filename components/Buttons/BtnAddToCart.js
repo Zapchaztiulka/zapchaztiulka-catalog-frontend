@@ -6,7 +6,7 @@ import {
 // import { StatusContext } from '@/context/statusContext';
 import { CartIcon } from '@/public/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart, changeQuantity} from '../../redux/cart/cartSlice';
+import { addToCart, changeQuantity } from '../../redux/cart/cartSlice';
 import { selectCart } from '../../redux/cart/cartSelector';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
@@ -22,7 +22,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
   let counterValue;
   const temp = cartProducts.find(product => product.id === id);
   if (temp) {
-    counterValue = temp.quantity || 1;
+    counterValue = temp.quantity;
   }
 
   // const changeQuantity = counterValue => {
@@ -36,10 +36,10 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
 
   const valueDecrement = () => {
     // if (counterValue > 1) {
-      // counterValue -= 1;
-      // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
-      // changeQuantity(counterValue);
-      dispatch(changeQuantity({ id, type: 'DEC' }))
+    // counterValue -= 1;
+    // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
+    // changeQuantity(counterValue);
+    dispatch(changeQuantity({ id, type: 'DEC' }));
     // }
   };
 
@@ -47,7 +47,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
     // counterValue += 1;
     // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
     // changeQuantity(counterValue);
-    dispatch(changeQuantity({ id, type: 'INC' }))
+    dispatch(changeQuantity({ id, type: 'INC' }));
   };
 
   // call effect to receive the products from localStorage (cart)
@@ -72,7 +72,6 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
             dispatch(
               addToCart({
                 ...settings,
-                quantity: 1,
               })
             );
             // setShowCartNotification(!showCartNotification);

@@ -18,19 +18,20 @@ import { createSlice } from '@reduxjs/toolkit';
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    data:[],
+    data: [],
     // data: getFromLocalStorage(),
     totalItems: 0,
     totalAmount: 0,
   },
   reducers: {
     addToCart(state, action) {
+      console.log('state', state);
       const cartItem = state.data.find(item => item.id === action.payload.id);
       if (cartItem) {
         const cartItem = state.data.map(item => {
           if (item.id === action.payload.id) {
             const newQuantity = item.quantity + action.payload.quantity;
-            const newTotalPrice = newQuantity * item.price;
+            const newTotalPrice = newQuantity * item.price.value;
             return {
               ...item,
               quantity: newQuantity,
@@ -58,13 +59,15 @@ const cartSlice = createSlice({
           let newQuantity = item.quantity;
           let newTotalPrice = item.totalPrice;
           if (action.payload.type === 'INC') {
-            newQuantity += newQuantity;
-            newTotalPrice = newQuantity * item.price;
+            newQuantity = newQuantity + 1;
+            newTotalPrice = newQuantity * item.price.value;
           }
           if (action.payload.type === 'DEC') {
-            newQuantity -= newQuantity;
-            if (newQuantity < 1) newQuantity = 1;
-            newTotalPrice = newQuantity * item.price;
+            newQuantity = newQuantity - 1;
+            if (newQuantity < 1) {
+              newQuantity = 1;
+            }
+            newTotalPrice = newQuantity * item.price.value;
           }
           return { ...item, quantity: newQuantity, totalPrice: newTotalPrice };
         } else {
