@@ -4,6 +4,8 @@ import {
 } from 'universal-components-frontend/src/components/icons';
 import { CartIcon } from '@/public/icons';
 import { useSelector, useDispatch } from 'react-redux';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
 import {
   addToCart,
   changeQuantity,
@@ -13,6 +15,8 @@ import { selectCart } from '../../redux/cart/cartSelector';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
   const dispatch = useDispatch();
+  const { showCartNotification, setShowCartNotification } =
+    useContext(StatusContext);
   const { data: cartProducts } = useSelector(selectCart);
 
   let counterValue;
@@ -50,6 +54,10 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
                 ...settings,
               })
             );
+            setShowCartNotification(!showCartNotification);
+            setTimeout(() => {
+              setShowCartNotification(false);
+            }, 2000);
             dispatch(getCartTotal());
           }}
           className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"

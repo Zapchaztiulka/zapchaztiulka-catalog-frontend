@@ -36,7 +36,6 @@ import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
 import { Notification } from 'universal-components-frontend/src/components/notifications';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
-
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
 const empty = '/empty-img.jpeg';
@@ -58,7 +57,6 @@ const ProductDetails = () => {
     localStorage.getItem('ProductViewed') || '[]'
   );
   const {
-    setCartProducts,
     showModalPreOrder,
     setShowModalPreOrder,
     setPreOrderId,
@@ -130,12 +128,6 @@ const ProductDetails = () => {
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
 
-  // call effect to receive the products from localStorage (cart)
-  // useEffect(() => {
-  //   const parsedProducts = JSON.parse(localStorage.getItem('cart'));
-  //   if (parsedProducts) setCartProducts(parsedProducts);
-  // }, []);
-
   return (
     <>
       {product && (
@@ -143,7 +135,6 @@ const ProductDetails = () => {
           <div className="mt-[117px] mb-3">
             <Breadcrumbs
               product={product}
-             
               idCategory={product.categories[0]?._id}
               idSubCategory={product.subcategories[0]?._id}
               nameOfCategoryForIDPage={product.categories[0]?.categoryName}
