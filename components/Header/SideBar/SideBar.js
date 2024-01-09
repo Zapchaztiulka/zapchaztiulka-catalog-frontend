@@ -69,6 +69,7 @@ const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
             <button
               className="flex items-center hover:text-textBrand sidebar-menu"
               onClick={() => {
+                toggle();
                 openModalCart(true);
                 document.body.classList.add('stop-scrolling');
               }}
