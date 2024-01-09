@@ -1,24 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const getFromLocalStorage = () => {
-   if (typeof window !== 'undefined') {
-      const cart = localStorage.getItem('cart');
-  if (cart) {
-    return JSON.parse(localStorage.getItem('cart'));
-  } else {
-    return [];
-  }
-   }
-};
-
-const setToLocalStorage = data => {
-  localStorage.setItem('cart', JSON.stringify(data));
-};
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    data: getFromLocalStorage(),
+    data: [],
     totalItems: 0,
     totalAmount: 0,
   },
@@ -29,7 +14,7 @@ const cartSlice = createSlice({
         const cartItem = state.data.map(item => {
           if (item.id === action.payload.id) {
             const newQuantity = item.quantity + action.payload.quantity;
-            const newTotalPrice = newQuantity * item.price;
+            const newTotalPrice = newQuantity * item.price.value;
             return {
               ...item,
               quantity: newQuantity,
@@ -40,16 +25,13 @@ const cartSlice = createSlice({
           }
         });
         state.data = cartItem;
-        setToLocalStorage(state.data);
       } else {
         state.data.push(action.payload);
-        setToLocalStorage(state.data);
       }
     },
     removeFromCart(state, action) {
       const cartItem = state.data.filter(item => item.id !== action.payload);
       state.data = cartItem;
-      setToLocalStorage(state.data);
     },
     changeQuantity(state, action) {
       const cartItem = state.data.map(item => {
@@ -57,13 +39,15 @@ const cartSlice = createSlice({
           let newQuantity = item.quantity;
           let newTotalPrice = item.totalPrice;
           if (action.payload.type === 'INC') {
-            newQuantity += newQuantity;
-            newTotalPrice = newQuantity * item.price;
+            newQuantity = newQuantity + 1;
+            newTotalPrice = newQuantity * item.price.value;
           }
           if (action.payload.type === 'DEC') {
-            newQuantity -= newQuantity;
-            if (newQuantity < 1) newQuantity = 1;
-            newTotalPrice = newQuantity * item.price;
+            newQuantity = newQuantity - 1;
+            if (newQuantity < 1) {
+              newQuantity = 1;
+            }
+            newTotalPrice = newQuantity * item.price.value;
           }
           return { ...item, quantity: newQuantity, totalPrice: newTotalPrice };
         } else {
@@ -71,13 +55,14 @@ const cartSlice = createSlice({
         }
       });
       state.data = cartItem;
-      setToLocalStorage(state.data);
     },
     getCartTotal(state) {
       state.totalAmount = state.data
         .map(item => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0);
-      state.totalItems = state.data.length;
+      state.totalItems = state.data
+        .map(item => item.quantity)
+        .reduce((prev, curr) => prev + curr, 0);
     },
   },
 });

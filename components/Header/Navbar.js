@@ -11,11 +11,13 @@ import { LogoIcon } from '../Icons/Logo/LogoIcon';
 import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import ModalCart from '@/components/Modals/ModalCart';
+import { useSelector } from 'react-redux';
+import { selectCart } from '../../redux/cart/cartSelector';
 
 const Navbar = ({ categories }) => {
+  const { totalItems } = useSelector(selectCart);
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { resetLocalStorage, backToHomeUrl, totalQuantity } =
-    useContext(StatusContext);
+  const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
   const { isModalOpen, showModalCart, setShowModalCart } =
     useContext(StatusContext);
 
@@ -72,10 +74,10 @@ const Navbar = ({ categories }) => {
               }}
             >
               <p>Кошик</p>
-              {totalQuantity() === 0 ? (
+              {totalItems === 0 ? (
                 <CartIcon className="w-6 h-6 fill-iconSecondary" />
               ) : (
-                <BasketCountIcon count={totalQuantity()} color="#888D92" />
+                <BasketCountIcon count={totalItems} color="#888D92" />
               )}
             </button>
           </div>

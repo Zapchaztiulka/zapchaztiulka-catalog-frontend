@@ -92,15 +92,6 @@ export const StatusProvider = ({ children }) => {
   const [showModalCart, setShowModalCart] = useState(false);
   const [showModalPreOrder, setShowModalPreOrder] = useState(false);
   const [preOrderId, setPreOrderId] = useState(0);
-  const totalQuantity = () => {
-    let total = 0;
-    if (cartProducts) {
-      cartProducts.forEach(product => {
-        total += product.quantity;
-      });
-    }
-    return total;
-  };
 
   return (
     <StatusContext.Provider
@@ -141,7 +132,6 @@ export const StatusProvider = ({ children }) => {
         setIsModalOpen,
         cartProducts,
         setCartProducts,
-        totalQuantity,
         showModalPreOrder,
         setShowModalPreOrder,
         preOrderId,
