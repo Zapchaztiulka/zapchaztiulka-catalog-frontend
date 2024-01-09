@@ -2,8 +2,6 @@ import {
   MinusIcon,
   PlusIcon,
 } from 'universal-components-frontend/src/components/icons';
-// import { useContext, useEffect } from 'react';
-// import { StatusContext } from '@/context/statusContext';
 import { CartIcon } from '@/public/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -16,12 +14,6 @@ import { selectCart } from '../../redux/cart/cartSelector';
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
   const dispatch = useDispatch();
   const { data: cartProducts } = useSelector(selectCart);
-  // const {
-  //   cartProducts,
-  //   setCartProducts,
-  //   showCartNotification,
-  //   setShowCartNotification,
-  // } = useContext(StatusContext);
 
   let counterValue;
   const temp = cartProducts.find(product => product.id === id);
@@ -29,38 +21,15 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
     counterValue = temp.quantity;
   }
 
-  // const changeQuantity = counterValue => {
-  //   const parsedCart = JSON.parse(localStorage.getItem('cart'));
-  //   parsedCart[
-  //     cartProducts.findIndex(product => product.productId === id)
-  //   ].quantity = counterValue;
-  //   setCartProducts(parsedCart);
-  //   localStorage.setItem('cart', JSON.stringify(parsedCart));
-  // };
-
   const valueDecrement = () => {
-    // if (counterValue > 1) {
-    // counterValue -= 1;
-    // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
-    // changeQuantity(counterValue);
     dispatch(changeQuantity({ id, type: 'DEC' }));
     dispatch(getCartTotal());
-    // }
   };
 
   const valueIncrement = () => {
-    // counterValue += 1;
-    // document.querySelector(`#${id.slice(18)}`).textContent = counterValue;
-    // changeQuantity(counterValue);
     dispatch(changeQuantity({ id, type: 'INC' }));
     dispatch(getCartTotal());
   };
-
-  // call effect to receive the products from localStorage (cart)
-  // useEffect(() => {
-  //   const parsedProducts = JSON.parse(localStorage.getItem('cart'));
-  //   if (parsedProducts) setCartProducts(parsedProducts);
-  // }, []);
 
   return (
     <>
@@ -82,23 +51,6 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
               })
             );
             dispatch(getCartTotal());
-            // setShowCartNotification(!showCartNotification);
-            // setTimeout(() => {
-            //   setShowCartNotification(false);
-            // }, 2000);
-            // const parsedProducts = JSON.parse(
-            //   localStorage.getItem('cart') || '[]'
-            // );
-
-            // setCartProducts(prevCartProducts => [
-            //   ...prevCartProducts,
-            //   settings,
-            // ]);
-
-            // localStorage.setItem(
-            //   'cart',
-            //   JSON.stringify([...parsedProducts, settings])
-            // );
           }}
           className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
         >

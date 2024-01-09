@@ -9,14 +9,15 @@ import {
   CloseIcon,
 } from '@/public/icons';
 import { LogoIcon } from '../../Icons/Logo/LogoIcon';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import SideBarCatalog from './SideBarCatalog';
 import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
-import { StatusContext } from '@/context/statusContext';
+import { useSelector } from 'react-redux';
+import { selectCart } from '../../../redux/cart/cartSelector';
 
 const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
+  const { totalItems } = useSelector(selectCart);
   const [showCategory, setShowCategory] = useState(false);
-  const { totalQuantity } = useContext(StatusContext);
 
   const togglShow = () => {
     setShowCategory(!showCategory);
@@ -72,11 +73,11 @@ const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
                 document.body.classList.add('stop-scrolling');
               }}
             >
-              {totalQuantity() === 0 ? (
+              {totalItems === 0 ? (
                 <CartIconSideBar className="w-11 h-11 fill-iconSecondary sidebar-icon" />
               ) : (
                 <div className="flex justify-center items-center w-11 h-11">
-                  <BasketCountIcon count={totalQuantity()} color="#888D92" />
+                  <BasketCountIcon count={totalItems} color="#888D92" />
                 </div>
               )}
               <span>Кошик</span>
