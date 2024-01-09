@@ -21,6 +21,17 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Запчастюлька</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Запчастини для авто та сільгосптехніки Запчастюлька"
+        />
+        <meta property="og:title" content="Запчастини для авто та сільгосптехніки Запчастюлька" />
+        <meta
+          property="og:description"
+          content="Запчастини для авто та сільгосптехніки"
+        />
+        <meta property="og:url" content="https://zapchaztiulka-catalog-frontend.vercel.app/" />
+        <meta property="og:type" content="website" />
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

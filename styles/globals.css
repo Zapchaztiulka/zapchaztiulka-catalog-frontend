@@ -265,11 +265,11 @@ a {
 }
 
 .containerStyles {
-  @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet600:w-[432px] tablet1024:w-[343px] relative border border-borderDefault rounded-lg bg-[url('/special-order/special.png')] mobile480:bg-[url('/special-order/special_480.png')] tablet1024:bg-[url('/special-order/special.png')] bg-contain bg-no-repeat bg-right-top
+  @apply  h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet600:w-[432px] tablet1024:w-[343px] relative border border-borderDefault rounded-lg bg-[url('/special-order/special.png')] mobile480:bg-[url('/special-order/special_480.png')] tablet1024:bg-[url('/special-order/special.png')] bg-contain bg-no-repeat bg-right-top
 }
 
 .waveImageStyles {
-  @apply bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet1024:bg-[url('/wave-shape/shape320.png')] bg-auto bg-no-repeat h-full w-full absolute z-10
+  @apply h-[196px] border border-borderDefault rounded-lg bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet1024:bg-[url('/wave-shape/shape320.png')] bg-contain bg-no-repeat h-full w-full absolute z-10
 }
 
 .containerStylesForIdProduct {
@@ -277,7 +277,7 @@ a {
 }
 
 .waveImageStylesForIdProduct {
-  @apply bottom-0 rounded-b-lg tablet600:h-[228px] tablet768:h-[240px] desktop1200:h-[284px] tablet600:bg-[url('/wave-shape/600px.png')] tablet768:bg-[url('/wave-shape/768_1024px.png')] desktop1200:bg-[url('/wave-shape/1440_1920px.png')] bg-auto bg-no-repeat w-full absolute z-10
+  @apply bottom-0 border-x border-b border-borderDefault rounded-b-lg tablet600:h-[228px] tablet768:h-[240px] desktop1200:h-[284px] tablet600:bg-[url('/wave-shape/600px.png')] tablet768:bg-[url('/wave-shape/768_1024px.png')] desktop1200:bg-[url('/wave-shape/1440_1920px.png')] bg-auto bg-no-repeat w-full absolute z-10
 }
 
 .containerStylesForProducts {
@@ -285,5 +285,5 @@ a {
 }
 
 .waveImageStylesForProducts {
-  @apply bottom-0 h-[220px] tablet600:h-[273px] tablet768:h-[288px] desktop1200:h-[300px] bg-[url('/wave-shape/600px.png')] tablet768:bg-[url('/wave-shape/768_1024px.png')] desktop1200:bg-[url('/wave-shape/1440_1920px.png')] bg-auto bg-no-repeat w-full absolute z-10 rounded-b-lg
+  @apply bottom-0 border-x border-b border-borderDefault h-[220px] tablet600:h-[273px] tablet768:h-[288px] desktop1200:h-[300px] bg-[url('/wave-shape/600px.png')] tablet768:bg-[url('/wave-shape/768_1024px.png')] desktop1200:bg-[url('/wave-shape/1440_1920px.png')] bg-auto bg-no-repeat w-full absolute z-10 rounded-b-lg
 }

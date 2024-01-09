@@ -59,7 +59,7 @@ const PopularProducts = ({ products, isLoading }) => {
       </section>
 
       {/* special order 320-480px */}
-      <div className="mt-1 tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px] border border-borderDefault rounded-lg relative">
+      <div className="mt-1 tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px]  relative">
         <NotFoundProduct
           containerStyles="containerStyles"
           waveImageStyles="waveImageStyles"

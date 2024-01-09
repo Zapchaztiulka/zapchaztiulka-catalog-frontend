@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +44,6 @@ const StartPage = () => {
   let idCategory = router.query.categories || [];
   let idSubCategory = router.query.subcategories || [];
   const [currentPage, setCurrentPage] = useState(startPage);
-  const [emptySearchResult, setEmptySearchResult] = useState(false);
   const size = useWindowSize();
   const limit = getLimitByScreenWidth(size);
   const {

@@ -13,10 +13,12 @@ const NotFoundProduct = ({
   textStyles
 }) => {
   return (
-    <div className="h-full">
+    <div className="h-full relative">
+      <div className={waveImageStyles}></div>
       <div className={containerStyles}>
-        <div className={waveImageStyles}></div>
-        <div className={`flex flex-col ${textStylesForNotFoundProduct} relative z-10`}>
+        <div
+          className={`flex flex-col ${textStylesForNotFoundProduct} relative z-10`}
+        >
           <div>
             <h3 className={`${headStyles} text-textPrimary font-medium`}>
               Не знайшли потрібний товар?
@@ -32,7 +34,7 @@ const NotFoundProduct = ({
             iconProps={{ color: '#1570EF' }}
             iconSide="right"
             icon={ArrowRightIcon}
-            style={{ justifyContent: "flex-start" }}
+            style={{ justifyContent: 'flex-start' }}
           />
         </div>
       </div>
