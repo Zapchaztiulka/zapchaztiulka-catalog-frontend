@@ -84,7 +84,7 @@ const Navbar = ({ categories }) => {
         </div>
       </nav>
       {/* Modal for click add to cart */}
-      {showModalCart && <ModalCart onClose={() => setShowModalCart(false)} />}
+      {showModalCart && <ModalCart />}
     </header>
   );
 };

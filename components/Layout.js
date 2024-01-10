@@ -98,9 +98,8 @@ const Layout = ({ children }) => {
 
   // get categories of products
   useEffect(() => {
-      dispatch(fetchCategories());
+    dispatch(fetchCategories());
   }, [dispatch]);
-  
 
   return (
     <>
@@ -108,9 +107,8 @@ const Layout = ({ children }) => {
         className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
       >
         <Navbar categories={categories} />
-        <main className="main-container mt-[50px]">
-          {children}
-        </main>
+        <div id="modal-cart"></div>
+        <main className="main-container mt-[50px]">{children}</main>
         <div id="modal-root"></div>
         <Footer categories={categories} />
       </div>
