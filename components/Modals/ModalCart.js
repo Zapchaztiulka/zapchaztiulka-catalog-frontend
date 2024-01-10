@@ -4,15 +4,30 @@ import { EmptyCartIcon } from '@/public/icons';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
+import { useOnKeyDown } from '@/hooks/useOnClickOutside';
 
 const ModalCart = () => {
-  const { resetLocalStorage, backToHomeUrl, setShowModalCart } =
+  const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
     useContext(StatusContext);
 
+  const onClose = () => {
+    setShowModalCart(!showModalCart);
+    document.body.classList.remove('stop-scrolling');
+  };
+  useOnKeyDown(onClose);
+
   const modalContent = (
-    <div className="mt-[57px] tablet1024:mt-0 tablet1024:fixed tablet1024:inset-0 tablet1024:flex tablet1024:items-center tablet1024:justify-center tablet1024:bg-black tablet1024:bg-opacity-50 z-50">
+    <div
+      onClick={() => {
+        onClose();
+      }}
+      className="mt-[57px] tablet1024:mt-0 tablet1024:fixed tablet1024:inset-0 tablet1024:flex tablet1024:items-center tablet1024:justify-center tablet1024:bg-black tablet1024:bg-opacity-50 z-50"
+    >
       <div
-        className="tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2 bg-green-400
+        onClick={e => {
+          e.stopPropagation();
+        }}
+        className="z-60 tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2 bg-green-400
        flex flex-col h-[83vh] items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
         p-[16px] mobile480:px-[24px] mobile480:py-[16px] tablet600:px-[24px] tablet600:py-[20px]
         tablet1024:px-[48px] desktop1440:py-[40px] w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
@@ -33,13 +48,7 @@ const ModalCart = () => {
             >
               Очистити кошик
             </button>
-            <button
-              className="ml-[12px]"
-              onClick={() => {
-                setShowModalCart(false);
-                document.body.classList.remove('stop-scrolling');
-              }}
-            >
+            <button className="ml-[12px]" onClick={onClose}>
               <CloseIcon />
             </button>
           </div>
@@ -62,8 +71,7 @@ const ModalCart = () => {
                 if (typeof window !== 'undefined') {
                   resetLocalStorage();
                   backToHomeUrl();
-                  document.body.classList.remove('stop-scrolling');
-                  setShowModalCart(false);
+                  onClose();
                 }
               }}
             >
