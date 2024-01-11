@@ -5,13 +5,16 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import { useOnKeyDown } from '@/hooks/useOnClickOutside';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
+
+import { clearTheCart } from '../../redux/cart/cartSlice';
 
 const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
     useContext(StatusContext);
 
+  const dispatch = useDispatch();
   const { data, totalAmount } = useSelector(selectCart);
   // const { photo, name, vendorCode, quantity, totalPrice } = data[0];
   const onClose = () => {
@@ -48,14 +51,25 @@ const ModalCart = () => {
             >
               Кошик
             </h5>
-            <button
-              className="disabled-button text-textBrand w-[152px] h-[40px] font-medium text-[16px] leading-[22.4px]
+            {totalAmount ? (
+              <button
+                className="text-textBrand w-[152px] h-[40px] font-medium text-[16px] leading-[22.4px]
               mr-auto tablet600:mr-0 tablet600:ml-auto"
-              //text-textBrand
-              type="button"
-            >
-              Очистити кошик
-            </button>
+                type="button"
+                onClick={() => dispatch(clearTheCart())}
+              >
+                Очистити кошик
+              </button>
+            ) : (
+              <button
+                className="disabled-button text-textBrand w-[152px] h-[40px] font-medium text-[16px] leading-[22.4px]
+              mr-auto tablet600:mr-0 tablet600:ml-auto"
+                type="button"
+              >
+                Очистити кошик
+              </button>
+            )}
+
             <button className="ml-[12px]" onClick={onClose}>
               <CloseIcon />
             </button>
@@ -67,7 +81,7 @@ const ModalCart = () => {
             </div>
           ) : null}
           {!totalAmount && (
-            <div className="flex flex-col items-center w-full mt-auto mb-auto mobile480:px-[24px] tablet600:px-[28px]">
+            <div className="flex flex-col items-center w-full mt-auto mb-auto px-[16px] mobile480:px-[24px]">
               <div className="flex items-center justify-center mb-[8px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
                 <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
                   <EmptyCartIcon width={24} height={24} />

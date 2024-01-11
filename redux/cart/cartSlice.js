@@ -64,10 +64,23 @@ const cartSlice = createSlice({
         .map(item => item.quantity)
         .reduce((prev, curr) => prev + curr, 0);
     },
+
+    clearTheCart(state) {
+      return {
+        data: [],
+        totalItems: 0,
+        totalAmount: 0,
+      };
+    },
   },
 });
 
-export const { addToCart, removeFromCart, changeQuantity, getCartTotal } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  changeQuantity,
+  getCartTotal,
+  clearTheCart,
+} = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;
