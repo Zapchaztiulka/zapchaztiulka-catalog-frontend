@@ -12,8 +12,8 @@ const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
     useContext(StatusContext);
 
-  const { totalAmount } = useSelector(selectCart);
-
+  const { data, totalAmount } = useSelector(selectCart);
+  // const { photo, name, vendorCode, quantity, totalPrice } = data[0];
   const onClose = () => {
     setShowModalCart(!showModalCart);
     document.body.classList.remove('stop-scrolling');
@@ -31,13 +31,17 @@ const ModalCart = () => {
         onClick={e => {
           e.stopPropagation();
         }}
-        className="z-60 tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2 bg-green-400
-       flex flex-col h-[83vh] items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
-        mobile480:px-[24px] tablet600:px-[24px] mobile480:py-[16px] tablet600:py-[20px]
-        tablet1024:px-[48px] desktop1440:py-[40px] w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
+        className="bg-white z-60 tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
+        flex flex-col h-[83vh] items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
+        w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
+        // bg-green-400
       >
         <div className="flex flex-col justify-between h-full w-full">
-          <div className="flex items-center w-full mobile320:flex-row justify-between">
+          <div
+            className="flex items-center w-full mobile320:flex-row justify-between 
+          px-[16px] py-[20px] mobile480:px-[24px] tablet600:px-[32px] tablet600:py-[28px]
+          "
+          >
             <h5
               className="mr-[8px] decoration-textPrimary mobile320:font-medium mobile320:text-[18px] mobile320:leading-[25.2px]
            tablet600:text-[28px] tablet600:leading-[33.6px] desktop1440:font-normal desktop1440:text-[36px] desktop1440:leading-[46.8px]"
@@ -56,8 +60,14 @@ const ModalCart = () => {
               <CloseIcon />
             </button>
           </div>
+          {totalAmount && (
+            <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto">
+              Тут товари в кошику
+              {/* <span>{name}</span> */}
+            </div>
+          )}
           {!totalAmount && (
-            <div className="flex flex-col items-center w-full mt-auto mb-auto">
+            <div className="flex flex-col items-center w-full mt-auto mb-auto mobile480:px-[24px] tablet600:px-[28px]">
               <div className="flex items-center justify-center mb-[8px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
                 <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
                   <EmptyCartIcon width={24} height={24} />
@@ -71,7 +81,7 @@ const ModalCart = () => {
               </p>
               <button
                 type="button"
-                className="state-button w-full tablet600:w-[285px] h-[48px] font-medium text-[16px] leading-[22.4px] text-textContrast"
+                className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] font-medium text-[16px] leading-[22.4px] text-textContrast"
                 onClick={() => {
                   if (typeof window !== 'undefined') {
                     resetLocalStorage();
@@ -85,13 +95,18 @@ const ModalCart = () => {
             </div>
           )}
           {totalAmount && (
-            <div className="flex flex-col items-center gap-[10px] h-[116px] p-[16px] ">
-              <p className="font-medium text-[18px] leading-[25.2px] text-textPrimary">
-                Всього:<span>{totalAmount}</span> ₴
+            <div
+              className="flex flex-col tablet1024:flex-row tablet1024:justify-end items-center gap-[10px] tablet600:gap-[12px] tablet1024:gap-[20px] 
+            h-[116px] tablet600:h-[125px] tablet1024:h-[88px] desktop1440:h-[128px] 
+            p-[16px] mobile480:px-[24px] tablet1024:px-[32px] desktop1440:px-[48px] tablet600:py-[20px] desktop1440:py-[40px]"
+            >
+              <p className="font-medium text-[18px] leading-[25.2px] tablet1024:text-[24px] tablet1024:leading-[28.8px] text-textPrimary">
+                Всього: <span>{totalAmount}</span> ₴
               </p>
               <button
                 type="button"
-                className="state-button w-full tablet600:w-[285px] h-[48px] font-medium text-[16px] leading-[22.4px] text-textContrast"
+                className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
+                font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
                 onClick={() => {
                   if (typeof window !== 'undefined') {
                     onClose();

@@ -66,7 +66,13 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         {availability === 'в наявності' ? (
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && (
-              <BtnAddToCart photo={photo} name={name} price={price} id={id} />
+              <BtnAddToCart
+                photo={photo}
+                name={name}
+                vendorCode={vendorCode}
+                price={price}
+                id={id}
+              />
             )}
           </div>
         ) : availability === 'під замовлення' ? (

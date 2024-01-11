@@ -285,6 +285,7 @@ const ProductDetails = () => {
                       <BtnAddToCart
                         photo={product?.photo}
                         name={product?.name}
+                        vendorCode={product?.vendorCode}
                         price={product?.price}
                         id={product?._id}
                         visibleCartIcon
