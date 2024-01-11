@@ -60,12 +60,12 @@ const ModalCart = () => {
               <CloseIcon />
             </button>
           </div>
-          {totalAmount && (
+          {totalAmount ? (
             <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto">
               Тут товари в кошику
               {/* <span>{name}</span> */}
             </div>
-          )}
+          ) : null}
           {!totalAmount && (
             <div className="flex flex-col items-center w-full mt-auto mb-auto mobile480:px-[24px] tablet600:px-[28px]">
               <div className="flex items-center justify-center mb-[8px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
@@ -94,7 +94,7 @@ const ModalCart = () => {
               </button>
             </div>
           )}
-          {totalAmount && (
+          {totalAmount ? (
             <div
               className="flex flex-col tablet1024:flex-row tablet1024:justify-end items-center gap-[10px] tablet600:gap-[12px] tablet1024:gap-[20px] 
             h-[116px] tablet600:h-[125px] tablet1024:h-[88px] desktop1440:h-[128px] 
@@ -116,7 +116,7 @@ const ModalCart = () => {
                 Офомити замовлення
               </button>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
