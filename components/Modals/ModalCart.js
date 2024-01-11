@@ -1,20 +1,19 @@
 // import Modal from '../Modal';
 import ReactDOM from 'react-dom';
 import { EmptyCartIcon } from '@/public/icons';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import { useOnKeyDown } from '@/hooks/useOnClickOutside';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
-
-import { clearTheCart } from '../../redux/cart/cartSlice';
+import ModalDeleteFromCart from '@/components/Modals/ModalDeleteFromCart';
 
 const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
     useContext(StatusContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const dispatch = useDispatch();
   const { data, totalAmount } = useSelector(selectCart);
   // const { photo, name, vendorCode, quantity, totalPrice } = data[0];
   const onClose = () => {
@@ -56,7 +55,9 @@ const ModalCart = () => {
                 className="text-textBrand w-[152px] h-[40px] font-medium text-[16px] leading-[22.4px]
               mr-auto tablet600:mr-0 tablet600:ml-auto"
                 type="button"
-                onClick={() => dispatch(clearTheCart())}
+                onClick={() => {
+                  setIsOpen(true);
+                }}
               >
                 Очистити кошик
               </button>
@@ -133,6 +134,18 @@ const ModalCart = () => {
           ) : null}
         </div>
       </div>
+      {/* Modal for Delete from cart*/}
+      {isOpen && (
+        <ModalDeleteFromCart
+          onClose={() => setIsOpen(false)}
+          hideCloseBtn
+          title={'Очистити кошик'}
+          desctription={
+            'Ви впевнені, що хочете видалити товари? Відмінити цю дію неможливо.'
+          }
+          delButtonText={'Видалити товари'}
+        />
+      )}
     </div>
   );
   return ReactDOM.createPortal(

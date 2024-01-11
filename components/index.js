@@ -10,6 +10,7 @@ import ModalCart from './Modals/ModalCart';
 import ModalOneClickOrder from './Modals/ModalOneClickOrder';
 import ModalAbsentOrder from './Modals/ModalAbsentOrder';
 import ModalOrderSuccessful from './Modals/ModalOrderSuccessful';
+import ModalDeleteFromCart from './Modals/ModalDeleteFromCart';
 
 export {
   Navbar,
@@ -23,4 +24,5 @@ export {
   ModalOneClickOrder,
   ModalAbsentOrder,
   ModalOrderSuccessful,
+  ModalDeleteFromCart,
 };
