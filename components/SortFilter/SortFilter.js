@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
 import {
   ArrowDownIcon,
   ArrowUpIcon,

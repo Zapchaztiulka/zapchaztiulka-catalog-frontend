@@ -35,7 +35,10 @@ import {
   setSortType,
 } from '@/redux/sortProduct/selectedOptionActions';
 import SearchQueryName from '@/components/SearchQueryName/SearchQueryName';
-import { getCategoryName, getSubCategoryName } from '@/helpers/getNameOfCategory';
+import {
+  getCategoryName,
+  getSubCategoryName,
+} from '@/helpers/getNameOfCategory';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -66,23 +69,23 @@ const StartPage = () => {
   } = useContext(StatusContext);
 
   const { selected, sortType } = useSelector(selectSelected);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSorting, setIsOpenSorting] = useState(false);
   const [options, setOptions] = useState();
 
-  const toggling = () => setIsOpen(!isOpen);
+  const toggling = () => setIsOpenSorting(!isOpenSorting);
 
   useEffect(() => {
     setOptions(['Від дешевих до дорогих', 'Від дорогих до дешевих']);
   }, []);
 
   // Selected options for sorting products by price
-  const onOptionClicked = value => () => {
+  const onOptionClicked = (value) => () => {
     if (value === selected) {
       return;
     }
     dispatch(setSelected(value));
     dispatch(setSelectedLocalStorage(value));
-    setIsOpen(false);
+    setIsOpenSorting(false);
     let newSortType;
     if (value === 'Від дешевих до дорогих') {
       newSortType = 'smallLarge';
@@ -108,7 +111,7 @@ const StartPage = () => {
   };
 
   const close = () => {
-    setIsOpen(false);
+    setIsOpenSorting(false);
   };
 
   let countriesUrlArray =
@@ -128,7 +131,7 @@ const StartPage = () => {
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
-  
+
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
@@ -378,42 +381,36 @@ const StartPage = () => {
                 minPriceURL={minPrice}
                 maxPriceURL={maxPrice}
               />
-              <div className="flex flex-col tablet600:flex-row items-center tablet600:gap-2 tablet1024:hidden mb-3">
-                <BtnPrimary width={'w-full'} onClick={openModal}>
-                  <FilterIcon className="w-[24px] h-[24px]" />
-                  <span>Фільтр</span>
-                </BtnPrimary>
-                {isModalOpen && (
-                  <FilterMobile
-                    onClose={closeModal}
-                    countriesUrlArray={countriesUrlArray}
-                    trademarkUrlArray={trademarkUrlArray}
-                    handleDeleteChip={handleDeleteChip}
-                    minPrice={minPrice}
-                    maxPrice={maxPrice}
-                  />
-                )}
-                <div className="hidden tablet600:block  tablet1024:hidden">
-                   <SortFilter
-                toggling={toggling}
-                selected={selected}
-                options={options}
-                onOptionClicked={onOptionClicked}
-                isOpen={isOpen}
-                close={close}
-              />
+              <div className="flex flex-col gap-3 tablet600:flex-row items-start tablet600:items-center tablet600:gap-2  mb-3">
+                <div className="tablet1024:hidden w-full">
+                  <BtnPrimary width={'w-full'} onClick={openModal}>
+                    <FilterIcon className="w-[24px] h-[24px]" />
+                    <span>Фільтр</span>
+                  </BtnPrimary>
+                  {isModalOpen && (
+                    <FilterMobile
+                      onClose={closeModal}
+                      countriesUrlArray={countriesUrlArray}
+                      trademarkUrlArray={trademarkUrlArray}
+                      handleDeleteChip={handleDeleteChip}
+                      minPrice={minPrice}
+                      maxPrice={maxPrice}
+                    />
+                  )}
                 </div>
+
+              <div className="">
+                <SortFilter
+                  toggling={toggling}
+                  selected={selected}
+                  options={options}
+                  onOptionClicked={onOptionClicked}
+                  isOpen={isOpenSorting}
+                  close={close}
+                />
               </div>
-              <div className="tablet600:hidden tablet1024:block">
-              <SortFilter
-                toggling={toggling}
-                selected={selected}
-                options={options}
-                onOptionClicked={onOptionClicked}
-                isOpen={isOpen}
-                close={close}
-              />
               </div>
+
 
               <CardsList
                 isLoading={isLoading}

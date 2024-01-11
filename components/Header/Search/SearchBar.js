@@ -27,7 +27,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const dispatch = useDispatch();
   const data = useSelector(selectAllProducts);
   const products = data?.products;
-  const { sortType } = useSelector(selectSelected);
+  // const { sortType } = useSelector(selectSelected);
   const {setCountry, setTrademarks} = useContext(StatusContext);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     if (searchTerm !== '') {
       router.push({
         pathname: '/',
-        query: { query: searchTerm.toLowerCase(), page: 1, sortType: sortType ? sortType : [] },
+        query: { query: searchTerm.toLowerCase(), page: 1, sortType: router.query.sortType ? router.query.sortType : [] },
       });
 
       clearSearchTerm();
