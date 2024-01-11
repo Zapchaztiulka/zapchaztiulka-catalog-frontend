@@ -117,6 +117,10 @@ a {
   @apply fill-iconBrandDark stroke-iconBrandDark;
 }
 
+.sidebar-btn:hover svg{
+  @apply stroke-iconBrandDark
+}
+
 .characteristic {
   @apply flex items-center py-4;
 }
@@ -269,7 +273,7 @@ a {
 }
 
 .waveImageStyles {
-  @apply h-[196px] border border-borderDefault rounded-lg bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet1024:bg-[url('/wave-shape/shape320.png')] bg-contain bg-no-repeat h-full w-full absolute z-10
+  @apply h-[196px] border border-borderDefault rounded-lg bg-[url('/wave-shape/shape320.png')] mobile480:bg-[url('/wave-shape/shape480.png')] tablet1024:bg-[url('/wave-shape/shape320.png')] bg-contain bg-no-repeat w-full absolute z-10
 }
 
 .containerStylesForIdProduct {

@@ -15,12 +15,14 @@ import { categoriesReducer } from "./categories/categoriesSlice";
 import { filterReducer } from "./filterSlice";
 import { cartReducer } from "./cart/cartSlice";
 import { storage } from './index';
+import selectedReducer from "./sortProduct/selectOptionReducer";
 
 const rootReducer = combineReducers({
   products: productsReducer,
   filter: filterReducer,
   categories: categoriesReducer,
   cart: cartReducer,
+  selected: selectedReducer,
 });
 
 const persistConfig = {

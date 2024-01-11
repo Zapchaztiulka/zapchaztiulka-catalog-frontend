@@ -5,6 +5,7 @@ import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
+import { EmptyImageIcon } from 'universal-components-frontend/src/components/icons';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
@@ -26,15 +27,9 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         <div className="">
           <div className="">
             {photo.length === 0 || !getExtension(photo[0]?.url) ? (
-              <Image
-                src="/empty-img.jpeg"
-                alt="no image"
-                width="0"
-                height="0"
-                priority
-                sizes="100vw"
-                className="product-card-img object-contain"
-              />
+              <div className="product-card-img object-contain flex justify-center items-center">
+                <EmptyImageIcon className="w-[64px] h-[64px] tablet600:w-[88px] tablet600:h-[88px] desktop1200:w-[103px] desktop1200:h-[102px]" />
+              </div>
             ) : (
               <Image
                 src={photo[0]?.url}

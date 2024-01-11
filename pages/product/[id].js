@@ -27,6 +27,7 @@ import ProductInfo from '@/components/Products/ProductInfo';
 import RecentlyViewProducts from '@/components/Products/RecentlyViewProducts';
 import PopularProducts from '@/components/Products/PopularProducts';
 import { StatusContext } from '@/context/statusContext';
+import { EmptyImageIcon } from 'universal-components-frontend/src/components/icons';
 
 import ModalOneClickOrder from '@/components/Modals/ModalOneClickOrder';
 import ModalAbsentOrder from '@/components/Modals/ModalAbsentOrder';
@@ -38,8 +39,6 @@ import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
-
-const empty = '/empty-img.jpeg';
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -143,7 +142,6 @@ const ProductDetails = () => {
           <div className="mt-[117px] mb-3">
             <Breadcrumbs
               product={product}
-             
               idCategory={product.categories[0]?._id}
               idSubCategory={product.subcategories[0]?._id}
               nameOfCategoryForIDPage={product.categories[0]?.categoryName}
@@ -165,15 +163,9 @@ const ProductDetails = () => {
                   <div className="sticky top-[120px]">
                     {product?.photo?.length === 0 ||
                     !getExtension(product?.photo[0]?.url) ? (
-                      <Image
-                        src="/empty-img.jpeg"
-                        alt="no image"
-                        className="product-card-img-byId"
-                        width="0"
-                        height="0"
-                        priority
-                        sizes="100vw"
-                      />
+                      <div className="product-card-img-byId flex justify-center items-center">
+                        <EmptyImageIcon className="" size="big" />
+                      </div>
                     ) : (
                       <>
                         <div className="custom-class-slide relative">

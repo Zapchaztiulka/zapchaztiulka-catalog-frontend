@@ -1,9 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
-import { LogoIcon } from '../Icons/Logo/LogoIcon';
-
+import { LogoIconWithText, LogoIcon } from 'universal-components-frontend/src/components/icons';
 import FooterTablet from './FooterTablet';
 import { StatusContext } from '@/context/statusContext';
 

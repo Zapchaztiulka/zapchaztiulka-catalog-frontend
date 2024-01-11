@@ -16,9 +16,11 @@ export const fetchProducts = createAsyncThunk(
         maxPrice,
         categories,
         subcategories,
+        sortBy='',
+        sortType='',
       } = dataValue;
       const { data } = await axios.post(
-        `/api/products?page=${page}&limit=${limit}&query=${query}`,
+        `/api/products?page=${page}&limit=${limit}&query=${query}&sortBy=${sortBy}&sortType=${sortType}`,
         { countries, trademarks, minPrice, maxPrice, subcategories, categories }
       );
       return data;

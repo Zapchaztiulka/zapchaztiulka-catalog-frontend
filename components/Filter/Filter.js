@@ -21,6 +21,7 @@ const Filter = ({
   searchValue,
   trademarkUrlArray,
   countriesUrlArray,
+  sortType,
 }) => {
   const router = useRouter();
   const productInfo = useSelector(selectCountryPriceTrademark);
@@ -31,7 +32,7 @@ const Filter = ({
   );
   const [matchPriceForTrademarkArray, setMatchPriceForTrademarkArray] =
     useState([]);
-  const [submitType, setSubmitType] = useState(''); 
+  const [submitType, setSubmitType] = useState('');
 
   const {
     triggeredCountry,
@@ -345,10 +346,7 @@ const Filter = ({
   };
 
   const isDisabledBtn =
-    country.length > 0 ||
-    trademarks.length > 0 ||
-    minValue ||
-    maxValue 
+    country.length > 0 || trademarks.length > 0 || minValue || maxValue
       ? true
       : false;
 
@@ -368,15 +366,15 @@ const Filter = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-       if (submitType === 'primaryMobile') {
-         setIsModalOpen(false);
-       }
+    if (submitType === 'primaryMobile') {
+      setIsModalOpen(false);
+    }
 
     const filteredCountries = country.map(value =>
-      value !== '' ? value : 'Інше'
+      value !== '' ? value : 'Не зазначено'
     );
     const filteredTrademarks = trademarks.map(value =>
-      value !== '' ? value : 'Інше'
+      value !== '' ? value : 'Не зазначено'
     );
     router.push({
       pathname: `/`,
@@ -393,6 +391,7 @@ const Filter = ({
             : filteredTrademarks,
         min: minValue ? minValue : [],
         max: maxValue ? maxValue : [],
+        sortType: sortType ? sortType : [],
       },
     });
     localStorage.setItem('Country', JSON.stringify(country));

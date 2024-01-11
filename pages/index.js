@@ -27,6 +27,15 @@ import PaginationProducts from '@/components/Pagination/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 import EmptySearchPage from '@/components/EmptySearchPage/EmptySearchPage';
+import SortFilter from '@/components/SortFilter/SortFilter';
+import { selectSelected } from '@/redux/sortProduct/selectSelectedOption';
+import {
+  setSelected,
+  setSelectedLocalStorage,
+  setSortType,
+} from '@/redux/sortProduct/selectedOptionActions';
+import SearchQueryName from '@/components/SearchQueryName/SearchQueryName';
+import { getCategoryName, getSubCategoryName } from '@/helpers/getNameOfCategory';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -36,13 +45,14 @@ const StartPage = () => {
   const productInfo = useSelector(selectCountryPriceTrademark);
   const { categories } = useSelector(selectCategories);
   let startPage = router.query.page ? Number(router.query.page) : 1;
-  let searchValue = router.query.query || '' ;
+  let searchValue = router.query.query || '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
   let minPrice = router.query.min;
   let maxPrice = router.query.max;
   let idCategory = router.query.categories || [];
   let idSubCategory = router.query.subcategories || [];
+
   const [currentPage, setCurrentPage] = useState(startPage);
   const size = useWindowSize();
   const limit = getLimitByScreenWidth(size);
@@ -55,19 +65,72 @@ const StartPage = () => {
     setIsModalOpen,
   } = useContext(StatusContext);
 
+  const { selected, sortType } = useSelector(selectSelected);
+  const [isOpen, setIsOpen] = useState(false);
+  const [options, setOptions] = useState();
+
+  const toggling = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    setOptions(['Від дешевих до дорогих', 'Від дорогих до дешевих']);
+  }, []);
+
+  // Selected options for sorting products by price
+  const onOptionClicked = value => () => {
+    if (value === selected) {
+      return;
+    }
+    dispatch(setSelected(value));
+    dispatch(setSelectedLocalStorage(value));
+    setIsOpen(false);
+    let newSortType;
+    if (value === 'Від дешевих до дорогих') {
+      newSortType = 'smallLarge';
+    }
+    if (value === 'Від дорогих до дешевих') {
+      newSortType = 'largeSmall';
+    }
+    dispatch(setSortType(newSortType));
+    router.push({
+      pathname: `/`,
+      query: {
+        page: value !== selected ? 1 : startPage,
+        query: searchValue ? searchValue : [],
+        countries: countries,
+        trademarks: trademark,
+        min: minPrice !== undefined ? minPrice : [],
+        max: maxPrice !== undefined ? maxPrice : [],
+        categories: idCategory,
+        subcategories: subcategoryUrl,
+        sortType: newSortType,
+      },
+    });
+  };
+
+  const close = () => {
+    setIsOpen(false);
+  };
+
   let countriesUrlArray =
     countries.length > 0
-      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
+      ? countries
+          .split(',')
+          .map(element => (element === 'Не зазначено' ? '' : element))
       : [];
   let trademarkUrlArray =
     trademark.length > 0
-      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
+      ? trademark
+          .split(',')
+          .map(element => (element === 'Не зазначено' ? '' : element))
       : [];
 
   const caterogyUrl =
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+  
+  const nameOfCategory = getCategoryName(categories, idCategory);
+  const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   const pagesCount = Math.ceil(data?.totalCount / limit);
   const updatedCountries = [...countriesUrlArray];
@@ -144,7 +207,6 @@ const StartPage = () => {
     }
   };
 
-
   // call effect to receive all products
   useEffect(() => {
     if (
@@ -155,21 +217,25 @@ const StartPage = () => {
       limit &&
       router.isReady
     ) {
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue ? searchValue : [],
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-          categories: caterogyUrl,
-          subcategories: subcategoryUrl,
-        })
-      );
+      const fetchData = async () => {
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue ? searchValue : [],
+            limit: limit,
+            countries: countriesUrlArray,
+            trademarks: trademarkUrlArray,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            categories: caterogyUrl,
+            subcategories: subcategoryUrl,
+            sortBy: router.query.sortType ? 'price' : [],
+            sortType: router.query.sortType ? router.query.sortType : [],
+          })
+        );
+      };
+      fetchData();
       setCurrentPage(startPage);
-
     }
   }, [
     dispatch,
@@ -177,12 +243,10 @@ const StartPage = () => {
     countries.length,
     trademark.length,
     limit,
-  
     caterogyUrl[0],
     subcategoryUrl[0],
     router,
   ]);
-
 
   // call effect to receive the selected products (by the filter`s options)
   useEffect(() => {
@@ -204,10 +268,11 @@ const StartPage = () => {
           trademarks: updatedTrademarks,
           minPrice: minPrice,
           maxPrice: maxPrice,
+          sortBy: router.query.sortType ? 'price' : [],
+          sortType: router.query.sortType ? router.query.sortType : [],
         })
       );
       setCurrentPage(startPage);
-
     }
   }, [
     dispatch,
@@ -218,6 +283,7 @@ const StartPage = () => {
     maxPrice,
     searchValue,
     limit,
+    router,
   ]);
 
   const handleChange = (event, value) => {
@@ -234,6 +300,7 @@ const StartPage = () => {
         max: maxPrice !== undefined ? maxPrice : [],
         categories: idCategory,
         subcategories: subcategoryUrl,
+        sortType: router.query.sortType ? router.query.sortType : [],
       },
     });
   };
@@ -258,16 +325,13 @@ const StartPage = () => {
     }
   }, [router.isReady, searchValue]);
 
-
   return (
     <>
-      <div className="container mt-[130px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
+      <div className="container mt-[72px] tablet1024:mt-[116px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
         {isLoading && data?.length === 0 && <Loader />}
         {data?.totalCount === 0 && searchValue !== '' && (
           <div className="">
-            <EmptySearchPage
-              searchValue={searchValue}
-            />
+            <EmptySearchPage searchValue={searchValue} />
           </div>
         )}
         {data?.totalCount > 0 && router.isReady && (
@@ -280,27 +344,13 @@ const StartPage = () => {
                   products={data.products}
                   countriesUrlArray={countriesUrlArray}
                   trademarkUrlArray={trademarkUrlArray}
+                  sortType={sortType}
                 />
               ) : (
                 <Loader />
               )}
             </div>
-            <div className="tablet1024:hidden">
-              <BtnPrimary width={'w-full'} onClick={openModal}>
-                <FilterIcon className="w-[24px] h-[24px]" />
-                <span>Фільтр</span>
-              </BtnPrimary>
-              {isModalOpen && (
-                <FilterMobile
-                  onClose={closeModal}
-                  countriesUrlArray={countriesUrlArray}
-                  trademarkUrlArray={trademarkUrlArray}
-                  handleDeleteChip={handleDeleteChip}
-                  minPrice={minPrice}
-                  maxPrice={maxPrice}
-                />
-              )}
-            </div>
+
             {isLoading && data?.length === 0 && <Loader />}
             <div className="w-full">
               {(idCategory.length !== 0 ||
@@ -313,6 +363,14 @@ const StartPage = () => {
                   searchValue={searchValue}
                 />
               )}
+              <SearchQueryName
+                searchValue={searchValue}
+                caterogyUrl={caterogyUrl}
+                subcategoryUrl={subcategoryUrl}
+                nameOfCategory={nameOfCategory}
+                nameOfSubCategory={nameOfSubCategory}
+                totalCount={data?.totalCount}
+              />
               <Chips
                 countriesUrlArray={countriesUrlArray}
                 trademarkUrlArray={trademarkUrlArray}
@@ -320,6 +378,43 @@ const StartPage = () => {
                 minPriceURL={minPrice}
                 maxPriceURL={maxPrice}
               />
+              <div className="flex flex-col tablet600:flex-row items-center tablet600:gap-2 tablet1024:hidden mb-3">
+                <BtnPrimary width={'w-full'} onClick={openModal}>
+                  <FilterIcon className="w-[24px] h-[24px]" />
+                  <span>Фільтр</span>
+                </BtnPrimary>
+                {isModalOpen && (
+                  <FilterMobile
+                    onClose={closeModal}
+                    countriesUrlArray={countriesUrlArray}
+                    trademarkUrlArray={trademarkUrlArray}
+                    handleDeleteChip={handleDeleteChip}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                  />
+                )}
+                <div className="hidden tablet600:block  tablet1024:hidden">
+                   <SortFilter
+                toggling={toggling}
+                selected={selected}
+                options={options}
+                onOptionClicked={onOptionClicked}
+                isOpen={isOpen}
+                close={close}
+              />
+                </div>
+              </div>
+              <div className="tablet600:hidden tablet1024:block">
+              <SortFilter
+                toggling={toggling}
+                selected={selected}
+                options={options}
+                onOptionClicked={onOptionClicked}
+                isOpen={isOpen}
+                close={close}
+              />
+              </div>
+
               <CardsList
                 isLoading={isLoading}
                 products={data.products}

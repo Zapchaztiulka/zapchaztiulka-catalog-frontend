@@ -5,9 +5,10 @@ import {
   findMinPrice,
 } from '@/helpers/checkForMatchValue';
 import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
+import { setSelected, setSortType } from '@/redux/sortProduct/selectedOptionActions';
 import { useRouter } from 'next/router';
 import { createContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const StatusContext = createContext();
 
@@ -45,6 +46,13 @@ export const StatusProvider = ({ children }) => {
     filtredResultForDisabledTradeMark,
     setFiltredResultForDisabledTrademark,
   ] = useState([]);
+ const dispatch = useDispatch();
+
+  const removeSelectedFromLocalStorage = () => {
+    localStorage.removeItem('selected');
+    dispatch(setSelected(null));
+    dispatch(setSortType(null))
+  };
 
   const resetLocalStorage = () => {
     localStorage.removeItem('Country');
@@ -66,6 +74,7 @@ export const StatusProvider = ({ children }) => {
     setMatchCountries([]);
     setFiltredResultForDisabledCountry([]);
     setFiltredResultForDisabledTrademark([]);
+    removeSelectedFromLocalStorage();
   };
 
   const backToHomeUrl = () => {
@@ -75,6 +84,7 @@ export const StatusProvider = ({ children }) => {
         page: 1,
       },
     });
+    removeSelectedFromLocalStorage()
   };
 
   const filteredCountries = filterData(productInfo?.countries, country);

@@ -11,12 +11,8 @@ const Chips = ({
   minPriceURL,
   maxPriceURL,
 }) => {
-  const {
-    minPrice,
-    maxPrice,
-    resetLocalStorage,
-    backToHomeUrl,
-  } = useContext(StatusContext);
+  const { minPrice, maxPrice, resetLocalStorage, backToHomeUrl } =
+    useContext(StatusContext);
 
   const handleClearAllChips = () => {
     resetLocalStorage();
@@ -30,25 +26,13 @@ const Chips = ({
         minPriceURL ||
         maxPriceURL) && (
         <div className="mb-6 flex flex-wrap gap-2">
-          <BtnTertiary
-            color={'text-textError'}
-            onClick={() => handleClearAllChips()}
-          >
-            <CloseModal
-              width={24}
-              height={24}
-              className="stroke-iconError stroke-2"
-            />
-            <span>Очистити</span>
-          </BtnTertiary>
-
           {countriesUrlArray.map((item, index) => {
             return (
               <BtnChips
                 key={`${item}-${index}`}
                 onClick={() => handleDeleteChip('country', index)}
               >
-                <span>{item === '' ? 'Інше' : item}</span>
+                <span>{item === '' ? 'Не зазначено' : item}</span>
                 <CloseModal
                   width={16}
                   height={16}
@@ -63,7 +47,7 @@ const Chips = ({
                 key={`${item}-${index}`}
                 onClick={() => handleDeleteChip('trademark', index)}
               >
-                <span>{item === '' ? 'Інше' : item}</span>
+                <span>{item === '' ? 'Не зазначено' : item}</span>
                 <CloseModal
                   width={16}
                   height={16}
@@ -85,6 +69,17 @@ const Chips = ({
               />
             </BtnChips>
           )}
+          <BtnTertiary
+            color={'text-textBrand'}
+            onClick={() => handleClearAllChips()}
+          >
+            <CloseModal
+              width={24}
+              height={24}
+              className="stroke-iconBrandDark stroke-2"
+            />
+            <span>Очистити</span>
+          </BtnTertiary>
         </div>
       )}
     </>
