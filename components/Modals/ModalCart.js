@@ -25,15 +25,15 @@ const ModalCart = () => {
   const modalContent = (
     <div
       onClick={() => {
-        onClose();
+        if (!isOpen) onClose();
       }}
-      className="mt-[57px] tablet1024:mt-0 tablet1024:fixed tablet1024:inset-0 tablet1024:flex tablet1024:items-center tablet1024:justify-center tablet1024:bg-black tablet1024:bg-opacity-50 z-50"
+      className="mt-[57px] tablet1024:mt-0 tablet1024:fixed tablet1024:inset-0 tablet1024:flex tablet1024:items-center tablet1024:justify-center tablet1024:bg-black tablet1024:bg-opacity-50 z-10"
     >
       <div
         onClick={e => {
           e.stopPropagation();
         }}
-        className="bg-white z-60 tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
+        className="z-11 bg-white tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
         flex flex-col h-[83vh] items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
         w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
         // bg-green-400
