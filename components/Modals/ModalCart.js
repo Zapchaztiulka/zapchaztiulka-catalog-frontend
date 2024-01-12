@@ -137,7 +137,10 @@ const ModalCart = () => {
       {/* Modal for Delete from cart*/}
       {isOpen && (
         <ModalDeleteFromCart
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            setIsOpen(false);
+            document.body.classList.add('stop-scrolling');
+          }}
           hideCloseBtn
           title={'Очистити кошик'}
           desctription={

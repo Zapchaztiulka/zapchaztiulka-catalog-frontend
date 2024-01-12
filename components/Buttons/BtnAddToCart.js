@@ -1,16 +1,9 @@
-import {
-  MinusIcon,
-  PlusIcon,
-} from 'universal-components-frontend/src/components/icons';
 import { CartIcon } from '@/public/icons';
+import Counter from '../Buttons/Counter';
 import { useSelector, useDispatch } from 'react-redux';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
-import {
-  addToCart,
-  changeQuantity,
-  getCartTotal,
-} from '../../redux/cart/cartSlice';
+import { addToCart, getCartTotal } from '../../redux/cart/cartSlice';
 import { selectCart } from '../../redux/cart/cartSelector';
 
 const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
@@ -24,16 +17,6 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
   if (temp) {
     counterValue = temp.quantity;
   }
-
-  const valueDecrement = () => {
-    dispatch(changeQuantity({ id, type: 'DEC' }));
-    dispatch(getCartTotal());
-  };
-
-  const valueIncrement = () => {
-    dispatch(changeQuantity({ id, type: 'INC' }));
-    dispatch(getCartTotal());
-  };
 
   return (
     <>
@@ -76,28 +59,7 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
       )}
 
       {cartProducts.find(product => product.id === id) && (
-        <div className="flex justify-center items-center gap-[10px]">
-          <button
-            onClick={valueDecrement}
-            type="button"
-            className="w-[40px] h-[40px] flex justify-center items-center"
-          >
-            <MinusIcon />
-          </button>
-          <span
-            id={id.slice(18)}
-            className="font-medium text-[16px] leading-[22.4px] text-textPrimary"
-          >
-            {counterValue}
-          </span>
-          <button
-            onClick={valueIncrement}
-            type="button"
-            className="w-[40px] h-[40px] flex justify-center items-center"
-          >
-            <PlusIcon />
-          </button>
-        </div>
+        <Counter id={id} counterValue={counterValue} />
       )}
     </>
   );
