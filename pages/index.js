@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,6 +39,10 @@ import {
   getCategoryName,
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
+import SkeletonProducts from '@/components/Skeleton/SkeletonProducts';
+import SkeletonFilter from '@/components/Skeleton/SkeletonFilter';
+import SkeletonPagination from '@/components/Skeleton/SkeletonPagination';
+import Loading from './loading';
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -71,6 +75,7 @@ const StartPage = () => {
   const { selected, sortType } = useSelector(selectSelected);
   const [isOpenSorting, setIsOpenSorting] = useState(false);
   const [options, setOptions] = useState();
+  let loading = false;
 
   const toggling = () => setIsOpenSorting(!isOpenSorting);
 
@@ -79,7 +84,7 @@ const StartPage = () => {
   }, []);
 
   // Selected options for sorting products by price
-  const onOptionClicked = (value) => () => {
+  const onOptionClicked = value => () => {
     if (value === selected) {
       return;
     }
@@ -331,73 +336,79 @@ const StartPage = () => {
   return (
     <>
       <div className="container mt-[72px] tablet1024:mt-[116px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
-        {isLoading && data?.length === 0 && <Loader />}
         {data?.totalCount === 0 && searchValue !== '' && (
           <div className="">
             <EmptySearchPage searchValue={searchValue} />
           </div>
         )}
-        {data?.totalCount > 0 && router.isReady && (
-          <>
-            <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
-              {productInfo ? (
-                <Filter
-                  isLoading={isLoading}
+
+        <>
+          <Suspense fallback={<Loading />}>
+            {!router.isReady ? (
+              <SkeletonFilter />
+            ) : (
+              <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
+                {productInfo && (
+                  <Filter
+                    isLoading={isLoading}
+                    searchValue={searchValue}
+                    products={data.products}
+                    countriesUrlArray={countriesUrlArray}
+                    trademarkUrlArray={trademarkUrlArray}
+                    sortType={sortType}
+                  />
+                )}
+              </div>
+            )}
+          </Suspense>         
+          <div className="w-full">
+            {data?.totalCount > 0 && router.isReady && (
+              <>
+                {(idCategory.length !== 0 ||
+                  idSubCategory.length !== 0 ||
+                  searchValue) && (
+                  <Breadcrumbs
+                    idCategory={idCategory}
+                    idSubCategory={idSubCategory}
+                    categories={categories}
+                    searchValue={searchValue}
+                  />
+                )}
+                <SearchQueryName
                   searchValue={searchValue}
-                  products={data.products}
+                  caterogyUrl={caterogyUrl}
+                  subcategoryUrl={subcategoryUrl}
+                  nameOfCategory={nameOfCategory}
+                  nameOfSubCategory={nameOfSubCategory}
+                  totalCount={data?.totalCount}
+                />
+                <Chips
                   countriesUrlArray={countriesUrlArray}
                   trademarkUrlArray={trademarkUrlArray}
-                  sortType={sortType}
+                  handleDeleteChip={handleDeleteChip}
+                  minPriceURL={minPrice}
+                  maxPriceURL={maxPrice}
                 />
-              ) : (
-                <Loader />
-              )}
-            </div>
+              </>
+            )}
 
-            {isLoading && data?.length === 0 && <Loader />}
-            <div className="w-full">
-              {(idCategory.length !== 0 ||
-                idSubCategory.length !== 0 ||
-                searchValue) && (
-                <Breadcrumbs
-                  idCategory={idCategory}
-                  idSubCategory={idSubCategory}
-                  categories={categories}
-                  searchValue={searchValue}
-                />
-              )}
-              <SearchQueryName
-                searchValue={searchValue}
-                caterogyUrl={caterogyUrl}
-                subcategoryUrl={subcategoryUrl}
-                nameOfCategory={nameOfCategory}
-                nameOfSubCategory={nameOfSubCategory}
-                totalCount={data?.totalCount}
-              />
-              <Chips
-                countriesUrlArray={countriesUrlArray}
-                trademarkUrlArray={trademarkUrlArray}
-                handleDeleteChip={handleDeleteChip}
-                minPriceURL={minPrice}
-                maxPriceURL={maxPrice}
-              />
-              <div className="flex flex-col gap-3 tablet600:flex-row items-start tablet600:items-center tablet600:gap-2  mb-3">
-                <div className="tablet1024:hidden w-full">
-                  <BtnPrimary width={'w-full'} onClick={openModal}>
-                    <FilterIcon className="w-[24px] h-[24px]" />
-                    <span>Фільтр</span>
-                  </BtnPrimary>
-                  {isModalOpen && (
-                    <FilterMobile
-                      onClose={closeModal}
-                      countriesUrlArray={countriesUrlArray}
-                      trademarkUrlArray={trademarkUrlArray}
-                      handleDeleteChip={handleDeleteChip}
-                      minPrice={minPrice}
-                      maxPrice={maxPrice}
-                    />
-                  )}
-                </div>
+            <div className="flex flex-col gap-3 tablet600:flex-row items-start tablet600:items-center tablet600:gap-2  mb-3">
+              <div className="tablet1024:hidden w-full">
+                <BtnPrimary width={'w-full'} onClick={openModal}>
+                  <FilterIcon className="w-[24px] h-[24px]" />
+                  <span>Фільтр</span>
+                </BtnPrimary>
+                {isModalOpen && (
+                  <FilterMobile
+                    onClose={closeModal}
+                    countriesUrlArray={countriesUrlArray}
+                    trademarkUrlArray={trademarkUrlArray}
+                    handleDeleteChip={handleDeleteChip}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                  />
+                )}
+              </div>
 
               <div className="">
                 <SortFilter
@@ -409,32 +420,42 @@ const StartPage = () => {
                   close={close}
                 />
               </div>
-              </div>
-
-
-              <CardsList
-                isLoading={isLoading}
-                products={data.products}
-                totalCount={data?.totalCount}
-                searchValue={searchValue}
-                size={size}
-                limit={limit}
-                categories={categories}
-                idCategory={idCategory}
-                idSubCategory={idSubCategory}
-                caterogyUrl={caterogyUrl}
-                subcategoryUrl={subcategoryUrl}
-              />
-              <PaginationProducts
-                pagesCount={pagesCount}
-                products={data.products}
-                handleChange={handleChange}
-                currentPage={currentPage}
-                size={size}
-              />
             </div>
-          </>
-        )}
+            {isLoading && data?.length === 0 && <div className="flex justify-center"><Loader /></div>}
+            <Suspense fallback={<Loading />}>
+              {!router.isReady ? (
+                <SkeletonProducts />
+              ) : (
+                <CardsList
+                  isLoading={isLoading}
+                  products={data.products}
+                  totalCount={data?.totalCount}
+                  searchValue={searchValue}
+                  size={size}
+                  limit={limit}
+                  categories={categories}
+                  idCategory={idCategory}
+                  idSubCategory={idSubCategory}
+                  caterogyUrl={caterogyUrl}
+                  subcategoryUrl={subcategoryUrl}
+                />
+              )}
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              {!router.isReady? (
+                <SkeletonPagination />
+              ) : (
+                <PaginationProducts
+                  pagesCount={pagesCount}
+                  products={data.products}
+                  handleChange={handleChange}
+                  currentPage={currentPage}
+                  size={size}
+                />
+              )}
+            </Suspense>
+          </div>
+        </>
       </div>
     </>
   );
