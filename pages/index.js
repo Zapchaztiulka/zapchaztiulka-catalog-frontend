@@ -347,22 +347,25 @@ const StartPage = () => {
             {!router.isReady ? (
               <SkeletonFilter />
             ) : (
-              <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
+              <>
                 {productInfo && (
-                  <Filter
-                    isLoading={isLoading}
-                    searchValue={searchValue}
-                    products={data.products}
-                    countriesUrlArray={countriesUrlArray}
-                    trademarkUrlArray={trademarkUrlArray}
-                    sortType={sortType}
-                  />
+                  <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
+                    <Filter
+                      isLoading={isLoading}
+                      searchValue={searchValue}
+                      products={data.products}
+                      countriesUrlArray={countriesUrlArray}
+                      trademarkUrlArray={trademarkUrlArray}
+                      sortType={sortType}
+                    />
+                  </div>
                 )}
-              </div>
+              </>
             )}
-          </Suspense>         
+          </Suspense>
+
           <div className="w-full">
-            {data?.totalCount > 0 && router.isReady && (
+            { router.isReady && !isLoading && (
               <>
                 {(idCategory.length !== 0 ||
                   idSubCategory.length !== 0 ||
@@ -421,28 +424,36 @@ const StartPage = () => {
                 />
               </div>
             </div>
-            {isLoading && data?.length === 0 && <div className="flex justify-center"><Loader /></div>}
+            {isLoading && data?.length === 0 && (
+              <div className="flex justify-center">
+                <Loader />
+              </div>
+            )}
             <Suspense fallback={<Loading />}>
               {!router.isReady ? (
                 <SkeletonProducts />
               ) : (
-                <CardsList
-                  isLoading={isLoading}
-                  products={data.products}
-                  totalCount={data?.totalCount}
-                  searchValue={searchValue}
-                  size={size}
-                  limit={limit}
-                  categories={categories}
-                  idCategory={idCategory}
-                  idSubCategory={idSubCategory}
-                  caterogyUrl={caterogyUrl}
-                  subcategoryUrl={subcategoryUrl}
-                />
+                <>
+                 
+                    <CardsList
+                      isLoading={isLoading}
+                      products={data.products}
+                      totalCount={data?.totalCount}
+                      searchValue={searchValue}
+                      size={size}
+                      limit={limit}
+                      categories={categories}
+                      idCategory={idCategory}
+                      idSubCategory={idSubCategory}
+                      caterogyUrl={caterogyUrl}
+                      subcategoryUrl={subcategoryUrl}
+                    />
+                
+                </>
               )}
             </Suspense>
             <Suspense fallback={<Loading />}>
-              {!router.isReady? (
+              {!router.isReady ? (
                 <SkeletonPagination />
               ) : (
                 <PaginationProducts

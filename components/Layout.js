@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { socket } from './Chat/socket';
 import Navbar from './Header/Navbar';
@@ -7,12 +7,9 @@ import { Chat, ChatButton } from './Chat';
 import { fetchCategories } from '@/redux/categories/categoriesOperation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
-import { selectIsLoading } from '@/redux/products/productsSelectors';
-const SkeletonProducts = React.lazy(() => import('@/components/Skeleton/SkeletonProducts'));
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
-   const isLoading = useSelector(selectIsLoading);
   const { categories } = useSelector(selectCategories);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [countUnreadMessages, setCountUnreadMessages] = useState(null);
