@@ -12,6 +12,8 @@ import ModalAbsentOrder from './Modals/ModalAbsentOrder';
 import ModalOrderSuccessful from './Modals/ModalOrderSuccessful';
 import ModalDeleteFromCart from './Modals/ModalDeleteFromCart';
 
+import CartCardList from './Cart/CartCardList';
+
 export {
   Navbar,
   Footer,
@@ -25,4 +27,5 @@ export {
   ModalAbsentOrder,
   ModalOrderSuccessful,
   ModalDeleteFromCart,
+  CartCardList
 };

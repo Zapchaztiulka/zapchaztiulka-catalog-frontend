@@ -8,14 +8,15 @@ import { useOnKeyDown } from '@/hooks/useOnClickOutside';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
 import ModalDeleteFromCart from '@/components/Modals/ModalDeleteFromCart';
+import {CartCardList} from '@/components';
 
 const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
     useContext(StatusContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, totalAmount } = useSelector(selectCart);
-  // const { photo, name, vendorCode, quantity, totalPrice } = data[0];
+  const { totalAmount } = useSelector(selectCart);
+
   const onClose = () => {
     setShowModalCart(!showModalCart);
     document.body.classList.remove('stop-scrolling');
@@ -78,7 +79,7 @@ const ModalCart = () => {
           {totalAmount ? (
             <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto">
               Тут товари в кошику
-              {/* <span>{name}</span> */}
+              <CartCardList />
             </div>
           ) : null}
           {!totalAmount && (

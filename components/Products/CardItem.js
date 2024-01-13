@@ -13,7 +13,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
-        <div className="absolute grid items-center text-center z-10 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
+        <div className="absolute grid items-center text-center z-9 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
             Під замовлення
           </span>
