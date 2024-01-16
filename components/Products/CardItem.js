@@ -36,6 +36,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
                 alt={photo[0]?.alt}
                 width="0"
                 height="0"
+                priority
                 placeholder="blur"
                 blurDataURL={photo[0]?.url}
                 sizes="100vw"

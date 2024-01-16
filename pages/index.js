@@ -42,7 +42,6 @@ import {
 import SkeletonProducts from '@/components/Skeleton/SkeletonProducts';
 import SkeletonFilter from '@/components/Skeleton/SkeletonFilter';
 import SkeletonPagination from '@/components/Skeleton/SkeletonPagination';
-import Loading from './loading';
 
 const StartPage = () => {
   const dispatch = useDispatch();
