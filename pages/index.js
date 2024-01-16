@@ -1,7 +1,5 @@
-
-import React, { Suspense, useContext, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
-import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
@@ -9,8 +7,6 @@ import {
   selectCountryPriceTrademark,
   selectProducts,
 } from '@/redux/products/productsSelectors';
-import Loader from '@/components/Loader';
-import Filter from '@/components/Filter/Filter';
 import BtnPrimary from '@/components/Buttons/BtnPrimary';
 import { FilterIcon } from '@/public/icons';
 import FilterMobile from '@/components/Filter/FilterMobile';
@@ -23,7 +19,6 @@ import { useWindowSize } from '@/hooks/useWindowSize';
 import { getLimitByScreenWidth } from '@/helpers/getLimitByScreenWidth';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
 import Chips from '@/components/Chips/Chips';
-import PaginationProducts from '@/components/Pagination/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 import EmptySearchPage from '@/components/EmptySearchPage/EmptySearchPage';
@@ -42,6 +37,12 @@ import {
 import SkeletonProducts from '@/components/Skeleton/SkeletonProducts';
 import SkeletonFilter from '@/components/Skeleton/SkeletonFilter';
 import SkeletonPagination from '@/components/Skeleton/SkeletonPagination';
+
+const CardsList = lazy(() => import('../components/Products/CardsList'));
+const Filter = lazy(() => import('../components/Filter/Filter'));
+const PaginationProducts = lazy(() =>
+  import('../components/Pagination/Pagination')
+);
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -339,26 +340,20 @@ const StartPage = () => {
             <EmptySearchPage searchValue={searchValue} />
           </div>
         )}
-        <>          
-            {!router.isReady ? (
-              <SkeletonFilter />
-            ) : (
-              <>
-                {productInfo && (
-                  <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
-                    <Filter
-                      isLoading={isLoading}
-                      searchValue={searchValue}
-                      products={data.products}
-                      countriesUrlArray={countriesUrlArray}
-                      trademarkUrlArray={trademarkUrlArray}
-                      sortType={sortType}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-         
+        <>
+          <Suspense fallback={<SkeletonFilter />}>
+            <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs filter-container">
+              <Filter
+                isLoading={isLoading}
+                searchValue={searchValue}
+                products={data.products}
+                countriesUrlArray={countriesUrlArray}
+                trademarkUrlArray={trademarkUrlArray}
+                sortType={sortType}
+              />
+            </div>
+          </Suspense>
+
           <div className="w-full">
             {router.isReady && (
               <>
@@ -408,47 +403,39 @@ const StartPage = () => {
                 )}
               </div>
 
-              {router.isReady && <div className="">
-                <SortFilter
-                  toggling={toggling}
-                  selected={selected}
-                  options={options}
-                  onOptionClicked={onOptionClicked}
-                  isOpen={isOpenSorting}
-                  close={close}
-                />
-              </div>}
-            </div>
-            {isLoading && data?.length === 0 && (
-              <div className="flex justify-center">
-                <Loader />
-              </div>
-            )}
-            
-              {!router.isReady  ? (
-                <SkeletonProducts />
-              ) : (
-                <>
-                  <CardsList
-                    isLoading={isLoading}
-                    products={data.products}
-                    totalCount={data?.totalCount}
-                    searchValue={searchValue}
-                    size={size}
-                    limit={limit}
-                    categories={categories}
-                    idCategory={idCategory}
-                    idSubCategory={idSubCategory}
-                    caterogyUrl={caterogyUrl}
-                    subcategoryUrl={subcategoryUrl}
+              {router.isReady && (
+                <div className="">
+                  <SortFilter
+                    toggling={toggling}
+                    selected={selected}
+                    options={options}
+                    onOptionClicked={onOptionClicked}
+                    isOpen={isOpenSorting}
+                    close={close}
                   />
-                </>
+                </div>
               )}
-           
-           
-              {!router.isReady ? (
-                <SkeletonPagination />
-              ) : (
+            </div>
+            <Suspense fallback={<SkeletonProducts />}>
+              <div className="cards-container">
+                <CardsList
+                  isLoading={isLoading}
+                  products={data.products}
+                  totalCount={data?.totalCount}
+                  searchValue={searchValue}
+                  size={size}
+                  limit={limit}
+                  categories={categories}
+                  idCategory={idCategory}
+                  idSubCategory={idSubCategory}
+                  caterogyUrl={caterogyUrl}
+                  subcategoryUrl={subcategoryUrl}
+                />
+              </div>
+            </Suspense>
+
+            <Suspense fallback={<SkeletonPagination />}>
+              <div className="min-h-[32px]">
                 <PaginationProducts
                   pagesCount={pagesCount}
                   products={data.products}
@@ -456,8 +443,8 @@ const StartPage = () => {
                   currentPage={currentPage}
                   size={size}
                 />
-              )}
-          
+              </div>
+            </Suspense>
           </div>
         </>
       </div>

@@ -36,6 +36,10 @@ a {
   @apply mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px] desktop1440:w-[285px];
 }
 
+.cards-container {
+  @apply min-h-[908px] mobile375:min-h-[1213px] mobile480:min-h-[908px] tablet600:min-h-[1098px] tablet768:min-h-[1117px] tablet1024:min-h-[1125px] desktop1200:min-h-[1298px]
+}
+
 .product-card-img {
   @apply mobile320:h-[111px] tablet600:h-[150px] desktop1200:h-[190px] mobile320:w-[140px] mobile375:w-[168px] mobile480:w-[212px] tablet600:w-[270px] tablet768:w-[232px] tablet1024:w-[221px] desktop1200:w-[269px]  desktop1440:w-[285px]  rounded-t-lg;
 }
@@ -61,8 +65,9 @@ a {
 }
 
 .footer-lists {
-  @apply flex flex-col justify-between gap-m2  tablet768:hidden tablet1024:flex tablet1024:flex-row tablet1024:py-m tablet1024:px-s;
+  @apply flex flex-col justify-between gap-m2 tablet768:grid tablet768:grid-rows-2 tablet768:grid-cols-2 tablet1024:flex tablet1024:flex-row tablet1024:py-m tablet1024:px-s;
 }
+
 
 .state-button {
   @apply hover:bg-bgHoverBlue active:bg-bgPressedBlue rounded-lg bg-bgBrandDark;
@@ -209,6 +214,10 @@ a {
 .modal-body .splide__arrow svg,
 .custom-class-slide-thumbs .splide__arrow svg {
   @apply fill-iconPrimary h-[20px] w-[20px];
+}
+
+.filter-container {
+  @apply min-h-[1256px];
 }
 
 .price-input {

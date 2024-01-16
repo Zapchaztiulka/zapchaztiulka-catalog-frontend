@@ -23,11 +23,11 @@ const SkeletonProducts = () => {
         <ul key={index}>
           <li className="cards">
             <div className="flex flex-col">
-              <div className="product-card-img  mb-2 bg-bgImg animate-pulse"></div>
-              <div className="w-[82px] tablet600:w-[115px] h-[20px] mb-2 bg-bgImg animate-pulse"></div>
-              <div className="w-full mobile480:w-[144px] tablet600:w-full h-[44px] mb-5 bg-bgImg animate-pulse"></div>
+              <div className="product-card-img  mb-2 bg-bgImg "></div>
+              <div className="w-[82px] tablet600:w-[115px] h-[20px] mb-2 bg-bgImg "></div>
+              <div className="w-full mobile480:w-[144px] tablet600:w-full h-[44px] mb-5 bg-bgImg "></div>
               <div className="w-[56px] tablet600:w-[124px] h-[20px] mb-3 bg-bgImg"></div>
-              <div className="w-full h-[48px] mb-3 bg-bgImg animate-pulse"></div>
+              <div className="w-full h-[48px] mb-3 bg-bgImg "></div>
             </div>
           </li>
         </ul>

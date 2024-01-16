@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { LogoIconWithText, LogoIcon } from 'universal-components-frontend/src/components/icons';
-import FooterTablet from './FooterTablet';
+import {
+  LogoIconWithText,
+  LogoIcon,
+} from 'universal-components-frontend/src/components/icons';
 import { StatusContext } from '@/context/statusContext';
+import ForCustomers from './ForCustomers';
+import Contacts from './Contacts';
+import Address from './Address';
+import Catalog from './Catalog';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 const Footer = ({ categories }) => {
   const router = useRouter();
   const current_year = new Date().getFullYear();
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
+  const size = useWindowSize();
 
   const handleToHome = () => {
     resetLocalStorage();
@@ -36,8 +44,6 @@ const Footer = ({ categories }) => {
         >
           <LogoIcon width="56" height="56" />
         </div>
-
-        <FooterTablet categories={categories} />
         <div className="footer-lists">
           <div className="hidden desktop1920:inline-flex items-center w-[260px] relative">
             <div
@@ -46,71 +52,11 @@ const Footer = ({ categories }) => {
             >
               <LogoIconWithText />
             </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h4 className="text-textTertiary text-lg">Каталог</h4>
-            <ul className="text-textPrimary text-base">
-              {categories?.map(el => {
-                return (
-                  <li
-                    key={el._id}
-                    className=" footer-items"
-                    onClick={() => clickByCategory(el.categoryName)}
-                  >
-                    {el.categoryName}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-3 ">
-            <h4 className="text-textTertiary text-lg">Покупцеві</h4>
-            <ul className="text-textPrimary text-base">
-              <li className=" footer-items">
-                <p>Онлайн допомога</p>
-              </li>
-              <li className=" footer-items">
-                <p>Доставка та оплата</p>
-              </li>
-              <li className=" footer-items">
-                <p>Про нас</p>
-              </li>
-              <li className=" footer-items">
-                <p>Політика конфіденційності</p>
-              </li>
-              <li className=" footer-items">
-                <p>Договір публічної оферти</p>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <h4 className="text-textTertiary text-lg">Контакти</h4>
-            <ul className="text-textPrimary text-base">
-              <li className="footer-items ">
-                <p>+38 (050) 810 48 82</p>
-              </li>
-              <li className="footer-items ">
-                <p>+38 (050) 810 48 82</p>
-              </li>
-              <li className="footer-items ">
-                <p>+38 (050) 810 48 82</p>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <h4 className="text-textTertiary text-lg">Графік роботи</h4>
-            <ul className="text-textPrimary text-base">
-              <li className="py-[10px] px-[4px] ">Пн - Пт 8:00-18:00</li>
-              <li className="py-[10px] px-[4px] ">Сб - 10:00-18:00</li>
-              <li className="py-[10px] px-[4px] ">Нд - вихідний</li>
-              <li className="footer-items ">
-                <p>Адреса магазину</p>
-              </li>
-            </ul>
-          </div>
+          </div>         
+          <Catalog clickByCategory={clickByCategory} categories={categories} />
+          <ForCustomers />
+          <Contacts />
+          <Address />
         </div>
         <div>
           {' '}
