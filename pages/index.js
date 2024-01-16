@@ -1,4 +1,4 @@
-'use client';
+
 import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
 import CardsList from '@/components/Products/CardsList';
@@ -75,7 +75,6 @@ const StartPage = () => {
   const { selected, sortType } = useSelector(selectSelected);
   const [isOpenSorting, setIsOpenSorting] = useState(false);
   const [options, setOptions] = useState();
-  let loading = false;
 
   const toggling = () => setIsOpenSorting(!isOpenSorting);
 
@@ -341,9 +340,7 @@ const StartPage = () => {
             <EmptySearchPage searchValue={searchValue} />
           </div>
         )}
-
-        <>
-          <Suspense fallback={<Loading />}>
+        <>          
             {!router.isReady ? (
               <SkeletonFilter />
             ) : (
@@ -362,10 +359,9 @@ const StartPage = () => {
                 )}
               </>
             )}
-          </Suspense>
-
+         
           <div className="w-full">
-            { router.isReady && !isLoading && (
+            {router.isReady && (
               <>
                 {(idCategory.length !== 0 ||
                   idSubCategory.length !== 0 ||
@@ -413,7 +409,7 @@ const StartPage = () => {
                 )}
               </div>
 
-              <div className="">
+              {router.isReady && <div className="">
                 <SortFilter
                   toggling={toggling}
                   selected={selected}
@@ -422,37 +418,35 @@ const StartPage = () => {
                   isOpen={isOpenSorting}
                   close={close}
                 />
-              </div>
+              </div>}
             </div>
             {isLoading && data?.length === 0 && (
               <div className="flex justify-center">
                 <Loader />
               </div>
             )}
-            <Suspense fallback={<Loading />}>
-              {!router.isReady ? (
+            
+              {!router.isReady  ? (
                 <SkeletonProducts />
               ) : (
                 <>
-                 
-                    <CardsList
-                      isLoading={isLoading}
-                      products={data.products}
-                      totalCount={data?.totalCount}
-                      searchValue={searchValue}
-                      size={size}
-                      limit={limit}
-                      categories={categories}
-                      idCategory={idCategory}
-                      idSubCategory={idSubCategory}
-                      caterogyUrl={caterogyUrl}
-                      subcategoryUrl={subcategoryUrl}
-                    />
-                
+                  <CardsList
+                    isLoading={isLoading}
+                    products={data.products}
+                    totalCount={data?.totalCount}
+                    searchValue={searchValue}
+                    size={size}
+                    limit={limit}
+                    categories={categories}
+                    idCategory={idCategory}
+                    idSubCategory={idSubCategory}
+                    caterogyUrl={caterogyUrl}
+                    subcategoryUrl={subcategoryUrl}
+                  />
                 </>
               )}
-            </Suspense>
-            <Suspense fallback={<Loading />}>
+           
+           
               {!router.isReady ? (
                 <SkeletonPagination />
               ) : (
@@ -464,7 +458,7 @@ const StartPage = () => {
                   size={size}
                 />
               )}
-            </Suspense>
+          
           </div>
         </>
       </div>

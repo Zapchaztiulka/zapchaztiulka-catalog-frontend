@@ -4,10 +4,11 @@ import SkeletonProducts from "@/components/Skeleton/SkeletonProducts";
 
 export default function Loading() {
     return (
-    <div>
-      <SkeletonProducts />
-        <SkeletonFilter />
-        <SkeletonPagination/>
-    </div>
-  );
+      <div >
+        <SkeletonProducts />     
+          <SkeletonFilter />
+        <SkeletonPagination />
+     
+      </div>
+    );
 }
