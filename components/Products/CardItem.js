@@ -14,7 +14,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
-        <div className="absolute grid items-center text-center z-10 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
+        <div className="absolute items-center text-center z-10 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
             Під замовлення
           </span>
@@ -23,7 +23,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
       <Link
         href={{ pathname: `/product/${id}` }}
         className="cursor-pointerblock"
-      >
+      >      
         <div className="">
           <div className="">
             {photo.length === 0 || !getExtension(photo[0]?.url) ? (
@@ -36,7 +36,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
                 alt={photo[0]?.alt}
                 width="0"
                 height="0"
-                priority
+                priority={true}
                 placeholder="blur"
                 blurDataURL={photo[0]?.url}
                 sizes="100vw"

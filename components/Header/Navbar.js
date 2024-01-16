@@ -1,5 +1,3 @@
-'use client';
-
 import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
 import ContactList from './ContactList';
 import SearchBar from './Search/SearchBar';

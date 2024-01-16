@@ -1,8 +1,34 @@
 import Pagination from '@mui/material/Pagination';
-import { ThemeProvider } from '@mui/material';
 import { scrollToTop } from '@/helpers/scrollToTop';
-import { theme } from '@/helpers/themeMaterial';
 import { useRouter } from 'next/router';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  components: {
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          maxWidth: '24px',
+          minWidth: '24px',
+          '&:hover': { backgroundColor: '#C6CACD' },
+          '&.Mui-selected': {
+            backgroundColor: '#D1E9FF',
+            fontWeight: 600,
+          },
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          '.MuiPagination-ul': {
+            flexWrap: 'nowrap',
+          },
+        },
+      },
+    },
+  },
+});
 
 const PaginationProducts = ({
   pagesCount,
