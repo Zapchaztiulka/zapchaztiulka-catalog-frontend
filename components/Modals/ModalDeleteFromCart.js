@@ -1,7 +1,11 @@
 import Modal from '../Modal';
 import { AlertIcon } from 'universal-components-frontend/src/components/icons';
 import { useDispatch } from 'react-redux';
-import { clearTheCart } from '../../redux/cart/cartSlice';
+import {
+  clearTheCart,
+  removeFromCart,
+  getCartTotal,
+} from '../../redux/cart/cartSlice';
 
 const ModalDeleteFromCart = ({
   onClose,
@@ -9,6 +13,7 @@ const ModalDeleteFromCart = ({
   title,
   desctription,
   delButtonText,
+  id,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -44,7 +49,11 @@ const ModalDeleteFromCart = ({
             className="border-[1px] border-borderDefault rounded-minimal bg-bgDefaultDestructive
             w-[120px] mobile375:w-[151px] tablet600:w-[182px] h-[48px] font-medium text-[12px] leading-[20px] mobile375:text-[16px] mobile375:leading-[22.4px] text-textContrast"
             onClick={() => {
-              dispatch(clearTheCart());
+              {
+                id
+                  ? (dispatch(removeFromCart({ id })), dispatch(getCartTotal()))
+                  : dispatch(clearTheCart());
+              }
               onClose();
             }}
           >

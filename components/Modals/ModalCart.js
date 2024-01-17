@@ -134,7 +134,7 @@ const ModalCart = () => {
           ) : null}
         </div>
       </div>
-      {/* Modal for Delete from cart*/}
+      {/* Modal for Delete all products from cart*/}
       {isOpen && (
         <ModalDeleteFromCart
           onClose={() => {

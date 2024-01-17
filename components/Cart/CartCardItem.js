@@ -5,6 +5,8 @@ import {
   EmptyImageIcon,
   TrashIcon,
 } from 'universal-components-frontend/src/components/icons';
+import { useState } from 'react';
+import ModalDeleteFromCart from '@/components/Modals/ModalDeleteFromCart';
 
 const CartCardItem = ({
   id,
@@ -14,6 +16,7 @@ const CartCardItem = ({
   quantity,
   totalPrice,
 }) => {
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   return (
     <li
       className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px]
@@ -39,7 +42,13 @@ const CartCardItem = ({
             Артикул: {vendorCode}
           </p>
         </div>
-        <button className="flex items-center justify-center w-[44px] h-[44px] ">
+        <button
+          className="flex items-center justify-center w-[44px] h-[44px]"
+          type="button"
+          onClick={() => {
+            setIsOpenDeleteModal(true);
+          }}
+        >
           <TrashIcon color="#888D92" />
         </button>
       </div>
@@ -51,6 +60,22 @@ const CartCardItem = ({
           {totalPrice} ₴
         </p>
       </div>
+      {/* Modal for Delete one product from cart*/}
+      {isOpenDeleteModal && (
+        <ModalDeleteFromCart
+          onClose={() => {
+            setIsOpenDeleteModal(false);
+            document.body.classList.add('stop-scrolling');
+          }}
+          hideCloseBtn
+          title={'Видалити товар'}
+          desctription={
+            'Ви впевнені, що хочете видалити товар? Відмініти цю дію неможливо.'
+          }
+          delButtonText={'Видалити товар'}
+          id={id}
+        />
+      )}
     </li>
   );
 };
