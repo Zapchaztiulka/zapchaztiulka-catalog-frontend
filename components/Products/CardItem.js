@@ -6,7 +6,7 @@ import BtnAddToCart from '../Buttons/BtnAddToCart';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
-const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
+const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
   const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
     useContext(StatusContext);
 
@@ -67,11 +67,11 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && (
               <BtnAddToCart
+                id={id}
                 photo={photo}
                 name={name}
-                vendorCode={vendorCode}
                 price={price}
-                id={id}
+                vendorCode={vendorCode}
               />
             )}
           </div>

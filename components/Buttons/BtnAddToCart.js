@@ -6,7 +6,14 @@ import { StatusContext } from '@/context/statusContext';
 import { addToCart, getCartTotal } from '../../redux/cart/cartSlice';
 import { selectCart } from '../../redux/cart/cartSelector';
 
-const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
+const BtnAddToCart = ({
+  id,
+  photo,
+  name,
+  price,
+  vendorCode,
+  visibleCartIcon = false,
+}) => {
   const dispatch = useDispatch();
   const { showCartNotification, setShowCartNotification } =
     useContext(StatusContext);
@@ -24,10 +31,10 @@ const BtnAddToCart = ({ photo, name, price, id, visibleCartIcon = false }) => {
         <button
           onClick={() => {
             const settings = {
+              id,
               photo,
               name,
-              price,
-              id,
+              vendorCode,
               quantity: 1,
               totalPrice: price.value,
             };

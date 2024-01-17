@@ -283,11 +283,11 @@ const ProductDetails = () => {
                   <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
                     {product?._id && (
                       <BtnAddToCart
+                        id={product?._id}
                         photo={product?.photo}
                         name={product?.name}
-                        vendorCode={product?.vendorCode}
                         price={product?.price}
-                        id={product?._id}
+                        vendorCode={product?.vendorCode}
                         visibleCartIcon
                       />
                     )}

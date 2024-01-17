@@ -8,7 +8,7 @@ import { useOnKeyDown } from '@/hooks/useOnClickOutside';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
 import ModalDeleteFromCart from '@/components/Modals/ModalDeleteFromCart';
-import {CartCardList} from '@/components';
+import { CartCardList } from '@/components';
 
 const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
@@ -78,7 +78,6 @@ const ModalCart = () => {
           </div>
           {totalAmount ? (
             <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto">
-              Тут товари в кошику
               <CartCardList />
             </div>
           ) : null}
