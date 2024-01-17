@@ -36,6 +36,7 @@ const BtnAddToCart = ({
               name,
               vendorCode,
               quantity: 1,
+              price,
               totalPrice: price.value,
             };
 
@@ -53,7 +54,7 @@ const BtnAddToCart = ({
           className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
         >
           {visibleCartIcon ? (
-            <div className="flex justify-center products-center gap-xs4">
+            <div className="flex justify-center products-center gap-x-4">
               <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
               <span className="text-textContrast text-sm tracking-[-0.21px]">
                 Додати в кошик

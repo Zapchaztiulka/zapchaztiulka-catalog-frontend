@@ -6,10 +6,9 @@ import { selectCart } from '../../redux/cart/cartSelector';
 
 const CartCardList = () => {
   const { data } = useSelector(selectCart);
-  // const { photo, name, vendorCode, quantity, totalPrice } = data[0];
 
   return (
-    <ul className="flex flex-col gap-[16px]">
+    <ul className="flex flex-col gap-[12px] px-[16px] overflow-y-auto">
       {data &&
         data.map(({ id, photo, name, vendorCode, quantity, totalPrice }) => {
           return (

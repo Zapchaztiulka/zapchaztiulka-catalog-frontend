@@ -16,19 +16,20 @@ const CartCardItem = ({
 }) => {
   return (
     <li
-      className="flex flex-col h-[150px]
+      className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px]
       border border-borderDefault rounded-lg hover:shadow-md"
     >
-      <div className="flex w-full h-[62px]">
+      <div className="flex items-center justify-between gap-[4px] w-full h-[62px]">
         {photo[0] ? (
           <Image
             src={photo[0]?.url}
             alt={photo[0]?.alt}
             width="66"
             height="44"
+            className="object-scale-down"
           />
         ) : (
-          <EmptyImageIcon />
+          <EmptyImageIcon size="62px" />
         )}
         <div className="flex flex-col">
           <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary">
@@ -38,11 +39,11 @@ const CartCardItem = ({
             Артикул: {vendorCode}
           </p>
         </div>
-        <button className="">
-          <TrashIcon size="44" color="#888D92" />
+        <button className="flex items-center justify-center w-[44px] h-[44px] ">
+          <TrashIcon color="#888D92" />
         </button>
       </div>
-      <div className="flex w-full h-[40px]">
+      <div className="flex justify-between items-center w-full h-[40px] px-[4px]">
         <div className="border border-borderDefault rounded-lg hover:shadow-md">
           <Counter id={id} counterValue={quantity} />
         </div>
