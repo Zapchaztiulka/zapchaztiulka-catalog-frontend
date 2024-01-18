@@ -29,7 +29,7 @@ export const fetchProducts = createAsyncThunk(
 
 export const fetchProductByID = createAsyncThunk(
   'products/fetchProductByID',
-  async id => {
+  async (id) => {
     const { data } = await axios.get(`api/products/${id}`);
     return data;
   }

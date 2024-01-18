@@ -354,8 +354,7 @@ const StartPage = () => {
             </div>
           </Suspense>
 
-          <div className="w-full">
-            {router.isReady && (
+          <div className="w-full">          
               <>
                 {(idCategory.length !== 0 ||
                   idSubCategory.length !== 0 ||
@@ -382,9 +381,7 @@ const StartPage = () => {
                   minPriceURL={minPrice}
                   maxPriceURL={maxPrice}
                 />
-              </>
-            )}
-
+              </>            
             <div className="flex flex-col gap-3 tablet600:flex-row items-start tablet600:items-center tablet600:gap-2  mb-3">
               <div className="tablet1024:hidden w-full">
                 <BtnPrimary width={'w-full'} onClick={openModal}>
@@ -402,9 +399,6 @@ const StartPage = () => {
                   />
                 )}
               </div>
-
-              {router.isReady && (
-                <div className="">
                   <SortFilter
                     toggling={toggling}
                     selected={selected}
@@ -413,8 +407,6 @@ const StartPage = () => {
                     isOpen={isOpenSorting}
                     close={close}
                   />
-                </div>
-              )}
             </div>
             <Suspense fallback={<SkeletonProducts />}>
               <div className="cards-container">

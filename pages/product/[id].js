@@ -137,14 +137,14 @@ const ProductDetails = () => {
 
   return (
     <>
-     <Head>
+      <Head>
         <title>{product?.name}</title>
         <meta property="og:description" content={product?.description} />
         <meta name="keywords" content={product?.vendorCode} />
+        <meta name="keywords" content={product?.name} />
         <meta property="og:title" content={product?.name} />
         <meta name="description" content={product?.description} />
         <meta name="keywords" content={product?.keywords} />
-
       </Head>
       {product && (
         <div className="container">

@@ -3,7 +3,7 @@ import PriceFilter from './PriceFilter';
 import TradeMarkFilter from './TradeMarkFilter';
 import CountryFilter from './CountryFilter';
 import { useSelector } from 'react-redux';
-import { useContext, useEffect, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import { selectCountryPriceTrademark } from '@/redux/products/productsSelectors';
 import { useRouter } from 'next/router';
 import {
@@ -204,7 +204,7 @@ const Filter = ({
 
   // getting the count of products depending on the selected minValue || maxValue
   useEffect(() => {
-    if (searchValue) {
+    if (searchValue && productInfo) {
       const result = calculateTotalCount([
         ...productInfo.countries,
         ...productInfo.trademarks,

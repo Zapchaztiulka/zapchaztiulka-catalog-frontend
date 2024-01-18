@@ -3,13 +3,21 @@ import { getExtension } from '@/helpers/checkExtension';
 import Image from 'next/image';
 import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
-import { EmptyImageIcon } from 'universal-components-frontend/src/components/icons';
+import { EmptyImageIcon, LoadingIcon } from 'universal-components-frontend/src/components/icons';
 
 const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
     useContext(StatusContext);
+
+      const [loadingImage, setLoadingImage] = useState(true)
+
+       
+      const onImageLoad = () => {
+         setLoadingImage(false);
+       }
+
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
@@ -31,18 +39,26 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
                 <EmptyImageIcon className="w-[64px] h-[64px] tablet600:w-[88px] tablet600:h-[88px] desktop1200:w-[103px] desktop1200:h-[102px]" />
               </div>
             ) : (
-              <Image
-                src={photo[0]?.url}
-                alt={photo[0]?.alt}
-                width="0"
-                height="0"
-                priority={true}
-                quality={80}
-                placeholder="blur"
-                blurDataURL={photo[0]?.url}
-                sizes="100vw"
-                className="product-card-img object-contain"
-              />
+              <>
+                <div
+                  style={{ display: loadingImage ? 'flex' : 'none' }}
+                  className="product-card-img object-contain flex justify-center items-center"
+                >
+                    <LoadingIcon  size="54" />
+                </div>
+                <Image
+                  src={photo[0]?.url}
+                  alt={photo[0]?.alt}
+                  width="0"
+                  height="0"
+                  priority={true}
+                  quality={80}
+                  onLoad={onImageLoad}
+                  sizes="100vw"
+                  className="product-card-img object-contain"
+                  style={{ display: loadingImage ? 'none' : 'block' }}
+                />
+              </>
             )}
           </div>
 
