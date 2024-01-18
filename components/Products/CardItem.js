@@ -23,7 +23,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
       <Link
         href={{ pathname: `/product/${id}` }}
         className="cursor-pointerblock"
-      >      
+      >
         <div className="">
           <div className="">
             {photo.length === 0 || !getExtension(photo[0]?.url) ? (
@@ -37,6 +37,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
                 width="0"
                 height="0"
                 priority={true}
+                quality={80}
                 placeholder="blur"
                 blurDataURL={photo[0]?.url}
                 sizes="100vw"

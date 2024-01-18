@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
