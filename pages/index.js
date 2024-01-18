@@ -427,7 +427,7 @@ const StartPage = () => {
             </Suspense>
 
             <Suspense fallback={<SkeletonPagination />}>
-              <div className="min-h-[32px]">
+              <div className="min-h-[32px] mt-5">
                 <PaginationProducts
                   pagesCount={pagesCount}
                   products={data.products}

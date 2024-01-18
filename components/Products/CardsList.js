@@ -35,7 +35,7 @@ const CardsList = ({
                 return (
                   <React.Fragment key={_id}>
                     {index === indexOfSpecialCards && (
-                      <div
+                      <li
                         key="additional"
                         className="product-card-special relative hover:shadow-lg cursor-pointer rounded-lg"
                       >
@@ -48,7 +48,7 @@ const CardsList = ({
                             textStyles="w-[118px] mobile375:w-[146px] tablet600:w-[180px] desktop1200:w-[205px] text-[10px]/[14px] tablet600:text-[14px]/[19.6px]  desktop1200:text-base/[24px]"
                           />
                         </>
-                      </div>
+                      </li>
                     )}
                     <CardItem
                       name={name}
