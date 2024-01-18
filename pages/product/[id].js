@@ -136,6 +136,15 @@ const ProductDetails = () => {
 
   return (
     <>
+     <Head>
+        <title>{product?.name}</title>
+        <meta property="og:description" content={product?.description} />
+        <meta name="keywords" content={product?.vendorCode} />
+        <meta property="og:title" content={product?.name} />
+        <meta name="description" content={product?.description} />
+        <meta name="keywords" content={product?.keywords} />
+
+      </Head>
       {product && (
         <div className="container">
           <div className="mt-[117px] mb-3">

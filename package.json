@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "npm run sitemap",
+    "sitemap": "next-sitemap"
   },
+  
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -22,6 +25,7 @@
     "eslint-config-next": "13.4.13",
     "nanoid": "^5.0.3",
     "next": "^14.0.2",
+    "next-sitemap": "^4.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-loader-spinner": "^5.4.5",
