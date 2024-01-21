@@ -1,7 +1,7 @@
 // import Modal from '../Modal';
 import ReactDOM from 'react-dom';
 import { EmptyCartIcon } from '@/public/icons';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import { useOnKeyDown } from '@/hooks/useOnClickOutside';
@@ -23,6 +23,18 @@ const ModalCart = () => {
   };
   useOnKeyDown(onClose);
 
+  // function calculate cartHeight for mibile devices
+  useEffect(() => {
+    const windowInnerHeight = window.innerHeight;
+    const cartHeightValue = `height:${windowInnerHeight - 57}px`;
+    console.log('cartHeightValue = ', cartHeightValue);
+    if (windowInnerHeight < 1024) {
+      document
+        .getElementById('cartHeight')
+        .setAttribute('style', cartHeightValue);
+    }
+  }, [window.innerHeight, document.getElementById('cartHeight')]);
+
   const modalContent = (
     <div
       onClick={() => {
@@ -34,16 +46,16 @@ const ModalCart = () => {
         onClick={e => {
           e.stopPropagation();
         }}
+        id="cartHeight"
         className="z-11 bg-white tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
-        flex flex-col h-[83vh] items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
+        flex flex-col items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
         w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
-        // bg-green-400
+        // bg-green-400 bg-white pt-[57px]
       >
         <div className="flex flex-col justify-between h-full w-full">
           <div
             className="flex items-center w-full mobile320:flex-row justify-between 
-          px-[16px] py-[20px] mobile480:px-[24px] tablet600:px-[32px] tablet600:py-[28px]
-          "
+          px-[16px] py-[20px] mobile480:px-[24px] tablet600:px-[32px] tablet600:py-[28px]"
           >
             <h5
               className="mr-[8px] decoration-textPrimary mobile320:font-medium mobile320:text-[18px] mobile320:leading-[25.2px]
@@ -77,7 +89,7 @@ const ModalCart = () => {
             </button>
           </div>
           {totalAmount ? (
-            <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto">
+            <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto overflow-y-auto overflow-y-scroll">
               <CartCardList />
             </div>
           ) : null}
@@ -151,6 +163,7 @@ const ModalCart = () => {
       )}
     </div>
   );
+
   return ReactDOM.createPortal(
     modalContent,
     document.getElementById('modal-cart')
