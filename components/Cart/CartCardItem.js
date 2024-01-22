@@ -23,16 +23,23 @@ const CartCardItem = ({
       gap-[16px] mobile375:gap-[12px] mobile480:gap-[8px] tablet600:gap-[4px]
       border border-borderDefault rounded-lg hover:shadow-md"
     >
-      <div className="flex items-center justify-between w-full tablet768:gap-[20px] h-[62px] tablet600:h-[72px]">
+      <div
+        className="flex items-center justify-between w-full tablet768:gap-[20px] tablet1024:gap-[24px] desktop1440:gap-[32px]
+      h-[62px] tablet600:h-[72px] tablet1024:h-[80px]"
+      >
         <div className="flex items-center gap-[4px]">
-          <div className="flex items-center justify-center min-w-[62px] mobile375:min-w-[76px] tablet600:min-w-[108px] h-[62px] tablet600:h-[72px]">
+          <div
+            className="flex items-center justify-center min-w-[62px] mobile375:min-w-[76px] tablet600:min-w-[108px] tablet600:h-[72px]
+          tablet1024:min-w-[116px] tablet1024:h-[80px]
+          "
+          >
             {photo[0] ? (
               <Image
                 src={photo[0]?.url}
                 alt={photo[0]?.alt}
                 width="62"
                 height="62"
-                className="object-scale-down h-[62px] tablet600:h-[72px] tablet600:w-[72px]"
+                className="object-scale-down h-[62px] tablet600:h-[72px] tablet600:w-[72px] tablet1024:h-[80px] tablet1024:w-[116px]"
               />
             ) : (
               <EmptyImageIcon size="50px" />
@@ -50,7 +57,10 @@ const CartCardItem = ({
         <div className="hidden tablet768:block ml-auto border border-borderDefault rounded-lg hover:shadow-md">
           <Counter id={id} counterValue={quantity} />
         </div>
-        <p className="hidden tablet768:block font-normal text-[15px] leading-[21px] decoration-textPrimary min-w-[124px] text-right">
+        <p
+          className="hidden tablet768:block font-normal text-[15px] leading-[21px] decoration-textPrimary 
+            min-w-[124px] tablet1024:min-w-[202px] desktop1440:min-w-[153px] text-right"
+        >
           {totalPrice} ₴
         </p>
         <button

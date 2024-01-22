@@ -8,7 +8,7 @@ const CartCardList = () => {
   const { data } = useSelector(selectCart);
 
   return (
-    <ul className="flex flex-col gap-[12px] px-[16px] mobile480:px-[24px] w-full">
+    <ul className="flex flex-col gap-[12px] px-[16px] mobile480:px-[24px] tablet1024:px-[48px] w-full">
       {data &&
         data.map(({ id, photo, name, vendorCode, quantity, totalPrice }) => {
           return (
