@@ -46,10 +46,10 @@ const CartCardItem = ({
             )}
           </div>
           <div className="flex flex-col w-fit mr-auto">
-            <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary">
+            <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary desktop1440:text-[16px] desktop1440:leading-[22.4px]">
               {name}
             </h5>
-            <p className="font-normal text-[12px] leading-[18px] decoration-textTertiary">
+            <p className="font-normal text-[12px] leading-[18px] decoration-textTertiary desktop1440:text-[14px] desktop1440:leading-[19.6px]">
               Артикул: {vendorCode}
             </p>
           </div>
@@ -59,7 +59,7 @@ const CartCardItem = ({
         </div>
         <p
           className="hidden tablet768:block font-normal text-[15px] leading-[21px] decoration-textPrimary 
-            min-w-[124px] tablet1024:min-w-[202px] desktop1440:min-w-[153px] text-right"
+            min-w-[124px] tablet1024:min-w-[202px] desktop1440:min-w-[153px] text-right desktop1440:text-[16px] desktop1440:leading-[22.4px]"
         >
           {totalPrice} ₴
         </p>
