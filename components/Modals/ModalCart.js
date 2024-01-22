@@ -88,7 +88,7 @@ const ModalCart = () => {
             </button>
           </div>
           {totalAmount ? (
-            <div className="flex flex-col items-center w-full mobile480:px-[24px] tablet1024:px-[48px] mb-auto overflow-y-auto overflow-y-scroll">
+            <div className="flex flex-col items-center w-full tablet1024:px-[48px] mb-auto overflow-y-auto overflow-y-scroll">
               <CartCardList />
             </div>
           ) : null}

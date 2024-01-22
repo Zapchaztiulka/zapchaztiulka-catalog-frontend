@@ -19,18 +19,21 @@ const CartCardItem = ({
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   return (
     <li
-      className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px]
+      className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px] tablet600:gap-[4px]
       border border-borderDefault rounded-lg hover:shadow-md"
     >
-      <div className="flex items-center justify-between w-full gap-[4px] h-[62px]">
-        <div className="flex items-center justify-center min-w-[62px] h-[62px] mobile375:min-w-[76px]">
+      <div className="flex items-center justify-between w-full gap-[4px] h-[62px] tablet600:h-[72px]">
+        <div
+          className="flex items-center justify-center min-w-[62px] mobile375:min-w-[76px] tablet600:min-w-[108px]
+        h-[62px] tablet600:h-[72px]"
+        >
           {photo[0] ? (
             <Image
               src={photo[0]?.url}
               alt={photo[0]?.alt}
               width="62"
               height="62"
-              className="object-scale-down h-[62px]"
+              className="object-scale-down h-[62px] tablet600:h-[72px] tablet600:w-[72px]"
             />
           ) : (
             <EmptyImageIcon size="50px" />
@@ -54,7 +57,7 @@ const CartCardItem = ({
           <TrashIcon color="#888D92" />
         </button>
       </div>
-      <div className="flex justify-between items-center w-full h-[40px] px-[4px] mobile375:pl-[80px]">
+      <div className="flex justify-between items-center w-full h-[40px] px-[4px] mobile375:pl-[80px] tablet600:pl-[112px]">
         <div className="border border-borderDefault rounded-lg hover:shadow-md">
           <Counter id={id} counterValue={quantity} />
         </div>
