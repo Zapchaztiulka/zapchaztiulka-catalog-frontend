@@ -19,16 +19,16 @@ const CartCardItem = ({
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   return (
     <li
-      className="flex flex-col h-[150px] py-[16px] px-[3px] gap-[16px]
+      className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px]
       border border-borderDefault rounded-lg hover:shadow-md"
     >
-      <div className="flex items-center justify-between w-full h-[62px]">
-        <div className="flex items-center justify-center w-[66px] h-[62px]">
+      <div className="flex items-center justify-between w-full gap-[4px] h-[62px]">
+        <div className="flex items-center justify-center min-w-[62px] h-[62px] mobile375:min-w-[76px]">
           {photo[0] ? (
             <Image
               src={photo[0]?.url}
               alt={photo[0]?.alt}
-              width="66"
+              width="62"
               height="62"
               className="object-scale-down h-[62px]"
             />
@@ -36,7 +36,7 @@ const CartCardItem = ({
             <EmptyImageIcon size="50px" />
           )}
         </div>
-        <div className="flex flex-col w-[172px] mr-auto">
+        <div className="flex flex-col w-fit mr-auto">
           <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary">
             {name}
           </h5>
@@ -45,7 +45,7 @@ const CartCardItem = ({
           </p>
         </div>
         <button
-          className="flex items-center justify-center w-[42px] h-[42px]"
+          className="flex items-center justify-center min-w-[42px] h-[42px] mobile375:min-w-[44px] mobile375:h-[44px]"
           type="button"
           onClick={() => {
             setIsOpenDeleteModal(true);
@@ -54,11 +54,15 @@ const CartCardItem = ({
           <TrashIcon color="#888D92" />
         </button>
       </div>
-      <div className="flex justify-between items-center w-full h-[40px] px-[4px]">
+      <div className="flex justify-between items-center w-full h-[40px] px-[4px] mobile375:pl-[80px]">
         <div className="border border-borderDefault rounded-lg hover:shadow-md">
           <Counter id={id} counterValue={quantity} />
         </div>
-        <p className="font-medium text-[16px] leading-[22.4px] decoration-textPrimary">
+        <p
+          className="font-medium text-[16px] leading-[22.4px] decoration-textPrimary
+        mobile375:font-normal mobile375:text-[14px] mobile375:leading-[19.6px] 
+        mobile480:text-[15px] mobile480:leading-[21px]"
+        >
           {totalPrice} ₴
         </p>
       </div>
