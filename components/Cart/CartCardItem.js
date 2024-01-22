@@ -19,22 +19,24 @@ const CartCardItem = ({
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   return (
     <li
-      className="flex flex-col h-[150px] py-[16px] px-[4px] gap-[16px]
+      className="flex flex-col h-[150px] py-[16px] px-[3px] gap-[16px]
       border border-borderDefault rounded-lg hover:shadow-md"
     >
-      <div className="flex items-center justify-between gap-[4px] w-full h-[62px]">
-        {photo[0] ? (
-          <Image
-            src={photo[0]?.url}
-            alt={photo[0]?.alt}
-            width="66"
-            height="44"
-            className="object-scale-down"
-          />
-        ) : (
-          <EmptyImageIcon size="62px" />
-        )}
-        <div className="flex flex-col">
+      <div className="flex items-center justify-between w-full h-[62px]">
+        <div className="flex items-center justify-center w-[66px] h-[62px]">
+          {photo[0] ? (
+            <Image
+              src={photo[0]?.url}
+              alt={photo[0]?.alt}
+              width="66"
+              height="62"
+              className="object-scale-down h-[62px]"
+            />
+          ) : (
+            <EmptyImageIcon size="50px" />
+          )}
+        </div>
+        <div className="flex flex-col w-[172px] mr-auto">
           <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary">
             {name}
           </h5>
@@ -43,7 +45,7 @@ const CartCardItem = ({
           </p>
         </div>
         <button
-          className="flex items-center justify-center w-[44px] h-[44px]"
+          className="flex items-center justify-center w-[42px] h-[42px]"
           type="button"
           onClick={() => {
             setIsOpenDeleteModal(true);
