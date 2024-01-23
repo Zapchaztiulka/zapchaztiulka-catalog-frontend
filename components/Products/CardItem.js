@@ -5,24 +5,23 @@ import Link from 'next/link';
 import BtnAddToCart from '../Buttons/BtnAddToCart';
 import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
-import { EmptyImageIcon, LoadingIcon } from 'universal-components-frontend/src/components/icons';
+import {
+  EmptyImageIcon,
+  LoadingIcon,
+} from 'universal-components-frontend/src/components/icons';
 
 const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
   const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
     useContext(StatusContext);
-
-      const [loadingImage, setLoadingImage] = useState(true)
-
-       
-      const onImageLoad = () => {
-         setLoadingImage(false);
-       }
-
+  const [loadingImage, setLoadingImage] = useState(true);
+  const onImageLoad = () => {
+    setLoadingImage(false);
+  };
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
-        <div className="absolute grid items-center text-center z-9 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
+        <div className="absolute grid items-center text-center z-9 rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
             Під замовлення
           </span>
@@ -31,6 +30,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
       <Link
         href={{ pathname: `/product/${id}` }}
         className="cursor-pointerblock"
+        as={'image'}
       >
         <div className="">
           <div className="">
@@ -44,15 +44,15 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
                   style={{ display: loadingImage ? 'flex' : 'none' }}
                   className="product-card-img object-contain flex justify-center items-center"
                 >
-                    <LoadingIcon  size="54" />
+                  <LoadingIcon size="54" />
                 </div>
                 <Image
                   src={photo[0]?.url}
                   alt={photo[0]?.alt}
                   width="0"
                   height="0"
-                  priority={true}
-                  quality={80}
+                  priority={photo ? true : false}
+                  quality={70}
                   onLoad={onImageLoad}
                   sizes="100vw"
                   className="product-card-img object-contain"
