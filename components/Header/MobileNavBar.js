@@ -1,7 +1,7 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import Sidebar from './SideBar/SideBar';
-import { LogoIcon } from '../Icons/Logo/LogoIcon';
+import { LogoIcon } from 'universal-components-frontend/src/components/icons';
 import Link from 'next/link';
 import {
   CartIconSideBar,

@@ -8,12 +8,13 @@ import {
   CartIconSideBar,
   CloseIcon,
 } from '@/public/icons';
-import { LogoIcon } from '../../Icons/Logo/LogoIcon';
+import { LogoIcon, MenuIcon } from 'universal-components-frontend/src/components/icons';
 import { useState } from 'react';
 import SideBarCatalog from './SideBarCatalog';
 import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../../redux/cart/cartSelector';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 
 const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
   const { totalItems } = useSelector(selectCart);
@@ -56,13 +57,27 @@ const Sidebar = ({ isOpen, toggle, categories, openModalCart }) => {
 
         <ul className="text-center leading-relaxed text-base text-textPrimary font-medium flex flex-col gap-s">
           <li>
+            {/* <div className="hover:text-textBrand sidebar-menu flex items-center">
+              <MenuIcon className="sidebar-icon stroke-iconBrandDark" />
+              <Button
+                buttonType="tertiary"
+                type="button"
+                text="Каталог"
+                onClick={togglShow}
+                className="text-textPrimary hover:text-textBrand"
+                style={{
+                  justifyContent: 'flex-start',
+                }}
+              />
+            </div> */}
+
             <button
               type="button"
               onClick={togglShow}
-              className="flex items-center hover:text-textBrand sidebar-menu"
+              className="flex items-center gap-1 hover:text-textBrand sidebar-menu"
             >
-              <CatalogIcon className="w-[44px] h-[44px] stroke-iconSecondary fill-none sidebar-icon" />
-              <span>Каталог</span>
+              <CatalogIcon className="w-[44px] h-[44px] stroke-iconSecondary fill-none sidebar-icon" /> 
+             <span>Каталог</span>
             </button>
           </li>
           <li>

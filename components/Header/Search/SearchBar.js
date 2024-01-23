@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { CloseIcon, SearchIconNavbar } from '@/public/icons';
@@ -8,6 +8,8 @@ import { selectAllProducts } from '@/redux/products/productsSelectors';
 import { fetchAllProducts } from '@/redux/products/productsOperations';
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { Button } from 'universal-components-frontend/src/components/buttons';
+import { selectSelected } from '@/redux/sortProduct/selectSelectedOption';
+import { StatusContext } from '@/context/statusContext';
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const router = useRouter();
@@ -25,6 +27,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const dispatch = useDispatch();
   const data = useSelector(selectAllProducts);
   const products = data?.products;
+  // const { sortType } = useSelector(selectSelected);
+  const {setCountry, setTrademarks} = useContext(StatusContext);
 
   useEffect(() => {
     if (searchTerm) {
@@ -54,10 +58,12 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
     if (searchTerm !== '') {
       router.push({
         pathname: '/',
-        query: { query: searchTerm.toLowerCase(), page: 1 },
+        query: { query: searchTerm.toLowerCase(), page: 1, sortType: router.query.sortType ? router.query.sortType : [] },
       });
 
       clearSearchTerm();
+      setCountry([])
+      setTrademarks([])
     }
     setIsFormSubmitted(true);
 

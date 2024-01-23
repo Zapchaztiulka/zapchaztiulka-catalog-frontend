@@ -132,8 +132,7 @@ const TradeMarkFilter = ({
                     )
                     .slice(0, visibleItemsCount)
                     .map((item, index) => {
-
-                       //Find index of items after slice
+                      //Find index of items after slice
                       const originalIndex = filtredValue.findIndex(
                         originalItem =>
                           originalItem.name === item.name &&
@@ -172,7 +171,7 @@ const TradeMarkFilter = ({
                             />
                             <p className="tablet1024:text-ellipsis max-w-[170px]">
                               {' '}
-                              {item.name !== '' ? item.name : 'Інше'}
+                              {item.name !== '' ? item.name : 'Не зазначено'}
                             </p>
                           </label>
                           <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">

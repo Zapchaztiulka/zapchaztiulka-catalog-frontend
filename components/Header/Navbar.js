@@ -1,13 +1,10 @@
-'use client';
-
 import { BasketCountIcon } from 'universal-components-frontend/src/components/icons';
 import ContactList from './ContactList';
 import SearchBar from './Search/SearchBar';
 import { CartIcon } from '@/public/icons';
 import Catalog from '../Category/Catalog';
-import { LogoIconWithText } from '../Icons/Logo/LogoIconWithText';
 import MobileNavBar from './MobileNavBar';
-import { LogoIcon } from '../Icons/Logo/LogoIcon';
+import { LogoIconWithText, LogoIcon } from 'universal-components-frontend/src/components/icons';
 import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import ModalCart from '@/components/Modals/ModalCart';

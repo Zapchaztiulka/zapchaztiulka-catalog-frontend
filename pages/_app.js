@@ -25,12 +25,22 @@ function MyApp({ Component, pageProps }) {
           name="description"
           content="Запчастини для авто та сільгосптехніки Запчастюлька"
         />
-        <meta property="og:title" content="Запчастини для авто та сільгосптехніки Запчастюлька" />
+        <meta
+          property="og:title"
+          content="Запчастини для авто та сільгосптехніки Запчастюлька"
+        />
+        <meta
+          name="keywords"
+          content="Запчастини для авто та сільгосптехніки Запчастюлька"
+        />
         <meta
           property="og:description"
           content="Запчастини для авто та сільгосптехніки"
         />
-        <meta property="og:url" content="https://zapchaztiulka-catalog-frontend.vercel.app/" />
+        <meta
+          property="og:url"
+          content="https://zapchaztiulka-catalog-frontend.vercel.app/"
+        />
         <meta property="og:type" content="website" />
       </Head>
       <Provider store={store}>

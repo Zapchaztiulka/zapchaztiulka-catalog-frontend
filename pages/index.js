@@ -1,7 +1,5 @@
-'use client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useContext, useEffect, useState } from 'react';
 import { customAlphabet } from 'nanoid';
-import CardsList from '@/components/Products/CardsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
@@ -9,8 +7,6 @@ import {
   selectCountryPriceTrademark,
   selectProducts,
 } from '@/redux/products/productsSelectors';
-import Loader from '@/components/Loader';
-import Filter from '@/components/Filter/Filter';
 import BtnPrimary from '@/components/Buttons/BtnPrimary';
 import { FilterIcon } from '@/public/icons';
 import FilterMobile from '@/components/Filter/FilterMobile';
@@ -23,10 +19,30 @@ import { useWindowSize } from '@/hooks/useWindowSize';
 import { getLimitByScreenWidth } from '@/helpers/getLimitByScreenWidth';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
 import Chips from '@/components/Chips/Chips';
-import PaginationProducts from '@/components/Pagination/Pagination';
 import { scrollToTop } from '@/helpers/scrollToTop';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 import EmptySearchPage from '@/components/EmptySearchPage/EmptySearchPage';
+import SortFilter from '@/components/SortFilter/SortFilter';
+import { selectSelected } from '@/redux/sortProduct/selectSelectedOption';
+import {
+  setSelected,
+  setSelectedLocalStorage,
+  setSortType,
+} from '@/redux/sortProduct/selectedOptionActions';
+import SearchQueryName from '@/components/SearchQueryName/SearchQueryName';
+import {
+  getCategoryName,
+  getSubCategoryName,
+} from '@/helpers/getNameOfCategory';
+import SkeletonProducts from '@/components/Skeleton/SkeletonProducts';
+import SkeletonFilter from '@/components/Skeleton/SkeletonFilter';
+import SkeletonPagination from '@/components/Skeleton/SkeletonPagination';
+
+const CardsList = lazy(() => import('../components/Products/CardsList'));
+const Filter = lazy(() => import('../components/Filter/Filter'));
+const PaginationProducts = lazy(() =>
+  import('../components/Pagination/Pagination')
+);
 
 const StartPage = () => {
   const dispatch = useDispatch();
@@ -36,13 +52,14 @@ const StartPage = () => {
   const productInfo = useSelector(selectCountryPriceTrademark);
   const { categories } = useSelector(selectCategories);
   let startPage = router.query.page ? Number(router.query.page) : 1;
-  let searchValue = router.query.query || '' ;
+  let searchValue = router.query.query || '';
   let countries = router.query.countries || [];
   let trademark = router.query.trademarks || [];
   let minPrice = router.query.min;
   let maxPrice = router.query.max;
   let idCategory = router.query.categories || [];
   let idSubCategory = router.query.subcategories || [];
+
   const [currentPage, setCurrentPage] = useState(startPage);
   const size = useWindowSize();
   const limit = getLimitByScreenWidth(size);
@@ -55,19 +72,72 @@ const StartPage = () => {
     setIsModalOpen,
   } = useContext(StatusContext);
 
+  const { selected, sortType } = useSelector(selectSelected);
+  const [isOpenSorting, setIsOpenSorting] = useState(false);
+  const [options, setOptions] = useState();
+
+  const toggling = () => setIsOpenSorting(!isOpenSorting);
+
+  useEffect(() => {
+    setOptions(['Від дешевих до дорогих', 'Від дорогих до дешевих']);
+  }, []);
+
+  // Selected options for sorting products by price
+  const onOptionClicked = value => () => {
+    if (value === selected) {
+      return;
+    }
+    dispatch(setSelected(value));
+    dispatch(setSelectedLocalStorage(value));
+    setIsOpenSorting(false);
+    let newSortType;
+    if (value === 'Від дешевих до дорогих') {
+      newSortType = 'smallLarge';
+    }
+    if (value === 'Від дорогих до дешевих') {
+      newSortType = 'largeSmall';
+    }
+    dispatch(setSortType(newSortType));
+    router.push({
+      pathname: `/`,
+      query: {
+        page: value !== selected ? 1 : startPage,
+        query: searchValue ? searchValue : [],
+        countries: countries,
+        trademarks: trademark,
+        min: minPrice !== undefined ? minPrice : [],
+        max: maxPrice !== undefined ? maxPrice : [],
+        categories: idCategory,
+        subcategories: subcategoryUrl,
+        sortType: newSortType,
+      },
+    });
+  };
+
+  const close = () => {
+    setIsOpenSorting(false);
+  };
+
   let countriesUrlArray =
     countries.length > 0
-      ? countries.split(',').map(element => (element === 'Інше' ? '' : element))
+      ? countries
+          .split(',')
+          .map(element => (element === 'Не зазначено' ? '' : element))
       : [];
   let trademarkUrlArray =
     trademark.length > 0
-      ? trademark.split(',').map(element => (element === 'Інше' ? '' : element))
+      ? trademark
+          .split(',')
+          .map(element => (element === 'Не зазначено' ? '' : element))
       : [];
 
   const caterogyUrl =
     idCategory.length === 0 ? idCategory : idCategory?.split(',');
   const subcategoryUrl =
     idSubCategory.length === 0 ? idSubCategory : idSubCategory?.split(',');
+
+  const nameOfCategory = getCategoryName(categories, idCategory);
+  const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
   const pagesCount = Math.ceil(data?.totalCount / limit);
   const updatedCountries = [...countriesUrlArray];
@@ -144,7 +214,6 @@ const StartPage = () => {
     }
   };
 
-
   // call effect to receive all products
   useEffect(() => {
     if (
@@ -155,21 +224,25 @@ const StartPage = () => {
       limit &&
       router.isReady
     ) {
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue ? searchValue : [],
-          limit: limit,
-          countries: countriesUrlArray,
-          trademarks: trademarkUrlArray,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-          categories: caterogyUrl,
-          subcategories: subcategoryUrl,
-        })
-      );
+      const fetchData = async () => {
+        dispatch(
+          fetchProducts({
+            page: router.query.page ? startPage : 1,
+            query: searchValue ? searchValue : [],
+            limit: limit,
+            countries: countriesUrlArray,
+            trademarks: trademarkUrlArray,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            categories: caterogyUrl,
+            subcategories: subcategoryUrl,
+            sortBy: router.query.sortType ? 'price' : [],
+            sortType: router.query.sortType ? router.query.sortType : [],
+          })
+        );
+      };
+      fetchData();
       setCurrentPage(startPage);
-
     }
   }, [
     dispatch,
@@ -177,12 +250,10 @@ const StartPage = () => {
     countries.length,
     trademark.length,
     limit,
-  
     caterogyUrl[0],
     subcategoryUrl[0],
     router,
   ]);
-
 
   // call effect to receive the selected products (by the filter`s options)
   useEffect(() => {
@@ -204,10 +275,11 @@ const StartPage = () => {
           trademarks: updatedTrademarks,
           minPrice: minPrice,
           maxPrice: maxPrice,
+          sortBy: router.query.sortType ? 'price' : [],
+          sortType: router.query.sortType ? router.query.sortType : [],
         })
       );
       setCurrentPage(startPage);
-
     }
   }, [
     dispatch,
@@ -218,6 +290,7 @@ const StartPage = () => {
     maxPrice,
     searchValue,
     limit,
+    router,
   ]);
 
   const handleChange = (event, value) => {
@@ -234,6 +307,7 @@ const StartPage = () => {
         max: maxPrice !== undefined ? maxPrice : [],
         categories: idCategory,
         subcategories: subcategoryUrl,
+        sortType: router.query.sortType ? router.query.sortType : [],
       },
     });
   };
@@ -258,91 +332,113 @@ const StartPage = () => {
     }
   }, [router.isReady, searchValue]);
 
-
   return (
     <>
-      <div className="container mt-[130px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
-        {isLoading && data?.length === 0 && <Loader />}
+      <div className="container mt-[72px] tablet1024:mt-[116px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
         {data?.totalCount === 0 && searchValue !== '' && (
           <div className="">
-            <EmptySearchPage
-              searchValue={searchValue}
-            />
+            <EmptySearchPage searchValue={searchValue} />
           </div>
         )}
-        {data?.totalCount > 0 && router.isReady && (
-          <>
-            <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs">
-              {productInfo ? (
-                <Filter
-                  isLoading={isLoading}
-                  searchValue={searchValue}
-                  products={data.products}
-                  countriesUrlArray={countriesUrlArray}
-                  trademarkUrlArray={trademarkUrlArray}
-                />
-              ) : (
-                <Loader />
-              )}
+        <>
+          <Suspense fallback={<SkeletonFilter />}>
+            <div className="hidden tablet1024:block tablet1024:w-[265px] desktop1200:w-[285px] border border-borderDefault rounded-lg shrink-0 p-xs filter-container">
+              <Filter
+                isLoading={isLoading}
+                searchValue={searchValue}
+                products={data.products}
+                countriesUrlArray={countriesUrlArray}
+                trademarkUrlArray={trademarkUrlArray}
+                sortType={sortType}
+              />
             </div>
-            <div className="tablet1024:hidden">
-              <BtnPrimary width={'w-full'} onClick={openModal}>
-                <FilterIcon className="w-[24px] h-[24px]" />
-                <span>Фільтр</span>
-              </BtnPrimary>
-              {isModalOpen && (
-                <FilterMobile
-                  onClose={closeModal}
+          </Suspense>
+
+          <div className="w-full">          
+              <>
+                {(idCategory.length !== 0 ||
+                  idSubCategory.length !== 0 ||
+                  searchValue) && (
+                  <Breadcrumbs
+                    idCategory={idCategory}
+                    idSubCategory={idSubCategory}
+                    categories={categories}
+                    searchValue={searchValue}
+                  />
+                )}
+                <SearchQueryName
+                  searchValue={searchValue}
+                  caterogyUrl={caterogyUrl}
+                  subcategoryUrl={subcategoryUrl}
+                  nameOfCategory={nameOfCategory}
+                  nameOfSubCategory={nameOfSubCategory}
+                  totalCount={data?.totalCount}
+                />
+                <Chips
                   countriesUrlArray={countriesUrlArray}
                   trademarkUrlArray={trademarkUrlArray}
                   handleDeleteChip={handleDeleteChip}
-                  minPrice={minPrice}
-                  maxPrice={maxPrice}
+                  minPriceURL={minPrice}
+                  maxPriceURL={maxPrice}
                 />
-              )}
+              </>            
+            <div className="flex flex-col gap-3 tablet600:flex-row items-start tablet600:items-center tablet600:gap-2  mb-3">
+              <div className="tablet1024:hidden w-full">
+                <BtnPrimary width={'w-full'} onClick={openModal}>
+                  <FilterIcon className="w-[24px] h-[24px]" />
+                  <span>Фільтр</span>
+                </BtnPrimary>
+                {isModalOpen && (
+                  <FilterMobile
+                    onClose={closeModal}
+                    countriesUrlArray={countriesUrlArray}
+                    trademarkUrlArray={trademarkUrlArray}
+                    handleDeleteChip={handleDeleteChip}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                  />
+                )}
+              </div>
+                  <SortFilter
+                    toggling={toggling}
+                    selected={selected}
+                    options={options}
+                    onOptionClicked={onOptionClicked}
+                    isOpen={isOpenSorting}
+                    close={close}
+                  />
             </div>
-            {isLoading && data?.length === 0 && <Loader />}
-            <div className="w-full">
-              {(idCategory.length !== 0 ||
-                idSubCategory.length !== 0 ||
-                searchValue) && (
-                <Breadcrumbs
+            <Suspense fallback={<SkeletonProducts />}>
+              <div className="cards-container">
+                <CardsList
+                  isLoading={isLoading}
+                  products={data.products}
+                  totalCount={data?.totalCount}
+                  searchValue={searchValue}
+                  size={size}
+                  limit={limit}
+                  categories={categories}
                   idCategory={idCategory}
                   idSubCategory={idSubCategory}
-                  categories={categories}
-                  searchValue={searchValue}
+                  caterogyUrl={caterogyUrl}
+                  subcategoryUrl={subcategoryUrl}
                 />
-              )}
-              <Chips
-                countriesUrlArray={countriesUrlArray}
-                trademarkUrlArray={trademarkUrlArray}
-                handleDeleteChip={handleDeleteChip}
-                minPriceURL={minPrice}
-                maxPriceURL={maxPrice}
-              />
-              <CardsList
-                isLoading={isLoading}
-                products={data.products}
-                totalCount={data?.totalCount}
-                searchValue={searchValue}
-                size={size}
-                limit={limit}
-                categories={categories}
-                idCategory={idCategory}
-                idSubCategory={idSubCategory}
-                caterogyUrl={caterogyUrl}
-                subcategoryUrl={subcategoryUrl}
-              />
-              <PaginationProducts
-                pagesCount={pagesCount}
-                products={data.products}
-                handleChange={handleChange}
-                currentPage={currentPage}
-                size={size}
-              />
-            </div>
-          </>
-        )}
+              </div>
+            </Suspense>
+
+            <Suspense fallback={<SkeletonPagination />}>
+              <div className="min-h-[32px] mt-5">
+                <PaginationProducts
+                  pagesCount={pagesCount}
+                  products={data.products}
+                  handleChange={handleChange}
+                  currentPage={currentPage}
+                  size={size}
+                />
+              </div>
+            </Suspense>
+          </div>
+        </>
       </div>
     </>
   );

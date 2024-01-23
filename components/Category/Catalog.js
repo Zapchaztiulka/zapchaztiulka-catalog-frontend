@@ -1,15 +1,18 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { CatalogIcon } from "@/public/icons";
+import React, { useContext, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useOnKeyDown, useOutsideClick} from "@/hooks/useOnClickOutside";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
+import { Button } from "universal-components-frontend/src/components/buttons";
+import { MenuIcon } from "universal-components-frontend/src/components/icons";
+import { StatusContext } from "@/context/statusContext";
 
 const Catalog = ({ categories }) => {
   const [showCategory, setShowCategory] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState([]);
   const [lengthSubCategory, setLengthSubCategory] = useState();
+   const {setCountry, setTrademarks} = useContext(StatusContext);
 
   const router = useRouter();
   const [index, setIndex] = useState();
@@ -62,6 +65,8 @@ const Catalog = ({ categories }) => {
       },
     });
     clearSubMenuByClick();
+     setCountry([])
+      setTrademarks([])
   };
 
   const clickByCategory = idCategory=> {
@@ -72,21 +77,22 @@ const Catalog = ({ categories }) => {
         categories: idCategory,
       },
     });
+     setCountry([]);
+     setTrademarks([]);
     close();
   };
 
   return (
     <div className="desktop1200:mr-s">
-      <button
-        ref={refBtn}
-        onClick={closeCatalogBtn}
-        className=" justify-center items-center  mr-[15px] hidden tablet768:flex tablet768:justify-between state-button lg:px-6 px-3 py-3 border-none outline-none"
-      >
-        <CatalogIcon className="w-[24px] h-[24px] stroke-iconContrast stroke-2 fill-none" />
-        <span className="text-textContrast font-medium text-base tracking-textBase">
-          Каталог
-        </span>
-      </button>
+      <div ref={refBtn} className="mr-4 hidden tablet768:flex">
+        <Button
+          buttonType="primary"
+          type="button"
+          text="Каталог"
+          icon={MenuIcon}
+          onClick={closeCatalogBtn}
+        />
+      </div>
       <>
         {showCategory && (
           <section
@@ -98,7 +104,6 @@ const Catalog = ({ categories }) => {
                 categories={categories}
                 subCategoriesOnclickHandler={subCategoriesOnclickHandler}
                 clickByCategory={clickByCategory}
-
               />
             </div>
             {lengthSubCategory > 0 && (
@@ -107,7 +112,6 @@ const Catalog = ({ categories }) => {
                   categories={categories}
                   index={index}
                   clickBySubCategory={clickBySubCategory}
-
                 />
               </div>
             )}

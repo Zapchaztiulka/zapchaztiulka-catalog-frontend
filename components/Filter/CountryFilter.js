@@ -172,7 +172,7 @@ const CountryFilter = ({
                           />
                           <p className="text-ellipsis max-w-[170px]">
                             {' '}
-                            {item.name !== '' ? item.name : 'Інше'}
+                            {item.name !== '' ? item.name : 'Не зазначено'}
                           </p>
                         </label>
                         <span className="text-[10px]/[14px] font-medium text-textSecondary bg-bgDisable py-xs3 px-xs2 rounded-medium3">

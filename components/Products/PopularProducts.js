@@ -1,5 +1,4 @@
 import React from 'react';
-import Loader from '../Loader';
 import { cutProductsArray } from '@/helpers/cutProductsArray';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import CardItem from '@/components/Products/CardItem';
@@ -12,7 +11,6 @@ const PopularProducts = ({ products, isLoading }) => {
   return (
     <>
       <section className="tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
-        {isLoading && <Loader />}
 
         <div className="flex gap-4 mb-5 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5 tablet600:mb-5">
           {/* special order 600-1440px */}
