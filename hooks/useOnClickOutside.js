@@ -29,5 +29,5 @@ export const useOnKeyDown = onClose => {
     };
     window.addEventListener('keydown', close);
     return () => window.removeEventListener('keydown', close);
-  }, []);
+  }, [onClose]);
 };

@@ -37,7 +37,6 @@ import BtnAddToCart from '@/components/Buttons/BtnAddToCart';
 import { Notification } from 'universal-components-frontend/src/components/notifications';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
-
 const Modal = dynamic(() => import('../../components/Modal'), { ssr: false });
 
 const ProductDetails = () => {
@@ -57,7 +56,6 @@ const ProductDetails = () => {
     localStorage.getItem('ProductViewed') || '[]'
   );
   const {
-    setCartProducts,
     showModalPreOrder,
     setShowModalPreOrder,
     setPreOrderId,
@@ -128,12 +126,6 @@ const ProductDetails = () => {
     setShowModalAbsentOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };
-
-  // call effect to receive the products from localStorage (cart)
-  // useEffect(() => {
-  //   const parsedProducts = JSON.parse(localStorage.getItem('cart'));
-  //   if (parsedProducts) setCartProducts(parsedProducts);
-  // }, []);
 
   return (
     <>
@@ -293,10 +285,11 @@ const ProductDetails = () => {
                   <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
                     {product?._id && (
                       <BtnAddToCart
+                        id={product?._id}
                         photo={product?.photo}
                         name={product?.name}
                         price={product?.price}
-                        id={product?._id}
+                        vendorCode={product?.vendorCode}
                         visibleCartIcon
                       />
                     )}

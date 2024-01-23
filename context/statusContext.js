@@ -95,7 +95,6 @@ export const StatusProvider = ({ children }) => {
   const minPrice = formatNumber(minPriceProduct || 0);
   const maxPrice = formatNumber(maxPriceProduct || 0);
 
-  const [cartProducts, setCartProducts] = useState([]);
   const [showModalOrderSuccessful, setShowModalOrderSuccessful] =
     useState(false);
   const [showCartNotification, setShowCartNotification] = useState(false);
@@ -140,8 +139,6 @@ export const StatusProvider = ({ children }) => {
         maxPrice,
         isModalOpen,
         setIsModalOpen,
-        cartProducts,
-        setCartProducts,
         showModalPreOrder,
         setShowModalPreOrder,
         preOrderId,

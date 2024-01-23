@@ -7,7 +7,7 @@ import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { EmptyImageIcon, LoadingIcon } from 'universal-components-frontend/src/components/icons';
 
-const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
+const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
   const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
     useContext(StatusContext);
 
@@ -22,7 +22,7 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
       {availability === 'під замовлення' && (
-        <div className="absolute items-center text-center z-10 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
+        <div className="absolute grid items-center text-center z-9 block rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
             Під замовлення
           </span>
@@ -79,7 +79,13 @@ const CardItem = ({ name, id, photo, price, vendorCode, availability }) => {
         {availability === 'в наявності' ? (
           <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
             {id && (
-              <BtnAddToCart photo={photo} name={name} price={price} id={id} />
+              <BtnAddToCart
+                id={id}
+                photo={photo}
+                name={name}
+                price={price}
+                vendorCode={vendorCode}
+              />
             )}
           </div>
         ) : availability === 'під замовлення' ? (
