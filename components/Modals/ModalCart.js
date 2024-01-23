@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
 import ModalDeleteFromCart from '@/components/Modals/ModalDeleteFromCart';
 import { CartCardList } from '@/components';
+import Link from 'next/link';
 
 const ModalCart = () => {
   const { resetLocalStorage, backToHomeUrl, showModalCart, setShowModalCart } =
@@ -21,6 +22,7 @@ const ModalCart = () => {
     setShowModalCart(!showModalCart);
     document.body.classList.remove('stop-scrolling');
   };
+
   useOnKeyDown(onClose);
 
   // function calculate cartHeight for mibile devices
@@ -129,6 +131,7 @@ const ModalCart = () => {
               <p className="font-medium text-[18px] leading-[25.2px] tablet1024:text-[24px] tablet1024:leading-[28.8px] text-textPrimary">
                 Всього: <span>{totalAmount}</span> ₴
               </p>
+              <Link href={{ pathname: `/checkout` }}>
               <button
                 type="button"
                 className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
@@ -141,6 +144,8 @@ const ModalCart = () => {
               >
                 Офомити замовлення
               </button>
+              </Link>
+              
             </div>
           ) : null}
         </div>

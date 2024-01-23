@@ -30,7 +30,6 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
       <Link
         href={{ pathname: `/product/${id}` }}
         className="cursor-pointerblock"
-        as={'image'}
       >
         <div className="">
           <div className="">
