@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
+import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
@@ -34,45 +35,109 @@ const Сheckout = () => {
           </h2>
           <ul className="flex flex-col font-medium text-[14px] leading-[19.6px] gap-[8px]">
             <li className="">
-              <labell>
+              <label>
                 Ім'я <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault"></input>
-              </labell>
+                <input className="w-full h-[48px] border border-borderDefault" />
+              </label>
             </li>
             <li className="">
-              <labell>
+              <label>
                 Прізвище <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault"></input>
-              </labell>
+                <input className="w-full h-[48px] border border-borderDefault" />
+              </label>
             </li>
             <li className="">
-              <labell>
+              <label>
                 По батькові
-                <input className="w-full h-[48px] border border-borderDefault"></input>
-              </labell>
+                <input className="w-full h-[48px] border border-borderDefault" />
+              </label>
             </li>
             <li className="">
-              <labell>
+              <label>
                 E-mail <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault"></input>
-              </labell>
+                <input className="w-full h-[48px] border border-borderDefault" />
+              </label>
             </li>
             <li className="">
-              <labell>
+              <label>
                 Номер телефону <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault"></input>
-              </labell>
+                <input className="w-full h-[48px] border border-borderDefault" />
+              </label>
             </li>
           </ul>
         </div>
         <div>
-          <h3>Дані доставки</h3>
+          <h3 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
+            Дані доставки
+          </h3>
+          <p className="mb-[4px]">
+            Оберіть місто доставки <span className="text-textError">*</span>
+          </p>
+          <Dropdown
+            // width={290}
+            // options={statusOptionsBigFirstLetter}
+            // placeholder="Всі статуси"
+            // onChange={handleStatusChange}
+            options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
+            className="w-full border border-borderDefault"
+          />
+          <ul className="mt-[16px] flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
+            <li className="">
+              <label>
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="novaPoshta"
+                  checked
+                />
+                Нова пошта
+              </label>
+            </li>
+            <li className="">
+              <label>
+                <input type="radio" name="delivery" value="pickup" />
+                Самовивіз
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="delivery" value="ukrPoshta" />
+                Укрпошта
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="delivery" value="meestExperess" />
+                Meest experess
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="delivery" value="courierZapchast" />
+                Кур'єр Запчастюлька
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="delivery" value="courierNovaPoshta" />
+                Кур'єр Нова Пошта
+              </label>
+            </li>
+          </ul>
         </div>
         <div>
-          <h4>Коментар до замовлення</h4>
+          <label>
+            Коментар до замовлення
+            <textarea
+              name="comment"
+              rows="5"
+              cols="33"
+              className="w-full border border-borderDefault"
+            />
+          </label>
         </div>
         <div>
-          <h5>Ваше замовлення</h5>
+          <h4>Ваше замовлення</h4>
         </div>
         <button
           type="button"
