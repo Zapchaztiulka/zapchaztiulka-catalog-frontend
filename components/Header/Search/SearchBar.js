@@ -8,7 +8,6 @@ import { selectAllProducts } from '@/redux/products/productsSelectors';
 import { fetchAllProducts } from '@/redux/products/productsOperations';
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { Button } from 'universal-components-frontend/src/components/buttons';
-import { selectSelected } from '@/redux/sortProduct/selectSelectedOption';
 import { StatusContext } from '@/context/statusContext';
 
 const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
@@ -19,7 +18,6 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-
   const refForm = useRef();
   const refList = useRef();
   const refMessage = useRef(); 
@@ -27,7 +25,7 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const dispatch = useDispatch();
   const data = useSelector(selectAllProducts);
   const products = data?.products;
-  // const { sortType } = useSelector(selectSelected);
+
   const {setCountry, setTrademarks} = useContext(StatusContext);
 
   useEffect(() => {

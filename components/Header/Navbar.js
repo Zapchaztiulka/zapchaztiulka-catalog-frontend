@@ -11,7 +11,7 @@ import ModalCart from '@/components/Modals/ModalCart';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../redux/cart/cartSelector';
 
-const Navbar = ({ categories }) => {
+const Navbar = ({ categories, patterns }) => {
   const { totalItems } = useSelector(selectCart);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
@@ -62,7 +62,7 @@ const Navbar = ({ categories }) => {
             />
           </div>
           <div className="flex tablet1024:gap-[44px] desktop1200:gap-6">
-            <ContactList />
+            <ContactList patterns={patterns} />
             <button
               className="cursor-pointer p-2 flex gap-2 text-base text-textPrimary"
               onClick={() => {

@@ -27,7 +27,7 @@ const SortFilter = ({
       </p>
       <div
         ref={refSelect}
-        className="relative p-xs2 border rounded border-borderDefault w-[191px] mobile375:w-[215px]"
+        className="relative p-xs2 border rounded border-borderDefault w-[191px] mobile480:w-[341px]"
       >
         <div
           onClick={toggling}

@@ -1,12 +1,11 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import Sidebar from './SideBar/SideBar';
-import { LogoIcon } from 'universal-components-frontend/src/components/icons';
+import { LogoIcon, PhoneIcon } from 'universal-components-frontend/src/components/icons';
 import Link from 'next/link';
 import {
   CartIconSideBar,
   MenuOpenIcon,
-  PhoneIcon,
   SearchIcon,
 } from '@/public/icons';
 import SearchBarMobile from './Search/SearchBarMobile';
@@ -72,7 +71,7 @@ const MobileNavBar = ({
           </button>
 
           <Link href="/" className="justify-center flex items-center">
-            <PhoneIcon className="w-[44px] h-[44px] stroke-iconWhite stroke-2" />
+            <PhoneIcon color="#fff" width="44" height="44" />
           </Link>
           <button
             className="justify-center flex items-center"

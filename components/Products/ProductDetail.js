@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
