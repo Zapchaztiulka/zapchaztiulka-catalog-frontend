@@ -1,7 +1,20 @@
 import Modal from '../Modal';
-import { AbsentOrderIcon } from '@/public/icons';
+import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
-const ModalAbsentOrder = ({ onClose, handleSubmitAbsentOrder }) => {
+const ModalAbsentOrder = ({
+  onClose,
+  setShowModalAbsentOrder,
+  setShowModalOrderSuccessful,
+  showModalOrderSuccessful,
+}) => {
+  const handleSubmitAbsentOrder = async event => {
+    event.preventDefault();
+    // mail: event.target.elements.mail.value;
+    console.log('E-mail : ', event.target.elements.mail.value);
+    setShowModalAbsentOrder(false);
+    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+  };
+
   return (
     <Modal onClose={onClose}>
       <div
@@ -10,18 +23,18 @@ const ModalAbsentOrder = ({ onClose, handleSubmitAbsentOrder }) => {
       >
         <div className="flex items-center justify-center mb-[22px] w-[59px] h-[59px] bg-bgErrorLight rounded-[50%]">
           <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgErrorDark rounded-[50%]">
-            <AbsentOrderIcon width={24} height={24} />
+            <CloseIcon width={24} height={24} color={'#F04438'} />
           </div>
         </div>
         <h5
           className="mb-[12px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] text-textPrimary"
         >
           Немає в наявності
         </h5>
         <p
           className="text-center mobile320:mb-[24px] desktop1440:mb-[32px] mobile320:w-[258px] mobile375:w-[315px] desktop1440:w-[632px] mobile320:text-[14px] mobile320:leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                  desktop1440:text-[16px] desktop1440:leading-[24px] text-textSecondary"
         >
           Введіть адресу своєї пошти, і, як тільки товар з’явиться, Вам прийде
           лист

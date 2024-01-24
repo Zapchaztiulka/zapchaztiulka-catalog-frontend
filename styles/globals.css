@@ -178,7 +178,7 @@ a {
 }
 
 .modal {
-  @apply bg-bgWhite h-full w-full border rounded-lg  shadow-modal relative;
+  @apply bg-bgWhite h-full w-full border rounded-lg  shadow-modal relative mt-[50px];
 }
 
 .modal-overlay {

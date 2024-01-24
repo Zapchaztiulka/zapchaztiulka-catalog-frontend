@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { cutProductsArray } from '@/helpers/cutProductsArray';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import CardItem from '@/components/Products/CardItem';
 import NotFoundProduct from './NotFoundProduct';
+import { StatusContext } from '@/context/statusContext';
+import ModalSpecialOrder from '../Modals/ModalSpecialOrder';
 
 const PopularProducts = ({ products, isLoading }) => {
   const size = useWindowSize();
   const cuttingProducts = cutProductsArray(products, size);
+   const { showModalSpecialOrder, setShowModalSpecialOrder, setShowModalOrderSuccessful, showModalOrderSuccessful} = useContext(StatusContext);
 
   return (
     <>
       <section className="tablet600:mb-0 popular-products overflow-x-auto tablet1024:overflow-visible">
-
         <div className="flex gap-4 mb-5 tablet600:gap-3 tablet1024:gap-4 desktop1440:gap-5 tablet600:mb-5">
           {/* special order 600-1440px */}
           <div className="desktop1920:hidden hidden tablet600:block product-card-popular relative">
             <NotFoundProduct
+              showModalSpecialOrder={showModalSpecialOrder}
+              setShowModalSpecialOrder={setShowModalSpecialOrder}
               containerStyles="containerStylesForIdProduct"
               waveImageStyles="waveImageStylesForIdProduct"
               textStylesForNotFoundProduct=" mt-[151px] desktop1200:mt-[211px] gap-s p-s"
@@ -46,6 +50,8 @@ const PopularProducts = ({ products, isLoading }) => {
           {/* special order 1920px */}
           <div className="hidden desktop1920:block product-card-popular  hover:shadow-md relative">
             <NotFoundProduct
+              showModalSpecialOrder={showModalSpecialOrder}
+              setShowModalSpecialOrder={setShowModalSpecialOrder}
               containerStyles="containerStylesForIdProduct"
               waveImageStyles="waveImageStylesForIdProduct"
               textStylesForNotFoundProduct=" mt-[151px] desktop1200:mt-[211px] gap-s p-s"
@@ -59,6 +65,8 @@ const PopularProducts = ({ products, isLoading }) => {
       {/* special order 320-480px */}
       <div className="mt-1 tablet600:hidden h-[196px] w-[288px] mobile375:w-[343px] mobile480:w-[432px]  relative">
         <NotFoundProduct
+          showModalSpecialOrder={showModalSpecialOrder}
+          setShowModalSpecialOrder={setShowModalSpecialOrder}
           containerStyles="containerStyles"
           waveImageStyles="waveImageStyles"
           textStylesForNotFoundProduct="w-[185.22px] mt-[43px] gap-xs py-xs2 px-xs"
@@ -66,6 +74,16 @@ const PopularProducts = ({ products, isLoading }) => {
           textStyles="text-[12px]/[18px] "
         />
       </div>
+
+      {/* Modal for special order */}
+      {showModalSpecialOrder && (
+        <ModalSpecialOrder
+          onClose={() => setShowModalSpecialOrder(false)}
+          setShowModalSpecialOrder={setShowModalSpecialOrder}
+          setShowModalOrderSuccessful={setShowModalOrderSuccessful}
+          showModalOrderSuccessful={showModalOrderSuccessful}
+        />
+      )}
     </>
   );
 };

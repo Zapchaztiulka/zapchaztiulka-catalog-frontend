@@ -27,10 +27,10 @@ const ModalDeleteFromCart = ({
             <AlertIcon width={24} height={24} color="#F04438" />
           </div>
         </div>
-        <h5 className="mb-[8px] font-medium text-[20px] leading-[25px] decoration-textPrimary">
+        <h5 className="mb-[8px] font-medium text-[20px] leading-[25px] text-textPrimary">
           {title}
         </h5>
-        <p className="mb-[32px] text-center font-normal w-full text-[14px] leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] decoration-textSecondary">
+        <p className="mb-[32px] text-center font-normal w-full text-[14px] leading-[22px] mobile375:text-[16px] mobile375:leading-[24px] text-textSecondary">
           {desctription}
         </p>
         <div className="flex gap-[8px]">

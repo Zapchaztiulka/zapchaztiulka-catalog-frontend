@@ -11,7 +11,7 @@ import {
 } from 'universal-components-frontend/src/components/icons';
 
 const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
-  const { showModalPreOrder, setShowModalPreOrder, setPreOrderId } =
+  const { showModalPreOrder, setShowModalPreOrder, setPreOrderId} =
     useContext(StatusContext);
   const [loadingImage, setLoadingImage] = useState(true);
   const onImageLoad = () => {

@@ -10,7 +10,9 @@ const NotFoundProduct = ({
   waveImageStyles,
   textStylesForNotFoundProduct,
   headStyles,
-  textStyles
+  textStyles,
+  showModalSpecialOrder,
+  setShowModalSpecialOrder,
 }) => {
   return (
     <div className="h-full relative">
@@ -35,6 +37,7 @@ const NotFoundProduct = ({
             iconSide="right"
             icon={ArrowRightIcon}
             style={{ justifyContent: 'flex-start' }}
+            onClick={() => setShowModalSpecialOrder(!showModalSpecialOrder)}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import Modal from '../Modal';
-import { SuccessfulOrderIcon } from '@/public/icons';
 import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
+import { CheckCircleIcon } from 'universal-components-frontend/src/components/icons';
 
 const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
   const {
@@ -28,12 +28,12 @@ const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
       >
         <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[8px] w-[59px] h-[59px] bg-bgSuccessLight: rounded-[50%]">
           <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgSuccessDark rounded-[50%]">
-            <SuccessfulOrderIcon width={24} height={24} />
+            <CheckCircleIcon width={24} height={24} color={'#12B76A'} />
           </div>
         </div>
         <h5
           className="mobile320:mb-[12px] desktop1440:mb-[8px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
-                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] decoration-textPrimary"
+                  desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] text-textPrimary"
         >
           {availability !== 'відсутній' ? (
             <span>Замовлення успішне!</span>
@@ -43,7 +43,7 @@ const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
         </h5>
         <p
           className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
-                  desktop1440:text-[16px] desktop1440:leading-[24px] decoration-textSecondary"
+                  desktop1440:text-[16px] desktop1440:leading-[24px] text-textSecondary"
         >
           {availability !== 'відсутній' ? (
             <span>Очікуйте дзвінка нашого менеджера протягом 5 хвилин</span>

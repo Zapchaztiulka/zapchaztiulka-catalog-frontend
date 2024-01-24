@@ -7,12 +7,9 @@ import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 import { Notification } from 'universal-components-frontend/src/components/notifications';
 import NotFoundProduct from './NotFoundProduct';
+import ModalSpecialOrder from '../Modals/ModalSpecialOrder';
 
-const CardsList = ({
-  products,
-  size,
-  limit,
-}) => {
+const CardsList = ({ products, size, limit }) => {
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const {
     showModalPreOrder,
@@ -20,6 +17,9 @@ const CardsList = ({
     showModalOrderSuccessful,
     setShowModalOrderSuccessful,
     showCartNotification,
+    showModalSpecialOrder,
+    setShowModalSpecialOrder,
+    preOrderId,
   } = useContext(StatusContext);
 
   return (
@@ -41,6 +41,8 @@ const CardsList = ({
                       >
                         <>
                           <NotFoundProduct
+                            showModalSpecialOrder={showModalSpecialOrder}
+                            setShowModalSpecialOrder={setShowModalSpecialOrder}
                             containerStyles="containerStylesForProducts"
                             waveImageStyles="waveImageStylesForProducts"
                             textStylesForNotFoundProduct=" mt-[100px] mobile375:mt-[126px] tablet600:mt-[169px] tablet1024:mt-[178px] desktop1200:mt-[211px] gap-3 tablet600:gap-[10px] p-2 desktop1200:p-4"
@@ -68,7 +70,10 @@ const CardsList = ({
       </div>
       {/* Modal for Pre Order */}
       {showModalPreOrder && (
-        <ModalPreOrder onClose={() => setShowModalPreOrder(false)} />
+        <ModalPreOrder onClose={() => setShowModalPreOrder(false)} preOrderId={preOrderId}
+          setShowModalPreOrder={setShowModalPreOrder}
+          setShowModalOrderSuccessful={setShowModalOrderSuccessful}
+          showModalOrderSuccessful={showModalOrderSuccessful} />
       )}
       {/* Modal for Successful Order*/}
       {showModalOrderSuccessful && (
@@ -77,6 +82,12 @@ const CardsList = ({
           hideCloseBtn
           availability={products?.availability}
         />
+      )}
+      {/* Modal for special order */}
+      {showModalSpecialOrder && (
+        <ModalSpecialOrder onClose={() => setShowModalSpecialOrder(false)} showModalSpecialOrder={showModalSpecialOrder}
+        setShowModalSpecialOrder={setShowModalSpecialOrder} setShowModalOrderSuccessful={setShowModalOrderSuccessful}
+          showModalOrderSuccessful={showModalOrderSuccessful}/>
       )}
       {showCartNotification && (
         <Notification

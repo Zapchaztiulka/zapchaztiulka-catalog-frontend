@@ -46,10 +46,10 @@ const CartCardItem = ({
             )}
           </div>
           <div className="flex flex-col w-fit mr-auto">
-            <h5 className="font-medium text-[14px] leading-[19.6px] decoration-textPrimary desktop1440:text-[16px] desktop1440:leading-[22.4px]">
+            <h5 className="font-medium text-[14px] leading-[19.6px] text-textPrimary desktop1440:text-[16px] desktop1440:leading-[22.4px]">
               {name}
             </h5>
-            <p className="font-normal text-[12px] leading-[18px] decoration-textTertiary desktop1440:text-[14px] desktop1440:leading-[19.6px]">
+            <p className="font-normal text-[12px] leading-[18px] text-textTertiary desktop1440:text-[14px] desktop1440:leading-[19.6px]">
               Артикул: {vendorCode}
             </p>
           </div>
@@ -58,7 +58,7 @@ const CartCardItem = ({
           <Counter id={id} counterValue={quantity} />
         </div>
         <p
-          className="hidden tablet768:block font-normal text-[15px] leading-[21px] decoration-textPrimary 
+          className="hidden tablet768:block font-normal text-[15px] leading-[21px] text-textPrimary 
             min-w-[124px] tablet1024:min-w-[202px] desktop1440:min-w-[153px] text-right desktop1440:text-[16px] desktop1440:leading-[22.4px]"
         >
           {totalPrice} ₴
@@ -78,7 +78,7 @@ const CartCardItem = ({
           <Counter id={id} counterValue={quantity} />
         </div>
         <p
-          className="font-medium mobile480:font-normal text-[16px] leading-[22.4px] decoration-textPrimary
+          className="font-medium mobile480:font-normal text-[16px] leading-[22.4px] text-textPrimary
         mobile375:font-normal mobile375:text-[14px] mobile375:leading-[19.6px] 
         mobile480:text-[15px] mobile480:leading-[21px]"
         >

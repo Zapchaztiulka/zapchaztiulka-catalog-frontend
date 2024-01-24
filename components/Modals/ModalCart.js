@@ -59,7 +59,7 @@ const ModalCart = () => {
           px-[16px] py-[20px] mobile480:px-[24px] tablet600:px-[32px] tablet600:py-[28px]"
           >
             <h5
-              className="mr-[8px] decoration-textPrimary mobile320:font-medium mobile320:text-[18px] mobile320:leading-[25.2px]
+              className="mr-[8px] text-textPrimary mobile320:font-medium mobile320:text-[18px] mobile320:leading-[25.2px]
            tablet600:text-[28px] tablet600:leading-[33.6px] desktop1440:font-normal desktop1440:text-[36px] desktop1440:leading-[46.8px]"
             >
               Кошик
@@ -101,10 +101,10 @@ const ModalCart = () => {
                   <EmptyCartIcon width={24} height={24} />
                 </div>
               </div>
-              <p className="mb-[8px] decoration-textPrimary font-normal mobile320:text-[24px] mobile320:leading-[28.8px] tablet1024:text-[28px] tablet1024:leading-[36.4px]">
+              <p className="mb-[8px] text-textPrimary font-normal mobile320:text-[24px] mobile320:leading-[28.8px] tablet1024:text-[28px] tablet1024:leading-[36.4px]">
                 Кошик порожній
               </p>
-              <p className="mb-[24px] decoration-textTertiary font-normal mobile320:text-[15px] mobile320:leading-[21px] tablet1024:text-[16px] tablet1024:leading-[24px]">
+              <p className="mb-[24px] text-textTertiary font-normal mobile320:text-[15px] mobile320:leading-[21px] tablet1024:text-[16px] tablet1024:leading-[24px]">
                 Почніть додавати товари прямо зараз!
               </p>
               <button
@@ -132,20 +132,19 @@ const ModalCart = () => {
                 Всього: <span>{totalAmount}</span> ₴
               </p>
               <Link href={{ pathname: `/checkout` }}>
-              <button
-                type="button"
-                className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
+                <button
+                  type="button"
+                  className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
                 font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    onClose();
-                  }
-                }}
-              >
-                Офомити замовлення
-              </button>
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      onClose();
+                    }
+                  }}
+                >
+                  Офомити замовлення
+                </button>
               </Link>
-              
             </div>
           ) : null}
         </div>
