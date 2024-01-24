@@ -21,11 +21,11 @@ const ModalSpecialOrder = ({
     <Modal onClose={onClose}>
       <div
         className="flex flex-col items-center mt-[44px] px-[16px] py-[24px] 
-                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1440:w-[680px] desktop1440:mb-[9px]"
+                mobile320:w-[290px] mobile375:w-[345px] mobile480:w-[432px] tablet600:w-[345px] desktop1200:w-[680px] desktop1440:mb-[9px]"
       >
         <div className="flex items-center justify-center mobile320:mb-[16px] desktop1440:mb-[12px] w-[59px] h-[59px] bg-bgBrandLight1 rounded-[50%]">
           <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgBrandLight2 rounded-[50%]">
-            <ToolIcon width={24} height={24} color={"#1570EF"} />
+            <ToolIcon width={24} height={24} color={'#1570EF'} />
           </div>
         </div>
         <h5
@@ -35,7 +35,7 @@ const ModalSpecialOrder = ({
           Бажаєте щось особливе?
         </h5>
         <p
-          className="mb-[24px] text-center mobile320:w-[258px] mobile375:w-[300px] desktop1440:w-[500px] mobile320:text-[15px] mobile320:leading-[21px] 
+          className="mb-[24px] text-center mobile320:w-[258px] mobile375:w-[300px] tablet1024:w-full mobile320:text-[15px] mobile320:leading-[21px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] text-textSecondary"
         >
           Розкажіть нам про ваші побажання. А про інше потурбується менеджер.
@@ -47,7 +47,7 @@ const ModalSpecialOrder = ({
               +38
             </span>
             <input
-              className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
+              className="p-[10px] pl-[53px] mobile320:w-[258px] mobile375:w-[313px] desktop1200:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
                         placeholder:text-textTertiary border-[1px] border-borderDefault rounded-minimal"
               name="phone"
               type="tel"
@@ -63,43 +63,14 @@ const ModalSpecialOrder = ({
           </label>
 
           <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] text-textSecondary">
-            <span className="">Оберіть тип техніки</span>
-            <input
-              className="p-3 mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:text-textTertiary border-[1px] border-borderDefault rounded-minimal"
-              name="phone"
-              type="tel"
-              id="phone"
-              autoComplete="off"
-              placeholder="Оберіть значення.."
-              required
-            />
-            <span id="errorMessage" className="text-textWarning"></span>
-          </label>
-
-          <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] text-textSecondary">
-            <span className="">Оберіть марку</span>
-            <input
-              className="p-3 mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:text-textTertiary border-[1px] border-borderDefault rounded-minimal"
-              name="phone"
-              type="tel"
-              id="phone"
-              autoComplete="off"
-              placeholder="Оберіть значення.."
-              required
-            />
-            <span id="errorMessage" className="text-textWarning"></span>
-          </label>
-
-          <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] text-textSecondary">
             <span className="">Коментар</span>
 
             <textarea
-              className="p-3 mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] placeholder:text-[14px] placeholder:leading-[19.6px] 
-                        placeholder:text-textTertiary border-[1px] border-borderDefault rounded-minimal"
-              placeholder="Оберіть значення.."
-            />
+              className="px-3 py-4 resize-none mobile320:w-[258px] mobile375:w-[313px] desktop1200:w-[404px]  border border-borderDefault rounded-minimal text-base/[24px] text-textSecondary"
+              rows="5"
+              required
+            ></textarea>
+            <span id="errorMessage" className="text-textWarning"></span>
           </label>
 
           <button

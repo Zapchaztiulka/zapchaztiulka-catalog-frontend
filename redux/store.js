@@ -16,6 +16,7 @@ import { filterReducer } from "./filterSlice";
 import { cartReducer } from "./cart/cartSlice";
 import { storage } from './index';
 import selectedReducer from "./sortProduct/selectOptionReducer";
+import { patternsReducer } from "./patterns/patternsSlice";
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   cart: cartReducer,
   selected: selectedReducer,
+  patterns: patternsReducer,
 });
 
 const persistConfig = {

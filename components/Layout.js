@@ -7,10 +7,13 @@ import { Chat, ChatButton } from './Chat';
 import { fetchCategories } from '@/redux/categories/categoriesOperation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
+import { fetchPatterns } from '@/redux/patterns/patternsAction';
+import { selectPatterns } from '@/redux/patterns/patternsSelectors';
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector(selectCategories);
+  const patterns = useSelector(selectPatterns);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [countUnreadMessages, setCountUnreadMessages] = useState(null);
   const storedUserId = localStorage.getItem('userId');
@@ -101,16 +104,21 @@ const Layout = ({ children }) => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+    // get patterns of product`s options
+  useEffect(() => {
+    dispatch(fetchPatterns());
+  }, [dispatch]);
+
   return (
     <>
       <div
         className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
       >
-        <Navbar categories={categories} />
+        <Navbar categories={categories} patterns={patterns} />
         <main className="main-container mt-[50px]">{children}</main>
         <div id="modal-cart"></div>
         <div id="modal-root"></div>
-        <Footer categories={categories} />
+        <Footer categories={categories} patterns={patterns} />
       </div>
       <div
         className={`fixed bottom-s right-s z-40 ${isChatOpen ? 'hidden' : ''}`}

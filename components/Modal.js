@@ -38,7 +38,12 @@ const Modal = ({ onClose, hideCloseBtn = false, children }) => {
               </button>
             )}
           </div>
-          <div className="modal-body">{children}</div>
+          <div
+            className="modal-body"
+            style={{ maxHeight: '80vh', overflowY: 'auto' }}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </div>

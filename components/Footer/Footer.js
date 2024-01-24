@@ -9,13 +9,11 @@ import ForCustomers from './ForCustomers';
 import Contacts from './Contacts';
 import Address from './Address';
 import Catalog from './Catalog';
-import { useWindowSize } from '@/hooks/useWindowSize';
 
-const Footer = ({ categories }) => {
+const Footer = ({ categories, patterns }) => {
   const router = useRouter();
   const current_year = new Date().getFullYear();
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
-  const size = useWindowSize();
 
   const handleToHome = () => {
     resetLocalStorage();
@@ -55,8 +53,8 @@ const Footer = ({ categories }) => {
           </div>         
           <Catalog clickByCategory={clickByCategory} categories={categories} />
           <ForCustomers />
-          <Contacts />
-          <Address />
+          <Contacts patterns={patterns} />
+          <Address patterns={patterns}/>
         </div>
         <div>
           {' '}

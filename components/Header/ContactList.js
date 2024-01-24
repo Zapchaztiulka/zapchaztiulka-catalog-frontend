@@ -1,33 +1,45 @@
-"use client";
-import { useOnKeyDown, useOutsideClick } from "@/hooks/useOnClickOutside";
-import { ArrowDown, PhoneIconContact } from "@/public/icons";
-import { useEffect, useRef, useState } from "react";
+'use client';
+import { useOnKeyDown, useOutsideClick } from '@/hooks/useOnClickOutside';
+import { useEffect, useRef, useState } from 'react';
+import theme from '@/presets';
+import {
+  ArrowDownIcon,
+  PhoneIcon,
+  ArrowUpIcon,
+} from 'universal-components-frontend/src/components/icons';
 
-const ContactList = () => {
+const ContactList = ({ patterns }) => {
   const [selected, setSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [ phone, setPhone ] = useState();
+  const [phone, setPhone] = useState([]);
 
-  useEffect(() => {
-    setPhone(["+38 (050) 810 48 82", "+38 (066) 810 48 82", "+38 (096) 810 48 82"]);
-  },[])
+    useEffect(() => {
+    if (patterns.companyData) {
+      setPhone([
+        patterns.companyData.firstPhone,
+        patterns.companyData.secondPhone,
+        patterns.companyData.thirdPhone,
+      ]);
+    }
+  }, [patterns.companyData]);
 
-  const refOption = useRef(null)
-  const refSelect = useRef(null)
+
+  const refOption = useRef(null);
+  const refSelect = useRef(null);
 
   const toggling = () => setIsOpen(!isOpen);
 
-  const onOptionClicked = (value) => () => {
+  const onOptionClicked = value => () => {
     setSelected(value);
     setIsOpen(false);
   };
 
   const close = () => {
     setIsOpen(false);
-  }
+  };
 
-  useOutsideClick(refOption,refSelect,toggling)
-  useOnKeyDown(close)
+  useOutsideClick(refOption, refSelect, toggling);
+  useOnKeyDown(close);
 
   return (
     <div ref={refSelect} className="relative tablet768:block hidden">
@@ -35,11 +47,15 @@ const ContactList = () => {
         onClick={toggling}
         className="flex cursor-pointer p-xs2 focus:outline-none  custom-select-contact"
       >
-        <PhoneIconContact className="w-[24px] h-[24px] stroke-iconSecondary stroke-2 mr-2" />
+        <PhoneIcon color={theme.extend.colors.iconSecondary} className="mr-2" />
         <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
-          {selected || '+38 (050) 810 48 82'}
+          {selected || phone[0]}
         </div>
-        <ArrowDown className="w-[24px] h-[24px] stroke-2 stroke-iconSecondary ml-1" />
+        {isOpen ? (
+          <ArrowUpIcon color={theme.extend.colors.iconSecondary} />
+        ) : (
+          <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
+        )}
       </div>
 
       {isOpen && (
