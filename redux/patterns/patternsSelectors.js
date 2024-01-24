@@ -1,1 +1,1 @@
-export const selectPatterns = state => state.patterns.products.patterns
+export const selectPatterns = state => state.patterns?.products?.patterns

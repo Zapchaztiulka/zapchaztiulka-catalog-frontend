@@ -14,14 +14,14 @@ const ContactList = ({ patterns }) => {
   const [phone, setPhone] = useState([]);
 
     useEffect(() => {
-    if (patterns.companyData) {
+    if (patterns) {
       setPhone([
-        patterns.companyData.firstPhone,
-        patterns.companyData.secondPhone,
-        patterns.companyData.thirdPhone,
+        patterns.companyData?.firstPhone,
+        patterns.companyData?.secondPhone,
+        patterns.companyData?.thirdPhone,
       ]);
     }
-  }, [patterns.companyData]);
+  }, [patterns]);
 
 
   const refOption = useRef(null);

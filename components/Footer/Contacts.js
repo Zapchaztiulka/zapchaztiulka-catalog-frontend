@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Contacts = ({patterns}) => {
- const { firstPhone, secondPhone, thirdPhone } = patterns.companyData;
+ const { firstPhone, secondPhone, thirdPhone } = patterns?.companyData || {};
 
     const renderPhoneNumberLink = phoneNumber => {
       return (

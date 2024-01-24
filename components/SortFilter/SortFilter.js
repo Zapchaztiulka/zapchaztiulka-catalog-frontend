@@ -3,6 +3,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
 } from 'universal-components-frontend/src/components/icons';
+import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown'
 import { useOnKeyDown, useOutsideClick } from '@/hooks/useOnClickOutside';
 import theme from '@/presets';
 
@@ -25,6 +26,15 @@ const SortFilter = ({
       <p className="text-textPrimary text-base/[22.4px] font-medium">
         Сортувати:
       </p>
+
+      {/* <div
+        ref={refSelect}
+        className="flex items-center p-xs2 border rounded border-borderDefault"
+      >
+        <Dropdown options={options} onChange={onOptionClicked} placeholder="Оберіть значення..." className="w-full" />
+
+      </div> */}
+
       <div
         ref={refSelect}
         className="relative p-xs2 border rounded border-borderDefault w-[191px] mobile480:w-[341px]"

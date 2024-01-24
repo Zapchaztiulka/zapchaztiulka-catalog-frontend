@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Address = ({patterns}) => {
-  // const address = patterns.companyData.addressCompany
+  // const address = patterns.companyData?.addressCompany
 
   return (
     <div className="flex flex-col gap-3">
