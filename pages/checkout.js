@@ -37,91 +37,142 @@ const Сheckout = () => {
             <li className="">
               <label>
                 Ім'я <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
               </label>
             </li>
             <li className="">
               <label>
                 Прізвище <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
               </label>
             </li>
             <li className="">
               <label>
                 По батькові
-                <input className="w-full h-[48px] border border-borderDefault" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
               </label>
             </li>
             <li className="">
               <label>
                 E-mail <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
               </label>
             </li>
             <li className="">
               <label>
                 Номер телефону <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
               </label>
             </li>
           </ul>
         </div>
-        <div>
-          <h3 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
+        <div className="flex flex-col gap-[16px]">
+          <h3 className="font-medium text-[18px] leading-[25.2px]">
             Дані доставки
           </h3>
-          <p className="mb-[4px]">
-            Оберіть місто доставки <span className="text-textError">*</span>
-          </p>
-          <Dropdown
-            // width={290}
-            // options={statusOptionsBigFirstLetter}
-            // placeholder="Всі статуси"
-            // onChange={handleStatusChange}
-            options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
-            className="w-full border border-borderDefault"
-          />
-          <ul className="mt-[16px] flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
-            <li className="">
-              <label>
-                <input
-                  type="radio"
-                  name="delivery"
-                  value="novaPoshta"
-                  checked
+          <div>
+            <p className="mb-[4px]">
+              Оберіть місто доставки <span className="text-textError">*</span>
+            </p>
+            <Dropdown
+              // width={290}
+              // options={statusOptionsBigFirstLetter}
+              // placeholder="Всі статуси"
+              // onChange={handleStatusChange}
+              options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
+              className="w-full border border-borderDefault"
+            />
+          </div>
+          <ul className="flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
+            <li className=" flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="novaPoshta"
+                value="novaPoshta"
+                className="w-[16px] h-[16px]"
+              />
+              <label htmlFor="novaPoshta">Нова пошта</label>
+              {/* <div>
+                <p className="mb-[4px]">
+                  Оберіть поштове відділення
+                  <span className="text-textError">*</span>
+                </p>
+                <Dropdown
+                  // width={290}
+                  // options={statusOptionsBigFirstLetter}
+                  // placeholder="Всі статуси"
+                  // onChange={handleStatusChange}
+                  options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
+                  className="w-full border border-borderDefault"
                 />
-                Нова пошта
+              </div> */}
+            </li>
+            <li className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="pickup"
+                value="pickup"
+                className="w-[16px] h-[16px]"
+              />
+              <label
+                htmlFor="pickup"
+                className="flex items-center justify-between w-full"
+              >
+                <span>Самовивіз</span>
+                <span className="flex items-center justify-center w-[116px] h-[28px] bg-bgGreyLigth rounded-medium3 font-medium text-[14px] leading-[19.6px]">
+                  Безкоштовно
+                </span>
               </label>
             </li>
-            <li className="">
-              <label>
-                <input type="radio" name="delivery" value="pickup" />
-                Самовивіз
+            <li className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="ukrPoshta"
+                value="ukrPoshta"
+                className="w-[16px] h-[16px]"
+              />
+              <label htmlFor="ukrPoshta">Укрпошта</label>
+            </li>
+            <li className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="meestExperess"
+                value="meestExperess"
+                className="w-[16px] h-[16px]"
+              />
+              <label htmlFor="meestExperess">Meest experess</label>
+            </li>
+            <li className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="courierZapchastulka"
+                value="courierZapchastulka"
+                className="w-[16px] h-[16px]"
+              />
+              <label
+                htmlFor="courierZapchastulka"
+                className="flex items-center justify-between w-full"
+              >
+                <span>Кур'єр Запчастюлька</span>
+                <span className="flex items-center justify-center w-[89px] h-[28px] bg-bgGreyLigth rounded-medium3 font-medium text-[14px] leading-[19.6px]">
+                  Від 220 ₴
+                </span>
               </label>
             </li>
-            <li>
-              <label>
-                <input type="radio" name="delivery" value="ukrPoshta" />
-                Укрпошта
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="delivery" value="meestExperess" />
-                Meest experess
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="delivery" value="courierZapchast" />
-                Кур'єр Запчастюлька
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="radio" name="delivery" value="courierNovaPoshta" />
-                Кур'єр Нова Пошта
-              </label>
+            <li className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="delivery"
+                id="courierNovaPoshta"
+                value="courierNovaPoshta"
+                className="w-[16px] h-[16px]"
+              />
+              <label htmlFor="courierNovaPoshta">Кур'єр Нова Пошта</label>
             </li>
           </ul>
         </div>
@@ -132,12 +183,21 @@ const Сheckout = () => {
               name="comment"
               rows="5"
               cols="33"
-              className="w-full border border-borderDefault"
+              className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal"
             />
           </label>
         </div>
-        <div>
+        <div className="flex flex-col gap-[16px] bg-bgGreyLigth p-[12px]">
           <h4>Ваше замовлення</h4>
+          <ul className="flex flex-col gap-[16px]">
+            <li>Товар 1</li>
+            <li>Товар 2</li>
+          </ul>
+          <div className="flex flex-col gap-[16px] py-[16px] border-y border-borderDefault border-dashed">
+            <p className="">Доставка</p>
+            <p className="">Підсумок</p>
+          </div>
+          <p className="">Загалом</p>
         </div>
         <button
           type="button"
