@@ -328,7 +328,9 @@ const Сheckout = () => {
           />
         </div>
         <div className="flex flex-col gap-[16px] bg-bgGreyLigth p-[12px]">
-          <h4>Ваше замовлення</h4>
+          <h4 className="font-medium text-[18px] leading-[25.2px]">
+            Ваше замовлення
+          </h4>
           <ul className="flex flex-col gap-[16px]">
             <li>Товар 1</li>
             <li>Товар 2</li>
