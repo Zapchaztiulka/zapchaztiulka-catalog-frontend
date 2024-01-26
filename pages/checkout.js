@@ -312,16 +312,20 @@ const Сheckout = () => {
             </li>
           </ul>
         </div>
-        <div>
-          <label>
+        <div className="flex flex-col gap-[16px]">
+          <label
+            htmlFor="comment"
+            className="font-medium text-[18px] leading-[25.2px]"
+          >
             Коментар до замовлення
-            <textarea
-              name="comment"
-              rows="5"
-              cols="33"
-              className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal"
-            />
           </label>
+          <textarea
+            id="comment"
+            name="comment"
+            rows="5"
+            cols="33"
+            className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px]"
+          />
         </div>
         <div className="flex flex-col gap-[16px] bg-bgGreyLigth p-[12px]">
           <h4>Ваше замовлення</h4>
