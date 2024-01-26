@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
-import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
+import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 // import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
