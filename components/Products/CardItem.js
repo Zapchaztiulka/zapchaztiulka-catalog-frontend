@@ -76,7 +76,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
         {availability === 'в наявності' ? (
-          <div className="flex justify-center rounded-lg border-borderDefault border-[1px] bg-bgWhite h-[48px]">
+          <div className="flex justify-center ">
             {id && (
               <BtnAddToCart
                 id={id}
@@ -94,12 +94,12 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
               setPreOrderId(id);
               document.body.classList.add('stop-scrolling');
             }}
-            className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textBrand tablet768:text-base text-sm tablet768:font-medium button-secondary"
+            className="tablet600:py-[11px] py-[7px] text-center w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textBrand button-secondary"
           >
             Передзамовити
           </button>
         ) : (
-          <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm tablet768:font-medium state-button">
+          <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm  state-button">
             Додати в кошик
           </button>
         )}

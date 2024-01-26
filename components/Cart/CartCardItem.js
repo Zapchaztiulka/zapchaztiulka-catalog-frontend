@@ -54,7 +54,7 @@ const CartCardItem = ({
             </p>
           </div>
         </div>
-        <div className="hidden tablet768:block ml-auto border border-borderDefault rounded-lg hover:shadow-md">
+        <div className="hidden tablet768:block ml-auto border border-borderDefault rounded-lg hover:shadow-md tablet600:py-[7px] py-[7px] px-xs2">
           <Counter id={id} counterValue={quantity} />
         </div>
         <p
@@ -74,7 +74,7 @@ const CartCardItem = ({
         </button>
       </div>
       <div className="tablet768:hidden flex justify-between items-center w-full h-[40px] px-[4px] mobile375:pl-[80px] tablet600:pl-[112px]">
-        <div className="border border-borderDefault rounded-lg hover:shadow-md">
+        <div className="border border-borderDefault rounded-lg hover:shadow-md tablet600:py-[7px] py-[7px] px-xs2">
           <Counter id={id} counterValue={quantity} />
         </div>
         <p

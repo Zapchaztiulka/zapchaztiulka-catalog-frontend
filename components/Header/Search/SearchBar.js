@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { CloseIcon, SearchIconNavbar } from '@/public/icons';
@@ -18,6 +18,8 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
+  const deferredQuery = useDeferredValue(searchTerm);
+
   const refForm = useRef();
   const refList = useRef();
   const refMessage = useRef(); 
@@ -29,10 +31,10 @@ const SearchBar = ({ showSearchBar, toggleSearchBar }) => {
   const {setCountry, setTrademarks} = useContext(StatusContext);
 
   useEffect(() => {
-    if (searchTerm) {
+    if (deferredQuery) {
       dispatch(fetchAllProducts());
     }
-  }, [dispatch, searchTerm]);
+  }, [dispatch, deferredQuery]);
 
   const getFilteredProducts = event => {
     const searchWord = event.target.value;
