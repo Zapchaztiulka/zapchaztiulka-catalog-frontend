@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { addToCart, getCartTotal } from '../../redux/cart/cartSlice';
 import { selectCart } from '../../redux/cart/cartSelector';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 const BtnAddToCart = ({
   id,
@@ -24,6 +25,9 @@ const BtnAddToCart = ({
   if (temp) {
     counterValue = temp.quantity;
   }
+
+  const size = useWindowSize()
+  console.log(size)
 
   return (
     <>
@@ -51,23 +55,23 @@ const BtnAddToCart = ({
             }, 2000);
             dispatch(getCartTotal());
           }}
-          className="tablet768:px-6 tablet768:py-3 py-2 w-full text-textContrast tablet768:text-base text-sm tablet768:font-medium state-button"
+          className="tablet600:py-xs py-xs2 px-m w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textContrast state-button"
         >
           {visibleCartIcon ? (
             <div className="flex justify-center products-center gap-x-4">
               <CartIcon className="w-[24px] h-[24px] fill-iconContrast" />
               <span className="text-textContrast text-sm tracking-[-0.21px]">
-                Додати в кошик
+                {size >= 600 ? 'Додати в кошик' : 'В кошик'}
               </span>
             </div>
           ) : (
-            <>Додати в кошик</>
+            <> {size >= 600 ? 'Додати в кошик' : 'В кошик'} </>
           )}
         </button>
       )}
 
       {cartProducts.find(product => product.id === id) && (
-        <Counter id={id} counterValue={counterValue} />
+        <div className="border border-borderDefault rounded-lg hover:shadow-md tablet600:py-[11px] py-[7px] w-full"><Counter id={id} counterValue={counterValue} /></div>
       )}
     </>
   );

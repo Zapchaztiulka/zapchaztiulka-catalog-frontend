@@ -18,11 +18,11 @@ const Counter = ({ id, counterValue }) => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-[10px]">
+    <div className="flex justify-center w-full items-center gap-[10px]   bg-bgWhite">
       <button
         onClick={valueDecrement}
         type="button"
-        className="w-[40px] h-[40px] flex justify-center items-center"
+        className=" flex justify-center items-center"
       >
         <MinusIcon />
       </button>
@@ -35,7 +35,7 @@ const Counter = ({ id, counterValue }) => {
       <button
         onClick={valueIncrement}
         type="button"
-        className="w-[40px] h-[40px] flex justify-center items-center"
+        className=" flex justify-center items-center"
       >
         <PlusIcon />
       </button>

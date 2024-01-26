@@ -74,7 +74,7 @@ const Navbar = ({ categories, patterns }) => {
               {totalItems === 0 ? (
                 <CartIcon className="w-6 h-6 fill-iconSecondary" />
               ) : (
-                <BasketCountIcon count={totalItems} color="#888D92" />
+                <BasketCountIcon size='24' count={totalItems} color="#888D92" />
               )}
             </button>
           </div>

@@ -20,7 +20,7 @@ const ModalDeleteFromCart = ({
     <Modal onClose={onClose} hideCloseBtn={hideCloseBtn}>
       <div
         className="z-12 flex flex-col items-center justify-center px-[16px] py-[24px] h-[280px] 
-              w-[290px] mobile375:w-[343px] tablet600:w-[404px] z-70"
+              w-[290px] mobile375:w-[343px] tablet600:w-[404px] tablet1024:w-[400px] z-70"
       >
         <div className="flex items-center justify-center mb-[12px] w-[59px] h-[59px] bg-bgErrorLight rounded-[50%]">
           <div className="flex items-center justify-center w-[40px] h-[40px] bg-bgErrorDark rounded-[50%]">

@@ -50,10 +50,10 @@ const ModalCart = () => {
         }}
         id="cartHeight"
         className="z-11 bg-white tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
-        flex flex-col items-center tablet1024:border-[1px] tablet1024:border-borderDefault tablet1024:rounded-[8px]
-        w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[780px]"
+        flex flex-col items-center 
+        w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[555px] tablet1024:rounded-lg"
       >
-        <div className="flex flex-col justify-between h-full w-full">
+        <div className="flex flex-col justify-between h-full w-full ">
           <div
             className="flex items-center w-full mobile320:flex-row justify-between 
           px-[16px] py-[20px] mobile480:px-[24px] tablet600:px-[32px] tablet600:py-[28px]"
@@ -126,15 +126,18 @@ const ModalCart = () => {
             <div
               className="flex flex-col tablet1024:flex-row tablet1024:justify-end items-center gap-[10px] tablet600:gap-[12px] tablet1024:gap-[20px] 
             h-[116px] tablet600:h-[125px] tablet1024:h-[88px] desktop1440:h-[128px] 
-            p-[16px] mobile480:px-[24px] tablet1024:px-[32px] desktop1440:px-[48px] tablet600:py-[20px] desktop1440:py-[40px]"
+            p-[16px] mobile480:px-[24px] tablet1024:px-[32px] desktop1440:px-[48px] tablet600:py-[20px] desktop1440:py-[40px] border-t border-borderDefault"
             >
               <p className="font-medium text-[18px] leading-[25.2px] tablet1024:text-[24px] tablet1024:leading-[28.8px] text-textPrimary">
                 Всього: <span>{totalAmount}</span> ₴
               </p>
-              <Link href={{ pathname: `/checkout` }}>
+              <Link
+                href={{ pathname: `/checkout` }}
+                className="w-full tablet600:w-[285px] "
+              >
                 <button
                   type="button"
-                  className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
+                  className="state-button w-full tablet600:w-[285px] h-[48px] 
                 font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
                   onClick={() => {
                     if (typeof window !== 'undefined') {
