@@ -7,6 +7,7 @@ import { StatusContext } from '@/context/statusContext';
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
+  const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
 
   useEffect(() => {
     if (isClientStatus) {
@@ -62,12 +63,80 @@ const Сheckout = () => {
           </h2>
           <ul className="flex flex-col font-medium text-[14px] leading-[19.6px] gap-[8px]">
             {isClientStatus && (
-              <li className="">
-                <label>
-                  Тип рестрації <span className="text-textError">*</span>
-                  <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
-                </label>
-              </li>
+              <>
+                <li className="">
+                  <p className="mb-[4px]">
+                    Тип рестрації <span className="text-textError">*</span>
+                  </p>
+                  <Dropdown
+                    // width={290}
+                    chosenOption={isLegalPerson}
+                    options={['ФОП', 'Юридична особа']}
+                    onChange={option => {
+                      setIsLegalPerson(option);
+                    }}
+                    className="w-full border border-borderDefault"
+                  />
+                </li>
+                <li className="">
+                  <label>
+                    Назва <span className="text-textError">*</span>
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                  </label>
+                </li>
+                {isLegalPerson === 'Юридична особа' && (
+                  <li className="">
+                    <label>
+                      ЄДРПОУ <span className="text-textError">*</span>
+                      <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    </label>
+                  </li>
+                )}
+                <li className="">
+                  <label>
+                    ІПН <span className="text-textError">*</span>
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                  </label>
+                </li>
+                <li className="">
+                  <p className="mb-[4px]">
+                    Область реєстрації <span className="text-textError">*</span>
+                  </p>
+                  <Dropdown
+                    // width={290}
+                    onChange={() => {}}
+                    options={[
+                      'Варіант 1',
+                      'Варіант 2',
+                      'Варіант 3',
+                      'Варіант 4',
+                    ]}
+                    className="w-full border border-borderDefault"
+                  />
+                </li>
+                <li className="">
+                  <p className="mb-[4px]">
+                    Місто реєстрації <span className="text-textError">*</span>
+                  </p>
+                  <Dropdown
+                    // width={290}
+                    onChange={() => {}}
+                    options={[
+                      'Варіант 1',
+                      'Варіант 2',
+                      'Варіант 3',
+                      'Варіант 4',
+                    ]}
+                    className="w-full border border-borderDefault"
+                  />
+                </li>
+                <li className="">
+                  <label>
+                    Юридична адреса <span className="text-textError">*</span>
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                  </label>
+                </li>
+              </>
             )}
             <li className="">
               <label>
@@ -111,9 +180,7 @@ const Сheckout = () => {
             </p>
             <Dropdown
               // width={290}
-              // options={statusOptionsBigFirstLetter}
-              // placeholder="Всі статуси"
-              // onChange={handleStatusChange}
+              onChange={() => {}}
               options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
               className="w-full border border-borderDefault"
             />
@@ -135,9 +202,7 @@ const Сheckout = () => {
                 </p>
                 <Dropdown
                   // width={290}
-                  // options={statusOptionsBigFirstLetter}
-                  // placeholder="Всі статуси"
-                  // onChange={handleStatusChange}
+                  onChange={() => {}}
                   options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
                   className="w-full border border-borderDefault"
                 />
