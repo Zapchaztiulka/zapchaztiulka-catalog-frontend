@@ -27,7 +27,6 @@ const BtnAddToCart = ({
   }
 
   const size = useWindowSize()
-  console.log(size)
 
   return (
     <>

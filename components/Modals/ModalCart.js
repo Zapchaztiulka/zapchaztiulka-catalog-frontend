@@ -27,7 +27,7 @@ const ModalCart = () => {
 
   // function calculate cartHeight for mibile devices
   useEffect(() => {
-    const cartHeightValue = `height:${window.innerHeight - 57}px`;
+    const cartHeightValue = `height:${window.innerHeight - 61}px`;
     if (window.innerWidth < 1024) {
       document
         .getElementById('cartHeight')
