@@ -37,7 +37,10 @@ const NotFoundProduct = ({
             iconSide="right"
             icon={ArrowRightIcon}
             style={{ justifyContent: 'flex-start' }}
-            onClick={() => setShowModalSpecialOrder(!showModalSpecialOrder)}
+            onClick={() => {
+              setShowModalSpecialOrder(!showModalSpecialOrder);
+             document.body.classList.add('stop-scrolling');
+            }}
           />
         </div>
       </div>

@@ -40,7 +40,7 @@ const ModalSpecialOrder = ({
         >
           Розкажіть нам про ваші побажання. А про інше потурбується менеджер.
         </p>
-        <form className="flex flex-col" onSubmit={handleSubmitSpecialOrder}>
+        <form className="flex flex-col items-center" onSubmit={handleSubmitSpecialOrder}>
           <label className="relative mb-[16px] flex flex-col text-[14px] leading-[19.6px] text-textSecondary">
             <span className="mb-[4px]">Номер телефону</span>
             <span className="absolute grid items-center z-10 top-[34px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] text-textTertiary">

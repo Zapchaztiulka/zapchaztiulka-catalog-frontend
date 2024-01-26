@@ -268,10 +268,10 @@ a {
   @apply py-xs3 px-xs2 text-base/[24px] text-textInputActive bg-bgGreyLigth hover:bg-bgHoverGrey active:bg-bgPressedGrey active:border active:border-bgPressedBlue border rounded border-borderDefault flex justify-center items-center gap-[10px];
 }
 
-/* .stop-scrolling {
+.stop-scrolling {
   height: 100%;
   overflow: hidden;
-} */
+}
 
 .custom-height {
   height: calc(100% - 57px);
