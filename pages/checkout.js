@@ -1,11 +1,22 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
 import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
+  const [isClientStatus, setIsClientStatus] = useState(false);
+
+  useEffect(() => {
+    if (isClientStatus) {
+      document.getElementById('legalPerson').classList.add('activeButton');
+      document.getElementById('naturalPerson').classList.remove('activeButton');
+    } else {
+      document.getElementById('naturalPerson').classList.add('activeButton');
+      document.getElementById('legalPerson').classList.remove('activeButton');
+    }
+  }, [isClientStatus]);
   return (
     <div className="h-full container pt-[16px] mt-[57px] tablet1024:mt-[81px]">
       <button
@@ -22,10 +33,26 @@ const Сheckout = () => {
           Оформлення замовлення
         </h1>
         <div className="flex items-center gap-[8px] font-medium text-[14px] leading-[19.6px]">
-          <button className="w-[140px] h-[44px] border border-borderDefault rounded-medium3">
+          <button
+            id="naturalPerson"
+            className="w-[140px] h-[44px] border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast"
+            onClick={() => {
+              if (isClientStatus) {
+                setIsClientStatus(!isClientStatus);
+              }
+            }}
+          >
             Фізична особа
           </button>
-          <button className="w-[140px] h-[44px] border border-borderDefault rounded-medium3">
+          <button
+            id="legalPerson"
+            className="w-[140px] h-[44px] border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast"
+            onClick={() => {
+              if (!isClientStatus) {
+                setIsClientStatus(!isClientStatus);
+              }
+            }}
+          >
             Юридична особа
           </button>
         </div>
@@ -34,6 +61,14 @@ const Сheckout = () => {
             Контактні дані
           </h2>
           <ul className="flex flex-col font-medium text-[14px] leading-[19.6px] gap-[8px]">
+            {isClientStatus && (
+              <li className="">
+                <label>
+                  Тип рестрації <span className="text-textError">*</span>
+                  <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                </label>
+              </li>
+            )}
             <li className="">
               <label>
                 Ім'я <span className="text-textError">*</span>
@@ -199,6 +234,7 @@ const Сheckout = () => {
           </div>
           <p className="">Загалом</p>
         </div>
+
         <button
           type="button"
           className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
