@@ -273,6 +273,10 @@ a {
   overflow: hidden;
 } */
 
+.custom-height {
+  height: calc(100% - 57px);
+}
+
 .breadcrumbs {
   @apply text-sm/[19.6px] text-textTertiary hover:text-textBrand  last:text-textPrimary;
 }

@@ -1,7 +1,7 @@
 // import Modal from '../Modal';
 import ReactDOM from 'react-dom';
 import { EmptyCartIcon } from '@/public/icons';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import { useOnKeyDown } from '@/hooks/useOnClickOutside';
@@ -25,22 +25,12 @@ const ModalCart = () => {
 
   useOnKeyDown(onClose);
 
-  // function calculate cartHeight for mibile devices
-  useEffect(() => {
-    const cartHeightValue = `height:${window.innerHeight - 61}px`;
-    if (window.innerWidth < 1024) {
-      document
-        .getElementById('cartHeight')
-        .setAttribute('style', cartHeightValue);
-    }
-  }, [window.innerHeight, document.getElementById('cartHeight')]);
-
   const modalContent = (
     <div
       onClick={() => {
         if (!isOpen) onClose();
       }}
-      className="mt-[57px] tablet1024:mt-0 flex fixed top-0 left-0 w-full
+      className="mt-[57px] custom-height tablet1024:h-full tablet1024:mt-0 flex fixed top-0 left-0 w-full
       tablet1024:inset-0 tablet1024:items-center tablet1024:justify-center 
       tablet1024:bg-bgModal tablet1024:bg-opacity-50 z-10"
     >
@@ -48,7 +38,6 @@ const ModalCart = () => {
         onClick={e => {
           e.stopPropagation();
         }}
-        id="cartHeight"
         className="z-11 bg-white tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
         flex flex-col items-center 
         w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[555px] tablet1024:rounded-lg"
