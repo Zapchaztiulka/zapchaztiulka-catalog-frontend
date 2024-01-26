@@ -3,6 +3,7 @@ import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icon
 import Dropdown from 'universal-components-frontend/src/components/select/Dropdown/Dropdown';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
+// import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
@@ -75,7 +76,7 @@ const Сheckout = () => {
                     onChange={option => {
                       setIsLegalPerson(option);
                     }}
-                    className="w-full border border-borderDefault"
+                    className="w-full border border-borderDefault rounded-minimal"
                   />
                 </li>
                 <li className="">
@@ -111,7 +112,7 @@ const Сheckout = () => {
                       'Варіант 3',
                       'Варіант 4',
                     ]}
-                    className="w-full border border-borderDefault"
+                    className="w-full border border-borderDefault rounded-minimal"
                   />
                 </li>
                 <li className="">
@@ -127,7 +128,7 @@ const Сheckout = () => {
                       'Варіант 3',
                       'Варіант 4',
                     ]}
-                    className="w-full border border-borderDefault"
+                    className="w-full border border-borderDefault rounded-minimal"
                   />
                 </li>
                 <li className="">
@@ -163,9 +164,23 @@ const Сheckout = () => {
               </label>
             </li>
             <li className="">
-              <label>
+              <label className="relative">
                 Номер телефону <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <span className="absolute grid items-center z-10 block top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
+                  +38
+                </span>
+                <input
+                  className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
+                  name="phone"
+                  type="tel"
+                  id="phone"
+                  maxLength="13"
+                  pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+                  title="096 123 45 67"
+                  autoComplete="off"
+                  required
+                  // onChange={replacePhoneNumber}
+                />
               </label>
             </li>
           </ul>
@@ -182,9 +197,42 @@ const Сheckout = () => {
               // width={290}
               onChange={() => {}}
               options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
-              className="w-full border border-borderDefault"
+              className="w-full border border-borderDefault rounded-minimal"
             />
           </div>
+
+          <div className="hidden flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
+            <div className="flex items-center gap-[8px] h-[44px]">
+              <input
+                type="radio"
+                name="activeDelivery"
+                id="activeDelivery"
+                value="activeDelivery"
+                className="w-[16px] h-[16px] ml-[14px]"
+                checked
+              />
+              <label
+                htmlFor="activeDelivery"
+                className="flex items-center justify-between w-full"
+              >
+                <span>Самовивіз</span>
+              </label>
+            </div>
+
+            <div>
+              <p className="mb-[4px]">
+                Оберіть поштове відділення{' '}
+                <span className="text-textError">*</span>
+              </p>
+              <Dropdown
+                // width={290}
+                onChange={() => {}}
+                options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
+                className="w-full border border-borderDefault rounded-minimal"
+              />
+            </div>
+          </div>
+
           <ul className="flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
             <li className=" flex items-center gap-[8px] h-[44px]">
               <input
@@ -192,21 +240,9 @@ const Сheckout = () => {
                 name="delivery"
                 id="novaPoshta"
                 value="novaPoshta"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label htmlFor="novaPoshta">Нова пошта</label>
-              {/* <div>
-                <p className="mb-[4px]">
-                  Оберіть поштове відділення
-                  <span className="text-textError">*</span>
-                </p>
-                <Dropdown
-                  // width={290}
-                  onChange={() => {}}
-                  options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
-                  className="w-full border border-borderDefault"
-                />
-              </div> */}
             </li>
             <li className="flex items-center gap-[8px] h-[44px]">
               <input
@@ -214,7 +250,7 @@ const Сheckout = () => {
                 name="delivery"
                 id="pickup"
                 value="pickup"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label
                 htmlFor="pickup"
@@ -232,7 +268,7 @@ const Сheckout = () => {
                 name="delivery"
                 id="ukrPoshta"
                 value="ukrPoshta"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label htmlFor="ukrPoshta">Укрпошта</label>
             </li>
@@ -242,7 +278,7 @@ const Сheckout = () => {
                 name="delivery"
                 id="meestExperess"
                 value="meestExperess"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label htmlFor="meestExperess">Meest experess</label>
             </li>
@@ -252,7 +288,7 @@ const Сheckout = () => {
                 name="delivery"
                 id="courierZapchastulka"
                 value="courierZapchastulka"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label
                 htmlFor="courierZapchastulka"
@@ -270,7 +306,7 @@ const Сheckout = () => {
                 name="delivery"
                 id="courierNovaPoshta"
                 value="courierNovaPoshta"
-                className="w-[16px] h-[16px]"
+                className="w-[16px] h-[16px] ml-[14px]"
               />
               <label htmlFor="courierNovaPoshta">Кур'єр Нова Пошта</label>
             </li>
