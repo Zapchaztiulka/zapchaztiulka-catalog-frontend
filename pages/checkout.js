@@ -3,7 +3,7 @@ import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icon
 // import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
-// import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
@@ -179,8 +179,9 @@ const Сheckout = () => {
                   title="096 123 45 67"
                   autoComplete="off"
                   required
-                  // onChange={replacePhoneNumber}
+                  onChange={replacePhoneNumber}
                 />
+                <span id="errorMessage" className="text-textWarning"></span>
               </label>
             </li>
           </ul>
