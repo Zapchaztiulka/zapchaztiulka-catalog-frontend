@@ -9,14 +9,24 @@ import {
   EmptyImageIcon,
   LoadingIcon,
 } from 'universal-components-frontend/src/components/icons';
+import { fetchDataNovaPoshta, fetchWarehousesNovaPoshta } from '@/services/PostsApi/novaPoshtaApi';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
-  const { showModalPreOrder, setShowModalPreOrder, setPreOrderId} =
-    useContext(StatusContext);
+  const {
+    showModalPreOrder,
+    setShowModalPreOrder,
+    setPreOrderId,
+    setShowModalAbsentOrder,
+    showModalAbsentOrder,
+  } = useContext(StatusContext);
   const [loadingImage, setLoadingImage] = useState(true);
   const onImageLoad = () => {
     setLoadingImage(false);
   };
+
+   const size = useWindowSize()
+
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
@@ -24,6 +34,13 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
         <div className="absolute grid items-center text-center z-9 rounded-[20px] top-[8px] left-[8px] w-[95px] h-[22px] bg-bgWarningDark">
           <span className="text-[10px] leading-[14px] text-textWarning">
             Під замовлення
+          </span>
+        </div>
+      )}
+      {availability === 'відсутній' && (
+        <div className="absolute grid items-center text-center z-9 rounded-[20px] top-[8px] left-[8px] w-[70px] h-[22px] bg-bgErrorDark">
+          <span className="text-[10px] leading-[14px] text-textError">
+            Відсутній
           </span>
         </div>
       )}
@@ -75,7 +92,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
         </div>
       </Link>
       <div className="mobile320:px-2 tablet600:px-3 pb-3">
-        {availability === 'в наявності' ? (
+        {availability === 'в наявності' && (
           <div className="flex justify-center ">
             {id && (
               <BtnAddToCart
@@ -87,7 +104,8 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
               />
             )}
           </div>
-        ) : availability === 'під замовлення' ? (
+        )}
+        {availability === 'під замовлення' && (
           <button
             onClick={() => {
               setShowModalPreOrder(!showModalPreOrder);
@@ -98,9 +116,16 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
           >
             Передзамовити
           </button>
-        ) : (
-          <button className="disabled-button tablet768:px-6 tablet768:py-3 py-2 w-full text-textDisabled tablet768:text-base text-sm  state-button">
-            Додати в кошик
+        )}
+        {availability === 'відсутній' && (
+          <button
+            onClick={() => {
+              setShowModalAbsentOrder(!showModalAbsentOrder);
+              document.body.classList.add('stop-scrolling');
+            }}
+            className="tablet600:py-[11px] py-[7px] text-center w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textBrand button-secondary"
+          >
+            {size >= 1200 ? 'Повідомити про наявність' : 'Повідомити'}
           </button>
         )}
       </div>

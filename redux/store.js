@@ -17,6 +17,9 @@ import { cartReducer } from "./cart/cartSlice";
 import { storage } from './index';
 import selectedReducer from "./sortProduct/selectOptionReducer";
 import { patternsReducer } from "./patterns/patternsSlice";
+import { departmentsReducer } from "./delivery/NovaPoshta/novaPoshtaSlice";
+import { ordersReducer } from "./orders/ordersSlice";
+import { fetchOrders } from "./orders/ordersOperations";
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -25,6 +28,8 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   selected: selectedReducer,
   patterns: patternsReducer,
+  departments: departmentsReducer,
+  orders: ordersReducer,
 });
 
 const persistConfig = {
@@ -43,5 +48,9 @@ export const store = configureStore({
       },
     }),
 });
+
+export const dispatchFetchOrders = (requestBody) => {
+  return store.dispatch(fetchOrders(requestBody));
+};
 
 export let persistor = persistStore(store);

@@ -8,6 +8,7 @@ import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
 import { Notification } from 'universal-components-frontend/src/components/notifications';
 import NotFoundProduct from './NotFoundProduct';
 import ModalSpecialOrder from '../Modals/ModalSpecialOrder';
+import ModalAbsentOrder from '../Modals/ModalAbsentOrder';
 
 const CardsList = ({ products, size, limit }) => {
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
@@ -20,6 +21,8 @@ const CardsList = ({ products, size, limit }) => {
     showModalSpecialOrder,
     setShowModalSpecialOrder,
     preOrderId,
+    setShowModalAbsentOrder,
+    showModalAbsentOrder
   } = useContext(StatusContext);
 
   return (
@@ -70,10 +73,13 @@ const CardsList = ({ products, size, limit }) => {
       </div>
       {/* Modal for Pre Order */}
       {showModalPreOrder && (
-        <ModalPreOrder onClose={() => setShowModalPreOrder(false)} preOrderId={preOrderId}
+        <ModalPreOrder
+          onClose={() => setShowModalPreOrder(false)}
+          preOrderId={preOrderId}
           setShowModalPreOrder={setShowModalPreOrder}
           setShowModalOrderSuccessful={setShowModalOrderSuccessful}
-          showModalOrderSuccessful={showModalOrderSuccessful} />
+          showModalOrderSuccessful={showModalOrderSuccessful}
+        />
       )}
       {/* Modal for Successful Order*/}
       {showModalOrderSuccessful && (
@@ -85,9 +91,23 @@ const CardsList = ({ products, size, limit }) => {
       )}
       {/* Modal for special order */}
       {showModalSpecialOrder && (
-        <ModalSpecialOrder onClose={() => setShowModalSpecialOrder(false)} showModalSpecialOrder={showModalSpecialOrder}
-        setShowModalSpecialOrder={setShowModalSpecialOrder} setShowModalOrderSuccessful={setShowModalOrderSuccessful}
-          showModalOrderSuccessful={showModalOrderSuccessful}/>
+        <ModalSpecialOrder
+          onClose={() => setShowModalSpecialOrder(false)}
+          showModalSpecialOrder={showModalSpecialOrder}
+          setShowModalSpecialOrder={setShowModalSpecialOrder}
+          setShowModalOrderSuccessful={setShowModalOrderSuccessful}
+          showModalOrderSuccessful={showModalOrderSuccessful}
+        />
+      )}
+      {/* Modal for absent order */}
+      {showModalAbsentOrder && (
+        <ModalAbsentOrder
+          onClose={() => setShowModalAbsentOrder(false)}
+          showModalAbsentOrder={showModalAbsentOrder}
+          setShowModalAbsentOrder={setShowModalAbsentOrder}
+          setShowModalOrderSuccessful={setShowModalOrderSuccessful}
+          showModalOrderSuccessful={showModalOrderSuccessful}
+        />
       )}
       {showCartNotification && (
         <Notification

@@ -1,6 +1,10 @@
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 import Modal from '../Modal';
 import { LightningIcon } from 'universal-components-frontend/src/components/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectOrders } from '@/redux/orders/ordersSelectors';
+import { setPhone, setProducts } from '@/redux/orders/ordersSlice';
+import { dispatchFetchOrders } from '@/redux/store';
 
 const ModalOneClickOrder = ({
   onClose,
@@ -9,14 +13,35 @@ const ModalOneClickOrder = ({
   setShowModalOrderSuccessful,
   showModalOrderSuccessful,
 }) => {
+  const dispatch = useDispatch();
+  const ordersState = useSelector(selectOrders);
+
   const handleSubmitOneClickOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
+
+    dispatch(setProducts([
+      { productId: _id, quantity: 1 },
+    ]));
+
+    dispatch(setPhone(phone.replace(/[ ]/g, '')));
+
+    const requestBody = {
+      products: ordersState.products,
+      phone: ordersState.phone,
+    };
+
+
     console.log('phone = ', phone);
-    // postOrder(phone.replace(/[ ]/g, ''), _id);
-    setShowModalOneClickOrder(false);
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+
+    try {
+      await dispatchFetchOrders(requestBody);
+      setShowModalOneClickOrder(false);
+      setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    } catch (error) {
+      console.error('Error submitting order:', error);
+    }
   };
 
   return (

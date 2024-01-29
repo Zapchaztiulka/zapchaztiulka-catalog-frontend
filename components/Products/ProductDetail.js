@@ -68,8 +68,14 @@ const ProductDetail = ({ product, isOpen, setShowModal, showModal, toggle, mainR
                       <>
                         <div className="custom-class-slide relative">
                           <div className="absolute right-[40px] top-[10px] z-10">
-                            <button onClick={() => setShowModal(!showModal)}>
-                              <LoopEye height="18" width="18" />
+                            <button
+                              onClick={() => setShowModal(!showModal)}
+                              className="focus:outline-none transform transition-transform hover:scale-150"
+                            >
+                              <LoopEye
+                                height="18"
+                                width="18"
+                              />
                             </button>
                           </div>
                           <Splide options={mainOptions} ref={mainRef}>

@@ -29,7 +29,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
           </span>
         </div>
 
-        {isOpen && (
+        {/* {isOpen && (
           <>
             <div className="characteristic">
               <span className="characteristic-label">Вага (кг):</span>
@@ -48,8 +48,8 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
               <span className="characteristic-value">ddd</span>
             </div>
           </>
-        )}
-        {!isOpen ? (
+        )} */}
+        {/* {!isOpen ? (
           <button
             type="button"
             onClick={toggle}
@@ -71,7 +71,7 @@ const ProductInfo = ({ product, isOpen, toggle }) => {
             </span>
             <ArrowUp className="w-[24px] h-[24px] stroke-iconBrand fill-none" />
           </button>
-        )}
+        )} */}
       </section>
 
       {product?.description !== " " && product?.description !== "" && (
