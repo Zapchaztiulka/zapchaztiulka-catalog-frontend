@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
-import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
+// import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 // import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
@@ -69,7 +69,7 @@ const Сheckout = () => {
                   <p className="mb-[4px]">
                     Тип рестрації <span className="text-textError">*</span>
                   </p>
-                  <Dropdown
+                  {/* <Dropdown
                     // width={290}
                     chosenOption={isLegalPerson}
                     options={['ФОП', 'Юридична особа']}
@@ -77,7 +77,7 @@ const Сheckout = () => {
                       setIsLegalPerson(option);
                     }}
                     className="w-full border border-borderDefault rounded-minimal"
-                  />
+                  /> */}
                 </li>
                 <li className="">
                   <label>
@@ -103,7 +103,7 @@ const Сheckout = () => {
                   <p className="mb-[4px]">
                     Область реєстрації <span className="text-textError">*</span>
                   </p>
-                  <Dropdown
+                  {/* <Dropdown
                     // width={290}
                     onChange={() => {}}
                     options={[
@@ -113,13 +113,13 @@ const Сheckout = () => {
                       'Варіант 4',
                     ]}
                     className="w-full border border-borderDefault rounded-minimal"
-                  />
+                  /> */}
                 </li>
                 <li className="">
                   <p className="mb-[4px]">
                     Місто реєстрації <span className="text-textError">*</span>
                   </p>
-                  <Dropdown
+                  {/* <Dropdown
                     // width={290}
                     onChange={() => {}}
                     options={[
@@ -129,7 +129,7 @@ const Сheckout = () => {
                       'Варіант 4',
                     ]}
                     className="w-full border border-borderDefault rounded-minimal"
-                  />
+                  /> */}
                 </li>
                 <li className="">
                   <label>
@@ -193,12 +193,12 @@ const Сheckout = () => {
             <p className="mb-[4px]">
               Оберіть місто доставки <span className="text-textError">*</span>
             </p>
-            <Dropdown
+            {/* <Dropdown
               // width={290}
               onChange={() => {}}
               options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
               className="w-full border border-borderDefault rounded-minimal"
-            />
+            /> */}
           </div>
 
           <div className="hidden flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
@@ -224,12 +224,12 @@ const Сheckout = () => {
                 Оберіть поштове відділення{' '}
                 <span className="text-textError">*</span>
               </p>
-              <Dropdown
+              {/* <Dropdown
                 // width={290}
                 onChange={() => {}}
                 options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
                 className="w-full border border-borderDefault rounded-minimal"
-              />
+              /> */}
             </div>
           </div>
 
