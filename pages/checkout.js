@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
-// import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
+import { Dropdown } from '@/components';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
@@ -19,6 +19,7 @@ const Сheckout = () => {
       document.getElementById('legalPerson').classList.remove('activeButton');
     }
   }, [isClientStatus]);
+
   return (
     <div className="h-full container pt-[16px] mt-[57px] tablet1024:mt-[81px]">
       <button
@@ -78,25 +79,32 @@ const Сheckout = () => {
                     }}
                     className="w-full border border-borderDefault rounded-minimal"
                   /> */}
+                  <Dropdown
+                    selected={isLegalPerson}
+                    options={['ФОП', 'Юридична особа']}
+                    onSelected={value => () => {
+                      setIsLegalPerson(value);
+                    }}
+                  />
                 </li>
                 <li className="">
                   <label>
                     Назва <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
                 {isLegalPerson === 'Юридична особа' && (
                   <li className="">
                     <label>
                       ЄДРПОУ <span className="text-textError">*</span>
-                      <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                      <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                     </label>
                   </li>
                 )}
                 <li className="">
                   <label>
                     ІПН <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
                 <li className="">
@@ -134,7 +142,7 @@ const Сheckout = () => {
                 <li className="">
                   <label>
                     Юридична адреса <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
               </>
@@ -142,25 +150,25 @@ const Сheckout = () => {
             <li className="">
               <label>
                 Ім'я <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 Прізвище <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 По батькові
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 E-mail <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
@@ -210,7 +218,7 @@ const Сheckout = () => {
                 id="activeDelivery"
                 value="activeDelivery"
                 className="w-[16px] h-[16px] ml-[14px]"
-                checked
+                // checked
               />
               <label
                 htmlFor="activeDelivery"
