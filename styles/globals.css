@@ -304,3 +304,7 @@ a {
 .waveImageStylesForProducts {
   @apply bottom-0 border-x border-b border-borderDefault h-[220px] tablet600:h-[273px] tablet768:h-[288px] desktop1200:h-[300px] bg-[url('/wave-shape/600px.png')] tablet768:bg-[url('/wave-shape/768_1024px.png')] desktop1200:bg-[url('/wave-shape/1440_1920px.png')] bg-auto bg-no-repeat w-full absolute z-10 rounded-b-lg
 }
+
+.activeButton {
+  @apply bg-bgBrandLight3 text-textContrast
+}
