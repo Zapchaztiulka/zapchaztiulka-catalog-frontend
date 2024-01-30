@@ -1,14 +1,26 @@
 import React from 'react';
 import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icons';
-// import { Dropdown } from 'universal-components-frontend/src/components/select/Dropdown';
+import { Dropdown } from '@/components';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
-// import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
+  const [isStateOfRegister, setIsStateOfRegister] = useState(
+    'Оберіть значення...'
+  );
+  const [isCityOfRegister, setIsCityOfRegister] = useState(
+    'Оберіть значення...'
+  );
+  const [isCityOfDelivery, setIsCityOfDelivery] = useState(
+    'Оберіть значення...'
+  );
+  const [isNovaPoshtaOffice, setIsNovaPoshtaOffice] = useState(
+    'Оберіть значення...'
+  );
 
   useEffect(() => {
     if (isClientStatus) {
@@ -19,6 +31,7 @@ const Сheckout = () => {
       document.getElementById('legalPerson').classList.remove('activeButton');
     }
   }, [isClientStatus]);
+
   return (
     <div className="h-full container pt-[16px] mt-[57px] tablet1024:mt-[81px]">
       <button
@@ -69,72 +82,67 @@ const Сheckout = () => {
                   <p className="mb-[4px]">
                     Тип рестрації <span className="text-textError">*</span>
                   </p>
-                  {/* <Dropdown
-                    // width={290}
-                    chosenOption={isLegalPerson}
+                  <Dropdown
+                    selected={isLegalPerson}
                     options={['ФОП', 'Юридична особа']}
-                    onChange={option => {
-                      setIsLegalPerson(option);
+                    onSelected={value => () => {
+                      setIsLegalPerson(value);
                     }}
-                    className="w-full border border-borderDefault rounded-minimal"
-                  /> */}
+                  />
                 </li>
                 <li className="">
                   <label>
                     Назва <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
                 {isLegalPerson === 'Юридична особа' && (
                   <li className="">
                     <label>
                       ЄДРПОУ <span className="text-textError">*</span>
-                      <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                      <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                     </label>
                   </li>
                 )}
                 <li className="">
                   <label>
                     ІПН <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
                 <li className="">
                   <p className="mb-[4px]">
                     Область реєстрації <span className="text-textError">*</span>
                   </p>
-                  {/* <Dropdown
-                    // width={290}
-                    onChange={() => {}}
+                  <Dropdown
+                    selected={isStateOfRegister}
                     options={[
-                      'Варіант 1',
-                      'Варіант 2',
-                      'Варіант 3',
-                      'Варіант 4',
+                      'Область 1',
+                      'Область 2',
+                      'Область 3',
+                      'Область 4',
                     ]}
-                    className="w-full border border-borderDefault rounded-minimal"
-                  /> */}
+                    onSelected={value => () => {
+                      setIsStateOfRegister(value);
+                    }}
+                  />
                 </li>
                 <li className="">
                   <p className="mb-[4px]">
                     Місто реєстрації <span className="text-textError">*</span>
                   </p>
-                  {/* <Dropdown
-                    // width={290}
-                    onChange={() => {}}
-                    options={[
-                      'Варіант 1',
-                      'Варіант 2',
-                      'Варіант 3',
-                      'Варіант 4',
-                    ]}
-                    className="w-full border border-borderDefault rounded-minimal"
-                  /> */}
+                  <Dropdown
+                    selected={isCityOfRegister}
+                    options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
+                    onSelected={value => () => {
+                      setIsCityOfRegister(value);
+                    }}
+                  />
                 </li>
                 <li className="">
                   <label>
                     Юридична адреса <span className="text-textError">*</span>
-                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                    <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
                   </label>
                 </li>
               </>
@@ -142,25 +150,25 @@ const Сheckout = () => {
             <li className="">
               <label>
                 Ім'я <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 Прізвище <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 По батькові
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
               <label>
                 E-mail <span className="text-textError">*</span>
-                <input className="w-full h-[48px] border border-borderDefault rounded-minimal" />
+                <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
               </label>
             </li>
             <li className="">
@@ -179,8 +187,9 @@ const Сheckout = () => {
                   title="096 123 45 67"
                   autoComplete="off"
                   required
-                  // onChange={replacePhoneNumber}
+                  onChange={replacePhoneNumber}
                 />
+                <span id="errorMessage" className="text-textWarning"></span>
               </label>
             </li>
           </ul>
@@ -193,15 +202,17 @@ const Сheckout = () => {
             <p className="mb-[4px]">
               Оберіть місто доставки <span className="text-textError">*</span>
             </p>
-            {/* <Dropdown
-              // width={290}
-              onChange={() => {}}
-              options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
-              className="w-full border border-borderDefault rounded-minimal"
-            /> */}
+            <Dropdown
+              selected={isCityOfDelivery}
+              options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
+              onSelected={value => () => {
+                setIsCityOfDelivery(value);
+              }}
+            />
           </div>
 
-          <div className="hidden flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
+          <div className=" flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
+            {/* hidden */}
             <div className="flex items-center gap-[8px] h-[44px]">
               <input
                 type="radio"
@@ -209,30 +220,34 @@ const Сheckout = () => {
                 id="activeDelivery"
                 value="activeDelivery"
                 className="w-[16px] h-[16px] ml-[14px]"
-                checked
+                // checked
               />
               <label
                 htmlFor="activeDelivery"
                 className="flex items-center justify-between w-full"
               >
-                <span>Самовивіз</span>
+                <span>Нова пошта</span>
               </label>
             </div>
-
-            <div>
+            <div className="pl-[32px] pr-[12px]">
               <p className="mb-[4px]">
                 Оберіть поштове відділення{' '}
                 <span className="text-textError">*</span>
               </p>
-              {/* <Dropdown
-                // width={290}
-                onChange={() => {}}
-                options={['Варіант 1', 'Варіант 2', 'Варіант 3', 'Варіант 4']}
-                className="w-full border border-borderDefault rounded-minimal"
-              /> */}
+              <Dropdown
+                selected={isNovaPoshtaOffice}
+                options={[
+                  'Відділення 1',
+                  'Відділення 2',
+                  'Відділення 3',
+                  'Відділення 4',
+                ]}
+                onSelected={value => () => {
+                  setIsNovaPoshtaOffice(value);
+                }}
+              />
             </div>
           </div>
-
           <ul className="flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
             <li className=" flex items-center gap-[8px] h-[44px]">
               <input

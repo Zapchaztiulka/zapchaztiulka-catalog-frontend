@@ -13,6 +13,7 @@ import ModalOrderSuccessful from './Modals/ModalOrderSuccessful';
 import ModalDeleteFromCart from './Modals/ModalDeleteFromCart';
 
 import CartCardList from './Cart/CartCardList';
+import Dropdown from './Dropdown';
 
 export {
   Navbar,
@@ -27,5 +28,6 @@ export {
   ModalAbsentOrder,
   ModalOrderSuccessful,
   ModalDeleteFromCart,
-  CartCardList
+  CartCardList,
+  Dropdown,
 };
