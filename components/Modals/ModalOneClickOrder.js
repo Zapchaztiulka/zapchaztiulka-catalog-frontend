@@ -23,7 +23,6 @@ const requestBody = {
       phone: phone.replace(/[ ]/g, ''),
       userType : "individual"
     };
-    console.log('phone = ', phone);
 
     try {
       dispatch(fetchOrders(requestBody));

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAbsentOrders, fetchOrders } from './ordersOperations';
+import { fetchAbsentOrders, fetchOrders, fetchUserRequest } from './ordersOperations';
 
 export const ordersSlice = createSlice({
   name: 'orders',
@@ -11,7 +11,8 @@ export const ordersSlice = createSlice({
     userSurname: null,
     userComment: null,
     userType: null,
-    productId:null
+    productId: null,
+    userMessageDetails: null
   },
   extraReducers: builder => {
     builder
@@ -42,6 +43,14 @@ export const ordersSlice = createSlice({
         state.productId = productId;
       })
       .addCase(fetchAbsentOrders.rejected, (state, action) => {
+        console.error('Error fetching orders:', action.error);
+      })
+      .addCase(fetchUserRequest.fulfilled, (state, action) => {
+        const { phone, userMessageDetails } = action.payload;
+        state.phone = phone;
+        state.userMessageDetails = userMessageDetails;
+      })
+      .addCase(fetchUserRequest.rejected, (state, action) => {
         console.error('Error fetching orders:', action.error);
       });
   },

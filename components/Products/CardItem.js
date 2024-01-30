@@ -19,6 +19,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
     setPreOrderId,
     setShowModalAbsentOrder,
     showModalAbsentOrder,
+    aviabilityProduct, setAviabilityProduct
   } = useContext(StatusContext);
   const [loadingImage, setLoadingImage] = useState(true);
   const onImageLoad = () => {
@@ -121,6 +122,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
           <button
             onClick={() => {
               setShowModalAbsentOrder(!showModalAbsentOrder);
+              setAviabilityProduct(availability)
               setPreOrderId(id);
               document.body.classList.add('stop-scrolling');
             }}

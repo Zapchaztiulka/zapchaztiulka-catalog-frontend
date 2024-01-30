@@ -26,3 +26,15 @@ export const fetchAbsentOrders = createAsyncThunk(
     }
   }
 );
+
+export const fetchUserRequest = createAsyncThunk(
+  'orders/fetchUserRequest',
+  async requestBody => {
+    try {
+      const { data } = await axios.post('/api/userMessages', requestBody);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
