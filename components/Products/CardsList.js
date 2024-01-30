@@ -103,6 +103,7 @@ const CardsList = ({ products, size, limit }) => {
       {showModalAbsentOrder && (
         <ModalAbsentOrder
           onClose={() => setShowModalAbsentOrder(false)}
+          preOrderId={preOrderId}
           showModalAbsentOrder={showModalAbsentOrder}
           setShowModalAbsentOrder={setShowModalAbsentOrder}
           setShowModalOrderSuccessful={setShowModalOrderSuccessful}

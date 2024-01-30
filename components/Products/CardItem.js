@@ -121,6 +121,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
           <button
             onClick={() => {
               setShowModalAbsentOrder(!showModalAbsentOrder);
+              setPreOrderId(id);
               document.body.classList.add('stop-scrolling');
             }}
             className="tablet600:py-[11px] py-[7px] text-center w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textBrand button-secondary"

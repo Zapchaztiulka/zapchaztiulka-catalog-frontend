@@ -214,6 +214,7 @@ const ProductDetail = ({ product, isOpen, setShowModal, showModal, toggle, mainR
                   <button
                     onClick={() => {
                       setShowModalAbsentOrder(!showModalAbsentOrder);
+                      setPreOrderId(product?._id);
                       document.body.classList.add('stop-scrolling');
                     }}
                     className="h-[48px] flex justify-center button-secondary lg:px-6 px-3 py-3 text-textBrand text-sm tracking-[-0.21px]"

@@ -14,3 +14,15 @@ export const fetchOrders = createAsyncThunk(
     }
   }
 );
+
+export const fetchAbsentOrders = createAsyncThunk(
+  'orders/fetchAbsentOrders',
+  async requestBody => {
+    try {
+      const { data } = await axios.post('/api/userRequests', requestBody);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);

@@ -47,7 +47,8 @@ const MergedModals = ({ product }) => {
       {showModalAbsentOrder && (
         <ModalAbsentOrder
           onClose={() => setShowModalAbsentOrder(false)}
-          setShowModalPreOrder={setShowModalPreOrder}
+          preOrderId={preOrderId}
+          setShowModalAbsentOrder={setShowModalAbsentOrder}
           setShowModalOrderSuccessful={setShowModalOrderSuccessful}
           showModalOrderSuccessful={showModalOrderSuccessful}
         />
