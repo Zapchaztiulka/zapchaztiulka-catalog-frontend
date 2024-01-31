@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchDepartments } from './novaPoshtaOperations';
+import { fetchSettlements, fetchWarehouses } from './novaPoshtaOperations';
 
 const initialState = {
-  departments: [],
-  page: '',
+  warehousesNP: [],
+  settlements: [],
+  page: 1,
   isLoading: false,
   error: null,
+  totalCount: 0,
 };
 
 const departmentsSlice = createSlice({
@@ -14,22 +16,28 @@ const departmentsSlice = createSlice({
   reducers: {
     setPageNumber: (state, action) => {
       state.page = action.payload;
-    },
+    }
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchDepartments.pending, state => {
+      .addCase(fetchSettlements.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchDepartments.fulfilled, (state, action) => {
+      .addCase(fetchSettlements.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.departments = action.payload;
+        state.settlements = action.payload;
+        state.totalCount = action.payload.info.totalCount;
+
       })
-      .addCase(fetchDepartments.rejected, (state, action) => {
+      .addCase(fetchSettlements.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchWarehouses.fulfilled, (state, action) => {
+        console.log(action.payload)
+       state.warehousesNP = action.payload;
+    })
   },
 });
 

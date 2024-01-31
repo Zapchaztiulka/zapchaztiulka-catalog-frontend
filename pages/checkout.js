@@ -4,6 +4,9 @@ import { Dropdown } from '@/components';
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import Settlelement from '@/components/Orders/Settlelement';
+import DeliveryNova from '@/components/Orders/DeliveryNova';
+
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
@@ -22,6 +25,8 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
 
+  const [selectedCity, setSelectedCity] = useState('');
+
   useEffect(() => {
     if (isClientStatus) {
       document.getElementById('legalPerson').classList.add('activeButton');
@@ -31,6 +36,11 @@ const Сheckout = () => {
       document.getElementById('legalPerson').classList.remove('activeButton');
     }
   }, [isClientStatus]);
+
+    const handleCitySelection = (city) => {
+    setSelectedCity(city);
+  };
+
 
   return (
     <div className="h-full container pt-[16px] mt-[57px] tablet1024:mt-[81px]">
@@ -194,21 +204,18 @@ const Сheckout = () => {
             </li>
           </ul>
         </div>
+
+        {/* Дані доставки */}
         <div className="flex flex-col gap-[16px]">
           <h3 className="font-medium text-[18px] leading-[25.2px]">
             Дані доставки
           </h3>
           <div>
-            <p className="mb-[4px]">
+            <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
               Оберіть місто доставки <span className="text-textError">*</span>
             </p>
-            <Dropdown
-              selected={isCityOfDelivery}
-              options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
-              onSelected={value => () => {
-                setIsCityOfDelivery(value);
-              }}
-            />
+
+            <Settlelement onSelectCity={handleCitySelection} />
           </div>
 
           <div className=" flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
@@ -230,22 +237,11 @@ const Сheckout = () => {
               </label>
             </div>
             <div className="pl-[32px] pr-[12px]">
-              <p className="mb-[4px]">
+              <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
                 Оберіть поштове відділення{' '}
                 <span className="text-textError">*</span>
               </p>
-              <Dropdown
-                selected={isNovaPoshtaOffice}
-                options={[
-                  'Відділення 1',
-                  'Відділення 2',
-                  'Відділення 3',
-                  'Відділення 4',
-                ]}
-                onSelected={value => () => {
-                  setIsNovaPoshtaOffice(value);
-                }}
-              />
+              <DeliveryNova selectedCity={selectedCity}/>
             </div>
           </div>
           <ul className="flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
