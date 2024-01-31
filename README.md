@@ -1,6 +1,6 @@
 # Zapchaztiulka - e-commerce website
 <span>
-<img src="./public/logo-main.svg" width="400" title="screen">
+<img src="./public/logo.svg" width="400" title="screen">
 </span>
 
 ## Клієнтський веб-застосунок для пошуку та придбання запчастин для авто та сільгосптехніки

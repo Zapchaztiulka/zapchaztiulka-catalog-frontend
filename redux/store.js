@@ -19,7 +19,6 @@ import selectedReducer from "./sortProduct/selectOptionReducer";
 import { patternsReducer } from "./patterns/patternsSlice";
 import { departmentsReducer } from "./delivery/NovaPoshta/novaPoshtaSlice";
 import { ordersReducer } from "./orders/ordersSlice";
-import { fetchOrders } from "./orders/ordersOperations";
 
 const rootReducer = combineReducers({
   products: productsReducer,
