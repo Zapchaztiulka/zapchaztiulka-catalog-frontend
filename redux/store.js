@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 // import storage from "redux-persist/lib/storage";
 import {
   persistStore,
@@ -10,15 +10,17 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { productsReducer } from "./products/productsSlice";
-import { categoriesReducer } from "./categories/categoriesSlice";
-import { filterReducer } from "./filterSlice";
-import { cartReducer } from "./cart/cartSlice";
+import { productsReducer } from './products/productsSlice';
+import { categoriesReducer } from './categories/categoriesSlice';
+import { filterReducer } from './filterSlice';
+import { cartReducer } from './cart/cartSlice';
 import { storage } from './index';
-import selectedReducer from "./sortProduct/selectOptionReducer";
-import { patternsReducer } from "./patterns/patternsSlice";
-import { departmentsReducer } from "./delivery/NovaPoshta/novaPoshtaSlice";
-import { ordersReducer } from "./orders/ordersSlice";
+import selectedReducer from './sortProduct/selectOptionReducer';
+import { patternsReducer } from './patterns/patternsSlice';
+import { departmentsReducer } from './delivery/NovaPoshta/novaPoshtaSlice';
+import { ordersReducer } from './orders/ordersSlice';
+import { fetchOrders } from './orders/ordersOperations';
+import { checkoutReducer } from './checkout/checkoutSlise';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -29,18 +31,19 @@ const rootReducer = combineReducers({
   patterns: patternsReducer,
   departments: departmentsReducer,
   orders: ordersReducer,
+  checkout: checkoutReducer,
 });
 
 const persistConfig = {
-  key: "root",
-  storage, 
+  key: 'root',
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -49,5 +52,8 @@ export const store = configureStore({
 });
 
 
+export const dispatchFetchOrders = requestBody => {
+  return store.dispatch(fetchOrders(requestBody));
+};
 
 export let persistor = persistStore(store);
