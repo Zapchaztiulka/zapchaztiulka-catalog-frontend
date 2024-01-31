@@ -9,7 +9,6 @@ import {
   EmptyImageIcon,
   LoadingIcon,
 } from 'universal-components-frontend/src/components/icons';
-import { fetchDataNovaPoshta, fetchWarehousesNovaPoshta } from '@/services/PostsApi/novaPoshtaApi';
 import { useWindowSize } from '@/hooks/useWindowSize';
 
 const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
@@ -27,7 +26,6 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
   };
 
    const size = useWindowSize()
-
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
