@@ -7,13 +7,13 @@ import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
 import {
   ArrowDownIcon,
-  ArrowUpIcon,
 } from 'universal-components-frontend/src/components/icons';
 
 const DeliveryNova = ({ selectedCity }) => {
   const dispatch = useDispatch();
   const [warehouses, setWarehouses] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+     const [isLocalityInputFocused, setIsLocalityInputFocused] = useState(false);
   const warehousesInfo = useSelector(selectWaherousesNP);
 
   const warehousesList = warehousesInfo?.data?.flatMap(
@@ -65,7 +65,7 @@ const DeliveryNova = ({ selectedCity }) => {
             className="w-full flex items-center justify-between"
           >
             <div>
-              {selectedCity === '' && warehouses === ''
+              {selectedCity === '' || warehouses === ''
                 ? 'Оберіть значення..'
                 : warehouses}
             </div>
@@ -78,6 +78,9 @@ const DeliveryNova = ({ selectedCity }) => {
               type="text"
               value={warehouses}
               onChange={handleInputChangeWarehouses}
+              onFocus={() => setIsLocalityInputFocused(true)}
+              onBlur={() => setIsLocalityInputFocused(false)}
+              placeholder={isLocalityInputFocused ? '' : 'Введіть або оберіть відділення..'}
               className="w-[600px] focus:outline-none focus-within:bg-bgHoverGrey"
             />
             {warehouses !== '' && (

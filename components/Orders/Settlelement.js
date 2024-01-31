@@ -8,6 +8,7 @@ import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 const Settlelement = ({ onSelectCity }) => {
   const dispatch = useDispatch();
   const [locality, setLocality] = useState('');
+   const [isLocalityInputFocused, setIsLocalityInputFocused] = useState(false);
   const settlements = useSelector(selectSettlements);
 
   const localityPlaceInfo = settlements?.data?.flatMap(
@@ -48,28 +49,30 @@ const Settlelement = ({ onSelectCity }) => {
 
 
   return (
-    <div className="search w-full relative">
-      <input
-        ref={refInput}
-        type="text"
-        value={locality}
-        onChange={handleInputChangeLocality}
-        className="search-input w-full"
-      />
-      {locality !== '' && (
-        <button
-          className="close-btn"
-          type="button"
-          onClick={removeSearchLocality}
-        >
-          <CloseIcon
-            className="close-icon stroke-iconPrimary"
-            width="34"
-            height="34"
-          />
-        </button>
-      )}
-      {localityPlaceInfo && locality && localityPlaceInfo.length!==0 && (
+    <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
+      <div className="flex items-center gap-3">
+        <input
+          ref={refInput}
+          type="text"
+          value={locality}
+          onChange={handleInputChangeLocality}
+           onFocus={() => setIsLocalityInputFocused(true)}
+              onBlur={() => setIsLocalityInputFocused(false)}
+              placeholder={isLocalityInputFocused ? '' : 'Введіть місто..'}
+          className="flex-grow search-input w-full placeholder:text-textInputDefault text-textPrimary"
+        />
+        {locality !== '' && (
+          <button
+            className=" absolute right-[12px] top-0 bottom-0"
+            type="button"
+            onClick={removeSearchLocality}
+          >
+            <CloseIcon size="20" />
+          </button>
+        )}
+      </div>
+
+      {localityPlaceInfo && locality && localityPlaceInfo.length !== 0 && (
         <ul
           ref={refList}
           style={{ display: 'none' }}
