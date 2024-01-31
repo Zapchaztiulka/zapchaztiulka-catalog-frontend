@@ -51,6 +51,7 @@ export const store = configureStore({
     }),
 });
 
+
 export const dispatchFetchOrders = requestBody => {
   return store.dispatch(fetchOrders(requestBody));
 };

@@ -22,7 +22,8 @@ const CardsList = ({ products, size, limit }) => {
     setShowModalSpecialOrder,
     preOrderId,
     setShowModalAbsentOrder,
-    showModalAbsentOrder
+    showModalAbsentOrder,
+    aviabilityProduct,
   } = useContext(StatusContext);
 
   return (
@@ -86,7 +87,7 @@ const CardsList = ({ products, size, limit }) => {
         <ModalOrderSuccessful
           onClose={() => setShowModalOrderSuccessful(false)}
           hideCloseBtn
-          availability={products?.availability}
+          availability={aviabilityProduct}
         />
       )}
       {/* Modal for special order */}
@@ -103,6 +104,7 @@ const CardsList = ({ products, size, limit }) => {
       {showModalAbsentOrder && (
         <ModalAbsentOrder
           onClose={() => setShowModalAbsentOrder(false)}
+          preOrderId={preOrderId}
           showModalAbsentOrder={showModalAbsentOrder}
           setShowModalAbsentOrder={setShowModalAbsentOrder}
           setShowModalOrderSuccessful={setShowModalOrderSuccessful}

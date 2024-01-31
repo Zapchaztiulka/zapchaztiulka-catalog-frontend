@@ -104,6 +104,7 @@ export const StatusProvider = ({ children }) => {
   const [showModalAbsentOrder, setShowModalAbsentOrder] = useState(false);
   const [showModalSpecialOrder, setShowModalSpecialOrder] = useState(false);
   const [preOrderId, setPreOrderId] = useState(0);
+  const [aviabilityProduct, setAviabilityProduct]=useState('')
 
   return (
     <StatusContext.Provider
@@ -152,7 +153,7 @@ export const StatusProvider = ({ children }) => {
         setShowCartNotification,
         showModalCart,
         setShowModalCart,
-        showModalOneClickOrder, setShowModalOneClickOrder,showModalAbsentOrder, setShowModalAbsentOrder, showModalSpecialOrder, setShowModalSpecialOrder
+        showModalOneClickOrder, setShowModalOneClickOrder,showModalAbsentOrder, setShowModalAbsentOrder, showModalSpecialOrder, setShowModalSpecialOrder, aviabilityProduct, setAviabilityProduct
       }}
     >
       {children}

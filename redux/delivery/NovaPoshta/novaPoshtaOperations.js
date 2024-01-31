@@ -1,20 +1,47 @@
-import { getData } from '@/services/PostsApi/novaPoshtaApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
+const apiUrl = process.env.NEXT_PUBLIC_NOVAPOSHTA_URL;
+const apiKey = process.env.NEXT_PUBLIC_NOVAPOSHTA_API_KEY;
 
-export const fetchDepartments = createAsyncThunk(
-  'departments/getDepartments',
-  async (body, thunkApi) => {
+export const fetchSettlements = createAsyncThunk(
+  'departments/getSettlements',
+  async (cityName) => {
     try {
-      const res = await getData(body);
-
-      if (res.data?.length === '0') {
-        throw new Error(`Failed, no results.`);
-      }
-
-      return res;
+      const { data } = await axios.post(apiUrl, {
+        apiKey: apiKey,
+        modelName: 'Address',
+        calledMethod: 'searchSettlements',
+        methodProperties: {
+          CityName: cityName,
+          Limit: '50',
+          Page: '1',
+        },
+      });
+      return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      throw error;
+    }
+  }
+);
+
+export const fetchWarehouses = createAsyncThunk(
+  'departments/getWarehouses',
+  async сityRef => {
+    try {
+      const { data } = await axios.post(apiUrl, {
+        apiKey: apiKey,
+        modelName: 'Address',
+        calledMethod: 'getWarehouses',
+        methodProperties: {
+          CityRef: сityRef,
+          Limit: '50',
+          Page: '1',
+        },
+      });
+      return data;
+    } catch (error) {
+      throw error;
     }
   }
 );

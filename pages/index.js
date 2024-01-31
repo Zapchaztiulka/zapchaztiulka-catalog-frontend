@@ -332,6 +332,21 @@ const StartPage = () => {
     }
   }, [router.isReady, searchValue]);
 
+  // Send props to skeleton with numbers of elements
+   let numberOfElements = 9; 
+     if (size >= 320 && size<= 480) {
+    numberOfElements = 8;
+     }
+   if (size >= 600) {
+       numberOfElements = 6;
+   }
+   if (size >= 768) {
+       numberOfElements = 9;
+   }
+   if (size >= 1920) {
+       numberOfElements = 12;
+   }
+
   return (
     <>
       <div className="container mt-[72px] tablet1024:mt-[116px] flex flex-col justify-center tablet1024:flex tablet1024:flex-row gap-s desktop1920:gap-sPlus relative">
@@ -408,7 +423,7 @@ const StartPage = () => {
                     close={close}
                   />
             </div>
-            <Suspense fallback={<SkeletonProducts />}>
+            <Suspense fallback={<SkeletonProducts numberOfElements={numberOfElements} />}>
               <div className="cards-container">
                 <CardsList
                   isLoading={isLoading}

@@ -12,9 +12,7 @@ const ModalPreOrder = ({
   const handleSubmitPreOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
-    console.log('phone = ', phone);
-    console.log('preOrderId = ', preOrderId);
-    // postOrder(phone.replace(/[ ]/g, ''), preOrderId);
+    
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
   };

@@ -1,18 +1,35 @@
+import { useDispatch } from 'react-redux';
 import Modal from '../Modal';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
+import { fetchAbsentOrders } from '@/redux/orders/ordersOperations';
 
 const ModalAbsentOrder = ({
   onClose,
   setShowModalAbsentOrder,
   setShowModalOrderSuccessful,
   showModalOrderSuccessful,
+  preOrderId
 }) => {
+  const dispatch = useDispatch();
+
   const handleSubmitAbsentOrder = async event => {
     event.preventDefault();
-    // mail: event.target.elements.mail.value;
-    console.log('E-mail : ', event.target.elements.mail.value);
-    setShowModalAbsentOrder(false);
+    const mail = event.target.elements.mail.value;
+    
+    const requestBody = {
+      productId: preOrderId,
+      email: mail
+    };
+
+    try {
+      dispatch(fetchAbsentOrders(requestBody))
+      setShowModalAbsentOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    } 
+    catch (error) {
+      console.error('Error submitting order:', error);
+    }
+    
   };
 
   return (
@@ -45,7 +62,6 @@ const ModalAbsentOrder = ({
             className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
             name="mail"
             type="email"
-            pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
             title="example@mail.com"
             required
           />

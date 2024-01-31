@@ -9,7 +9,6 @@ import {
   EmptyImageIcon,
   LoadingIcon,
 } from 'universal-components-frontend/src/components/icons';
-import { fetchDataNovaPoshta, fetchWarehousesNovaPoshta } from '@/services/PostsApi/novaPoshtaApi';
 import { useWindowSize } from '@/hooks/useWindowSize';
 
 const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
@@ -19,6 +18,7 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
     setPreOrderId,
     setShowModalAbsentOrder,
     showModalAbsentOrder,
+    aviabilityProduct, setAviabilityProduct
   } = useContext(StatusContext);
   const [loadingImage, setLoadingImage] = useState(true);
   const onImageLoad = () => {
@@ -26,7 +26,6 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
   };
 
    const size = useWindowSize()
-
 
   return (
     <li className="relative cards border border-borderDefault rounded-lg hover:shadow-md">
@@ -121,6 +120,8 @@ const CardItem = ({ id, name, photo, price, vendorCode, availability }) => {
           <button
             onClick={() => {
               setShowModalAbsentOrder(!showModalAbsentOrder);
+              setAviabilityProduct(availability)
+              setPreOrderId(id);
               document.body.classList.add('stop-scrolling');
             }}
             className="tablet600:py-[11px] py-[7px] text-center w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textBrand button-secondary"

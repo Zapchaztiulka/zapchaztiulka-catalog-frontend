@@ -11,7 +11,9 @@ import {
   fetchProductByID,
   fetchProducts,
 } from '@/redux/products/productsOperations';
-import ReactContentLoader from '@/components/Skeleton/ReactContentLoader.js';
+import SkeletonProductDetail from '@/components/Skeleton/SkeletonProductDetail.js';
+import SkeletonProducts from '@/components/Skeleton/SkeletonProducts.js';
+import { useWindowSize } from '@/hooks/useWindowSize.js';
 
 const ProductDetail = lazy(() =>
   import('../../components/Products/ProductDetail.js')
@@ -79,6 +81,22 @@ const ProductID = () => {
     setIndexThumb(id);
   };
 
+  const size = useWindowSize();
+   let numberOfElements = 9; 
+     if (size >= 320 && size<= 600) {
+    numberOfElements = 2;
+     }
+   if (size >= 768) {
+       numberOfElements = 3;
+   }
+    if (size >= 1024) {
+       numberOfElements = 4;
+   }
+
+   if (size >= 1920) {
+       numberOfElements = 5;
+   }
+
   return (
     <>
       <Head>
@@ -90,7 +108,7 @@ const ProductID = () => {
         <meta name="description" content={product?.description} />
         <meta name="keywords" content={product?.keywords} />
       </Head>
-      <Suspense fallback={<ReactContentLoader />}>
+      <Suspense fallback={<SkeletonProductDetail />}>
         <ProductDetail
           setShowModal={setShowModal}
           showModal={showModal}
@@ -107,7 +125,9 @@ const ProductID = () => {
       </h2>
       {data && (
         <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-          <Suspense fallback={<p>Loading...</p>}><PopularProducts products={data.products} isLoading={isLoading} /></Suspense>
+          <Suspense fallback={<SkeletonProducts numberOfElements={numberOfElements} />}>
+            <PopularProducts products={data.products} isLoading={isLoading} />
+          </Suspense>
         </div>
       )}
       {productFromLocalStorage.length > 0 && (
@@ -116,9 +136,11 @@ const ProductID = () => {
             Переглянуті товари
           </h2>
           <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-             <Suspense fallback={<p>Loading...</p>}><RecentlyViewProducts
-              productFromLocalStorage={productFromLocalStorage}
-            /></Suspense>
+            <Suspense fallback={<SkeletonProducts numberOfElements={numberOfElements}/>}>
+              <RecentlyViewProducts
+                productFromLocalStorage={productFromLocalStorage}
+              />
+            </Suspense>
           </div>
         </>
       )}

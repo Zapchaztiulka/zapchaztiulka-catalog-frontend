@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from '../Modal';
 import { ToolIcon } from 'universal-components-frontend/src/components/icons';
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import { useDispatch } from 'react-redux';
+import { fetchUserRequest } from '@/redux/orders/ordersOperations';
 
 const ModalSpecialOrder = ({
   onClose,
@@ -9,12 +11,24 @@ const ModalSpecialOrder = ({
   setShowModalOrderSuccessful,
   showModalOrderSuccessful,
 }) => {
+  const dispatch = useDispatch();
   const handleSubmitSpecialOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
-    console.log('phone = ', phone);
-    setShowModalSpecialOrder(false);
-    setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    const message = event.target.elements.text.value;
+    const requestBody = {
+      phone: phone.replace(/[ ]/g, ''),
+      type: "special",
+      userMessageDetails: message
+    };
+     try {
+      dispatch(fetchUserRequest(requestBody));
+      setShowModalSpecialOrder(false);
+      setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    } catch (error) {
+      console.error('Error submitting order:', error);
+    }
+    
   };
 
   return (
@@ -69,6 +83,9 @@ const ModalSpecialOrder = ({
               className="px-3 py-4 resize-none mobile320:w-[258px] mobile375:w-[313px] desktop1200:w-[404px]  border border-borderDefault rounded-minimal text-base/[24px] text-textSecondary"
               rows="5"
               required
+              name="text"
+              type="text"
+              minLength="10"
             ></textarea>
             <span id="errorMessage" className="text-textWarning"></span>
           </label>
