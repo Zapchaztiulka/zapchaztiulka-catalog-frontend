@@ -6,7 +6,8 @@ import { StatusContext } from '@/context/statusContext';
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 import Settlelement from '@/components/Orders/Settlelement';
 import DeliveryNova from '@/components/Orders/DeliveryNova';
-
+import DeliveryCourier from '@/components/Orders/DeliveryCourier';
+import DeliveryByPickup from '@/components/Orders/DeliveryByPickup';
 
 const Сheckout = () => {
   const { setShowModalCart } = useContext(StatusContext);
@@ -25,7 +26,16 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
 
+  const [addressForPickup, setAddressForPickup] = useState(
+    'Оберіть значення...'
+  );
+
   const [selectedCity, setSelectedCity] = useState('');
+  const [selectedDelivery, setSelectedDelivery] = useState(null);
+
+  const handleDeliveryChange = event => {
+    setSelectedDelivery(event.target.value);
+  };
 
   useEffect(() => {
     if (isClientStatus) {
@@ -37,10 +47,9 @@ const Сheckout = () => {
     }
   }, [isClientStatus]);
 
-    const handleCitySelection = (city) => {
+  const handleCitySelection = city => {
     setSelectedCity(city);
   };
-
 
   return (
     <div className="h-full container pt-[16px] mt-[57px] tablet1024:mt-[81px]">
@@ -218,50 +227,59 @@ const Сheckout = () => {
             <Settlelement onSelectCity={handleCitySelection} />
           </div>
 
-          <div className=" flex flex-col gap-[8px] h-[156px] pt-[12px] pb-[20px] border border-borderDefaultBlue rounded-minimal">
-            {/* hidden */}
+          {/* Нова пошта відділення */}
+          <div
+            className={`flex flex-col gap-[8px] ${
+              selectedDelivery === 'novaPoshta'
+                ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
+                : ''
+            } `}
+          >
             <div className="flex items-center gap-[8px] h-[44px]">
-              <input
-                type="radio"
-                name="activeDelivery"
-                id="activeDelivery"
-                value="activeDelivery"
-                className="w-[16px] h-[16px] ml-[14px]"
-                // checked
-              />
-              <label
-                htmlFor="activeDelivery"
-                className="flex items-center justify-between w-full"
-              >
-                <span>Нова пошта</span>
-              </label>
-            </div>
-            <div className="pl-[32px] pr-[12px]">
-              <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
-                Оберіть поштове відділення{' '}
-                <span className="text-textError">*</span>
-              </p>
-              <DeliveryNova selectedCity={selectedCity}/>
-            </div>
-          </div>
-          <ul className="flex flex-col font-normal text-[16px] leading-[24px] gap-[8px]">
-            <li className=" flex items-center gap-[8px] h-[44px]">
               <input
                 type="radio"
                 name="delivery"
                 id="novaPoshta"
                 value="novaPoshta"
                 className="w-[16px] h-[16px] ml-[14px]"
+                checked={selectedDelivery === 'novaPoshta'}
+                onChange={handleDeliveryChange}
               />
-              <label htmlFor="novaPoshta">Нова пошта</label>
-            </li>
-            <li className="flex items-center gap-[8px] h-[44px]">
+              <label
+                htmlFor="novaPoshta"
+                className="flex items-center justify-between w-full"
+              >
+                <span>Нова пошта</span>
+              </label>
+            </div>
+            {selectedDelivery === 'novaPoshta' && (
+              <div className="pl-[32px] pr-[12px]">
+                <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
+                  Оберіть поштове відділення{' '}
+                  <span className="text-textError">*</span>
+                </p>
+                <DeliveryNova selectedCity={selectedCity} />
+              </div>
+            )}
+          </div>
+
+          {/* Самовивіз */}
+          <div
+            className={`flex flex-col gap-[8px] ${
+              selectedDelivery === 'pickup'
+                ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
+                : ''
+            } `}
+          >
+            <div className="flex items-center gap-[8px] h-[44px]">
               <input
                 type="radio"
                 name="delivery"
                 id="pickup"
                 value="pickup"
                 className="w-[16px] h-[16px] ml-[14px]"
+                checked={selectedDelivery === 'pickup'}
+                onChange={handleDeliveryChange}
               />
               <label
                 htmlFor="pickup"
@@ -272,37 +290,35 @@ const Сheckout = () => {
                   Безкоштовно
                 </span>
               </label>
-            </li>
-            <li className="flex items-center gap-[8px] h-[44px]">
-              <input
-                type="radio"
-                name="delivery"
-                id="ukrPoshta"
-                value="ukrPoshta"
-                className="w-[16px] h-[16px] ml-[14px]"
+            </div>
+            {selectedDelivery === 'pickup' && (
+              <DeliveryByPickup
+                addressForPickup={addressForPickup}
+                setAddressForPickup={setAddressForPickup}
               />
-              <label htmlFor="ukrPoshta">Укрпошта</label>
-            </li>
-            <li className="flex items-center gap-[8px] h-[44px]">
+            )}
+          </div>
+
+          {/* Кур'єр запчастюлькі */}
+          <div
+            className={`flex flex-col gap-[8px] ${
+              selectedDelivery === 'zapchaztiulkaCourier'
+                ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
+                : ''
+            } `}
+          >
+            <div className="flex items-center gap-[8px] h-[44px]">
               <input
                 type="radio"
                 name="delivery"
-                id="meestExperess"
-                value="meestExperess"
+                id="zapchaztiulkaCourier"
+                value="zapchaztiulkaCourier"
                 className="w-[16px] h-[16px] ml-[14px]"
-              />
-              <label htmlFor="meestExperess">Meest experess</label>
-            </li>
-            <li className="flex items-center gap-[8px] h-[44px]">
-              <input
-                type="radio"
-                name="delivery"
-                id="courierZapchastulka"
-                value="courierZapchastulka"
-                className="w-[16px] h-[16px] ml-[14px]"
+                checked={selectedDelivery === 'zapchaztiulkaCourier'}
+                onChange={handleDeliveryChange}
               />
               <label
-                htmlFor="courierZapchastulka"
+                htmlFor="zapchaztiulkaCourier"
                 className="flex items-center justify-between w-full"
               >
                 <span>Кур'єр Запчастюлька</span>
@@ -310,18 +326,37 @@ const Сheckout = () => {
                   Від 220 ₴
                 </span>
               </label>
-            </li>
-            <li className="flex items-center gap-[8px] h-[44px]">
+            </div>
+            {selectedDelivery === 'zapchaztiulkaCourier' && <DeliveryCourier />}
+          </div>
+
+          {/* Кур'єр Нової Пошти */}
+          <div
+            className={`flex flex-col gap-[8px] ${
+              selectedDelivery === 'novaPoshtaCourier'
+                ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
+                : ''
+            } `}
+          >
+            <div className="flex items-center gap-[8px] h-[44px]">
               <input
                 type="radio"
                 name="delivery"
-                id="courierNovaPoshta"
-                value="courierNovaPoshta"
+                id="novaPoshtaCourier"
+                value="novaPoshtaCourier"
                 className="w-[16px] h-[16px] ml-[14px]"
+                checked={selectedDelivery === 'novaPoshtaCourier'}
+                onChange={handleDeliveryChange}
               />
-              <label htmlFor="courierNovaPoshta">Кур'єр Нова Пошта</label>
-            </li>
-          </ul>
+              <label
+                htmlFor="novaPoshtaCourier"
+                className="flex items-center justify-between w-full"
+              >
+                <span>Кур'єр Нова Пошта</span>
+              </label>
+            </div>
+            {selectedDelivery === 'novaPoshtaCourier' && <DeliveryCourier />}
+          </div>
         </div>
         <div className="flex flex-col gap-[16px]">
           <label
