@@ -309,3 +309,6 @@ a {
   @apply bg-bgBrandLight3 text-textContrast
 }
 
+.checkout-contacts-input {
+  @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet768:w-[343px] tablet1024:w-[316px] desktop1200:w-[343px];
+}

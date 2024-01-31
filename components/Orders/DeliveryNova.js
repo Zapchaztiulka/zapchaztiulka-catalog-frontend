@@ -57,7 +57,7 @@ const DeliveryNova = ({ selectedCity }) => {
     <div>
       <div
         ref={refInput}
-        className="relative min-w-[347px] border border-borderDefault rounded p-xs flex items-center justify-between"
+        className="relative tablet600:w-[400px] tablet768:w-[600px] border border-borderDefault rounded p-xs flex items-center justify-between gap-2 search hover:bg-bgHoverGrey focus:bg-bgHoverGrey"
       >
         {!isOpen && (
           <div
@@ -78,7 +78,7 @@ const DeliveryNova = ({ selectedCity }) => {
               type="text"
               value={warehouses}
               onChange={handleInputChangeWarehouses}
-              className="w-full focus:outline-none"
+              className="w-[600px] focus:outline-none focus-within:bg-bgHoverGrey"
             />
             {warehouses !== '' && (
               <button type="button" onClick={close}>
@@ -90,22 +90,24 @@ const DeliveryNova = ({ selectedCity }) => {
               </button>
             )}
 
-            {filteredWarehouses && selectedCity !== '' && filteredWarehouses.length!==0 && (
-              <ul
-                ref={refList}
-                className="absolute left-0 top-[50px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
-              >
-                {filteredWarehouses?.map((item, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleSelection(item)}
-                    className="relative cursor-pointer select-none p-2 hover:text-textBrand"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
+            {filteredWarehouses &&
+              selectedCity !== '' &&
+              filteredWarehouses.length !== 0 && (
+                <ul
+                  ref={refList}
+                  className="absolute left-0 top-[50px] tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
+                >
+                  {filteredWarehouses?.map((item, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSelection(item)}
+                      className="relative cursor-pointer select-none p-2 hover:text-textBrand"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
           </>
         )}
       </div>
