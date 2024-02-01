@@ -40,6 +40,9 @@ const checkoutSlise = createSlice({
         case 'email':
           state.email = action.payload.value;
           break;
+        case 'phone':
+          state.phone = action.payload.value;
+          break;
       }
     },
 

@@ -1,15 +1,24 @@
-import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import { displayError, formatPhoneNumber } from '@/helpers/formatPhoneNumber';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCheckout } from '../../../redux/checkout/checkoutSelector';
 import { changeValueCheckout } from '../../../redux/checkout/checkoutSlise';
 
 const Individual = () => {
-  const { email, phone, username, userSurname, userMiddleName, userType } =
+  const { email, phone, username, userSurname, userMiddleName } =
     useSelector(selectCheckout);
   const dispatch = useDispatch();
 
   const changeValue = async (event, type) => {
+    if (type === 'phone') {
+      let newValue = formatPhoneNumber(event.target.value);
+      if (newValue[0] !== '0') {
+        newValue = event.target.value.slice(0, 0);
+        displayError('Номер телефону має починатись з "0"');
+      } else displayError('');
+      dispatch(changeValueCheckout({ value: newValue, type: type }));
+      return;
+    }
     dispatch(changeValueCheckout({ value: event.target.value, type: type }));
   };
 
@@ -87,13 +96,14 @@ const Individual = () => {
             className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
             name="phone"
             type="tel"
+            value={phone}
             id="phone"
             maxLength="13"
             pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
             title="096 123 45 67"
             autoComplete="off"
             required
-            onChange={replacePhoneNumber}
+            onChange={event => changeValue(event, 'phone')}
           />
           <span id="errorMessage" className="text-textWarning"></span>
         </label>
