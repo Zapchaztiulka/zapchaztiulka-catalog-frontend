@@ -9,8 +9,13 @@ import DeliveryByPickup from '@/components/Orders/DeliveryByPickup';
 import TotalOrder from '@/components/Orders/TotalOrder';
 import Legal from '@/components/Orders/EntityType/Legal';
 import Individual from '@/components/Orders/EntityType/Individual';
+import { useSelector } from 'react-redux';
+import { selectCart } from '@/redux/cart/cartSelector';
 
 const Сheckout = () => {
+
+    const orderInfoTotal=useSelector(selectCart);
+  console.log(orderInfoTotal)
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
@@ -30,6 +35,7 @@ const Сheckout = () => {
 
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedDelivery, setSelectedDelivery] = useState(null);
+  console.log(selectedDelivery);
 
   const handleDeliveryChange = event => {
     setSelectedDelivery(event.target.value);
@@ -110,9 +116,12 @@ const Сheckout = () => {
             </div>
           </div>
 
-          <div className="hidden tablet1024:block tablet1024:w-[300px] tablet1024:p-xs desktop1200:w-[470px] desktop1200:p-m desktop1920:w-[588px] desktop1920:p-m2">
+          <div className="hidden tablet1024:block tablet1024:w-[300px] desktop1200:w-[470px]  desktop1920:w-[588px] ">
             {/* Підсумок замовлення */}
-            <TotalOrder />
+            <TotalOrder
+              orderInfoTotal={orderInfoTotal}
+              selectedDelivery={selectedDelivery}
+            />
           </div>
         </div>
 
@@ -281,9 +290,12 @@ const Сheckout = () => {
             />
           </div>
 
-          <div className=" tablet1024:hidden">
+          <div className=" tablet1024:hidden mt-6">
             {/* Підсумок замовлення */}
-            <TotalOrder />
+            <TotalOrder
+              orderInfoTotal={orderInfoTotal}
+              selectedDelivery={selectedDelivery}
+            />
           </div>
         </>
       </div>

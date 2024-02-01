@@ -14,7 +14,7 @@ export const fetchSettlements = createAsyncThunk(
         calledMethod: 'searchSettlements',
         methodProperties: {
           CityName: cityName,
-          Limit: '50',
+          Limit: '150',
           Page: '1',
         },
       });
@@ -27,16 +27,16 @@ export const fetchSettlements = createAsyncThunk(
 
 export const fetchWarehouses = createAsyncThunk(
   'departments/getWarehouses',
-  async сityRef => {
+  async ({ CityRef, FindByString }) => {
     try {
       const { data } = await axios.post(apiUrl, {
         apiKey: apiKey,
         modelName: 'Address',
         calledMethod: 'getWarehouses',
-        methodProperties: {
-          CityRef: сityRef,
-          Limit: '50',
-          Page: '1',
+       methodProperties: {
+          CityRef: CityRef,         
+          Page: 1,
+          FindByString: FindByString,
         },
       });
       return data;
@@ -45,3 +45,4 @@ export const fetchWarehouses = createAsyncThunk(
     }
   }
 );
+

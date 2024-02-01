@@ -4,7 +4,6 @@ import { fetchSettlements, fetchWarehouses } from './novaPoshtaOperations';
 const initialState = {
   warehousesNP: [],
   settlements: [],
-  page: 1,
   isLoading: false,
   error: null,
   totalCount: 0,
@@ -13,11 +12,6 @@ const initialState = {
 const departmentsSlice = createSlice({
   name: 'departments',
   initialState: initialState,
-  reducers: {
-    setPageNumber: (state, action) => {
-      state.page = action.payload;
-    }
-  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSettlements.pending, (state) => {
@@ -35,12 +29,9 @@ const departmentsSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(fetchWarehouses.fulfilled, (state, action) => {
-        console.log(action.payload)
        state.warehousesNP = action.payload;
     })
   },
 });
-
-export const { setPageNumber } = departmentsSlice.actions;
 
 export const departmentsReducer = departmentsSlice.reducer;

@@ -1,6 +1,8 @@
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 import Modal from '../Modal';
 import { MailIcon } from 'universal-components-frontend/src/components/icons';
+import { useDispatch } from 'react-redux';
+import { fetchUserRequest } from '@/redux/orders/ordersOperations';
 
 const ModalPreOrder = ({
   onClose,
@@ -9,12 +11,24 @@ const ModalPreOrder = ({
   setShowModalOrderSuccessful,
   showModalOrderSuccessful,
 }) => {
+  const dispatch = useDispatch();
   const handleSubmitPreOrder = async event => {
     event.preventDefault();
     const phone = event.target.elements.phone.value;
-    
+    const message = `Зробити предзамовлення товару ${preOrderId}`;
+    const requestBody = {
+      phone: phone.replace(/[ ]/g, ''),
+      type: "preorder",
+      productId: preOrderId,
+      userMessageDetails: message
+    };
+     try {
+      dispatch(fetchUserRequest(requestBody));
     setShowModalPreOrder(false);
     setShowModalOrderSuccessful(!showModalOrderSuccessful);
+    } catch (error) {
+      console.error('Error submitting order:', error);
+    }
   };
 
   return (
