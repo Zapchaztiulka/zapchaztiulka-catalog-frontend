@@ -1,6 +1,8 @@
 import Dropdown from '@/components/Dropdown';
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectCheckout } from '../../../redux/checkout/checkoutSelector';
 
 const Legal = ({
   isLegalPerson,
@@ -10,6 +12,18 @@ const Legal = ({
   isCityOfRegister,
   setIsCityOfRegister,
 }) => {
+  const {
+    userType,
+    legalEntityData,
+    // {
+    // companyName: '',
+    // companyCode: '',
+    // companyRegion: 'Оберіть значення...',
+    // companyCity: 'Оберіть значення...',
+    // companyAddress: '',
+    // },
+  } = useSelector(selectCheckout);
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col tablet768:flex-row gap-3">

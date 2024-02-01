@@ -10,7 +10,35 @@ import TotalOrder from '@/components/Orders/TotalOrder';
 import Legal from '@/components/Orders/EntityType/Legal';
 import Individual from '@/components/Orders/EntityType/Individual';
 
+import { useSelector } from 'react-redux';
+import { selectCheckout } from '../redux/checkout/checkoutSelector';
+
 const Сheckout = () => {
+  const {
+    email,
+    phone,
+    username,
+    userSurname,
+    userMiddleName,
+    userType,
+    legalEntityData,
+    // {
+    // companyName: '',
+    // companyCode: '',
+    // companyRegion: 'Оберіть значення...',
+    // companyCity: 'Оберіть значення...',
+    // companyAddress: '',
+    // },
+    deliveryMethodId,
+    deliveryRegion,
+    deliveryDistrict,
+    deliveryOffice,
+    deliveryCity,
+    deliveryAddress,
+    deliveryRate,
+    userComment,
+  } = useSelector(selectCheckout);
+
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');

@@ -1,14 +1,33 @@
 import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
-import React from 'react'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCheckout } from '../../../redux/checkout/checkoutSelector';
+import { changeValueCheckout } from '../../../redux/checkout/checkoutSlise';
 
 const Individual = () => {
+  const { email, phone, username, userSurname, userMiddleName, userType } =
+    useSelector(selectCheckout);
+  const dispatch = useDispatch();
+
+  const replaceName = async (event, type) => {
+    const newValue = event.target.value;
+    dispatch(changeValueCheckout({ value: newValue, type: type }));
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col tablet768:flex-row gap-3">
         <div className="checkout-contacts-input">
           <label>
             Ім'я <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
+            <input
+              className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              type="text"
+              value={username}
+              onChange={event => replaceName(event, 'username')}
+              pattern="^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ0-9]+$"
+              required
+            />
           </label>
         </div>
         <div className="checkout-contacts-input">
@@ -30,7 +49,12 @@ const Individual = () => {
         <div className="checkout-contacts-input">
           <label>
             E-mail <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
+            <input
+              className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              type="email"
+              pattern="^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"
+              required
+            />
           </label>
         </div>
       </div>
@@ -43,7 +67,6 @@ const Individual = () => {
           </span>
           <input
             className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
-            name="phone"
             type="tel"
             id="phone"
             maxLength="13"
@@ -58,6 +81,6 @@ const Individual = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Individual
+export default Individual;

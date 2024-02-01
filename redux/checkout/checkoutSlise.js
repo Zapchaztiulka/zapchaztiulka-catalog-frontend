@@ -26,8 +26,12 @@ const checkoutSlise = createSlice({
     userComment: '',
   },
   reducers: {
-    //     addToCheckout(state) {
-    //     },
+    changeValueCheckout(state, action) {
+      if (action.payload.type === 'username') {
+        console.log('action.payload.value =', action.payload.value);
+        state.username = action.payload.value;
+      }
+    },
 
     //     getCheckout(state) {
     //     },
@@ -61,7 +65,7 @@ const checkoutSlise = createSlice({
 });
 
 export const {
-  //   addToCheckout,
+  changeValueCheckout,
   //   getCheckout,
   clearThecheckout,
 } = checkoutSlise.actions;
