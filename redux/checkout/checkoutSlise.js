@@ -34,6 +34,9 @@ const checkoutSlise = createSlice({
         case 'userSurname':
           state.userSurname = action.payload.value;
           break;
+        case 'userMiddleName':
+          state.userMiddleName = action.payload.value;
+          break;
       }
     },
 

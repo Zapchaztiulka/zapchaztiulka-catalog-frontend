@@ -49,8 +49,15 @@ const Individual = () => {
       <div className="flex flex-col tablet768:flex-row gap-3">
         <div className="checkout-contacts-input">
           <label>
-            По батькові <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
+            По батькові
+            <input
+              className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              name="userSurname"
+              type="text"
+              value={userMiddleName}
+              onChange={event => changeValue(event, 'userMiddleName')}
+              pattern="^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ0-9]+$"
+            />
           </label>
         </div>
 
