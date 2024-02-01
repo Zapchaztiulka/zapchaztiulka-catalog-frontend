@@ -10,25 +10,13 @@ import TotalOrder from '@/components/Orders/TotalOrder';
 import Legal from '@/components/Orders/EntityType/Legal';
 import Individual from '@/components/Orders/EntityType/Individual';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCheckout } from '../redux/checkout/checkoutSelector';
+import { changeValueCheckout } from '../redux/checkout/checkoutSlise';
 
 const Сheckout = () => {
   const {
-    email,
-    phone,
-    username,
-    userSurname,
-    userMiddleName,
     userType,
-    legalEntityData,
-    // {
-    // companyName: '',
-    // companyCode: '',
-    // companyRegion: 'Оберіть значення...',
-    // companyCity: 'Оберіть значення...',
-    // companyAddress: '',
-    // },
     deliveryMethodId,
     deliveryRegion,
     deliveryDistrict,
@@ -38,6 +26,11 @@ const Сheckout = () => {
     deliveryRate,
     userComment,
   } = useSelector(selectCheckout);
+  const dispatch = useDispatch();
+
+  const changeValue = async (event, type) => {
+    dispatch(changeValueCheckout({ value: event.target.value, type: type }));
+  };
 
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
@@ -46,9 +39,6 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
   const [isCityOfRegister, setIsCityOfRegister] = useState(
-    'Оберіть значення...'
-  );
-  const [isCityOfDelivery, setIsCityOfDelivery] = useState(
     'Оберіть значення...'
   );
 
@@ -302,7 +292,10 @@ const Сheckout = () => {
             </label>
             <textarea
               id="comment"
-              name="comment"
+              name="userComment"
+              value={userComment}
+              pattern="^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ0-9]+$"
+              onChange={event => changeValue(event, 'userComment')}
               rows="5"
               cols="33"
               className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px]"

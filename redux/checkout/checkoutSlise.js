@@ -43,6 +43,10 @@ const checkoutSlise = createSlice({
         case 'phone':
           state.phone = action.payload.value;
           break;
+
+        case 'userComment':
+          state.userComment = action.payload.value;
+          break;
       }
     },
 
