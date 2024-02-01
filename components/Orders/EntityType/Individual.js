@@ -9,9 +9,8 @@ const Individual = () => {
     useSelector(selectCheckout);
   const dispatch = useDispatch();
 
-  const replaceName = async (event, type) => {
-    const newValue = event.target.value;
-    dispatch(changeValueCheckout({ value: newValue, type: type }));
+  const changeValue = async (event, type) => {
+    dispatch(changeValueCheckout({ value: event.target.value, type: type }));
   };
 
   return (
@@ -22,9 +21,10 @@ const Individual = () => {
             Ім'я <span className="text-textError">*</span>
             <input
               className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              name="username"
               type="text"
               value={username}
-              onChange={event => replaceName(event, 'username')}
+              onChange={event => changeValue(event, 'username')}
               pattern="^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ0-9]+$"
               required
             />
@@ -33,7 +33,15 @@ const Individual = () => {
         <div className="checkout-contacts-input">
           <label>
             Прізвище <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
+            <input
+              className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              name="userSurname"
+              type="text"
+              value={userSurname}
+              onChange={event => changeValue(event, 'userSurname')}
+              pattern="^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ0-9]+$"
+              required
+            />
           </label>
         </div>
       </div>
@@ -51,6 +59,7 @@ const Individual = () => {
             E-mail <span className="text-textError">*</span>
             <input
               className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+              name="email"
               type="email"
               pattern="^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"
               required
@@ -67,6 +76,7 @@ const Individual = () => {
           </span>
           <input
             className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
+            name="phone"
             type="tel"
             id="phone"
             maxLength="13"

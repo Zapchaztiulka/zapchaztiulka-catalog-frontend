@@ -27,14 +27,15 @@ const checkoutSlise = createSlice({
   },
   reducers: {
     changeValueCheckout(state, action) {
-      if (action.payload.type === 'username') {
-        console.log('action.payload.value =', action.payload.value);
-        state.username = action.payload.value;
+      switch (action.payload.type) {
+        case 'username':
+          state.username = action.payload.value;
+          break;
+        case 'userSurname':
+          state.userSurname = action.payload.value;
+          break;
       }
     },
-
-    //     getCheckout(state) {
-    //     },
 
     clearThecheckout(state) {
       return {
@@ -64,10 +65,6 @@ const checkoutSlise = createSlice({
   },
 });
 
-export const {
-  changeValueCheckout,
-  //   getCheckout,
-  clearThecheckout,
-} = checkoutSlise.actions;
+export const { changeValueCheckout, clearThecheckout } = checkoutSlise.actions;
 
 export const checkoutReducer = checkoutSlise.reducer;
