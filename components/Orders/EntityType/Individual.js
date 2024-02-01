@@ -52,7 +52,7 @@ const Individual = () => {
             По батькові
             <input
               className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
-              name="userSurname"
+              name="userMiddleName"
               type="text"
               value={userMiddleName}
               onChange={event => changeValue(event, 'userMiddleName')}
@@ -68,6 +68,8 @@ const Individual = () => {
               className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
               name="email"
               type="email"
+              value={email}
+              onChange={event => changeValue(event, 'email')}
               pattern="^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"
               required
             />
