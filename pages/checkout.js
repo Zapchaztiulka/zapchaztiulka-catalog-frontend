@@ -5,17 +5,30 @@ import { StatusContext } from '@/context/statusContext';
 import Settlelement from '@/components/Orders/Settlelement';
 import DeliveryNova from '@/components/Orders/DeliveryNova';
 import DeliveryCourier from '@/components/Orders/DeliveryCourier';
-import DeliveryByPickup from '@/components/Orders/DeliveryByPickup';
+import DeliveryBySelf from '@/components/Orders/DeliveryBySelf';
 import TotalOrder from '@/components/Orders/TotalOrder';
 import Legal from '@/components/Orders/EntityType/Legal';
 import Individual from '@/components/Orders/EntityType/Individual';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCart } from '@/redux/cart/cartSelector';
+import { fetchOrders } from '@/redux/orders/ordersOperations';
+import { addToCheckout, clearCheckout } from '@/redux/checkout/checkoutSlice';
+import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 
 const Сheckout = () => {
+  const orderInfoTotal = useSelector(selectCart);
+  const dispatch = useDispatch();
+  console.log(orderInfoTotal);
+  const orderInfoData = orderInfoTotal?.data;
+  const userData = useSelector(selectCheckout);
+  console.log(userData);
 
-    const orderInfoTotal=useSelector(selectCart);
-  console.log(orderInfoTotal)
+  const productsInfo = {
+    products: orderInfoData?.map(item => ({
+      productId: item.id,
+      quantity: item.quantity,
+    })),
+  };
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
@@ -29,17 +42,9 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
 
-  const [addressForPickup, setAddressForPickup] = useState(
-    'Оберіть значення...'
-  );
-
+  const [addressForself, setAddressForself] = useState('Оберіть значення...');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedDelivery, setSelectedDelivery] = useState(null);
-  console.log(selectedDelivery);
-
-  const handleDeliveryChange = event => {
-    setSelectedDelivery(event.target.value);
-  };
 
   useEffect(() => {
     if (isClientStatus) {
@@ -53,6 +58,39 @@ const Сheckout = () => {
 
   const handleCitySelection = city => {
     setSelectedCity(city);
+  };
+
+  const handleInputChange = (field, value) => {
+    dispatch(addToCheckout({ field, value }));
+  };
+
+  const handleDeliveryChange = event => {
+     const selectedDeliveryValue = event.target.value;
+    setSelectedDelivery(selectedDeliveryValue);
+    dispatch(addToCheckout({ field: 'deliveryMethodId', value: selectedDeliveryValue }));
+  };
+
+  console.log(selectedDelivery);
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    const requestBody = {
+      products: productsInfo,
+      userType: 'individual',
+      phone: userData.phone.toString().replace(/[ ]/g, ''),
+      username: userData.username,
+      userSurname: userData.userSurname,
+      userMiddleName: userData.userMiddleName,
+      email: userData.email,
+      deliveryMethodId: userData.deliveryMethodId,
+    };
+
+    try {
+      dispatch(fetchOrders(requestBody));
+      dispatch(clearCheckout());
+    } catch (error) {
+      console.error('Error submitting order:', error);
+    }
   };
 
   return (
@@ -70,7 +108,7 @@ const Сheckout = () => {
         Оформлення замовлення
       </h1>
 
-      <div className="flex flex-col">
+      <form className="flex flex-col" onSubmit={handleSubmit}>
         <div className="flex justify-between">
           <div className="flex flex-col tablet1024:w-[644px] desktop1200:w-[698px]">
             <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
@@ -109,9 +147,33 @@ const Сheckout = () => {
                   setIsStateOfRegister={setIsStateOfRegister}
                   isCityOfRegister={isCityOfRegister}
                   setIsCityOfRegister={setIsCityOfRegister}
+                  orderInfoTotal={orderInfoTotal}
                 />
               ) : (
-                <Individual />
+                <>
+                  <Individual orderInfoTotal={orderInfoTotal} />
+                  {/* <div className="checkout-contacts-input">
+        <label className="relative">
+          Номер телефону <span className="text-textError">*</span>
+          <span className="absolute grid items-center z-10 top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
+            +38
+          </span>
+          <input
+            className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
+            name="phone"
+            type="tel"
+            id="phone"
+            maxLength="13"
+            pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+            title="096 123 45 67"
+            autoComplete="off"
+            required
+            onChange={replacePhoneNumber}
+          />
+          <span id="errorMessage" className="text-textWarning"></span>
+        </label>
+                    </div> */}
+                </>
               )}
             </div>
           </div>
@@ -142,7 +204,7 @@ const Сheckout = () => {
             {/* Нова пошта відділення */}
             <div
               className={`flex flex-col gap-[8px] ${
-                selectedDelivery === 'novaPoshta'
+                selectedDelivery === 'np'
                   ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
                   : ''
               } `}
@@ -151,20 +213,20 @@ const Сheckout = () => {
                 <input
                   type="radio"
                   name="delivery"
-                  id="novaPoshta"
-                  value="novaPoshta"
+                  id="np"
+                  value="np"
                   className="w-[16px] h-[16px] ml-[14px]"
-                  checked={selectedDelivery === 'novaPoshta'}
+                  checked={selectedDelivery === 'np'}
                   onChange={handleDeliveryChange}
                 />
                 <label
-                  htmlFor="novaPoshta"
+                  htmlFor="np"
                   className="flex items-center justify-between w-full"
                 >
                   <span>Нова пошта</span>
                 </label>
               </div>
-              {selectedDelivery === 'novaPoshta' && (
+              {selectedDelivery === 'np' && (
                 <div className="pl-[32px] pr-[12px]">
                   <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
                     Оберіть поштове відділення{' '}
@@ -178,7 +240,7 @@ const Сheckout = () => {
             {/* Самовивіз */}
             <div
               className={`flex flex-col gap-[8px] ${
-                selectedDelivery === 'pickup'
+                selectedDelivery === 'self'
                   ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
                   : ''
               } `}
@@ -187,14 +249,14 @@ const Сheckout = () => {
                 <input
                   type="radio"
                   name="delivery"
-                  id="pickup"
-                  value="pickup"
+                  id="self"
+                  value="self"
                   className="w-[16px] h-[16px] ml-[14px]"
-                  checked={selectedDelivery === 'pickup'}
+                  checked={selectedDelivery === 'self'}
                   onChange={handleDeliveryChange}
                 />
                 <label
-                  htmlFor="pickup"
+                  htmlFor="self"
                   className="flex items-center justify-between w-full"
                 >
                   <span>Самовивіз</span>
@@ -203,10 +265,10 @@ const Сheckout = () => {
                   </span>
                 </label>
               </div>
-              {selectedDelivery === 'pickup' && (
-                <DeliveryByPickup
-                  addressForPickup={addressForPickup}
-                  setAddressForPickup={setAddressForPickup}
+              {selectedDelivery === 'self' && (
+                <DeliveryBySelf
+                  addressForself={addressForself}
+                  setAddressForself={setAddressForself}
                 />
               )}
             </div>
@@ -214,7 +276,7 @@ const Сheckout = () => {
             {/* Кур'єр запчастюлькі */}
             <div
               className={`flex flex-col gap-[8px] ${
-                selectedDelivery === 'zapchaztiulkaCourier'
+                selectedDelivery === 'courier'
                   ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
                   : ''
               } `}
@@ -223,14 +285,14 @@ const Сheckout = () => {
                 <input
                   type="radio"
                   name="delivery"
-                  id="zapchaztiulkaCourier"
-                  value="zapchaztiulkaCourier"
+                  id="courier"
+                  value="courier"
                   className="w-[16px] h-[16px] ml-[14px]"
-                  checked={selectedDelivery === 'zapchaztiulkaCourier'}
+                  checked={selectedDelivery === 'courier'}
                   onChange={handleDeliveryChange}
                 />
                 <label
-                  htmlFor="zapchaztiulkaCourier"
+                  htmlFor="courier"
                   className="flex items-center justify-between w-full"
                 >
                   <span>Кур'єр Запчастюлька</span>
@@ -239,15 +301,13 @@ const Сheckout = () => {
                   </span>
                 </label>
               </div>
-              {selectedDelivery === 'zapchaztiulkaCourier' && (
-                <DeliveryCourier />
-              )}
+              {selectedDelivery === 'courier' && <DeliveryCourier />}
             </div>
 
             {/* Кур'єр Нової Пошти */}
             <div
               className={`flex flex-col gap-[8px] ${
-                selectedDelivery === 'novaPoshtaCourier'
+                selectedDelivery === 'np_courier'
                   ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
                   : ''
               } `}
@@ -256,20 +316,20 @@ const Сheckout = () => {
                 <input
                   type="radio"
                   name="delivery"
-                  id="novaPoshtaCourier"
-                  value="novaPoshtaCourier"
+                  id="np_courier"
+                  value="np_courier"
                   className="w-[16px] h-[16px] ml-[14px]"
-                  checked={selectedDelivery === 'novaPoshtaCourier'}
+                  checked={selectedDelivery === 'np_courier'}
                   onChange={handleDeliveryChange}
                 />
                 <label
-                  htmlFor="novaPoshtaCourier"
+                  htmlFor="np_courier"
                   className="flex items-center justify-between w-full"
                 >
                   <span>Кур'єр Нова Пошта</span>
                 </label>
               </div>
-              {selectedDelivery === 'novaPoshtaCourier' && <DeliveryCourier />}
+              {selectedDelivery === 'np_courier' && <DeliveryCourier />}
             </div>
           </div>
 
@@ -297,8 +357,16 @@ const Сheckout = () => {
               selectedDelivery={selectedDelivery}
             />
           </div>
+
+          <button
+            type="submit"
+            className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
+                font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
+          >
+            Оформити замовлення
+          </button>
         </>
-      </div>
+      </form>
     </div>
   );
 };

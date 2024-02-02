@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const checkoutSlise = createSlice({
+const checkoutSlice = createSlice({
   name: 'checkout',
   initialState: {
     email: '',
@@ -16,7 +16,7 @@ const checkoutSlise = createSlice({
       companyCity: 'Оберіть значення...',
       companyAddress: '',
     },
-    deliveryMethodId: 'np',
+    deliveryMethodId: '',
     deliveryRegion: '',
     deliveryDistrict: '',
     deliveryOffice: 'Оберіть значення...',
@@ -26,13 +26,16 @@ const checkoutSlise = createSlice({
     userComment: '',
   },
   reducers: {
-    //     addToCheckout(state) {
-    //     },
-
+    addToCheckout(state, action) {
+      const { field, value } = action.payload;
+      return {
+        ...state,
+        [field]: value,
+      }
+    },
     //     getCheckout(state) {
     //     },
-
-    clearThecheckout(state) {
+    clearCheckout(state) {
       return {
         email: '',
         phone: '',
@@ -47,7 +50,7 @@ const checkoutSlise = createSlice({
           companyCity: 'Оберіть значення...',
           companyAddress: '',
         },
-        deliveryMethodId: 'np',
+        deliveryMethodId: '',
         deliveryRegion: '',
         deliveryDistrict: '',
         deliveryOffice: 'Оберіть значення...',
@@ -61,9 +64,8 @@ const checkoutSlise = createSlice({
 });
 
 export const {
-  //   addToCheckout,
-  //   getCheckout,
-  clearThecheckout,
-} = checkoutSlise.actions;
+    addToCheckout,
+  clearCheckout,
+} = checkoutSlice.actions;
 
-export const checkoutReducer = checkoutSlise.reducer;
+export const checkoutReducer = checkoutSlice.reducer;
