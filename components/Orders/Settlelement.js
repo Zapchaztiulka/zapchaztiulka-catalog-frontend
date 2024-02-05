@@ -1,14 +1,16 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
+import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import { fetchSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 import { selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
-const Settlelement = ({ onSelectCity }) => {
+const Settlelement = ({ onSelectCity, onCityChange, onSelectCityRef }) => {
   const dispatch = useDispatch();
-  const [locality, setLocality] = useState('');
-   const [isLocalityInputFocused, setIsLocalityInputFocused] = useState(false);
+  const checkoutData = useSelector(selectCheckout);
+  const [locality, setLocality] = useState(checkoutData?.deliveryCity || '');
+  const [isLocalityInputFocused, setIsLocalityInputFocused] = useState(false);
   const settlements = useSelector(selectSettlements);
 
   const localityPlaceInfo = settlements?.data?.flatMap(
@@ -24,29 +26,35 @@ const Settlelement = ({ onSelectCity }) => {
 
   const handleInputChangeLocality = event => {
     const searchLocality = event.target.value;
-     setLocality(searchLocality);
+    setLocality(searchLocality);
     refList.current && (refList.current.style.display = 'block');
-
-
   };
 
-    const handleSelection = selectedItem => {
+  const handleSelection = selectedItem => {
     setLocality(selectedItem.Present);
+    onCityChange(selectedItem.Present);
     onSelectCity(selectedItem.DeliveryCity);
-   refList.current.style.display = 'none';
+    onSelectCityRef(selectedItem.Ref);
+    refList.current.style.display = 'none';
   };
 
-   const removeSearchLocality = () => {
-      setLocality('');
-      onSelectCity('')
+  const removeSearchLocality = () => {
+    setLocality('');
+    onSelectCity('');
   };
 
-    const closeByClickOutside = () => {
+  const closeByClickOutside = () => {
     refList.current && (refList.current.style.display = 'none');
-    }
-   
-    useOutsideClick(refList, refInput, closeByClickOutside);
+  };
 
+  useOutsideClick(refList, refInput, closeByClickOutside);
+
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Заборонити дію клавіші Enter
+      // Додатковий код, який ви хочете виконати при натисканні Enter    в інпут додати     onKeyPress={handleKeyPress}
+    }
+  };
 
   return (
     <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
@@ -55,10 +63,11 @@ const Settlelement = ({ onSelectCity }) => {
           ref={refInput}
           type="text"
           value={locality}
+          required
           onChange={handleInputChangeLocality}
-           onFocus={() => setIsLocalityInputFocused(true)}
-              onBlur={() => setIsLocalityInputFocused(false)}
-              placeholder={isLocalityInputFocused ? '' : 'Введіть місто..'}
+          onFocus={() => setIsLocalityInputFocused(true)}
+          onBlur={() => setIsLocalityInputFocused(false)}
+          placeholder={isLocalityInputFocused ? '' : 'Введіть місто..'}
           className="flex-grow search-input w-full placeholder:text-textInputDefault text-textPrimary"
         />
         {locality !== '' && (

@@ -24,6 +24,8 @@ const checkoutSlice = createSlice({
     deliveryAddress: '',
     deliveryRate: '',
     userComment: '',
+    selectedCity: '',
+    cityRef:''
   },
   reducers: {
     addToCheckout(state, action) {
@@ -33,8 +35,6 @@ const checkoutSlice = createSlice({
         [field]: value,
       }
     },
-    //     getCheckout(state) {
-    //     },
     clearCheckout(state) {
       return {
         email: '',
@@ -58,6 +58,8 @@ const checkoutSlice = createSlice({
         deliveryAddress: '',
         deliveryRate: '',
         userComment: '',
+        selectedCity: '',
+        cityRef:''
       };
     },
   },

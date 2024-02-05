@@ -46,3 +46,23 @@ export const fetchWarehouses = createAsyncThunk(
   }
 );
 
+export const fetchStreets = createAsyncThunk(
+  'departments/getStreets',
+  async ({ SettlementRef, StreetName }) => {
+    try {
+      const { data } = await axios.post(apiUrl, {
+        apiKey: apiKey,
+        modelName: 'Address',
+        calledMethod: 'searchSettlementStreets',
+        methodProperties: {
+          SettlementRef: SettlementRef,         
+          StreetName: StreetName,
+        },
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+

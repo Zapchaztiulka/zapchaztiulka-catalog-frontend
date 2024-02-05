@@ -14,6 +14,7 @@ import { selectCart } from '@/redux/cart/cartSelector';
 import { fetchOrders } from '@/redux/orders/ordersOperations';
 import { addToCheckout, clearCheckout } from '@/redux/checkout/checkoutSlice';
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
+import CommentOrder from '@/components/Orders/CommentOrder';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
@@ -23,12 +24,11 @@ const Сheckout = () => {
   const userData = useSelector(selectCheckout);
   console.log(userData);
 
-  const productsInfo = {
-    products: orderInfoData?.map(item => ({
-      productId: item.id,
-      quantity: item.quantity,
-    })),
-  };
+  const productsInfo = orderInfoData?.map(item => ({
+    productId: item.id,
+    quantity: item.quantity,
+  }));
+
   const { setShowModalCart } = useContext(StatusContext);
   const [isClientStatus, setIsClientStatus] = useState(false);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
@@ -44,7 +44,7 @@ const Сheckout = () => {
 
   const [addressForself, setAddressForself] = useState('Оберіть значення...');
   const [selectedCity, setSelectedCity] = useState('');
-  const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const [selectedDelivery, setSelectedDelivery] = useState('');
 
   useEffect(() => {
     if (isClientStatus) {
@@ -56,21 +56,37 @@ const Сheckout = () => {
     }
   }, [isClientStatus]);
 
-  const handleCitySelection = city => {
-    setSelectedCity(city);
+  const handleCitySelection = cityDeliverRef => {
+    setSelectedCity(cityDeliverRef);
+    dispatch(addToCheckout({ field: 'selectedCity', value: cityDeliverRef }));
   };
 
-  const handleInputChange = (field, value) => {
-    dispatch(addToCheckout({ field, value }));
+    const handleStreetSelection = cityRef => {
+    dispatch(addToCheckout({ field: 'cityRef', value: cityRef }));
+  };
+
+  const handleCityChange = newCity => {
+    dispatch(addToCheckout({ field: 'deliveryCity', value: newCity }));
+  };
+
+  const handleWarehouseChange = warehouse => {
+     dispatch(addToCheckout({ field: 'deliveryOffice', value: warehouse })) 
   };
 
   const handleDeliveryChange = event => {
-     const selectedDeliveryValue = event.target.value;
+    const selectedDeliveryValue = event.target.value;
     setSelectedDelivery(selectedDeliveryValue);
-    dispatch(addToCheckout({ field: 'deliveryMethodId', value: selectedDeliveryValue }));
+    dispatch(
+      addToCheckout({ field: 'deliveryMethodId', value: selectedDeliveryValue })
+    );
+        dispatch(
+      addToCheckout({ field: 'deliveryOffice', value: '' })
+    );
   };
 
-  console.log(selectedDelivery);
+  useEffect(() => {
+    setSelectedDelivery(userData.deliveryMethodId || null);
+  }, [userData.deliveryMethodId]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -83,6 +99,8 @@ const Сheckout = () => {
       userMiddleName: userData.userMiddleName,
       email: userData.email,
       deliveryMethodId: userData.deliveryMethodId,
+      deliveryOffice: userData.deliveryOffice,
+      userComment: userData.userComment,
     };
 
     try {
@@ -152,27 +170,6 @@ const Сheckout = () => {
               ) : (
                 <>
                   <Individual orderInfoTotal={orderInfoTotal} />
-                  {/* <div className="checkout-contacts-input">
-        <label className="relative">
-          Номер телефону <span className="text-textError">*</span>
-          <span className="absolute grid items-center z-10 top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
-            +38
-          </span>
-          <input
-            className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
-            name="phone"
-            type="tel"
-            id="phone"
-            maxLength="13"
-            pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
-            title="096 123 45 67"
-            autoComplete="off"
-            required
-            onChange={replacePhoneNumber}
-          />
-          <span id="errorMessage" className="text-textWarning"></span>
-        </label>
-                    </div> */}
                 </>
               )}
             </div>
@@ -198,7 +195,11 @@ const Сheckout = () => {
                 Оберіть місто доставки <span className="text-textError">*</span>
               </p>
 
-              <Settlelement onSelectCity={handleCitySelection} />
+              <Settlelement
+                onSelectCity={handleCitySelection}
+                onCityChange={handleCityChange}
+                onSelectCityRef={handleStreetSelection}
+              />
             </div>
 
             {/* Нова пошта відділення */}
@@ -232,7 +233,9 @@ const Сheckout = () => {
                     Оберіть поштове відділення{' '}
                     <span className="text-textError">*</span>
                   </p>
-                  <DeliveryNova selectedCity={selectedCity} />
+                  <DeliveryNova
+                    onWarehouseChange={handleWarehouseChange}
+                  />
                 </div>
               )}
             </div>
@@ -268,6 +271,7 @@ const Сheckout = () => {
               {selectedDelivery === 'self' && (
                 <DeliveryBySelf
                   addressForself={addressForself}
+                  selectedDelivery={selectedDelivery}
                   setAddressForself={setAddressForself}
                 />
               )}
@@ -334,21 +338,7 @@ const Сheckout = () => {
           </div>
 
           {/* Залишити коментар */}
-          <div className="flex flex-col gap-[16px]">
-            <label
-              htmlFor="comment"
-              className="font-medium text-[18px] leading-[25.2px]"
-            >
-              Коментар до замовлення
-            </label>
-            <textarea
-              id="comment"
-              name="comment"
-              rows="5"
-              cols="33"
-              className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px]"
-            />
-          </div>
+          <CommentOrder />
 
           <div className=" tablet1024:hidden mt-6">
             {/* Підсумок замовлення */}
