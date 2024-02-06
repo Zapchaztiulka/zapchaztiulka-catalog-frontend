@@ -1,10 +1,7 @@
 import React from 'react'
 
 const TotalOrder = ({ orderInfoTotal, selectedDelivery }) => {
-
-
   const product = orderInfoTotal?.data
-  console.log(product);
 
   const formatNumber = (number) => {
     if (product && orderInfoTotal) {
@@ -22,25 +19,22 @@ const TotalOrder = ({ orderInfoTotal, selectedDelivery }) => {
 
 const getDelivery = (selectedDelivery) => {
   let delivery = '';
-
   switch (selectedDelivery) {
-    case 'novaPoshta':
+    case 'np':
       delivery = 'Нова Пошта';
       break;
-    case 'zapchaztiulkaCourier':
+    case 'courier':
       delivery = 'Кур\'єр запчастюлька';
       break;
-    case 'novaPoshtaCourier':
+    case 'np_courier':
       delivery = 'Кур\'єр Нова Пошта';
       break;
-    case 'pickup':
+    case 'self':
       delivery = 'Самовивіз';
       break;
     default:
-      // Значення за замовчуванням, якщо не відповідає жодному з варіантів
       delivery = 'Не визначено';
   }
-
   return delivery;
 }
 
@@ -100,14 +94,6 @@ const getDelivery = (selectedDelivery) => {
           </p>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="state-button w-full mobile480:w-[432px] tablet600:w-[285px] h-[48px] 
-                font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
-      >
-        Офомити замовлення
-      </button>
     </>
   );
 }

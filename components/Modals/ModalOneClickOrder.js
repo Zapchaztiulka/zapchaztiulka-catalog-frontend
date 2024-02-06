@@ -17,11 +17,11 @@ const ModalOneClickOrder = ({
     event.preventDefault();
     const phone = event.target.elements.phone.value;
     const _id = product?._id;
-  
-const requestBody = {
+
+    const requestBody = {
       products: [{ productId: _id, quantity: 1 }],
       phone: phone.replace(/[ ]/g, ''),
-      userType : "individual"
+      userType: 'individual',
     };
 
     try {

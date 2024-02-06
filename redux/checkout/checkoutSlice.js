@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const checkoutSlise = createSlice({
+const checkoutSlice = createSlice({
   name: 'checkout',
   initialState: {
     email: '',
@@ -12,27 +12,30 @@ const checkoutSlise = createSlice({
     legalEntityData: {
       companyName: '',
       companyCode: '',
-      companyRegion: 'Оберіть значення...',
-      companyCity: 'Оберіть значення...',
+      companyRegion: '',
+      companyCity: '',
       companyAddress: '',
     },
-    deliveryMethodId: 'np',
+    deliveryMethodId: '',
     deliveryRegion: '',
     deliveryDistrict: '',
-    deliveryOffice: 'Оберіть значення...',
-    deliveryCity: 'Оберіть значення...',
+    deliveryOffice: '',
+    deliveryCity: '',
     deliveryAddress: '',
     deliveryRate: '',
     userComment: '',
+    selectedCity: '',
+    cityRef:''
   },
   reducers: {
-    //     addToCheckout(state) {
-    //     },
-
-    //     getCheckout(state) {
-    //     },
-
-    clearThecheckout(state) {
+    addToCheckout(state, action) {
+      const { field, value } = action.payload;
+      return {
+        ...state,
+        [field]: value,
+      }
+    },
+    clearCheckout(state) {
       return {
         email: '',
         phone: '',
@@ -43,27 +46,28 @@ const checkoutSlise = createSlice({
         legalEntityData: {
           companyName: '',
           companyCode: '',
-          companyRegion: 'Оберіть значення...',
-          companyCity: 'Оберіть значення...',
+          companyRegion: '',
+          companyCity: '',
           companyAddress: '',
         },
-        deliveryMethodId: 'np',
+        deliveryMethodId: '',
         deliveryRegion: '',
         deliveryDistrict: '',
-        deliveryOffice: 'Оберіть значення...',
-        deliveryCity: 'Оберіть значення...',
+        deliveryOffice: '',
+        deliveryCity: '',
         deliveryAddress: '',
         deliveryRate: '',
         userComment: '',
+        selectedCity: '',
+        cityRef:''
       };
     },
   },
 });
 
 export const {
-  //   addToCheckout,
-  //   getCheckout,
-  clearThecheckout,
-} = checkoutSlise.actions;
+    addToCheckout,
+  clearCheckout,
+} = checkoutSlice.actions;
 
-export const checkoutReducer = checkoutSlise.reducer;
+export const checkoutReducer = checkoutSlice.reducer;
