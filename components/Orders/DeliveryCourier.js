@@ -1,5 +1,6 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
+import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { fetchStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 import { selectStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
@@ -10,58 +11,83 @@ const DeliveryCourier = () => {
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
   const [street, setStreet] = useState(checkoutData?.deliveryAddress || '');
-   const [houseNumber, setHouseNumber] = useState('');
+  const [houseNumber, setHouseNumber] = useState('');
   const [apartment, setApartment] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
-  const [isLocalityInputFocused, setIsLocalityInputFocused] = useState(false);
-  const cityRef = checkoutData?.cityRef;
-  const streetsInfo = useSelector(selectStreets)
-  console.log(streetsInfo)
 
-    const streetName = streetsInfo?.data?.[0]?.Addresses?.map(address => address.Present) || [];
-    console.log(street);
-    console.log(houseNumber)
-    console.log(apartment)
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isListOpen, setIsListOpen] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const cityRef = checkoutData?.cityRef;
+  const streetsInfo = useSelector(selectStreets);
+
+  const streetName =
+    streetsInfo?.data?.[0]?.Addresses?.map(address => address.Present) || [];
 
   const refInput = useRef();
   const refList = useRef();
 
-   useEffect(() => {
-     if (street !== '' && cityRef !== '') { dispatch(fetchStreets({ SettlementRef: cityRef, StreetName: street })); }
-   }, [dispatch, street, cityRef]);
-
-   const handleInputChangeStreet = event => {
-     const searchStreet = event.target.value;
-     setStreet(searchStreet);
-     refList.current && (refList.current.style.display = 'block');
-   };
-
-   const handleInputChangeHouse = event => {
-    const house = event.target.value;
-    setHouseNumber(house)
-   }
-
-    const handleInputChangeApartment = event => {
-    const apartment = event.target.value;
-    setApartment(apartment)
-   }
-
-    const handleSelection = selectedItem => {
-    setStreet(selectedItem);
-
-   refList.current.style.display = 'none';
-  };
-
-   const removeSearchLocality = () => {
-      setStreet('');
-  };
-
-    const closeByClickOutside = () => {
-    refList.current && (refList.current.style.display = 'none');
+  const removeStreet = () => {
+    setStreet('');
+    setApartment('')
+    setHouseNumber('')
+    setIsListOpen(false);
     }
-   
-    useOutsideClick(refList, refInput, closeByClickOutside);
+
+  // Get list of streets
+  useEffect(() => {
+    if (street !== '' && cityRef !== '') {
+      dispatch(fetchStreets({ SettlementRef: cityRef, StreetName: street }));
+    }
+  }, [dispatch, street, cityRef]);
+
+    const fullAddress = `${street}, ${houseNumber}, ${apartment}`;
+
+  const handleInputChangeStreet = event => {
+    const searchStreet = event.target.value;
+    setStreet(searchStreet);
+      dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+    setIsListOpen(true);
+        if (!searchStreet) {
+      removeStreet()
+    }
+  };
+
+  const handleInputChangeHouse = event => {
+    const house = event.target.value;
+    setHouseNumber(house);
+     dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+  };
+
+  const handleInputChangeApartment = event => {
+    const apartment = event.target.value;
+    setApartment(apartment);
+     dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+  };
+
+
+
+  const handleSelection = selectedItem => {
+    setStreet(selectedItem);
+    setSelectedItem(selectedItem);
+    setIsListOpen(false);
+  };
+
+  const closeByClickOutside = () => {
+    if (!selectedItem && isListOpen) {
+       removeStreet();
+    }
+  };
+
+  useOutsideClick(refList, refInput, closeByClickOutside);
+
+      const handleInputFocus = () => {
+      setIsInputFocused(true);
+    };
+
+    const handleInputBlur = () => {
+      setIsInputFocused(false);
+    };
 
   return (
     <div className="pl-[32px] pr-[12px]">
@@ -75,34 +101,34 @@ const DeliveryCourier = () => {
           <input
             ref={refInput}
             type="text"
-            
             value={street}
             onChange={handleInputChangeStreet}
-            onFocus={() => setIsLocalityInputFocused(true)}
-            onBlur={() => setIsLocalityInputFocused(false)}
-            placeholder={isLocalityInputFocused ? '' : 'Введіть місто..'}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            placeholder={
+              isInputFocused ? '' : 'Оберіть значення або введіть назву..'
+            }
             className="flex-grow search-input w-full placeholder:text-textInputDefault text-textPrimary"
           />
-         {street !== '' && (
+          {street !== '' && (
             <button
               className=" absolute right-[12px] top-0 bottom-0"
               type="button"
-              onClick={removeSearchLocality}
+              onClick={removeStreet}
             >
               <CloseIcon size="20" />
             </button>
-          )} 
+          )}
         </div>
 
-        {streetName &&  streetName.length !== 0 && (
+        {streetName && streetName.length !== 0 && isListOpen && (
           <ul
             ref={refList}
-            style={{ display: 'none' }}
             className="absolute tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
           >
-            {streetName?.map(item => (
+            {streetName?.map((item, index) => (
               <li
-                key={item.Ref}
+                key={index}
                 onClick={() => handleSelection(item)}
                 className="relative cursor-pointer select-none p-2 hover:text-textBrand"
               >
@@ -110,27 +136,35 @@ const DeliveryCourier = () => {
               </li>
             ))}
           </ul>
-        )} 
+        )}
       </div>
 
-      {/* <input className="search-input w-full " type="text" /> */}
-
       <div className="flex gap-2 mt-2">
-        <div>
+        <div className="checkout-contacts-input search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер будинку
             <span className="text-textError">*</span>
           </p>
-          <input className="search-input w-full " type="text" onChange={handleInputChangeHouse} />
+          <input
+            className="search-input w-full "
+            value={houseNumber}
+            type="text"
+            onChange={handleInputChangeHouse}
+          />
         </div>
-        <div>
+        <div className="checkout-contacts-input search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер квартири
             <span className="text-textError">*</span>
           </p>
-          <input className="search-input w-full " type="text" onChange={handleInputChangeApartment} />
+          <input
+            className="search-input w-full "
+            type="text"
+            value={apartment}
+            onChange={handleInputChangeApartment}
+          />
         </div>
       </div>
     </div>

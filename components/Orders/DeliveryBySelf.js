@@ -7,11 +7,10 @@ import theme from '@/presets';
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 
 const DeliveryBySelf = () => {
-   const checkoutData = useSelector(selectCheckout);
+  const checkoutData = useSelector(selectCheckout);
   const [selected, setSelected] = useState(checkoutData?.deliveryOffice || '');
   const [isOpen, setIsOpen] = useState(false);
-  const [addressForself, setAddressForself] = useState(['Адрес 1', 'Адрес 2']);
-
+  const [addressForself, setAddressForself] = useState(['Адресa 1', 'Адресa 2']);
   const dispatch = useDispatch();
 
   const refOption = useRef(null);
@@ -39,13 +38,13 @@ const DeliveryBySelf = () => {
         <span className="text-textError">*</span>
       </p>
 
-      <div ref={refSelect} className="relative tablet768:block hidden">
+      <div ref={refSelect} className="relative">
         <div
           onClick={toggling}
-          className="flex cursor-pointer p-xs2 focus:outline-none  custom-select-contact"
+          className="flex justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full"
         >
           <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
-            {selected || addressForself[0]}
+            {selected}
           </div>
           {isOpen ? (
             <ArrowUpIcon color={theme.extend.colors.iconSecondary} />
@@ -65,7 +64,7 @@ const DeliveryBySelf = () => {
                   <li
                     key={Math.random()}
                     onClick={handleSelected(item)}
-                    className="cursor-pointer pl-10 py-2 hover:text-textBrand"
+                    className="cursor-pointer p-3 hover:text-textBrand"
                   >
                     {item}
                   </li>

@@ -1,4 +1,5 @@
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
+import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,7 +11,7 @@ const CommentOrder = () => {
     dispatch(addToCheckout({ field, value }));
   };
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div className="flex flex-col gap-[16px] mb-6">
       <label
         htmlFor="comment"
         className="font-medium text-[18px] leading-[25.2px]"
@@ -24,7 +25,7 @@ const CommentOrder = () => {
         cols="33"
         value={checkoutData.userComment}
         onChange={e => handleInputChange('userComment', e.target.value)}
-        className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px]"
+        className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px] focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive"
       />
     </div>
   );
