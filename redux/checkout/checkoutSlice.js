@@ -8,7 +8,7 @@ const checkoutSlice = createSlice({
     username: '',
     userSurname: '',
     userMiddleName: '',
-    userType: 'individual',
+    userType: '',
     legalEntityData: {
       companyName: '',
       companyCode: '',
@@ -25,14 +25,25 @@ const checkoutSlice = createSlice({
     deliveryRate: '',
     userComment: '',
     selectedCity: '',
-    cityRef:''
+    cityRef: '',
   },
   reducers: {
     addToCheckout(state, action) {
       const { field, value } = action.payload;
-      return {
-        ...state,
-        [field]: value,
+      if (field.startsWith('legalEntityData')) {
+        const nestedField = field.split('.').slice(1); // Видаляємо "legalEntityData"
+        return {
+          ...state,
+          legalEntityData: {
+            ...state.legalEntityData,
+            [nestedField]: value,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          [field]: value,
+        };
       }
     },
     clearCheckout(state) {
@@ -42,7 +53,7 @@ const checkoutSlice = createSlice({
         username: '',
         userSurname: '',
         userMiddleName: '',
-        userType: 'individual',
+        userType: '',
         legalEntityData: {
           companyName: '',
           companyCode: '',
@@ -59,7 +70,7 @@ const checkoutSlice = createSlice({
         deliveryRate: '',
         userComment: '',
         selectedCity: '',
-        cityRef:''
+        cityRef: '',
       };
     },
   },

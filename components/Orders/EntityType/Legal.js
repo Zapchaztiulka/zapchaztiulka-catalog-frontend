@@ -1,6 +1,9 @@
 import Dropdown from '@/components/Dropdown';
-import { replacePhoneNumber } from '@/helpers/formatPhoneNumber';
-import React from 'react';
+import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Individual from './Individual';
+import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 
 const Legal = ({
   isLegalPerson,
@@ -10,138 +13,142 @@ const Legal = ({
   isCityOfRegister,
   setIsCityOfRegister,
 }) => {
+  const dispatch = useDispatch();
+  const checkoutData = useSelector(selectCheckout);
+  const {companyName, companyCode, companyAddress, companyCity, companyRegion} = checkoutData.legalEntityData
+  const [userTypeEntity, setUserTypeEntity] = useState('');
+  const [companyNameInfo, setCompanyNameInfo] = useState(companyName || '');
+  const [companyCodeInfo, setCompanyCodeInfo] = useState(companyCode || '');
+  const [entrepreneurCode, setEntrepreneurCode] = useState(companyCode ||'');
+  const [legalAddress, setLegalAddress] = useState(companyAddress || '')
+  const [cityRegistration, setCityRegistration]=useState(companyCity || '')
+  const [regionRegistration, setRegionRegistration]=useState(companyRegion || '')
+
+  const handleInputChange = (field, value) => {
+    dispatch(addToCheckout({ field, value }));
+  };
+
+  useEffect(() => {
+    if (isLegalPerson === 'ФОП') {
+      setUserTypeEntity('entrepreneur');
+      setCompanyCodeInfo('')
+    } else if (isLegalPerson === 'Юридична особа') {
+      setUserTypeEntity('company');
+      setEntrepreneurCode('')
+    }
+  }, [isLegalPerson]);
+
+  useEffect(() => {
+  dispatch(addToCheckout({ field: 'userType', value: userTypeEntity }));
+}, [userTypeEntity, dispatch]);
+
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          <p className="mb-[4px]">
-            Тип рестрації <span className="text-textError">*</span>
-          </p>
-          <Dropdown
-            selected={isLegalPerson}
-            options={['ФОП', 'Юридична особа']}
-            onSelected={value => () => {
-              setIsLegalPerson(value);
+    <div className="flex flex-wrap gap-3">
+      <div className="checkout-contacts-input">
+        <p className="">
+          Тип рестрації <span className="text-textError">*</span>
+        </p>
+        <Dropdown
+          selected={isLegalPerson}
+          options={['ФОП', 'Юридична особа']}
+          onSelected={value => () => {
+            setIsLegalPerson(value);
+          }}
+        />
+      </div>
+      <div className="checkout-contacts-input">
+        {' '}
+        <label>
+          Назва <span className="text-textError">*</span>
+          <input
+            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+            required
+            type="text"
+            value={companyNameInfo}
+            onChange={e => {
+              setCompanyNameInfo(e.target.value);
+              handleInputChange('legalEntityData.companyName', e.target.value);
             }}
           />
-        </div>
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            Назва <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
+        </label>
       </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            ЄДРПОУ <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            ІПН <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
-      </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          <p className="mb-[4px]">
-            Область реєстрації <span className="text-textError">*</span>
-          </p>
-          <Dropdown
-            selected={isStateOfRegister}
-            options={['Область 1', 'Область 2', 'Область 3', 'Область 4']}
-            onSelected={value => () => {
-              setIsStateOfRegister(value);
+      <div className="checkout-contacts-input">
+        {' '}
+        <label>
+          ЄДРПОУ <span className="text-textError">*</span>
+          <input
+            value={companyCodeInfo}
+            required
+            disabled={userTypeEntity === 'entrepreneur'}
+            onChange={e => {
+              setCompanyCodeInfo(e.target.value);
+              handleInputChange('legalEntityData.companyCode', e.target.value);
             }}
+            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
           />
-        </div>
-        <div className="checkout-contacts-input">
-          {' '}
-          <p className="mb-[4px]">
-            Місто реєстрації <span className="text-textError">*</span>
-          </p>
-          <Dropdown
-            selected={isCityOfRegister}
-            options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
-            onSelected={value => () => {
-              setIsCityOfRegister(value);
+        </label>
+      </div>
+      <div className="checkout-contacts-input">
+        {' '}
+        <label>
+          ІПН <span className="text-textError">*</span>
+          <input
+            required
+            value={entrepreneurCode}
+            type="text"
+            disabled={userTypeEntity === 'company'}
+            onChange={e => {
+              setEntrepreneurCode(e.target.value);
+              handleInputChange('legalEntityData.companyCode', e.target.value);
             }}
+            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
           />
-        </div>
+        </label>
       </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            Юридична адреса <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            Ім'я <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
+      <div className="checkout-contacts-input">
+        <p className="mb-[4px]">
+          Область реєстрації <span className="text-textError">*</span>
+        </p>
+        <Dropdown
+          selected={isStateOfRegister}
+          options={['Область 1', 'Область 2', 'Область 3', 'Область 4']}
+          onSelected={value => () => {
+            setIsStateOfRegister(value);
+          }}
+        />
       </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            Прізвище <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
-        <div className="checkout-contacts-input">
-          {' '}
-          <label>
-            По батькові <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
+      <div className="checkout-contacts-input">
+        {' '}
+        <p className="mb-[4px]">
+          Місто реєстрації <span className="text-textError">*</span>
+        </p>
+        <Dropdown
+          selected={isCityOfRegister}
+          options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
+          onSelected={value => () => {
+            setIsCityOfRegister(value);
+          }}
+        />
       </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
-        <div className="checkout-contacts-input">
-          <label>
-            E-mail <span className="text-textError">*</span>
-            <input className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]" />
-          </label>
-        </div>
-        <div className="checkout-contacts-input">
-          <label className="relative">
-            Номер телефону <span className="text-textError">*</span>
-            <span className="absolute grid items-center z-10 block top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-[14px] leading-[19.6px] decoration-textTertiary">
-              +38
-            </span>
-            <input
-              className="pl-[53px] w-full h-[48px] border border-borderDefault rounded-minimal"
-              name="phone"
-              type="tel"
-              id="phone"
-              maxLength="13"
-              pattern="0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
-              title="096 123 45 67"
-              autoComplete="off"
-              required
-              onChange={replacePhoneNumber}
-            />
-            <span id="errorMessage" className="text-textWarning"></span>
-          </label>
-        </div>
+      <div className="checkout-contacts-input">
+        {' '}
+        <label>
+          Юридична адреса <span className="text-textError">*</span>
+          <input
+            value={legalAddress}
+            required
+            onChange={e => {
+              setLegalAddress(e.target.value);
+              handleInputChange(
+                'legalEntityData.companyAddress',
+                e.target.value
+              );
+            }}
+            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+          />
+        </label>
       </div>
+      <Individual />
     </div>
   );
 };

@@ -36,12 +36,13 @@ const Сheckout = () => {
     setShowModalCart,
     showModalOrderSuccessful,
     setShowModalOrderSuccessful,
-    aviabilityProduct, resetLocalStorage,
+    aviabilityProduct,
     backToHomeUrl,
   } = useContext(StatusContext);
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
+
   const [isStateOfRegister, setIsStateOfRegister] = useState(
     'Оберіть значення...'
   );
@@ -49,12 +50,9 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
 
-  console.log(showModalOrderSuccessful);
   const [addressForself, setAddressForself] = useState('Оберіть значення...');
 
   const [selectedDelivery, setSelectedDelivery] = useState('');
-
-  console.log(isClientStatus);
 
   const handleCitySelection = cityDeliverRef => {
     dispatch(addToCheckout({ field: 'selectedCity', value: cityDeliverRef }));
@@ -86,12 +84,13 @@ const Сheckout = () => {
   useEffect(() => {
     setSelectedDelivery(userData.deliveryMethodId || null);
   }, [userData.deliveryMethodId]);
+  console.log(isLegalPerson)
 
   const handleSubmit = async event => {
     event.preventDefault();
     const requestBody = {
       products: productsInfo,
-      userType: 'individual',
+      userType: isClientStatus ? 'individual' : userData.userType,
       phone: userData.phone.toString().replace(/[ ]/g, ''),
       username: userData.username,
       userSurname: userData.userSurname,
@@ -102,6 +101,15 @@ const Сheckout = () => {
       userComment: userData.userComment,
       deliveryCity: userData.deliveryCity,
       deliveryAddress: userData.deliveryAddress,
+      legalEntityData: isClientStatus
+        ? {}
+        : {
+            companyName: userData.legalEntityData.companyName,
+            companyCode: userData.legalEntityData.companyCode,
+            companyRegion: userData.legalEntityData.companyRegion,
+            companyCity: userData.legalEntityData.companyCity,
+            companyAddress: userData.legalEntityData.companyAddress,
+          },
     };
     setShowModalOrderSuccessful(true);
 
@@ -192,9 +200,9 @@ const Сheckout = () => {
                         orderInfoTotal={orderInfoTotal}
                       />
                     ) : (
-                      <>
+                      <div className="flex flex-wrap gap-3">
                         <Individual orderInfoTotal={orderInfoTotal} />
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
