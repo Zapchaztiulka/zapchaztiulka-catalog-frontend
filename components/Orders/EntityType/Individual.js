@@ -48,8 +48,7 @@ const Individual = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col tablet768:flex-row gap-3">
+    <>    
         <div className="checkout-contacts-input search">
           <label>
             Ім'я <span className="text-textError">*</span>
@@ -76,9 +75,7 @@ const Individual = () => {
             />
           </label>
         </div>
-      </div>
-
-      <div className="flex flex-col tablet768:flex-row gap-3">
+         
         <div className="checkout-contacts-input search">
           <label>
             По батькові <span className="text-textError">*</span>
@@ -110,7 +107,7 @@ const Individual = () => {
             <span className="text-textWarning text-[12px]">{emailError}</span>
           </label>
         </div>
-      </div>
+     
 
       <div className="checkout-contacts-input search">
         <label className="relative">
@@ -134,7 +131,7 @@ const Individual = () => {
           <span className="text-textWarning text-[12px]">{errorMessage}</span>
         </label>
       </div>
-    </div>
+    </>
   );
 };
 
