@@ -49,12 +49,9 @@ const Сheckout = () => {
     'Оберіть значення...'
   );
 
-  console.log(showModalOrderSuccessful);
   const [addressForself, setAddressForself] = useState('Оберіть значення...');
 
   const [selectedDelivery, setSelectedDelivery] = useState('');
-
-  console.log(isClientStatus);
 
   const handleCitySelection = cityDeliverRef => {
     dispatch(addToCheckout({ field: 'selectedCity', value: cityDeliverRef }));

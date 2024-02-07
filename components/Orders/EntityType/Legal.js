@@ -14,7 +14,7 @@ const Legal = ({
     <div className="flex flex-col gap-3">
       <div className="flex flex-col tablet768:flex-row gap-3">
         <div className="checkout-contacts-input">
-          <p className="mb-[4px]">
+          <p className="">
             Тип рестрації <span className="text-textError">*</span>
           </p>
           <Dropdown
