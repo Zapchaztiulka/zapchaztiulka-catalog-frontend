@@ -18,6 +18,7 @@ import CommentOrder from '@/components/Orders/CommentOrder';
 import { clearTheCart } from '@/redux/cart/cartSlice';
 import { ModalOrderSuccessful } from '@/components';
 import { Button } from 'universal-components-frontend/src/components/buttons';
+import { selectPatterns } from '@/redux/patterns/patternsSelectors';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
@@ -26,6 +27,8 @@ const Сheckout = () => {
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
   console.log(userData);
+    const patterns = useSelector(selectPatterns);
+    console.log(patterns);
 
   const productsInfo = orderInfoData?.map(item => ({
     productId: item.id,
@@ -201,7 +204,7 @@ const Сheckout = () => {
                       />
                     ) : (
                       <div className="flex flex-wrap gap-3">
-                        <Individual orderInfoTotal={orderInfoTotal} />
+                        <Individual orderInfoTotal={orderInfoTotal} patterns={patterns}/>
                       </div>
                     )}
                   </div>

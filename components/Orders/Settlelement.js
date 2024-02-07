@@ -79,7 +79,7 @@ const Settlelement = ({ onSelectCity, onCityChange, onSelectCityRef }) => {
 
   return (
     <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
-      <div className="flex items-center gap-3 ">
+      <div className="flex items-center gap-3 relative">
         <input
           ref={refInput}
           type="text"
@@ -89,7 +89,7 @@ const Settlelement = ({ onSelectCity, onCityChange, onSelectCityRef }) => {
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву міста..'}
-          className="relative flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+          className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
         />
         {locality !== '' && (
                 <button type="button" onClick={removeCity} className="absolute right-3 top-3">

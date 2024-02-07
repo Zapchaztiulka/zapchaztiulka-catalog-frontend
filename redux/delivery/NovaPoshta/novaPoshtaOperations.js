@@ -66,3 +66,22 @@ export const fetchStreets = createAsyncThunk(
   }
 );
 
+export const fetchRegions = createAsyncThunk(
+  'departments/getRegions',
+  async () => {
+    try {
+      const { data } = await axios.post(apiUrl, {
+        apiKey: apiKey,
+        modelName: 'Address',
+        calledMethod: 'getSettlementAreas',
+        methodProperties: {
+          Ref : ""
+        },
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+

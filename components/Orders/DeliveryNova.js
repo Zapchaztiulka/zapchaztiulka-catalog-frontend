@@ -96,7 +96,7 @@ const DeliveryNova = ({ onWarehouseChange }) => {
   return (
     <>
       <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
-        <div className="flex items-center gap-3 ">
+        <div className="flex items-center gap-3 relative">
           <input
             ref={refInput}
             type="text"
@@ -107,10 +107,14 @@ const DeliveryNova = ({ onWarehouseChange }) => {
             placeholder={
               isInputEmpty ? null : 'Оберіть значення або введіть назву..'
             }
-            className="relative flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+            className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
           />
           {warehouses !== '' && (
-            <button type="button" onClick={removeWarehouse}>
+            <button
+              type="button"
+              onClick={removeWarehouse}
+              className="absolute right-3 top-3"
+            >
               <CloseIcon
                 className="close-icon stroke-iconPrimary"
                 width="24"
@@ -119,22 +123,25 @@ const DeliveryNova = ({ onWarehouseChange }) => {
             </button>
           )}
 
-          {isOpen && cityRef !== '' && filteredWarehouses && filteredWarehouses?.length !== 0 && (
-            <ul
-              ref={refList}
-              className="absolute left-0 top-[50px] max-h-60 border border-borderDefault overflow-auto text-base text-textInputDefault rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
-            >
-              {filteredWarehouses?.map((item, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSelection(item)}
-                  className="relative cursor-pointer select-none px-2 py-1 hover:text-textBrand"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
+          {isOpen &&
+            cityRef !== '' &&
+            filteredWarehouses &&
+            filteredWarehouses?.length !== 0 && (
+              <ul
+                ref={refList}
+                className="absolute left-0 top-[50px] max-h-60 border border-borderDefault overflow-auto text-base text-textInputDefault rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
+              >
+                {filteredWarehouses?.map((item, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelection(item)}
+                    className="relative cursor-pointer select-none px-2 py-1 hover:text-textBrand"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
         </div>
       </div>
 

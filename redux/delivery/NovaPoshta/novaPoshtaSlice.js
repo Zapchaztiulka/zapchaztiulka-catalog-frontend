@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchSettlements, fetchStreets, fetchWarehouses } from './novaPoshtaOperations';
+import { fetchSettlements, fetchStreets, fetchWarehouses, fetchRegions } from './novaPoshtaOperations';
 
 const initialState = {
   warehousesNP: [],
   settlements: [],
+  regions:[],
   streets:[],
   isLoading: false,
   error: null,
@@ -34,6 +35,9 @@ const departmentsSlice = createSlice({
     })
      .addCase(fetchStreets.fulfilled, (state, action) => {
        state.streets = action.payload;
+     })
+    .addCase(fetchRegions.fulfilled, (state, action) => {
+       state.regions = action.payload;
     })
   },
 });

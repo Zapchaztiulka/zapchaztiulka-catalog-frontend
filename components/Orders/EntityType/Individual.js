@@ -1,10 +1,10 @@
-import { formatPhoneNumber, replacePhoneNumber } from '@/helpers/formatPhoneNumber';
+import { formatPhoneNumber } from '@/helpers/formatPhoneNumber';
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Individual = () => {
+const Individual = ({patterns}) => {
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
   const [phone, setPhone] = useState(checkoutData?.phone || '');
@@ -15,15 +15,15 @@ const Individual = () => {
     dispatch(addToCheckout({ field, value }));
   };
 
-  const validateEmail = email => {
-    const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const validateEmail = email => {
+    const emailPattern = new RegExp(patterns.emailPattern);
     return emailPattern.test(email);
   };
 
   const handlePhoneInputChange = event => {
     const inputPhoneNumber = event.target.value;
     if (inputPhoneNumber[0] !== '0') {
-      setErrorMessage('Номер телефону має починатись з "0"');   
+      setErrorMessage(patterns.phonePatternMessage);   
     } else {
       setErrorMessage('');
     }

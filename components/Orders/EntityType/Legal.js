@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Individual from './Individual';
 import { selectCheckout } from '@/redux/checkout/checkoutSelector';
+import CityRegistration from './CityRegistration';
+import RegionRegistration from './RegionRegistration';
+import { selectRegions, selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
+import { fetchRegions, fetchSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 
 const Legal = ({
   isLegalPerson,
-  setIsLegalPerson,
-  isStateOfRegister,
-  setIsStateOfRegister,
-  isCityOfRegister,
-  setIsCityOfRegister,
+  setIsLegalPerson
 }) => {
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
@@ -21,12 +21,30 @@ const Legal = ({
   const [companyCodeInfo, setCompanyCodeInfo] = useState(companyCode || '');
   const [entrepreneurCode, setEntrepreneurCode] = useState(companyCode ||'');
   const [legalAddress, setLegalAddress] = useState(companyAddress || '')
-  const [cityRegistration, setCityRegistration]=useState(companyCity || '')
-  const [regionRegistration, setRegionRegistration]=useState(companyRegion || '')
+  const [cityRegistration, setCityRegistration] = useState(companyCity || '');
+  const [regionRegistration, setRegionRegistration] = useState(
+    companyRegion || ''
+  );
+
+  const settlements = useSelector(selectSettlements);
+  const localityPlaceInfo = settlements?.data?.flatMap(
+    entry => entry.Addresses
+  );
+
+  const regionsData = useSelector(selectRegions)
+
+    // Get list of cities
+  useEffect(() => {
+    dispatch(fetchSettlements(cityRegistration));
+  }, [dispatch, cityRegistration]);
 
   const handleInputChange = (field, value) => {
     dispatch(addToCheckout({ field, value }));
   };
+
+  useEffect(()=> {
+dispatch(fetchRegions())
+  }, [dispatch])
 
   useEffect(() => {
     if (isLegalPerson === 'ФОП') {
@@ -44,7 +62,7 @@ const Legal = ({
 
   return (
     <div className="flex flex-wrap gap-3">
-      <div className="checkout-contacts-input">
+      <div className="checkout-contacts-input search">
         <p className="">
           Тип рестрації <span className="text-textError">*</span>
         </p>
@@ -56,7 +74,7 @@ const Legal = ({
           }}
         />
       </div>
-      <div className="checkout-contacts-input">
+      <div className="checkout-contacts-input search">
         {' '}
         <label>
           Назва <span className="text-textError">*</span>
@@ -72,7 +90,7 @@ const Legal = ({
           />
         </label>
       </div>
-      <div className="checkout-contacts-input">
+      <div className="checkout-contacts-input search">
         {' '}
         <label>
           ЄДРПОУ <span className="text-textError">*</span>
@@ -88,7 +106,7 @@ const Legal = ({
           />
         </label>
       </div>
-      <div className="checkout-contacts-input">
+      <div className="checkout-contacts-input search">
         {' '}
         <label>
           ІПН <span className="text-textError">*</span>
@@ -105,32 +123,33 @@ const Legal = ({
           />
         </label>
       </div>
-      <div className="checkout-contacts-input">
+      <div className="checkout-contacts-input search">
         <p className="mb-[4px]">
           Область реєстрації <span className="text-textError">*</span>
         </p>
-        <Dropdown
-          selected={isStateOfRegister}
-          options={['Область 1', 'Область 2', 'Область 3', 'Область 4']}
-          onSelected={value => () => {
-            setIsStateOfRegister(value);
-          }}
+        <RegionRegistration
+          regionRegistration={regionRegistration}
+          setRegionRegistration={setRegionRegistration}
+          cityRegistration={cityRegistration}
+          checkoutData={checkoutData}
+          regionsData={regionsData}
         />
       </div>
-      <div className="checkout-contacts-input">
+
+      <div className="checkout-contacts-input search">
         {' '}
         <p className="mb-[4px]">
           Місто реєстрації <span className="text-textError">*</span>
         </p>
-        <Dropdown
-          selected={isCityOfRegister}
-          options={['Місто 1', 'Місто 2', 'Місто 3', 'Місто 4']}
-          onSelected={value => () => {
-            setIsCityOfRegister(value);
-          }}
+        <CityRegistration
+          checkoutData={checkoutData}
+          cityRegistration={cityRegistration}
+          setCityRegistration={setCityRegistration}
+          localityPlaceInfo={localityPlaceInfo}
         />
       </div>
-      <div className="checkout-contacts-input">
+
+      <div className="checkout-contacts-input search">
         {' '}
         <label>
           Юридична адреса <span className="text-textError">*</span>
