@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCart } from '@/redux/cart/cartSelector';
 import { fetchOrders } from '@/redux/orders/ordersOperations';
 import { addToCheckout, clearCheckout } from '@/redux/checkout/checkoutSlice';
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
+import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import CommentOrder from '@/components/Orders/CommentOrder';
 import { clearTheCart } from '@/redux/cart/cartSlice';
 import { ModalOrderSuccessful } from '@/components';
@@ -25,6 +25,8 @@ const Сheckout = () => {
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
+  const userLegalData = useSelector(selectCheckoutLegal);
+  console.log("TCL: Сheckout -> userLegalData", userLegalData)
   const {
     userType,
     phone,
@@ -45,6 +47,7 @@ const Сheckout = () => {
       companyRegion,
     },
   } = userData;
+
   const patterns = useSelector(selectPatterns);
 
   const productsInfo = orderInfoData?.map(item => ({
@@ -262,8 +265,10 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                       className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
                         isClientStatus ? 'activeButton' : ''
                       }`}
-                      onClick={() => {setIsClientStatus(true)
-                      setIsEmptyData(false);}}
+                      onClick={() => {
+                        setIsClientStatus(true);
+                        setIsEmptyData(false);
+                      }}
                     >
                       Фізична особа
                     </button>
@@ -273,7 +278,7 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                       }`}
                       onClick={() => {
                         setIsClientStatus(false);
-                        setIsEmptyData(false)
+                        setIsEmptyData(false);
                       }}
                     >
                       Юридична особа
@@ -291,6 +296,7 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                         isEmptyData={isEmptyData}
                         checkoutData={userData}
                         patterns={patterns}
+                        userLegalData={userLegalData}
                       />
                     ) : (
                       <div className="flex flex-wrap gap-3">
