@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const checkoutSlice = createSlice({
-  name: 'checkout',
+const checkoutSliceLegal = createSlice({
+  name: 'checkoutLegal',
   initialState: {
     email: '',
     phone: '',
@@ -28,7 +28,7 @@ const checkoutSlice = createSlice({
     cityRef: '',
   },
   reducers: {
-    addToCheckout(state, action) {
+    addToCheckoutLegal(state, action) {
       const { field, value } = action.payload;
       if (field.startsWith('legalEntityData')) {
         const nestedField = field.split('.').slice(1);
@@ -46,7 +46,7 @@ const checkoutSlice = createSlice({
         };
       }
     },
-    clearCheckout(state) {
+    clearCheckoutLegal(state) {
       return {
         email: '',
         phone: '',
@@ -76,9 +76,6 @@ const checkoutSlice = createSlice({
   },
 });
 
-export const {
-    addToCheckout,
-  clearCheckout,
-} = checkoutSlice.actions;
+export const { addToCheckoutLegal, clearCheckoutLegal } = checkoutSliceLegal.actions;
 
-export const checkoutReducer = checkoutSlice.reducer;
+export const checkoutReducerLegal = checkoutSliceLegal.reducer;
