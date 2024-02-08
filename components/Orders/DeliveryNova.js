@@ -10,6 +10,7 @@ import {
 } from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
 const DeliveryNova = ({
   onWarehouseChange,
@@ -17,12 +18,16 @@ const DeliveryNova = ({
   setWarehouses,
   isErrorMessage,
   checkoutData,
+  isClientStatus,
+  userLegalData,
 }) => {
   const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isInputEmpty, setIsInputEmpty] = useState(false);
-  const cityRef = checkoutData?.selectedCity;
+  const cityRef = isClientStatus
+    ? checkoutData?.selectedCity
+    : userLegalData.selectedCity;
 
   const warehousesInfo = useSelector(selectWaherousesNP);
 
@@ -40,7 +45,12 @@ const DeliveryNova = ({
   const removeWarehouse = () => {
     setWarehouses('');
     setIsOpen(false);
-    dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+        if (isClientStatus) {
+           dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+        }
+        if (!isClientStatus) {
+           dispatch(addToCheckoutLegal({ field: 'deliveryOffice', value: '' }));
+        }   
   };
 
   // Get list of warehouses NP

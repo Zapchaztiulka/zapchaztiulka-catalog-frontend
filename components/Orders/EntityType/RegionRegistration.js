@@ -1,4 +1,5 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -34,7 +35,7 @@ const RegionRegistration = ({
     setRegionRegistration('');
     setIsListOpen(false);
     dispatch(
-      addToCheckout({ field: 'legalEntityData.companyRegion', value: '' })
+      addToCheckoutLegal({ field: 'legalEntityData.companyRegion', value: '' })
     );
   };
 
@@ -50,7 +51,7 @@ const RegionRegistration = ({
   const handleSelection = selectedItem => {
     setRegionRegistration(selectedItem.Description);
     dispatch(
-      addToCheckout({
+      addToCheckoutLegal({
         field: 'legalEntityData.companyRegion',
         value: selectedItem.Description,
       })

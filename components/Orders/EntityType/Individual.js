@@ -1,20 +1,20 @@
 import { formatPhoneNumber } from '@/helpers/formatPhoneNumber';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Individual = ({ patterns, isEmptyData, checkoutData }) => {
+const Individual = ({
+  patterns,
+  isEmptyData,
+  checkoutData,
+  isClientStatus,
+}) => {
   const dispatch = useDispatch();
   const [phone, setPhone] = useState(checkoutData?.phone || '');
   const [errorMessage, setErrorMessage] = useState('');
   const [emailError, setEmailError] = useState('');
   const [errorMessageName, setErrorMessageName] = useState('');
-  console.log("TCL: Individual -> errorMessageName", errorMessageName)
-  const [isValid, setIsValid] = useState(true);
-
-  const handleInputBlur = value => {
-    setIsValid(!!value);
-  };
 
   const handleInputChange = (field, value) => {
     switch (field) {
@@ -35,7 +35,13 @@ const Individual = ({ patterns, isEmptyData, checkoutData }) => {
       default:
         break;
     }
-    dispatch(addToCheckout({ field, value }));
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field, value }));
+    }
+
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field, value }));
+    }
   };
 
   const validateEmail = email => {
@@ -57,7 +63,14 @@ const Individual = ({ patterns, isEmptyData, checkoutData }) => {
     );
     setPhone(formattedPhoneNumber);
     event.target.maxLength = inputPhoneNumber[0] === '0' ? 13 : 1;
-    dispatch(addToCheckout({ field: 'phone', value: formattedPhoneNumber }));
+    if (!isClientStatus) {
+      dispatch(
+        addToCheckoutLegal({ field: 'phone', value: formattedPhoneNumber })
+      );
+    }
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'phone', value: formattedPhoneNumber }));
+    }
   };
 
   const handleEmailInputChange = event => {
@@ -113,11 +126,9 @@ const Individual = ({ patterns, isEmptyData, checkoutData }) => {
             type="text"
             minLength={3}
             value={checkoutData.userMiddleName}
-            onBlur={e => handleInputBlur(e.target.value)}
             onChange={e => handleInputChange('userMiddleName', e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
-          {!isValid && <p>Email is required.</p>}
         </label>
       </div>
 

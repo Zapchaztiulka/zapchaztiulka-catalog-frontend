@@ -10,17 +10,22 @@ import {
   ArrowDownIcon,
 } from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
 const Settlelement = ({
   onSelectCity,
   onCityChange,
   onSelectCityRef,
   checkoutData,
-  isEmptyData,
+  isEmptyDataIndividual,isEmptyDataLegal,
   selectedDelivery,
+  userLegalData,
+  isClientStatus,
 }) => {
   const dispatch = useDispatch();
-  const [locality, setLocality] = useState(checkoutData.deliveryCity);
+  const [locality, setLocality] = useState(
+    isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCity
+  );
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -39,15 +44,28 @@ const Settlelement = ({
   }, [dispatch, locality]);
 
   useEffect(() => {
-    setLocality(checkoutData.deliveryCity);
-  }, [checkoutData.deliveryCity]);
+    if (isClientStatus) {
+      setLocality(checkoutData.deliveryCity);
+    }
+    if (!isClientStatus) {
+      setLocality(userLegalData.deliveryCity);
+    }
+  }, [checkoutData.deliveryCity, userLegalData.deliveryCity, isClientStatus]);
 
   const removeCity = () => {
     setLocality('');
     setIsListOpen(false);
-    dispatch(addToCheckout({ field: 'deliveryCity', value: '' }));
-    dispatch(addToCheckout({ field: 'cityRef', value: '' }));
-    dispatch(addToCheckout({ field: 'selectedCity', value: '' }));
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryCity', value: '' }));
+      dispatch(addToCheckout({ field: 'cityRef', value: '' }));
+      dispatch(addToCheckout({ field: 'selectedCity', value: '' }));
+    }
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'deliveryCity', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'cityRef', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'selectedCity', value: '' }));
+    }
+    
   };
 
   const handleInputChangeLocality = event => {
@@ -118,9 +136,17 @@ const Settlelement = ({
         ) : (
           <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
         )} */}
-        {isEmptyData &&
+        {isEmptyDataIndividual &&
           checkoutData.deliveryCity === '' &&
-          selectedDelivery !== 'self' && (
+          (
+            <p className="text-textError text-[12px]">
+              Заповніть місто доставки
+              <span className="text-textError">*</span>
+            </p>
+          )}
+        {isEmptyDataLegal &&
+          userLegalData.deliveryCity === '' &&
+          (
             <p className="text-textError text-[12px]">
               Заповніть місто доставки
               <span className="text-textError">*</span>
