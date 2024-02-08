@@ -11,6 +11,7 @@ import ModalSpecialOrder from '../Modals/ModalSpecialOrder';
 import ModalAbsentOrder from '../Modals/ModalAbsentOrder';
 
 const CardsList = ({ products, size, limit }) => {
+  console.log("TCL: CardsList -> products", products)
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
   const {
     showModalPreOrder,

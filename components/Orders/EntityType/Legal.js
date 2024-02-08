@@ -8,8 +8,17 @@ import CityRegistration from './CityRegistration';
 import RegionRegistration from './RegionRegistration';
 import { selectRegions, selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import { fetchRegions, fetchSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
-const Legal = ({ isLegalPerson, setIsLegalPerson, patterns, isEmptyData }) => {
+const Legal = ({
+  isLegalPerson,
+  setIsLegalPerson,
+  patterns,
+  isEmptyDataLegal,
+  userLegalData,
+  userType,
+  isClientStatus,
+}) => {
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
   const {
@@ -18,7 +27,7 @@ const Legal = ({ isLegalPerson, setIsLegalPerson, patterns, isEmptyData }) => {
     companyAddress,
     companyCity,
     companyRegion,
-  } = checkoutData.legalEntityData;
+  } = userLegalData.legalEntityData;
   const [errorMessage, setErrorMessage] = useState('');
   const [userTypeEntity, setUserTypeEntity] = useState('');
   const [companyNameInfo, setCompanyNameInfo] = useState(companyName || '');
@@ -43,28 +52,28 @@ const Legal = ({ isLegalPerson, setIsLegalPerson, patterns, isEmptyData }) => {
   }, [dispatch, cityRegistration]);
 
   const handleInputChange = (field, value) => {
-    dispatch(addToCheckout({ field, value }));
+    dispatch(addToCheckoutLegal({ field, value }));
   };
 
-const handleInputChangeCode = (field, value) => {
-  const newValue = value.replace(/\D/g, '');
-  let maxLength = 8; 
-  let setStateFunction;
-  if (userTypeEntity === 'entrepreneur') {
-    maxLength = 10;
-    setStateFunction = setEntrepreneurCode;
-  } else {
-    setStateFunction = setCompanyCodeInfo;
-  }
-  const trimmedValue = newValue.slice(0, maxLength);
-  setStateFunction(trimmedValue);
-  dispatch(addToCheckout({ field, value: trimmedValue }));
-  if (trimmedValue.length === maxLength) {
-    setErrorMessage('');
-  } else {
-    setErrorMessage(`Кількість цифр має бути ${maxLength}`);
-  }
-};
+  const handleInputChangeCode = (field, value) => {
+    const newValue = value.replace(/\D/g, '');
+    let maxLength = 8;
+    let setStateFunction;
+    if (userTypeEntity === 'entrepreneur') {
+      maxLength = 10;
+      setStateFunction = setEntrepreneurCode;
+    } else {
+      setStateFunction = setCompanyCodeInfo;
+    }
+    const trimmedValue = newValue.slice(0, maxLength);
+    setStateFunction(trimmedValue);
+    dispatch(addToCheckoutLegal({ field, value: trimmedValue }));
+    if (trimmedValue.length === maxLength) {
+      setErrorMessage('');
+    } else {
+      setErrorMessage(`Кількість цифр має бути ${maxLength}`);
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchRegions());
@@ -75,19 +84,21 @@ const handleInputChangeCode = (field, value) => {
       setUserTypeEntity('entrepreneur');
       setCompanyCodeInfo('');
       setEntrepreneurCode('');
-      dispatch(addToCheckout({ field: 'legalEntityData.companyCode', value: '' }));
+      dispatch(
+        addToCheckoutLegal({ field: 'legalEntityData.companyCode', value: '' })
+      );
     } else if (isLegalPerson === 'Юридична особа') {
       setUserTypeEntity('company');
       setEntrepreneurCode('');
-       setCompanyCodeInfo('');
-        dispatch(
-          addToCheckout({ field: 'legalEntityData.companyCode', value: '' })
-        );
+      setCompanyCodeInfo('');
+      dispatch(
+        addToCheckoutLegal({ field: 'legalEntityData.companyCode', value: '' })
+      );
     }
   }, [isLegalPerson]);
 
   useEffect(() => {
-    dispatch(addToCheckout({ field: 'userType', value: userTypeEntity }));
+    dispatch(addToCheckoutLegal({ field: 'userType', value: userTypeEntity }));
   }, [userTypeEntity, dispatch]);
 
   return (
@@ -117,7 +128,7 @@ const handleInputChangeCode = (field, value) => {
               handleInputChange('legalEntityData.companyName', e.target.value);
             }}
           />
-          {isEmptyData && companyNameInfo === '' && (
+          {isEmptyDataLegal && companyNameInfo === '' && (
             <p className="text-textError text-[12px]">Заповніть назву</p>
           )}
         </label>
@@ -141,7 +152,7 @@ const handleInputChangeCode = (field, value) => {
           {userTypeEntity === 'company' && (
             <span className="text-textWarning text-[12px]">{errorMessage}</span>
           )}
-          {isEmptyData &&
+          {isEmptyDataLegal &&
             companyCodeInfo === '' &&
             userTypeEntity === 'company' && (
               <p className="text-textError text-[12px]">Заповніть ЄДРПОУ</p>
@@ -167,10 +178,11 @@ const handleInputChangeCode = (field, value) => {
           {userTypeEntity === 'entrepreneur' && (
             <span className="text-textWarning text-[12px]">{errorMessage}</span>
           )}
-          {isEmptyData &&
+          {isEmptyDataLegal &&
             companyCodeInfo === '' &&
-            userTypeEntity === 'entrepreneur' &&
-            <p className="text-textError text-[12px]">Заповніть ІПН</p>}
+            userTypeEntity === 'entrepreneur' && (
+              <p className="text-textError text-[12px]">Заповніть ІПН</p>
+            )}
         </label>
       </div>
       <div className="checkout-contacts-input search">
@@ -181,9 +193,9 @@ const handleInputChangeCode = (field, value) => {
           regionRegistration={regionRegistration}
           setRegionRegistration={setRegionRegistration}
           cityRegistration={cityRegistration}
-          checkoutData={checkoutData}
+          checkoutData={userLegalData}
           regionsData={regionsData}
-          isEmptyData={isEmptyData}
+          isEmptyData={isEmptyDataLegal}
         />
       </div>
 
@@ -193,11 +205,11 @@ const handleInputChangeCode = (field, value) => {
           Місто реєстрації <span className="text-textError">*</span>
         </p>
         <CityRegistration
-          checkoutData={checkoutData}
+          checkoutData={userLegalData}
           cityRegistration={cityRegistration}
           setCityRegistration={setCityRegistration}
           localityPlaceInfo={localityPlaceInfo}
-          isEmptyData={isEmptyData}
+          isEmptyData={isEmptyDataLegal}
         />
       </div>
 
@@ -216,7 +228,7 @@ const handleInputChangeCode = (field, value) => {
             }}
             className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
           />
-          {isEmptyData && companyNameInfo === '' && (
+          {isEmptyDataLegal && companyNameInfo === '' && (
             <p className="text-textError text-[12px]">
               Заповніть юридичну адресу
             </p>
@@ -224,9 +236,10 @@ const handleInputChangeCode = (field, value) => {
         </label>
       </div>
       <Individual
-        checkoutData={checkoutData}
-        isEmptyData={isEmptyData}
+        checkoutData={userLegalData}
+        isEmptyData={isEmptyDataLegal}
         patterns={patterns}
+        isClientStatus={isClientStatus}
       />
     </div>
   );

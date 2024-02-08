@@ -1,4 +1,5 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { fetchStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 import { selectStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
@@ -11,6 +12,8 @@ const DeliveryCourier = ({
   setAddressDelivery,
   checkoutData,
   isErrorMessage,
+  userLegalData,
+  isClientStatus,
 }) => {
   const dispatch = useDispatch();
   const [street, setStreet] = useState('');
@@ -21,7 +24,9 @@ const DeliveryCourier = ({
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const cityRef = checkoutData?.cityRef;
+  const cityRef = isClientStatus
+    ? checkoutData?.cityRef
+    : userLegalData?.cityRef;
   const streetsInfo = useSelector(selectStreets);
 
   const streetName =
@@ -54,9 +59,19 @@ const DeliveryCourier = ({
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
-    dispatch(
-      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-    );
+      if (isClientStatus) {
+         dispatch(
+           addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+         );
+      }
+      if (!isClientStatus) {
+         dispatch(
+           addToCheckoutLegal({
+             field: 'deliveryAddress',
+             value: addressDelivery,
+           })
+         );
+      }   
     setIsListOpen(true);
     if (!searchStreet) {
       removeStreet();
@@ -66,17 +81,37 @@ const DeliveryCourier = ({
   const handleInputChangeHouse = event => {
     const house = event.target.value;
     setHouseNumber(house);
-    dispatch(
-      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-    );
+    if (isClientStatus) {
+      dispatch(
+        addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+      );
+    }
+    if (!isClientStatus) {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryAddress',
+          value: addressDelivery,
+        })
+      );
+    }   
   };
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;
     setApartment(apartment);
-    dispatch(
-      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-    );
+    if (isClientStatus) {
+      dispatch(
+        addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+      );
+    }
+    if (!isClientStatus) {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryAddress',
+          value: addressDelivery,
+        })
+      );
+    }   
   };
 
   const handleSelection = selectedItem => {
@@ -173,7 +208,9 @@ const DeliveryCourier = ({
             onChange={handleInputChangeHouse}
           />
           {isErrorMessage && street === '' && (
-            <div className="text-textError text-[12px]">Заповніть номер будинку</div>
+            <div className="text-textError text-[12px]">
+              Заповніть номер будинку
+            </div>
           )}
         </div>
 

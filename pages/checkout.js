@@ -19,12 +19,14 @@ import { clearTheCart } from '@/redux/cart/cartSlice';
 import { ModalOrderSuccessful } from '@/components';
 import { Button } from 'universal-components-frontend/src/components/buttons';
 import { selectPatterns } from '@/redux/patterns/patternsSelectors';
+import { addToCheckoutLegal, clearCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
+  console.log("TCL: Сheckout -> userData", userData)
   const userLegalData = useSelector(selectCheckoutLegal);
   console.log("TCL: Сheckout -> userLegalData", userLegalData)
   const {
@@ -39,13 +41,6 @@ const Сheckout = () => {
     userComment,
     deliveryCity,
     deliveryAddress,
-    legalEntityData: {
-      companyName,
-      companyCode,
-      companyCity,
-      companyAddress,
-      companyRegion,
-    },
   } = userData;
 
   const patterns = useSelector(selectPatterns);
@@ -65,88 +60,144 @@ const Сheckout = () => {
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
-  const [selfAddress, setSelfAddress] = useState(deliveryOffice || '');
-  const [addressDelivery, setAddressDelivery] = useState(deliveryAddress || '');
-  const [addressDeliveryNP, setAddressDeliveryNP] = useState(
-    deliveryAddress || ''
+  const [selfAddress, setSelfAddress] = useState(
+    isClientStatus ? deliveryOffice || '' : userLegalData.deliveryOffice || ''
   );
-  const [warehouses, setWarehouses] = useState(deliveryOffice || '');
+  const [addressDelivery, setAddressDelivery] = useState(
+    isClientStatus ? deliveryAddress || '' : userLegalData.deliveryAddress || ''
+  );
+  const [addressDeliveryNP, setAddressDeliveryNP] = useState(
+    isClientStatus ? deliveryAddress || '' : userLegalData.deliveryAddress || ''
+  );
+  const [warehouses, setWarehouses] = useState(
+    isClientStatus ? deliveryOffice || '' : userLegalData.deliveryOffice || ''
+  );
   const [isErrorMessage, setIsErrorMessage] = useState(false);
-  const [isEmptyData, setIsEmptyData] = useState(false);
-  console.log("TCL: Сheckout -> isEmptyData", isEmptyData)
+  const [isEmptyDataIndividual, setIsEmptyDataIndividual] = useState(false);
+  const [isEmptyDataLegal, setIsEmptyDataLegal] = useState(false);
 
-  const [selectedDelivery, setSelectedDelivery] = useState('');
-
+  const [selectedDelivery, setSelectedDelivery] = useState(
+    isClientStatus
+      ? deliveryMethodId || ''
+      : userLegalData.deliveryMethodId || ''
+  );
   const handleCitySelection = cityDeliverRef => {
-    dispatch(addToCheckout({ field: 'selectedCity', value: cityDeliverRef }));
+      if (!isClientStatus) {
+        dispatch(
+          addToCheckoutLegal({ field: 'selectedCity', value: cityDeliverRef })
+        );
+      }
+      if (isClientStatus) {
+        dispatch(
+          addToCheckout({ field: 'selectedCity', value: cityDeliverRef })
+        );
+      }
   };
 
   const handleStreetSelection = cityRef => {
-    dispatch(addToCheckout({ field: 'cityRef', value: cityRef }));
+        if (!isClientStatus) {
+          dispatch(addToCheckoutLegal({ field: 'cityRef', value: cityRef }));
+        }
+        if (isClientStatus) {
+              dispatch(addToCheckout({ field: 'cityRef', value: cityRef }));
+        }
   };
 
   const handleCityChange = newCity => {
-    dispatch(addToCheckout({ field: 'deliveryCity', value: newCity }));
+      if (!isClientStatus) {
+        dispatch(addToCheckoutLegal({ field: 'deliveryCity', value: newCity }));
+      }
+      if (isClientStatus) {
+        dispatch(addToCheckout({ field: 'deliveryCity', value: newCity }));
+      }
   };
 
   const handleWarehouseChange = warehouse => {
-    dispatch(addToCheckout({ field: 'deliveryOffice', value: warehouse }));
+      if (!isClientStatus) {
+        dispatch(
+          addToCheckoutLegal({ field: 'deliveryOffice', value: warehouse })
+        );
+      }
+      if (isClientStatus) {
+        dispatch(addToCheckout({ field: 'deliveryOffice', value: warehouse }));
+      }
   };
 
   const handleDeliveryChange = event => {
     const selectedDeliveryValue = event.target.value;
     setSelectedDelivery(selectedDeliveryValue);
-    dispatch(
-      addToCheckout({ field: 'deliveryMethodId', value: selectedDeliveryValue })
-    );
-    dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+          if (!isClientStatus) {
+            dispatch(
+              addToCheckoutLegal({
+                field: 'deliveryMethodId',
+                value: selectedDeliveryValue,
+              })
+            );
+                dispatch(
+                  addToCheckoutLegal({ field: 'deliveryOffice', value: '' })
+                );
+          }
+          if (isClientStatus) {
+            dispatch(
+              addToCheckout({
+                field: 'deliveryMethodId',
+                value: selectedDeliveryValue,
+              })
+            );
+                dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+          }
     setIsErrorMessage(false);
-  };
+  }; 
 
-const commentValidation = userComment !== '' && userComment.length<10
-console.log("TCL: Сheckout -> userComment.length", userComment.length)
+  const commentValidation = userComment !== '' && userComment.length < 10
+  const commentValidationLegal =
+    userLegalData.userComment !== '' && userLegalData.userComment.length < 10;
+  
+  console.log('TCL: Сheckout -> ', userLegalData.companyCity);
 
   useEffect(() => {
-    setSelectedDelivery(deliveryMethodId || null);
-  }, [deliveryMethodId]);
+    if (!isClientStatus) {
+      setSelectedDelivery(userLegalData.deliveryMethodId || null);
+    }
+    if (isClientStatus) {
+      setSelectedDelivery(deliveryMethodId || null);
+    }
+  }, [deliveryMethodId, userLegalData.deliveryMethodId, isClientStatus]);
 
-  useEffect(()=>{
-    setIsEmptyData(false);
-  }, [userType])
-
-  const handleSubmit =  event => {
+  const handleSubmit = event => {
     event.preventDefault();
     if (
-      (userType === 'individual' && selectedDelivery === '') ||
+      (isClientStatus && selectedDelivery === '') ||
       phone === '' ||
       email === '' ||
       username === '' ||
       userSurname === '' ||
-      !commentValidation ||
-      (deliveryCity === '' && selectedDelivery !== 'self')
-    ) {
-      setIsEmptyData(true);
-      return;
-    }
-
-    if (
-      (userType === 'company' ||
-      userType === 'entrepreneur' && selectedDelivery === '') ||
-      phone === '' ||
-      email === '' ||
-      username === '' ||
-      userSurname === '' ||
-      (deliveryCity === '' && selectedDelivery !== 'self') ||
-      companyName === '' ||
-      companyCode === '' ||
-      companyCity === '' ||
-      companyAddress === '' ||
-      companyRegion === '' ||
+      deliveryCity==='' ||
       !commentValidation
     ) {
-      setIsEmptyData(true);
-      return;
+      setIsEmptyDataIndividual(true);
     }
+    if (
+      (!isClientStatus && selectedDelivery === '') ||
+      userLegalData.phone === '' ||
+      userLegalData.email === '' ||
+      userLegalData.username === '' ||
+      userLegalData.userSurname === '' ||
+      userLegalData.companyName === '' ||
+      userLegalData.companyCode === '' ||
+      userLegalData.companyCity === '' ||
+      userLegalData.companyAddress === '' ||
+      userLegalData.companyRegion === '' ||
+      !commentValidationLegal
+    ) {
+      setIsEmptyDataLegal(true);
+    }
+  if (isEmptyDataIndividual && isClientStatus) {
+    return;
+  }
+    if (isEmptyDataLegal && !isClientStatus) {
+    return
+  }
 
     if (selectedDelivery === 'self' && selfAddress === '') {
       setIsErrorMessage(true);
@@ -164,32 +215,44 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
       setIsErrorMessage(true);
       return;
     }
-
     const requestBody = {
       products: productsInfo,
-      userType: isClientStatus ? 'individual' : userType,
-      phone: phone.toString().replace(/[ ]/g, ''),
-      username: username,
-      userSurname: userSurname,
-      userMiddleName: userMiddleName,
-      email: email,
-      deliveryMethodId: deliveryMethodId,
-      deliveryOffice: deliveryOffice,
-      userComment: userComment,
-      deliveryCity: deliveryCity,
-      deliveryAddress: deliveryAddress,
-      legalEntityData: {
-        companyName: isClientStatus ? '' : companyName,
-        companyCode: isClientStatus ? '' : companyCode,
-        companyRegion: isClientStatus ? '' : companyRegion,
-        companyCity: isClientStatus ? '' : companyCity,
-        companyAddress: isClientStatus ? '' : companyAddress,
-      },
+      userType: isClientStatus ? 'individual' : userLegalData.userType,
+      phone: isClientStatus
+        ? phone.toString().replace(/[ ]/g, '')
+        : userLegalData.phone.toString().replace(/[ ]/g, ''),
+      username: isClientStatus ? username : userLegalData.username,
+      userSurname: isClientStatus ? userSurname : userLegalData.userSurname,
+      userMiddleName: isClientStatus
+        ? userMiddleName
+        : userLegalData.userMiddleName,
+      email: isClientStatus ? email : userLegalData.email,
+      deliveryMethodId: isClientStatus
+        ? deliveryMethodId
+        : userLegalData.deliveryMethodId,
+      deliveryOffice: isClientStatus
+        ? deliveryOffice
+        : userLegalData.deliveryOffice,
+      userComment: isClientStatus ? userComment : userLegalData.userComment,
+      deliveryCity: isClientStatus ? deliveryCity : userLegalData.deliveryCity,
+      deliveryAddress: isClientStatus
+        ? deliveryAddress
+        : userLegalData.deliveryAddress,
+      legalEntityData: isClientStatus
+        ? undefined
+        : {
+            companyName: userLegalData.legalEntityData.companyName,
+            companyCode: userLegalData.legalEntityData.companyCode,
+            companyRegion: userLegalData.legalEntityData.companyRegion,
+            companyCity: userLegalData.legalEntityData.companyCity,
+            companyAddress: userLegalData.legalEntityData.companyAddress,
+          },
     };
     setShowModalOrderSuccessful(true);
     try {
       dispatch(fetchOrders(requestBody));
       dispatch(clearCheckout());
+      dispatch(clearCheckoutLegal());
       dispatch(clearTheCart());
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -211,14 +274,13 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
       );
     } else {
       dispatch(
-        addToCheckout({
+        addToCheckoutLegal({
           field: 'userType',
           value: isLegalPerson === 'ФОП' ? 'entrepreneur' : 'company',
         })
       );
     }
   }, [isClientStatus]);
-  console.log("TCL: Сheckout -> isClientStatus", isClientStatus)
 
   return (
     <>
@@ -256,34 +318,32 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
             <h1 className="font-medium text-[36px]/[46.8px] text-textPrimary mt-3 mb-6">
               Оформлення замовлення
             </h1>
+            <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
+              <button
+                className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
+                  isClientStatus ? 'activeButton' : ''
+                }`}
+                onClick={() => {
+                  setIsClientStatus(true);
+                }}
+              >
+                Фізична особа
+              </button>
+              <button
+                className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
+                  !isClientStatus ? 'activeButton' : ''
+                }`}
+                onClick={() => {
+                  setIsClientStatus(false);
+                }}
+              >
+                Юридична особа
+              </button>
+            </div>
 
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <div className="flex justify-between">
                 <div className="flex flex-col tablet1024:w-[644px] desktop1200:w-[698px]">
-                  <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
-                    <button
-                      className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
-                        isClientStatus ? 'activeButton' : ''
-                      }`}
-                      onClick={() => {
-                        setIsClientStatus(true);
-                        setIsEmptyData(false);
-                      }}
-                    >
-                      Фізична особа
-                    </button>
-                    <button
-                      className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
-                        !isClientStatus ? 'activeButton' : ''
-                      }`}
-                      onClick={() => {
-                        setIsClientStatus(false);
-                        setIsEmptyData(false);
-                      }}
-                    >
-                      Юридична особа
-                    </button>
-                  </div>
                   <div>
                     <h2 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
                       Контактні дані
@@ -293,18 +353,20 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                         isLegalPerson={isLegalPerson}
                         setIsLegalPerson={setIsLegalPerson}
                         orderInfoTotal={orderInfoTotal}
-                        isEmptyData={isEmptyData}
+                        isEmptyDataLegal={isEmptyDataLegal}
                         checkoutData={userData}
                         patterns={patterns}
                         userLegalData={userLegalData}
+                        userType={userType}
+                        isClientStatus={isClientStatus}
                       />
                     ) : (
                       <div className="flex flex-wrap gap-3">
                         <Individual
-                          orderInfoTotal={orderInfoTotal}
                           patterns={patterns}
-                          isEmptyData={isEmptyData}
+                          isEmptyData={isEmptyDataIndividual}
                           checkoutData={userData}
+                          isClientStatus={isClientStatus}
                         />
                       </div>
                     )}
@@ -337,8 +399,11 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                       onCityChange={handleCityChange}
                       onSelectCityRef={handleStreetSelection}
                       checkoutData={userData}
-                      isEmptyData={isEmptyData}
+                      userLegalData={userLegalData}
+                      isEmptyDataLegal={isEmptyDataLegal}
+                      isEmptyDataIndividual={isEmptyDataIndividual}
                       selectedDelivery={selectedDelivery}
+                      isClientStatus={isClientStatus}
                     />
                   </div>
 
@@ -379,6 +444,8 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                           warehouses={warehouses}
                           setWarehouses={setWarehouses}
                           checkoutData={userData}
+                          isClientStatus={isClientStatus}
+                          userLegalData={userLegalData}
                         />
                       </div>
                     )}
@@ -417,7 +484,7 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                         setSelfAddress={setSelfAddress}
                         selfAddress={selfAddress}
                         isErrorMessage={isErrorMessage}
-                        checkoutData={userData}
+                        isClientStatus={isClientStatus}
                       />
                     )}
                   </div>
@@ -456,6 +523,8 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                         addressDelivery={addressDelivery}
                         setAddressDelivery={setAddressDelivery}
                         checkoutData={userData}
+                        isClientStatus={isClientStatus}
+                        userLegalData={userLegalData}
                       />
                     )}
                   </div>
@@ -491,6 +560,8 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
                         addressDelivery={addressDeliveryNP}
                         setAddressDelivery={setAddressDeliveryNP}
                         checkoutData={userData}
+                        isClientStatus={isClientStatus}
+                        userLegalData={userLegalData}
                       />
                     )}
                   </div>
@@ -498,8 +569,9 @@ console.log("TCL: Сheckout -> userComment.length", userComment.length)
 
                 {/* Залишити коментар */}
                 <CommentOrder
-                  checkoutData={userData}
-                  isEmptyData={isEmptyData}
+                  isEmptyDataLegal={isEmptyDataLegal}
+                  isEmptyDataIndividual={isEmptyDataIndividual}
+                  isClientStatus={isClientStatus}
                 />
 
                 <div className=" tablet1024:hidden mt-6">

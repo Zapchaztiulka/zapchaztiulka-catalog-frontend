@@ -1,12 +1,25 @@
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
+import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-const CommentOrder = ({ checkoutData, isEmptyData }) => {
+const CommentOrder = ({
+  isClientStatus,
+  isEmptyDataIndividual,
+  isEmptyDataLegal,
+}) => {
   const dispatch = useDispatch();
+  const checkoutData = useSelector(selectCheckout);
+  const userLegalData = useSelector(selectCheckoutLegal);
 
   const handleInputChange = (field, value) => {
-    dispatch(addToCheckout({ field, value }));
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field, value }));
+    }
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: field, value }));
+    }
   };
   return (
     <div className="flex flex-col gap-[16px] mb-6">
@@ -22,14 +35,18 @@ const CommentOrder = ({ checkoutData, isEmptyData }) => {
         rows="5"
         cols="33"
         minLength="10"
-        value={checkoutData.userComment}
+        value={
+          isClientStatus ? checkoutData.userComment : userLegalData.userComment
+        }
         onChange={e => handleInputChange('userComment', e.target.value)}
         className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px] focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive"
       />
-      {isEmptyData &&
+      {isEmptyDataIndividual &&
         checkoutData.userComment !== '' &&
-        checkoutData.userComment.length<10 && (
-          <p className="text-textError text-[12px]">Коментар має містити не менше 10 символів</p>
+        checkoutData.userComment.length < 10 && (
+          <p className="text-textError text-[12px]">
+            Коментар має містити не менше 10 символів
+          </p>
         )}
     </div>
   );

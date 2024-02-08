@@ -7,8 +7,14 @@ import {
   ArrowUpIcon,
 } from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
+import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
-const DeliveryBySelf = ({ selfAddress, setSelfAddress, isErrorMessage }) => {
+const DeliveryBySelf = ({
+  selfAddress,
+  setSelfAddress,
+  isErrorMessage,
+  isClientStatus,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [address, setAddress] = useState(['Адресa 1', 'Адресa 2']);
   const dispatch = useDispatch();
@@ -20,8 +26,13 @@ const DeliveryBySelf = ({ selfAddress, setSelfAddress, isErrorMessage }) => {
 
   const handleSelected = value => () => {
     setSelfAddress(value);
-    dispatch(addToCheckout({ field: 'deliveryOffice', value }));
     setIsOpen(false);
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'deliveryOffice', value }));
+    }
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryOffice', value }));
+    }
   };
 
   const close = () => {
