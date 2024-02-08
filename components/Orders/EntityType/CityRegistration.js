@@ -9,6 +9,7 @@ const CityRegistration = ({
   cityRegistration,
   setCityRegistration,
   localityPlaceInfo,
+  isEmptyData,
 }) => {
   const dispatch = useDispatch();
   const { companyCity } = checkoutData.legalEntityData;
@@ -48,7 +49,7 @@ const CityRegistration = ({
         value: selectedItem.MainDescription,
       })
     );
-      dispatch(
+    dispatch(
       addToCheckout({
         field: 'legalEntityData.companyRegion',
         value: selectedItem.Area,
@@ -82,7 +83,6 @@ const CityRegistration = ({
           ref={refInput}
           type="text"
           value={cityRegistration}
-          required
           onChange={handleInputChangeLocality}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
@@ -103,6 +103,9 @@ const CityRegistration = ({
           </button>
         )}
       </div>
+      {isEmptyData && cityRegistration === '' && (
+        <p className="text-textError text-[12px]">Оберіть місто</p>
+      )}
 
       {localityPlaceInfo &&
         cityRegistration &&

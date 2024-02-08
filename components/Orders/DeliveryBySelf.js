@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useOnKeyDown, useOutsideClick } from '@/hooks/useOnClickOutside';
-import { ArrowDownIcon, ArrowUpIcon } from 'universal-components-frontend/src/components/icons';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+} from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 
-const DeliveryBySelf = () => {
-  const checkoutData = useSelector(selectCheckout);
-  const [selected, setSelected] = useState(checkoutData?.deliveryOffice || '');
+const DeliveryBySelf = ({ selfAddress, setSelfAddress, isErrorMessage }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [addressForself, setAddressForself] = useState(['Адресa 1', 'Адресa 2']);
+  const [address, setAddress] = useState(['Адресa 1', 'Адресa 2']);
   const dispatch = useDispatch();
 
   const refOption = useRef(null);
@@ -19,8 +19,8 @@ const DeliveryBySelf = () => {
   const toggling = () => setIsOpen(!isOpen);
 
   const handleSelected = value => () => {
-    setSelected(value);
-    dispatch(addToCheckout({ field: 'deliveryOffice', value })); 
+    setSelfAddress(value);
+    dispatch(addToCheckout({ field: 'deliveryOffice', value }));
     setIsOpen(false);
   };
 
@@ -44,7 +44,7 @@ const DeliveryBySelf = () => {
           className="flex justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full"
         >
           <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
-            {selected}
+            {selfAddress || address[0]}
           </div>
           {isOpen ? (
             <ArrowUpIcon color={theme.extend.colors.iconSecondary} />
@@ -52,6 +52,9 @@ const DeliveryBySelf = () => {
             <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
           )}
         </div>
+        {isErrorMessage && selfAddress === '' && (
+          <p className="text-textError text-[12px]">Оберіть адресу</p>
+        )}
 
         {isOpen && (
           <div
@@ -59,8 +62,8 @@ const DeliveryBySelf = () => {
             className="absolute z-10 w-full bg-bgWhite border rounded-minimal shadow-md shadow-gray-300"
           >
             <ul>
-              {addressForself &&
-                addressForself?.map(item => (
+              {address &&
+                address?.map(item => (
                   <li
                     key={Math.random()}
                     onClick={handleSelected(item)}

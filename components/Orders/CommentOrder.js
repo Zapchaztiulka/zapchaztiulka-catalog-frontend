@@ -1,11 +1,9 @@
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const CommentOrder = () => {
+const CommentOrder = ({ checkoutData, isEmptyData }) => {
   const dispatch = useDispatch();
-  const checkoutData = useSelector(selectCheckout);
 
   const handleInputChange = (field, value) => {
     dispatch(addToCheckout({ field, value }));
@@ -23,11 +21,16 @@ const CommentOrder = () => {
         name="comment"
         rows="5"
         cols="33"
-        minLength='10'
+        minLength="10"
         value={checkoutData.userComment}
         onChange={e => handleInputChange('userComment', e.target.value)}
         className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px] focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive"
       />
+      {isEmptyData &&
+        checkoutData.userComment !== '' &&
+        checkoutData.userComment.length<10 && (
+          <p className="text-textError text-[12px]">Коментар має містити не менше 10 символів</p>
+        )}
     </div>
   );
 };

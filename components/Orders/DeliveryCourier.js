@@ -1,5 +1,4 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { fetchStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 import { selectStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
@@ -7,10 +6,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
-const DeliveryCourier = () => {
+const DeliveryCourier = ({
+  addressDelivery,
+  setAddressDelivery,
+  checkoutData,
+  isErrorMessage,
+}) => {
   const dispatch = useDispatch();
-  const checkoutData = useSelector(selectCheckout);
-  const [street, setStreet] = useState(checkoutData?.deliveryAddress || '');
+  const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
   const [apartment, setApartment] = useState('');
 
@@ -29,10 +32,17 @@ const DeliveryCourier = () => {
 
   const removeStreet = () => {
     setStreet('');
-    setApartment('')
-    setHouseNumber('')
+    setApartment('');
+    setHouseNumber('');
     setIsListOpen(false);
+  };
+
+  useEffect(() => {
+    if (street !== '' && houseNumber !== '') {
+      const fullAddress = `${street}, ${houseNumber}, ${apartment}`;
+      setAddressDelivery(fullAddress);
     }
+  }, [street, houseNumber, apartment, setAddressDelivery]);
 
   // Get list of streets
   useEffect(() => {
@@ -41,31 +51,33 @@ const DeliveryCourier = () => {
     }
   }, [dispatch, street, cityRef]);
 
-    const fullAddress = `${street}, ${houseNumber}, ${apartment}`;
-
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
-      dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+    dispatch(
+      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+    );
     setIsListOpen(true);
-        if (!searchStreet) {
-      removeStreet()
+    if (!searchStreet) {
+      removeStreet();
     }
   };
 
   const handleInputChangeHouse = event => {
     const house = event.target.value;
     setHouseNumber(house);
-     dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+    dispatch(
+      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+    );
   };
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;
     setApartment(apartment);
-     dispatch(addToCheckout({ field: 'deliveryAddress', value: fullAddress }));
+    dispatch(
+      addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
+    );
   };
-
-
 
   const handleSelection = selectedItem => {
     setStreet(selectedItem);
@@ -75,19 +87,19 @@ const DeliveryCourier = () => {
 
   const closeByClickOutside = () => {
     if (!selectedItem && isListOpen) {
-       removeStreet();
+      removeStreet();
     }
   };
 
   useOutsideClick(refList, refInput, closeByClickOutside);
 
-      const handleInputFocus = () => {
-      setIsInputFocused(true);
-    };
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
 
-    const handleInputBlur = () => {
-      setIsInputFocused(false);
-    };
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
 
   return (
     <div className="pl-[32px] pr-[12px]">
@@ -120,6 +132,14 @@ const DeliveryCourier = () => {
             </button>
           )}
         </div>
+        {cityRef === '' && street === '' && (
+          <span className="text-textError text-[12px]">
+            Ви не обрали місто доставки
+          </span>
+        )}
+        {isErrorMessage && street === '' && (
+          <p className="text-textError text-[12px]">Заповніть назву вулиці</p>
+        )}
 
         {streetName && streetName.length !== 0 && isListOpen && (
           <ul
@@ -152,7 +172,11 @@ const DeliveryCourier = () => {
             type="text"
             onChange={handleInputChangeHouse}
           />
+          {isErrorMessage && street === '' && (
+            <div className="text-textError text-[12px]">Заповніть номер будинку</div>
+          )}
         </div>
+
         <div className="checkout-contacts-input search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">

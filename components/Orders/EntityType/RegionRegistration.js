@@ -10,10 +10,11 @@ const RegionRegistration = ({
   setRegionRegistration,
   cityRegistration,
   regionsData,
+  isEmptyData,
 }) => {
   const dispatch = useDispatch();
   const { companyRegion, companyCity } = checkoutData.legalEntityData;
-  const dataListRegion = regionsData?.data
+  const dataListRegion = regionsData?.data;
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -21,13 +22,12 @@ const RegionRegistration = ({
   const refInput = useRef(null);
   const refList = useRef(null);
 
-   const filteredRegions = dataListRegion?.filter(item =>
-     item.Description.toLowerCase().includes(regionRegistration.toLowerCase())
-   );
+  const filteredRegions = dataListRegion?.filter(item =>
+    item.Description.toLowerCase().includes(regionRegistration.toLowerCase())
+  );
 
   useEffect(() => {
-     setRegionRegistration(companyRegion);
-
+    setRegionRegistration(companyRegion);
   }, [companyRegion]);
 
   const removeRegion = () => {
@@ -83,7 +83,6 @@ const RegionRegistration = ({
           ref={refInput}
           type="text"
           value={regionRegistration}
-          required
           disabled={cityRegistration !== '' && regionRegistration !== ''}
           onChange={handleInputChangeRegion}
           onFocus={handleInputFocus}
@@ -91,7 +90,7 @@ const RegionRegistration = ({
           placeholder={isInputFocused ? null : 'Введіть назву області..'}
           className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
         />
-        {regionRegistration !== '' && cityRegistration === '' &&  (
+        {regionRegistration !== '' && cityRegistration === '' && (
           <button
             type="button"
             onClick={removeRegion}
@@ -105,6 +104,9 @@ const RegionRegistration = ({
           </button>
         )}
       </div>
+      {isEmptyData && regionRegistration === '' && (
+        <p className="text-textError text-[12px]">Оберіть область</p>
+      )}
 
       {filteredRegions &&
         regionRegistration &&

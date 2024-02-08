@@ -3,16 +3,22 @@ import { fetchWarehouses } from '@/redux/delivery/NovaPoshta/novaPoshtaOperation
 import { selectWaherousesNP } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CloseIcon } from 'universal-components-frontend/src/components/icons';
+import {
+  ArrowUpIcon,
+  CloseIcon,
+  ArrowDownIcon,
+} from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
-import { ArrowDownIcon } from 'universal-components-frontend/src/components/icons';
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 
-const DeliveryNova = ({ onWarehouseChange }) => {
+const DeliveryNova = ({
+  onWarehouseChange,
+  warehouses,
+  setWarehouses,
+  isErrorMessage,
+  checkoutData,
+}) => {
   const dispatch = useDispatch();
-  const checkoutData = useSelector(selectCheckout);
-  const [warehouses, setWarehouses] = useState(checkoutData?.deliveryOffice);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isInputEmpty, setIsInputEmpty] = useState(false);
@@ -96,7 +102,7 @@ const DeliveryNova = ({ onWarehouseChange }) => {
   return (
     <>
       <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
-        <div className="flex items-center gap-3 relative">
+        <div className="flex items-center ">
           <input
             ref={refInput}
             type="text"
@@ -107,7 +113,7 @@ const DeliveryNova = ({ onWarehouseChange }) => {
             placeholder={
               isInputEmpty ? null : 'Оберіть значення або введіть назву..'
             }
-            className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+            className="relative flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
           />
           {warehouses !== '' && (
             <button
@@ -116,13 +122,24 @@ const DeliveryNova = ({ onWarehouseChange }) => {
               className="absolute right-3 top-3"
             >
               <CloseIcon
-                className="close-icon stroke-iconPrimary"
-                width="24"
-                height="24"
+                color={theme.extend.colors.iconSecondary}
+                width="20"
+                height="20"
               />
             </button>
           )}
-
+          {/* {isOpen ? (
+            <ArrowUpIcon
+              color={theme.extend.colors.iconSecondary}
+              size={24}
+              className="absolute right-[36px] top-3"
+            />
+          ) : (
+            <ArrowDownIcon
+              color={theme.extend.colors.iconSecondary}
+              size={24}
+            />
+          )} */}
           {isOpen &&
             cityRef !== '' &&
             filteredWarehouses &&
@@ -151,6 +168,13 @@ const DeliveryNova = ({ onWarehouseChange }) => {
           warehouses === '' &&
           'Ви не обрали місто доставки'}
       </div>
+
+      {isErrorMessage && warehouses === '' && (
+        <p className="text-textError text-[12px]">
+          Оберіть відділення
+          <span className="text-textError">*</span>
+        </p>
+      )}
     </>
   );
 };

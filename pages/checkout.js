@@ -23,12 +23,29 @@ import { selectPatterns } from '@/redux/patterns/patternsSelectors';
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
-  console.log(orderInfoTotal);
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
-  console.log(userData);
-    const patterns = useSelector(selectPatterns);
-    console.log(patterns);
+  const {
+    userType,
+    phone,
+    email,
+    username,
+    userSurname,
+    userMiddleName,
+    deliveryMethodId,
+    deliveryOffice,
+    userComment,
+    deliveryCity,
+    deliveryAddress,
+    legalEntityData: {
+      companyName,
+      companyCode,
+      companyCity,
+      companyAddress,
+      companyRegion,
+    },
+  } = userData;
+  const patterns = useSelector(selectPatterns);
 
   const productsInfo = orderInfoData?.map(item => ({
     productId: item.id,
@@ -45,15 +62,15 @@ const Сheckout = () => {
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
-
-  const [isStateOfRegister, setIsStateOfRegister] = useState(
-    'Оберіть значення...'
+  const [selfAddress, setSelfAddress] = useState(deliveryOffice || '');
+  const [addressDelivery, setAddressDelivery] = useState(deliveryAddress || '');
+  const [addressDeliveryNP, setAddressDeliveryNP] = useState(
+    deliveryAddress || ''
   );
-  const [isCityOfRegister, setIsCityOfRegister] = useState(
-    'Оберіть значення...'
-  );
-
-  const [addressForself, setAddressForself] = useState('Оберіть значення...');
+  const [warehouses, setWarehouses] = useState(deliveryOffice || '');
+  const [isErrorMessage, setIsErrorMessage] = useState(false);
+  const [isEmptyData, setIsEmptyData] = useState(false);
+  console.log("TCL: Сheckout -> isEmptyData", isEmptyData)
 
   const [selectedDelivery, setSelectedDelivery] = useState('');
 
@@ -61,7 +78,7 @@ const Сheckout = () => {
     dispatch(addToCheckout({ field: 'selectedCity', value: cityDeliverRef }));
   };
 
-    const handleStreetSelection = cityRef => {
+  const handleStreetSelection = cityRef => {
     dispatch(addToCheckout({ field: 'cityRef', value: cityRef }));
   };
 
@@ -70,7 +87,7 @@ const Сheckout = () => {
   };
 
   const handleWarehouseChange = warehouse => {
-     dispatch(addToCheckout({ field: 'deliveryOffice', value: warehouse })) 
+    dispatch(addToCheckout({ field: 'deliveryOffice', value: warehouse }));
   };
 
   const handleDeliveryChange = event => {
@@ -79,56 +96,126 @@ const Сheckout = () => {
     dispatch(
       addToCheckout({ field: 'deliveryMethodId', value: selectedDeliveryValue })
     );
-        dispatch(
-      addToCheckout({ field: 'deliveryOffice', value: '' })
-    );
+    dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+    setIsErrorMessage(false);
   };
 
-  useEffect(() => {
-    setSelectedDelivery(userData.deliveryMethodId || null);
-  }, [userData.deliveryMethodId]);
-  console.log(isLegalPerson)
+const commentValidation = userComment !== '' && userComment.length<10
+console.log("TCL: Сheckout -> userComment.length", userComment.length)
 
-  const handleSubmit = async event => {
+  useEffect(() => {
+    setSelectedDelivery(deliveryMethodId || null);
+  }, [deliveryMethodId]);
+
+  useEffect(()=>{
+    setIsEmptyData(false);
+  }, [userType])
+
+  const handleSubmit =  event => {
     event.preventDefault();
+    if (
+      (userType === 'individual' && selectedDelivery === '') ||
+      phone === '' ||
+      email === '' ||
+      username === '' ||
+      userSurname === '' ||
+      !commentValidation ||
+      (deliveryCity === '' && selectedDelivery !== 'self')
+    ) {
+      setIsEmptyData(true);
+      return;
+    }
+
+    if (
+      (userType === 'company' ||
+      userType === 'entrepreneur' && selectedDelivery === '') ||
+      phone === '' ||
+      email === '' ||
+      username === '' ||
+      userSurname === '' ||
+      (deliveryCity === '' && selectedDelivery !== 'self') ||
+      companyName === '' ||
+      companyCode === '' ||
+      companyCity === '' ||
+      companyAddress === '' ||
+      companyRegion === '' ||
+      !commentValidation
+    ) {
+      setIsEmptyData(true);
+      return;
+    }
+
+    if (selectedDelivery === 'self' && selfAddress === '') {
+      setIsErrorMessage(true);
+      return;
+    }
+    if (selectedDelivery === 'np_courier' && addressDelivery === '') {
+      setIsErrorMessage(true);
+      return;
+    }
+    if (selectedDelivery === 'np' && warehouses === '') {
+      setIsErrorMessage(true);
+      return;
+    }
+    if (selectedDelivery === 'courier' && addressDeliveryNP === '') {
+      setIsErrorMessage(true);
+      return;
+    }
+
     const requestBody = {
       products: productsInfo,
-      userType: isClientStatus ? 'individual' : userData.userType,
-      phone: userData.phone.toString().replace(/[ ]/g, ''),
-      username: userData.username,
-      userSurname: userData.userSurname,
-      userMiddleName: userData.userMiddleName,
-      email: userData.email,
-      deliveryMethodId: userData.deliveryMethodId,
-      deliveryOffice: userData.deliveryOffice,
-      userComment: userData.userComment,
-      deliveryCity: userData.deliveryCity,
-      deliveryAddress: userData.deliveryAddress,
-      legalEntityData: isClientStatus
-        ? {}
-        : {
-            companyName: userData.legalEntityData.companyName,
-            companyCode: userData.legalEntityData.companyCode,
-            companyRegion: userData.legalEntityData.companyRegion,
-            companyCity: userData.legalEntityData.companyCity,
-            companyAddress: userData.legalEntityData.companyAddress,
-          },
+      userType: isClientStatus ? 'individual' : userType,
+      phone: phone.toString().replace(/[ ]/g, ''),
+      username: username,
+      userSurname: userSurname,
+      userMiddleName: userMiddleName,
+      email: email,
+      deliveryMethodId: deliveryMethodId,
+      deliveryOffice: deliveryOffice,
+      userComment: userComment,
+      deliveryCity: deliveryCity,
+      deliveryAddress: deliveryAddress,
+      legalEntityData: {
+        companyName: isClientStatus ? '' : companyName,
+        companyCode: isClientStatus ? '' : companyCode,
+        companyRegion: isClientStatus ? '' : companyRegion,
+        companyCity: isClientStatus ? '' : companyCity,
+        companyAddress: isClientStatus ? '' : companyAddress,
+      },
     };
     setShowModalOrderSuccessful(true);
-
     try {
       dispatch(fetchOrders(requestBody));
       dispatch(clearCheckout());
-      dispatch(clearTheCart())
+      dispatch(clearTheCart());
     } catch (error) {
       console.error('Error submitting order:', error);
     }
   };
 
-  const closeModal = ()=>{
-    setShowModalOrderSuccessful(false)
-      backToHomeUrl();
-  }
+  const closeModal = () => {
+    setShowModalOrderSuccessful(false);
+    backToHomeUrl();
+  };
+
+  useEffect(() => {
+    if (isClientStatus) {
+      dispatch(
+        addToCheckout({
+          field: 'userType',
+          value: 'individual',
+        })
+      );
+    } else {
+      dispatch(
+        addToCheckout({
+          field: 'userType',
+          value: isLegalPerson === 'ФОП' ? 'entrepreneur' : 'company',
+        })
+      );
+    }
+  }, [isClientStatus]);
+  console.log("TCL: Сheckout -> isClientStatus", isClientStatus)
 
   return (
     <>
@@ -175,7 +262,8 @@ const Сheckout = () => {
                       className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
                         isClientStatus ? 'activeButton' : ''
                       }`}
-                      onClick={() => setIsClientStatus(true)}
+                      onClick={() => {setIsClientStatus(true)
+                      setIsEmptyData(false);}}
                     >
                       Фізична особа
                     </button>
@@ -183,7 +271,10 @@ const Сheckout = () => {
                       className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
                         !isClientStatus ? 'activeButton' : ''
                       }`}
-                      onClick={() => setIsClientStatus(false)}
+                      onClick={() => {
+                        setIsClientStatus(false);
+                        setIsEmptyData(false)
+                      }}
                     >
                       Юридична особа
                     </button>
@@ -196,15 +287,19 @@ const Сheckout = () => {
                       <Legal
                         isLegalPerson={isLegalPerson}
                         setIsLegalPerson={setIsLegalPerson}
-                        isStateOfRegister={isStateOfRegister}
-                        setIsStateOfRegister={setIsStateOfRegister}
-                        isCityOfRegister={isCityOfRegister}
-                        setIsCityOfRegister={setIsCityOfRegister}
                         orderInfoTotal={orderInfoTotal}
+                        isEmptyData={isEmptyData}
+                        checkoutData={userData}
+                        patterns={patterns}
                       />
                     ) : (
                       <div className="flex flex-wrap gap-3">
-                        <Individual orderInfoTotal={orderInfoTotal} patterns={patterns}/>
+                        <Individual
+                          orderInfoTotal={orderInfoTotal}
+                          patterns={patterns}
+                          isEmptyData={isEmptyData}
+                          checkoutData={userData}
+                        />
                       </div>
                     )}
                   </div>
@@ -235,6 +330,9 @@ const Сheckout = () => {
                       onSelectCity={handleCitySelection}
                       onCityChange={handleCityChange}
                       onSelectCityRef={handleStreetSelection}
+                      checkoutData={userData}
+                      isEmptyData={isEmptyData}
+                      selectedDelivery={selectedDelivery}
                     />
                   </div>
 
@@ -271,6 +369,10 @@ const Сheckout = () => {
                         </p>
                         <DeliveryNova
                           onWarehouseChange={handleWarehouseChange}
+                          isErrorMessage={isErrorMessage}
+                          warehouses={warehouses}
+                          setWarehouses={setWarehouses}
+                          checkoutData={userData}
                         />
                       </div>
                     )}
@@ -306,9 +408,10 @@ const Сheckout = () => {
                     </div>
                     {selectedDelivery === 'self' && (
                       <DeliveryBySelf
-                        addressForself={addressForself}
-                        selectedDelivery={selectedDelivery}
-                        setAddressForself={setAddressForself}
+                        setSelfAddress={setSelfAddress}
+                        selfAddress={selfAddress}
+                        isErrorMessage={isErrorMessage}
+                        checkoutData={userData}
                       />
                     )}
                   </div>
@@ -341,7 +444,14 @@ const Сheckout = () => {
                         </span>
                       </label>
                     </div>
-                    {selectedDelivery === 'courier' && <DeliveryCourier />}
+                    {selectedDelivery === 'courier' && (
+                      <DeliveryCourier
+                        isErrorMessage={isErrorMessage}
+                        addressDelivery={addressDelivery}
+                        setAddressDelivery={setAddressDelivery}
+                        checkoutData={userData}
+                      />
+                    )}
                   </div>
 
                   {/* Кур'єр Нової Пошти */}
@@ -369,12 +479,22 @@ const Сheckout = () => {
                         <span>Кур'єр Нова Пошта</span>
                       </label>
                     </div>
-                    {selectedDelivery === 'np_courier' && <DeliveryCourier />}
+                    {selectedDelivery === 'np_courier' && (
+                      <DeliveryCourier
+                        isErrorMessage={isErrorMessage}
+                        addressDelivery={addressDeliveryNP}
+                        setAddressDelivery={setAddressDeliveryNP}
+                        checkoutData={userData}
+                      />
+                    )}
                   </div>
                 </div>
 
                 {/* Залишити коментар */}
-                <CommentOrder />
+                <CommentOrder
+                  checkoutData={userData}
+                  isEmptyData={isEmptyData}
+                />
 
                 <div className=" tablet1024:hidden mt-6">
                   {/* Підсумок замовлення */}
