@@ -202,79 +202,96 @@ const Сheckout = () => {
   }, [deliveryMethodId, deliveryMethodIdLegal, isClientStatus]);
 
   //Валідація довжини значень властивостей в тілі запиту
-// const userNameLength =
-//   username !== '' && username.length >= min.user && username.length <= max.user;
-//   const userMiddleNameLength =
-//     userMiddleName!=='' && userMiddleName.length >= min.user &&
-//     userMiddleName.length <= max.user;
-//   const userSurNameLength =
-//     userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
-//   const userCommentLength =
-//     userComment!=='' && userComment.length >= min.description &&
-//     userComment.length <= max.description;
+const userNameLength =
+  username !== '' && username.length >= min.user && username.length <= max.user;
+  const userMiddleNameLength =
+    userMiddleName!=='' && userMiddleName.length >= min.user &&
+    userMiddleName.length <= max.user;
+  const userSurNameLength =
+    userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
+  const userCommentLength =
+    userComment!=='' && userComment.length >= min.description &&
+    userComment.length <= max.description;
 
-//   const userNameLegalLength =
-//     usernameLegal?.length >= min.user && usernameLegal?.length <= max.user;
-//   const userNameMiddleLegalLength =
-//     userMiddleNameLegal?.length >= min.user &&
-//     userMiddleNameLegal?.length <= max.user;
-//   const userSurNameLegalLength =
-//     userSurnameLegal?.length >= min.user &&
-//     userSurnameLegal?.length <= max.user;
-//   const userCommentLegalLength =
-//     userCommentLegal?.length >= min.description &&
-//     userCommentLegal?.length <= max.description;
-//   const companyAddressLength =
-//     companyAddress?.length >= min.companyAddress &&
-//     companyAddress?.length <= max.companyAddress;
-//   const companyNameLength =
-//     companyName?.length >= min.companyName &&
-//     companyName?.companyName <= max.companyName;
+  const userNameLegalLength =
+    usernameLegal?.length >= min.user && usernameLegal?.length <= max.user;
+  const userNameMiddleLegalLength =
+    userMiddleNameLegal?.length >= min.user &&
+    userMiddleNameLegal?.length <= max.user;
+  const userSurNameLegalLength =
+    userSurnameLegal?.length >= min.user &&
+    userSurnameLegal?.length <= max.user;
+  const userCommentLegalLength =
+    userCommentLegal?.length >= min.description &&
+    userCommentLegal?.length <= max.description;
+  const companyAddressLength =
+    companyAddress?.length >= min.companyAddress &&
+    companyAddress?.length <= max.companyAddress;
 
   // перевірка пустоти та валідації даних для фізичних осіб
- const isFormValid = () => {
-   if (isClientStatus) {
-     if (
-       selectedDelivery === '' ||
-       selectedDelivery === null ||
-       phone === '' ||
-       email === '' ||
-       username === '' ||
-       userSurname === '' ||
-       deliveryCity === '' 
-     ) {
-       setIsEmptyDataIndividual(true);
-       return false;
-     }
-   }
-   return true;
- };
+const isFormValid = () => {
+  if (isClientStatus) {
+    if (
+      selectedDelivery === '' ||
+      selectedDelivery === null ||
+      phone === '' ||
+      email === '' ||
+      username === '' ||
+      userSurname === '' ||
+      deliveryCity === '' ||
+      !userNameLength ||
+      !userMiddleNameLength ||
+      !userSurNameLength ||
+      !userCommentLength
+    ) {
+      setIsEmptyDataIndividual(true);
+      return false;
+    }
+  } else {
+    setIsEmptyDataIndividual(false); 
+  }
+  return true;
+};
+ 
+  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery);
+  
+  console.log('TCL: Сheckout ->selfAddress ', selfAddress);
+
+  
+  console.log('TCL: Сheckout ->addressDelivery ', addressDelivery);
+  
+  console.log('TCL: Сheckout -> deliveryCity ', deliveryCity);
 
   // перевірка пустоти та валідації даних для юридичних осіб
- const isFormValidLegal = () => {
-   if (!isClientStatus) {
-     if (
-       selectedDelivery === '' ||
-       selectedDelivery === null ||
-       phoneLegal === '' ||
-       emailLegal === '' ||
-       usernameLegal === '' ||
-       userSurnameLegal === '' ||
-       companyName === '' ||
-       companyCode === '' ||
-       companyCity === '' ||
-       companyAddress === '' ||
-       companyRegion === ''
-     ) {
-       setIsEmptyDataLegal(true);
-       return false;
-     }
-   }
-   return true;
- };
-  
+const isFormValidLegal = () => {
+  if (!isClientStatus) {
+    if (
+      selectedDelivery === '' ||
+      selectedDelivery === null ||
+      phoneLegal === '' ||
+      emailLegal === '' ||
+      usernameLegal === '' ||
+      userSurnameLegal === '' ||
+      companyName === '' ||
+      companyCode === '' ||
+      companyCity === '' ||
+      companyAddress === '' ||
+      companyRegion === '' ||
+      !userNameLegalLength ||
+      !userNameMiddleLegalLength ||
+      !userSurNameLegalLength ||
+      !userCommentLegalLength ||
+      !companyAddressLength
+    ) {
+      setIsEmptyDataLegal(true);
+      return false;
+    }
+  } else {
+    setIsEmptyDataLegal(false); 
+  }
+  return true;
+};
 
-console.log('TCL: Сheckout -> selectedDelivery', selectedDelivery);
 
   // Сабміт форми з відправкою тіла запиту та перевіркою на помилки
   const handleSubmit = event => {
@@ -283,12 +300,6 @@ console.log('TCL: Сheckout -> selectedDelivery', selectedDelivery);
      return;
    }
 
-    if (isEmptyDataIndividual && isClientStatus) {
-      return;
-    }
-    if (isEmptyDataLegal && !isClientStatus) {
-      return;
-    }
     if (selectedDelivery === 'self' && selfAddress === '') {
       setIsErrorMessage(true);
       return;
@@ -305,6 +316,10 @@ console.log('TCL: Сheckout -> selectedDelivery', selectedDelivery);
       setIsErrorMessage(true);
       return;
     }
+
+        setIsEmptyDataIndividual(false);
+        setIsEmptyDataLegal(false);
+
     const requestBody = {
       products: productsInfo,
       userType: isClientStatus ? 'individual' : userTypeLegal,

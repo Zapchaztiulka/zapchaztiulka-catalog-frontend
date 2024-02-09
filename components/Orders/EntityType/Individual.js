@@ -132,6 +132,11 @@ const Individual = ({
           {isEmptyData && userNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть ім'я</p>
           )}
+          {isEmptyData && userNameValue !== '' && userNameValue.length < 3 && (
+            <p className="text-textError text-[12px]">
+              Має бути більше 3-х літер
+            </p>
+          )}
         </label>
       </div>
       <div className="checkout-contacts-input search">
@@ -147,6 +152,13 @@ const Individual = ({
           {isEmptyData && userSurNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть прізвище</p>
           )}
+          {isEmptyData &&
+            userSurNameValue !== '' &&
+            userSurNameValue.length < 3 && (
+              <p className="text-textError text-[12px]">
+                Має бути більше 3-х літер
+              </p>
+            )}
         </label>
       </div>
 
@@ -160,11 +172,13 @@ const Individual = ({
             onChange={e => handleInputChangeNameMiddle(e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
-          {isEmptyData && userMiddleNameValue!=='' && userMiddleNameValue.length<3  && (
-            <p className="text-textError text-[12px]">
-              Має бути більше 3-х літер
-            </p>
-          )}
+          {isEmptyData &&
+            userMiddleNameValue !== '' &&
+            userMiddleNameValue.length < 3 && (
+              <p className="text-textError text-[12px]">
+                Має бути більше 3-х літер
+              </p>
+            )}
         </label>
       </div>
 

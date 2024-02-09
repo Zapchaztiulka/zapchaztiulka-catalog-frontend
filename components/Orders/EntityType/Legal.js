@@ -226,11 +226,16 @@ const Legal = ({
             }}
             className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
           />
-          {isEmptyDataLegal && companyNameInfo === '' && (
+          {isEmptyDataLegal && companyAddress === '' && (
             <p className="text-textError text-[12px]">
               Заповніть юридичну адресу
             </p>
           )}
+          {isEmptyDataLegal &&
+            companyNameInfo !== '' &&
+            companyNameInfo.length<10 && (
+              <p className="text-textError text-[12px]">Адреса має містити не менше 10 символів/літер</p>
+            )}
         </label>
       </div>
       <Individual
