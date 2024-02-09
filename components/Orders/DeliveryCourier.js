@@ -26,7 +26,7 @@ const DeliveryCourier = ({
 
   const cityRef = isClientStatus
     ? checkoutData?.cityRef
-    : userLegalData?.cityRef;
+    : userLegalData?.cityRefLegal;
   const streetsInfo = useSelector(selectStreets);
 
   const streetName =
@@ -67,7 +67,7 @@ const DeliveryCourier = ({
       if (!isClientStatus) {
          dispatch(
            addToCheckoutLegal({
-             field: 'deliveryAddress',
+             field: 'deliveryAddressLegal',
              value: addressDelivery,
            })
          );
@@ -89,7 +89,7 @@ const DeliveryCourier = ({
     if (!isClientStatus) {
       dispatch(
         addToCheckoutLegal({
-          field: 'deliveryAddress',
+          field: 'deliveryAddressLegal',
           value: addressDelivery,
         })
       );
@@ -107,7 +107,7 @@ const DeliveryCourier = ({
     if (!isClientStatus) {
       dispatch(
         addToCheckoutLegal({
-          field: 'deliveryAddress',
+          field: 'deliveryAddressLegal',
           value: addressDelivery,
         })
       );

@@ -28,7 +28,7 @@ const DeliveryBySelf = ({
     setSelfAddress(value);
     setIsOpen(false);
     if (!isClientStatus) {
-      dispatch(addToCheckoutLegal({ field: 'deliveryOffice', value }));
+      dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value }));
     }
     if (isClientStatus) {
       dispatch(addToCheckout({ field: 'deliveryOffice', value }));

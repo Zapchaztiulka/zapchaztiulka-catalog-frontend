@@ -12,7 +12,8 @@ export const ordersSlice = createSlice({
     userComment: null,
     userType: null,
     productId: null,
-    userMessageDetails: null
+    userMessageDetails: null,
+    error: null, 
   },
   extraReducers: builder => {
     builder
@@ -35,7 +36,7 @@ export const ordersSlice = createSlice({
         state.userType = userType;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
-        console.error('Error fetching orders:', action.error);
+       state.error = action.error.message;
       })
       .addCase(fetchAbsentOrders.fulfilled, (state, action) => {
         const { email, productId } = action.payload;
@@ -43,7 +44,7 @@ export const ordersSlice = createSlice({
         state.productId = productId;
       })
       .addCase(fetchAbsentOrders.rejected, (state, action) => {
-        console.error('Error fetching orders:', action.error);
+        state.error = action.error.message; 
       })
       .addCase(fetchUserRequest.fulfilled, (state, action) => {
         const { phone, userMessageDetails } = action.payload;
@@ -51,7 +52,7 @@ export const ordersSlice = createSlice({
         state.userMessageDetails = userMessageDetails;
       })
       .addCase(fetchUserRequest.rejected, (state, action) => {
-        console.error('Error fetching orders:', action.error);
+        state.error = action.error.message; 
       });
   },
 });

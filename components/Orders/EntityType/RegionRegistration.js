@@ -1,6 +1,5 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
@@ -14,7 +13,7 @@ const RegionRegistration = ({
   isEmptyData,
 }) => {
   const dispatch = useDispatch();
-  const { companyRegion, companyCity } = checkoutData.legalEntityData;
+  const { companyRegion } = checkoutData.legalEntityData;
   const dataListRegion = regionsData?.data;
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);

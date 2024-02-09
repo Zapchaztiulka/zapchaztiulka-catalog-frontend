@@ -36,7 +36,9 @@ const CommentOrder = ({
         cols="33"
         minLength="10"
         value={
-          isClientStatus ? checkoutData.userComment : userLegalData.userComment
+          isClientStatus
+            ? checkoutData.userComment
+            : userLegalData.userCommentLegal
         }
         onChange={e => handleInputChange('userComment', e.target.value)}
         className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px] focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive"

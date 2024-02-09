@@ -27,7 +27,7 @@ const DeliveryNova = ({
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const cityRef = isClientStatus
     ? checkoutData?.selectedCity
-    : userLegalData.selectedCity;
+    : userLegalData?.selectedCityLegal;
 
   const warehousesInfo = useSelector(selectWaherousesNP);
 
@@ -49,7 +49,9 @@ const DeliveryNova = ({
            dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
         }
         if (!isClientStatus) {
-           dispatch(addToCheckoutLegal({ field: 'deliveryOffice', value: '' }));
+           dispatch(
+             addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' })
+           );
         }   
   };
 

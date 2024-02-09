@@ -17,14 +17,17 @@ const Settlelement = ({
   onCityChange,
   onSelectCityRef,
   checkoutData,
-  isEmptyDataIndividual,isEmptyDataLegal,
+  isEmptyDataIndividual,
+  isEmptyDataLegal,
   selectedDelivery,
   userLegalData,
   isClientStatus,
+  cityDelivery,
+  setCityDelivery,
 }) => {
   const dispatch = useDispatch();
   const [locality, setLocality] = useState(
-    isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCity
+    isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCityLegal
   );
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
@@ -43,14 +46,18 @@ const Settlelement = ({
     dispatch(fetchSettlements(locality));
   }, [dispatch, locality]);
 
-  useEffect(() => {
-    if (isClientStatus) {
-      setLocality(checkoutData.deliveryCity);
-    }
-    if (!isClientStatus) {
-      setLocality(userLegalData.deliveryCity);
-    }
-  }, [checkoutData.deliveryCity, userLegalData.deliveryCity, isClientStatus]);
+  // useEffect(() => {
+  //   if (isClientStatus) {
+  //     setLocality(checkoutData.deliveryCity);
+  //   }
+  //   if (!isClientStatus) {
+  //     setLocality(userLegalData.deliveryCityLegal);
+  //   }
+  // }, [
+  //   checkoutData.deliveryCity,
+  //   userLegalData.deliveryCityLegal,
+  //   isClientStatus,
+  // ]);
 
   const removeCity = () => {
     setLocality('');
@@ -61,11 +68,10 @@ const Settlelement = ({
       dispatch(addToCheckout({ field: 'selectedCity', value: '' }));
     }
     if (!isClientStatus) {
-      dispatch(addToCheckoutLegal({ field: 'deliveryCity', value: '' }));
-      dispatch(addToCheckoutLegal({ field: 'cityRef', value: '' }));
-      dispatch(addToCheckoutLegal({ field: 'selectedCity', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'deliveryCityLegal', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'cityRcityRefLegalef', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'selectedCityLegal', value: '' }));
     }
-    
   };
 
   const handleInputChangeLocality = event => {
@@ -136,22 +142,18 @@ const Settlelement = ({
         ) : (
           <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
         )} */}
-        {isEmptyDataIndividual &&
-          checkoutData.deliveryCity === '' &&
-          (
-            <p className="text-textError text-[12px]">
-              Заповніть місто доставки
-              <span className="text-textError">*</span>
-            </p>
-          )}
-        {isEmptyDataLegal &&
-          userLegalData.deliveryCity === '' &&
-          (
-            <p className="text-textError text-[12px]">
-              Заповніть місто доставки
-              <span className="text-textError">*</span>
-            </p>
-          )}
+        {isEmptyDataIndividual && checkoutData.deliveryCity === '' && (
+          <p className="text-textError text-[12px]">
+            Заповніть місто доставки
+            <span className="text-textError">*</span>
+          </p>
+        )}
+        {isEmptyDataLegal && userLegalData.deliveryCityLegal === '' && (
+          <p className="text-textError text-[12px]">
+            Заповніть місто доставки
+            <span className="text-textError">*</span>
+          </p>
+        )}
       </div>
 
       {localityPlaceInfo &&

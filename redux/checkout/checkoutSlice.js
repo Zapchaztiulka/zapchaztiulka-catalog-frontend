@@ -23,21 +23,12 @@ const checkoutSlice = createSlice({
   reducers: {
     addToCheckout(state, action) {
       const { field, value } = action.payload;
-      if (field.startsWith('legalEntityData')) {
-        const nestedField = field.split('.').slice(1);
-        return {
-          ...state,
-          legalEntityData: {
-            ...state.legalEntityData,
-            [nestedField]: value,
-          },
-        };
-      } else {
+
         return {
           ...state,
           [field]: value,
         };
-      }
+      
     },
     clearCheckout(state) {
       return {
@@ -62,9 +53,6 @@ const checkoutSlice = createSlice({
   },
 });
 
-export const {
-    addToCheckout,
-  clearCheckout,
-} = checkoutSlice.actions;
+export const { addToCheckout, clearCheckout } = checkoutSlice.actions;
 
 export const checkoutReducer = checkoutSlice.reducer;

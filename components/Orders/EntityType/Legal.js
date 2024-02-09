@@ -1,9 +1,7 @@
 import Dropdown from '@/components/Dropdown';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Individual from './Individual';
-import { selectCheckout } from '@/redux/checkout/checkoutSelector';
 import CityRegistration from './CityRegistration';
 import RegionRegistration from './RegionRegistration';
 import { selectRegions, selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
@@ -16,11 +14,9 @@ const Legal = ({
   patterns,
   isEmptyDataLegal,
   userLegalData,
-  userType,
   isClientStatus,
 }) => {
   const dispatch = useDispatch();
-  const checkoutData = useSelector(selectCheckout);
   const {
     companyName,
     companyCode,
@@ -98,7 +94,9 @@ const Legal = ({
   }, [isLegalPerson]);
 
   useEffect(() => {
-    dispatch(addToCheckoutLegal({ field: 'userType', value: userTypeEntity }));
+    dispatch(
+      addToCheckoutLegal({ field: 'userTypeLegal', value: userTypeEntity })
+    );
   }, [userTypeEntity, dispatch]);
 
   return (

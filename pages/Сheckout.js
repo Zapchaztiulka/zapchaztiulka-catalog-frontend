@@ -26,16 +26,13 @@ import {
   addToCheckoutLegal,
   clearCheckoutLegal,
 } from '@/redux/checkout/LegalPerson/legalSlice';
-import { selectOrders } from '@/redux/orders/ordersSelectors';
 
-const Сheckout = () => {
+export const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
-  console.log("TCL: Сheckout -> userData", userData)
   const userLegalData = useSelector(selectCheckoutLegal);
-  console.log("TCL: Сheckout -> userLegalData", userLegalData)
   const {
     userType,
     phone,
@@ -73,6 +70,7 @@ const Сheckout = () => {
   const patterns = useSelector(selectPatterns);
   const { min, max } = patterns;
 
+  // const orders = useSelector(selectOrders);
   const productsInfo = orderInfoData?.map(item => ({
     productId: item.id,
     quantity: item.quantity,
@@ -88,9 +86,6 @@ const Сheckout = () => {
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
-  const [cityDelivery, setCityDelivery] = useState(
-    isClientStatus ? deliveryCity || '' : deliveryCityLegal || ''
-  );
   const [selfAddress, setSelfAddress] = useState(
     isClientStatus ? deliveryOffice || '' : deliveryOfficeLegal || ''
   );
@@ -110,19 +105,6 @@ const Сheckout = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
-  useEffect(() => {
-    if (isClientStatus) {
-      setCityDelivery(deliveryCity);
-    }
-    if (!isClientStatus) {
-      setCityDelivery(deliveryCityLegal);
-    }
-  }, [
-    deliveryCity,
-    deliveryCityLegal,
-    isClientStatus,
-  ]);
-
   const handleCitySelection = cityDeliverRef => {
     if (!isClientStatus) {
       dispatch(
@@ -203,15 +185,14 @@ const Сheckout = () => {
   }, [deliveryMethodId, deliveryMethodIdLegal, isClientStatus]);
 
   //Валідація довжини значень властивостей в тілі запиту
-const userNameLength =
-  username !== '' && username.length >= min.user && username.length <= max.user;
+  const userNameLength =
+    username.length >= min.user && username.length <= max.user;
   const userMiddleNameLength =
-    userMiddleName!=='' && userMiddleName.length >= min.user &&
-    userMiddleName.length <= max.user;
+    userMiddleName.length >= min.user && userMiddleName.length <= max.user;
   const userSurNameLength =
-    userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
+    userSurname.length >= min.user && userSurname.length <= max.user;
   const userCommentLength =
-    userComment!=='' && userComment.length >= min.description &&
+    userComment.length >= min.description &&
     userComment.length <= max.description;
 
   const userNameLegalLength =
@@ -231,12 +212,7 @@ const userNameLength =
   const companyNameLength =
     companyName?.length >= min.companyName &&
     companyName?.companyName <= max.companyName;
-  
-  
-  console.log('TCL: Сheckout -> userCommentLength', !userCommentLength);
-    console.log('TCL: Сheckout -> username', username);
 
-  // перевірка пустоти та валідації даних для фізичних осіб
   const isFormValid = () => {
     if (
       (isClientStatus && selectedDelivery === '') ||
@@ -252,19 +228,14 @@ const userNameLength =
     return true;
   };
 
-  // перевірка пустоти та валідації даних для юридичних осіб
   const isFormValidLegal = () => {
     if (
-      (!isClientStatus && selectedDelivery === '') ||
-      phoneLegal === '' ||
-      emailLegal === '' ||
-      usernameLegal === '' ||
-      userSurnameLegal === '' ||
-      companyName === '' ||
-      companyCode === '' ||
-      companyCity === '' ||
-      companyAddress === '' ||
-      companyRegion === '' 
+      (isClientStatus && selectedDelivery === '') ||
+      phone === '' ||
+      email === '' ||
+      username === '' ||
+      userSurname === '' ||
+      deliveryCity === ''
     ) {
       setIsEmptyDataLegal(true);
       return false;
@@ -272,19 +243,9 @@ const userNameLength =
     return true;
   };
 
-  console.log('TCL: Сheckout -> isEmptyDataLegal', isEmptyDataLegal);
+  console.log('TCL: Сheckout -> ', isEmptyDataLegal);
 
-  console.log('TCL: Сheckout -> isEmptyDataIndividual', isEmptyDataIndividual);
-  
-  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery);
-  
-  console.log('TCL: Сheckout -> selfAddress ', selfAddress);
-  
-  console.log('TCL: Сheckout -> addressDelivery ', addressDelivery);
-  
-  console.log('TCL: Сheckout -> warehouses ', warehouses);
-  
-  console.log('TCL: Сheckout ->addressDeliveryNP ', addressDeliveryNP);
+  console.log('TCL: Сheckout -> ', isEmptyDataIndividual);
 
   // Сабміт форми з відправкою тіла запиту та перевіркою на помилки
   const handleSubmit = event => {
@@ -292,15 +253,29 @@ const userNameLength =
     if (!isFormValid()) {
       return;
     }
-    if (!isFormValidLegal()) {
-      return;
-    }
+
+    // перевірка пустоти та валідації даних для юридичних осіб
+    // if (
+    //   (!isClientStatus && selectedDelivery === '') ||
+    //   phoneLegal === '' ||
+    //   emailLegal === '' ||
+    //   usernameLegal === '' ||
+    //   userSurnameLegal === '' ||
+    //   companyName === '' ||
+    //   companyCode === '' ||
+    //   companyCity === '' ||
+    //   companyAddress === '' ||
+    //   companyRegion === ''
+    // ) {
+    //   setIsEmptyDataLegal(true);
+    // }
     if (isEmptyDataIndividual && isClientStatus) {
       return;
     }
     if (isEmptyDataLegal && !isClientStatus) {
       return;
     }
+
     if (selectedDelivery === 'self' && selfAddress === '') {
       setIsErrorMessage(true);
       return;
@@ -339,11 +314,12 @@ const userNameLength =
         : {
             companyName: companyName,
             companyCode: companyCode,
-            companyRegion: companyRegiхаon,
+            companyRegion: companyRegion,
             companyCity: companyCity,
             companyAddress: companyAddress,
           },
     };
+
     try {
       setShowModalOrderSuccessful(true);
       dispatch(fetchOrders(requestBody));
@@ -701,5 +677,3 @@ const userNameLength =
     </>
   );
 };
-
-export default Сheckout;

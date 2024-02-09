@@ -2,7 +2,7 @@ import { formatPhoneNumber } from '@/helpers/formatPhoneNumber';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const Individual = ({
   patterns,
@@ -11,7 +11,9 @@ const Individual = ({
   isClientStatus,
 }) => {
   const dispatch = useDispatch();
-  const [phone, setPhone] = useState(checkoutData?.phone || '');
+  const [phone, setPhone] = useState(
+    isClientStatus ? checkoutData?.phone || '' : checkoutData?.phoneLegal || ''
+  );
   const [errorMessage, setErrorMessage] = useState('');
   const [emailError, setEmailError] = useState('');
   const [errorMessageName, setErrorMessageName] = useState('');
@@ -65,7 +67,7 @@ const Individual = ({
     event.target.maxLength = inputPhoneNumber[0] === '0' ? 13 : 1;
     if (!isClientStatus) {
       dispatch(
-        addToCheckoutLegal({ field: 'phone', value: formattedPhoneNumber })
+        addToCheckoutLegal({ field: 'phoneLegal', value: formattedPhoneNumber })
       );
     }
     if (isClientStatus) {
@@ -91,7 +93,6 @@ const Individual = ({
           <input
             name="username"
             type="text"
-            minLength={3}
             value={checkoutData.username}
             onChange={e => handleInputChange('username', e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
@@ -107,7 +108,6 @@ const Individual = ({
           <input
             name="userSurname"
             type="text"
-            minLength={3}
             value={checkoutData.userSurname}
             onChange={e => handleInputChange('userSurname', e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
@@ -124,7 +124,6 @@ const Individual = ({
           <input
             name="userMiddleName"
             type="text"
-            minLength={3}
             value={checkoutData.userMiddleName}
             onChange={e => handleInputChange('userMiddleName', e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
