@@ -26,7 +26,6 @@ import {
   addToCheckoutLegal,
   clearCheckoutLegal,
 } from '@/redux/checkout/LegalPerson/legalSlice';
-import { selectOrders } from '@/redux/orders/ordersSelectors';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
@@ -203,34 +202,34 @@ const Сheckout = () => {
   }, [deliveryMethodId, deliveryMethodIdLegal, isClientStatus]);
 
   //Валідація довжини значень властивостей в тілі запиту
-const userNameLength =
-  username !== '' && username.length >= min.user && username.length <= max.user;
-  const userMiddleNameLength =
-    userMiddleName!=='' && userMiddleName.length >= min.user &&
-    userMiddleName.length <= max.user;
-  const userSurNameLength =
-    userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
-  const userCommentLength =
-    userComment!=='' && userComment.length >= min.description &&
-    userComment.length <= max.description;
+// const userNameLength =
+//   username !== '' && username.length >= min.user && username.length <= max.user;
+//   const userMiddleNameLength =
+//     userMiddleName!=='' && userMiddleName.length >= min.user &&
+//     userMiddleName.length <= max.user;
+//   const userSurNameLength =
+//     userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
+//   const userCommentLength =
+//     userComment!=='' && userComment.length >= min.description &&
+//     userComment.length <= max.description;
 
-  const userNameLegalLength =
-    usernameLegal?.length >= min.user && usernameLegal?.length <= max.user;
-  const userNameMiddleLegalLength =
-    userMiddleNameLegal?.length >= min.user &&
-    userMiddleNameLegal?.length <= max.user;
-  const userSurNameLegalLength =
-    userSurnameLegal?.length >= min.user &&
-    userSurnameLegal?.length <= max.user;
-  const userCommentLegalLength =
-    userCommentLegal?.length >= min.description &&
-    userCommentLegal?.length <= max.description;
-  const companyAddressLength =
-    companyAddress?.length >= min.companyAddress &&
-    companyAddress?.length <= max.companyAddress;
-  const companyNameLength =
-    companyName?.length >= min.companyName &&
-    companyName?.companyName <= max.companyName;
+//   const userNameLegalLength =
+//     usernameLegal?.length >= min.user && usernameLegal?.length <= max.user;
+//   const userNameMiddleLegalLength =
+//     userMiddleNameLegal?.length >= min.user &&
+//     userMiddleNameLegal?.length <= max.user;
+//   const userSurNameLegalLength =
+//     userSurnameLegal?.length >= min.user &&
+//     userSurnameLegal?.length <= max.user;
+//   const userCommentLegalLength =
+//     userCommentLegal?.length >= min.description &&
+//     userCommentLegal?.length <= max.description;
+//   const companyAddressLength =
+//     companyAddress?.length >= min.companyAddress &&
+//     companyAddress?.length <= max.companyAddress;
+//   const companyNameLength =
+//     companyName?.length >= min.companyName &&
+//     companyName?.companyName <= max.companyName;
 
   // перевірка пустоти та валідації даних для фізичних осіб
  const isFormValid = () => {

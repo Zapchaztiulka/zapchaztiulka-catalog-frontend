@@ -26,7 +26,6 @@ const ProductID = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const product = useSelector(selectProduct);
-  console.log("TCL: ProductID -> product", product)
   const data = useSelector(selectProducts);
   const productId = product?._id;
   const [indexThumb, setIndexThumb] = useState();
