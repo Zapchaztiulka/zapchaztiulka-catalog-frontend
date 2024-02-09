@@ -1,50 +1,71 @@
 import { formatPhoneNumber } from '@/helpers/formatPhoneNumber';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
+import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Individual = ({
   patterns,
   isEmptyData,
-  checkoutData,
   isClientStatus,
 }) => {
   const dispatch = useDispatch();
-  const [phone, setPhone] = useState(
-    isClientStatus ? checkoutData?.phone || '' : checkoutData?.phoneLegal || ''
-  );
+  const checkoutData = useSelector(selectCheckout);
+  const {phone,
+    email,
+    username,
+    userSurname,
+    userMiddleName} = checkoutData
+  const userLegalData = useSelector(selectCheckoutLegal);
+  const {emailLegal,
+    phoneLegal,
+    usernameLegal,
+    userSurnameLegal,
+    userMiddleNameLegal}= userLegalData
   const [errorMessage, setErrorMessage] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [errorMessageName, setErrorMessageName] = useState('');
+  const userNameValue = isClientStatus ? username : usernameLegal;
+  const userSurNameValue = isClientStatus ? userSurname : userSurnameLegal;
+  const userMiddleNameValue = isClientStatus ? userMiddleName : userMiddleNameLegal;
+  const phoneValue = isClientStatus ? phone : phoneLegal;
+  const emailValue = isClientStatus ? email : emailLegal;
 
-  const handleInputChange = (field, value) => {
-    switch (field) {
-      case 'username':
-      case 'userSurname':
-      case 'userMiddleName':
-        const minLength = 3;
-        const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
-        if (!regex.test(value)) {
-          value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
-        }
-        if (value.length < minLength) {
-          setErrorMessageName('Має бути не менше 3-х букв');
-        } else {
-          setErrorMessageName('');
-        }
-        break;
-      default:
-        break;
-    }
+  const handleInputChangeName = value => {
+     const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+     if (!regex.test(value)) {
+       value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+     }
     if (!isClientStatus) {
-      dispatch(addToCheckoutLegal({ field, value }));
-    }
-
-    if (isClientStatus) {
-      dispatch(addToCheckout({ field, value }));
+      dispatch(addToCheckoutLegal({ field: 'usernameLegal', value }));
+    } else {
+      dispatch(addToCheckout({ field: 'username', value }));
     }
   };
+
+  const handleInputChangeNameMiddle = value => {
+     const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+     if (!regex.test(value)) {
+       value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+     }
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'userMiddleNameLegal', value }));
+    } else {
+      dispatch(addToCheckout({ field: 'userMiddleName', value }));
+    }
+  };
+
+  const handleInputChangeNameSur = value => {
+      const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+      if (!regex.test(value)) {
+        value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+      }
+     if (!isClientStatus) {
+       dispatch(addToCheckoutLegal({ field: 'userSurnameLegal', value }));
+     } else {
+       dispatch(addToCheckout({ field: 'userSurname', value }));
+     }
+   };
 
   const validateEmail = email => {
     const emailPattern = new RegExp(patterns.emailPattern);
@@ -63,7 +84,7 @@ const Individual = ({
         ? inputPhoneNumber
         : inputPhoneNumber.slice(0, 1)
     );
-    setPhone(formattedPhoneNumber);
+
     event.target.maxLength = inputPhoneNumber[0] === '0' ? 13 : 1;
     if (!isClientStatus) {
       dispatch(
@@ -76,13 +97,23 @@ const Individual = ({
   };
 
   const handleEmailInputChange = event => {
-    const inputEmail = event.target.value;
-    if (!validateEmail(inputEmail)) {
-      setEmailError('Приклад example@mail.com');
-    } else {
-      setEmailError('');
-    }
-    handleInputChange('email', inputEmail);
+     const inputEmail = event.target.value;
+     const emailPattern = new RegExp(
+       '^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$'
+     );
+     if (!emailPattern.test(inputEmail)) {
+       setEmailError('Невірний формат електронної пошти');
+     } else {
+       setEmailError('');
+     }
+
+      if (!isClientStatus) {
+        dispatch(
+          addToCheckoutLegal({ field: 'emailLegal', value: inputEmail })
+        );
+      } else {
+        dispatch(addToCheckout({ field: 'email', value: inputEmail }));
+      }
   };
 
   return (
@@ -93,11 +124,11 @@ const Individual = ({
           <input
             name="username"
             type="text"
-            value={checkoutData.username}
-            onChange={e => handleInputChange('username', e.target.value)}
+            value={userNameValue}
+            onChange={e => handleInputChangeName(e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
-          {isEmptyData && checkoutData.username === '' && (
+          {isEmptyData && userNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть ім'я</p>
           )}
         </label>
@@ -108,11 +139,11 @@ const Individual = ({
           <input
             name="userSurname"
             type="text"
-            value={checkoutData.userSurname}
-            onChange={e => handleInputChange('userSurname', e.target.value)}
+            value={userSurNameValue}
+            onChange={e => handleInputChangeNameSur(e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
-          {isEmptyData && checkoutData.userSurname === '' && (
+          {isEmptyData && userSurNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть прізвище</p>
           )}
         </label>
@@ -124,10 +155,15 @@ const Individual = ({
           <input
             name="userMiddleName"
             type="text"
-            value={checkoutData.userMiddleName}
-            onChange={e => handleInputChange('userMiddleName', e.target.value)}
+            value={userMiddleNameValue}
+            onChange={e => handleInputChangeNameMiddle(e.target.value)}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
+          {isEmptyData && userMiddleNameValue!=='' && userMiddleNameValue.length<3  && (
+            <p className="text-textError text-[12px]">
+              Має бути більше 3-х літер
+            </p>
+          )}
         </label>
       </div>
 
@@ -137,13 +173,13 @@ const Individual = ({
           <input
             name="mail"
             type="email"
-            title="example@mail.com"
-            value={checkoutData.email}
+            title="Приклад example@mail.com"
+            value={emailValue}
             onChange={handleEmailInputChange}
             className="w-full border border-borderDefault rounded-minimal p-3"
           />
           <span className="text-textWarning text-[12px]">{emailError}</span>
-          {isEmptyData && checkoutData.email === '' && (
+          {isEmptyData && emailValue === '' && (
             <p className="text-textError text-[12px]">Заповніть E-mail</p>
           )}
         </label>
@@ -165,10 +201,10 @@ const Individual = ({
             title="096 123 45 67"
             autoComplete="off"
             onChange={handlePhoneInputChange}
-            value={checkoutData?.phone}
+            value={phoneValue}
           />
           <span className="text-textWarning text-[12px]">{errorMessage}</span>
-          {isEmptyData && checkoutData.phone === '' && (
+          {isEmptyData && phoneValue === '' && (
             <p className="text-textError text-[12px]">
               Заповніть номер телефону
             </p>

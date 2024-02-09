@@ -105,23 +105,23 @@ const Сheckout = () => {
   );
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isEmptyDataIndividual, setIsEmptyDataIndividual] = useState(false);
+  console.log("TCL: Сheckout -> [isEmptyDataIndividual", isEmptyDataIndividual)
+
   const [isEmptyDataLegal, setIsEmptyDataLegal] = useState(false);
+  console.log("TCL: Сheckout -> isEmptyDataLegal", isEmptyDataLegal)
 
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
-  useEffect(() => {
-    if (isClientStatus) {
-      setCityDelivery(deliveryCity);
-    }
-    if (!isClientStatus) {
-      setCityDelivery(deliveryCityLegal);
-    }
-  }, [
-    deliveryCity,
-    deliveryCityLegal,
-    isClientStatus,
-  ]);
+
+    useEffect(() => {
+      if (isClientStatus) {
+        setCityDelivery(deliveryCity);
+      }
+      if (!isClientStatus) {
+        setCityDelivery(deliveryCityLegal);
+      }
+    }, [deliveryCity, deliveryCityLegal, isClientStatus]);
 
   const handleCitySelection = cityDeliverRef => {
     if (!isClientStatus) {
@@ -231,70 +231,59 @@ const userNameLength =
   const companyNameLength =
     companyName?.length >= min.companyName &&
     companyName?.companyName <= max.companyName;
-  
-  
-  console.log('TCL: Сheckout -> userCommentLength', !userCommentLength);
-    console.log('TCL: Сheckout -> username', username);
 
   // перевірка пустоти та валідації даних для фізичних осіб
-  const isFormValid = () => {
-    if (
-      (isClientStatus && selectedDelivery === '') ||
-      phone === '' ||
-      email === '' ||
-      username === '' ||
-      userSurname === '' ||
-      deliveryCity === ''
-    ) {
-      setIsEmptyDataIndividual(true);
-      return false;
-    }
-    return true;
-  };
+ const isFormValid = () => {
+   if (isClientStatus) {
+     if (
+       selectedDelivery === '' ||
+       selectedDelivery === null ||
+       phone === '' ||
+       email === '' ||
+       username === '' ||
+       userSurname === '' ||
+       deliveryCity === '' 
+     ) {
+       setIsEmptyDataIndividual(true);
+       return false;
+     }
+   }
+   return true;
+ };
 
   // перевірка пустоти та валідації даних для юридичних осіб
-  const isFormValidLegal = () => {
-    if (
-      (!isClientStatus && selectedDelivery === '') ||
-      phoneLegal === '' ||
-      emailLegal === '' ||
-      usernameLegal === '' ||
-      userSurnameLegal === '' ||
-      companyName === '' ||
-      companyCode === '' ||
-      companyCity === '' ||
-      companyAddress === '' ||
-      companyRegion === '' 
-    ) {
-      setIsEmptyDataLegal(true);
-      return false;
-    }
-    return true;
-  };
+ const isFormValidLegal = () => {
+   if (!isClientStatus) {
+     if (
+       selectedDelivery === '' ||
+       selectedDelivery === null ||
+       phoneLegal === '' ||
+       emailLegal === '' ||
+       usernameLegal === '' ||
+       userSurnameLegal === '' ||
+       companyName === '' ||
+       companyCode === '' ||
+       companyCity === '' ||
+       companyAddress === '' ||
+       companyRegion === ''
+     ) {
+       setIsEmptyDataLegal(true);
+       return false;
+     }
+   }
+   return true;
+ };
+  
 
-  console.log('TCL: Сheckout -> isEmptyDataLegal', isEmptyDataLegal);
-
-  console.log('TCL: Сheckout -> isEmptyDataIndividual', isEmptyDataIndividual);
-  
-  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery);
-  
-  console.log('TCL: Сheckout -> selfAddress ', selfAddress);
-  
-  console.log('TCL: Сheckout -> addressDelivery ', addressDelivery);
-  
-  console.log('TCL: Сheckout -> warehouses ', warehouses);
-  
-  console.log('TCL: Сheckout ->addressDeliveryNP ', addressDeliveryNP);
+console.log('TCL: Сheckout -> selectedDelivery', selectedDelivery);
 
   // Сабміт форми з відправкою тіла запиту та перевіркою на помилки
   const handleSubmit = event => {
     event.preventDefault();
-    if (!isFormValid()) {
-      return;
-    }
-    if (!isFormValidLegal()) {
-      return;
-    }
+   if (!isFormValid() || !isFormValidLegal()) {
+     return;
+   }
+
     if (isEmptyDataIndividual && isClientStatus) {
       return;
     }
@@ -305,7 +294,7 @@ const userNameLength =
       setIsErrorMessage(true);
       return;
     }
-    if (selectedDelivery === 'np_courier' && addressDelivery === '') {
+    if (selectedDelivery === 'np_courier' && addressDeliveryNP === '') {
       setIsErrorMessage(true);
       return;
     }
@@ -313,7 +302,7 @@ const userNameLength =
       setIsErrorMessage(true);
       return;
     }
-    if (selectedDelivery === 'courier' && addressDeliveryNP === '') {
+    if (selectedDelivery === 'courier' && addressDelivery === '') {
       setIsErrorMessage(true);
       return;
     }
@@ -339,7 +328,7 @@ const userNameLength =
         : {
             companyName: companyName,
             companyCode: companyCode,
-            companyRegion: companyRegiхаon,
+            companyRegion: companyRegion,
             companyCity: companyCity,
             companyAddress: companyAddress,
           },
@@ -453,7 +442,7 @@ const userNameLength =
                         checkoutData={userData}
                         patterns={patterns}
                         userLegalData={userLegalData}
-                        userType={userType}
+                        userType={userTypeLegal}
                         isClientStatus={isClientStatus}
                       />
                     ) : (
@@ -500,6 +489,8 @@ const userNameLength =
                       isEmptyDataIndividual={isEmptyDataIndividual}
                       selectedDelivery={selectedDelivery}
                       isClientStatus={isClientStatus}
+                      cityDelivery={cityDelivery}
+                      setCityDelivery={setCityDelivery}
                     />
                   </div>
 

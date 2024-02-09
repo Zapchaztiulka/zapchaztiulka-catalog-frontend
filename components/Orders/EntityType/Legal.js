@@ -14,7 +14,7 @@ const Legal = ({
   patterns,
   isEmptyDataLegal,
   userLegalData,
-  isClientStatus,
+  isClientStatus
 }) => {
   const dispatch = useDispatch();
   const {
