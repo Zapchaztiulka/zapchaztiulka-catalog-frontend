@@ -3,6 +3,7 @@ import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Individual = ({

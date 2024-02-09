@@ -2,6 +2,7 @@ import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 const CommentOrder = ({
   isClientStatus,
