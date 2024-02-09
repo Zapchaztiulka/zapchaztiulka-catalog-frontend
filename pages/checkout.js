@@ -238,11 +238,7 @@ const isFormValid = () => {
       email === '' ||
       username === '' ||
       userSurname === '' ||
-      deliveryCity === '' ||
-      !userNameLength ||
-      !userMiddleNameLength ||
-      !userSurNameLength ||
-      !userCommentLength
+      deliveryCity === '' 
     ) {
       setIsEmptyDataIndividual(true);
       return false;
@@ -276,12 +272,7 @@ const isFormValidLegal = () => {
       companyCode === '' ||
       companyCity === '' ||
       companyAddress === '' ||
-      companyRegion === '' ||
-      !userNameLegalLength ||
-      !userNameMiddleLegalLength ||
-      !userSurNameLegalLength ||
-      !userCommentLegalLength ||
-      !companyAddressLength
+      companyRegion === ''
     ) {
       setIsEmptyDataLegal(true);
       return false;
