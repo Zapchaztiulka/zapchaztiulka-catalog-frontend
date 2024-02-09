@@ -235,7 +235,6 @@ const userNameLength =
   // перевірка пустоти та валідації даних для фізичних осіб
  const isFormValid = () => {
    if (isClientStatus) {
-     // Якщо фізична особа
      if (
        selectedDelivery === '' ||
        selectedDelivery === null ||
@@ -255,7 +254,6 @@ const userNameLength =
   // перевірка пустоти та валідації даних для юридичних осіб
  const isFormValidLegal = () => {
    if (!isClientStatus) {
-     // Якщо юридична особа
      if (
        selectedDelivery === '' ||
        selectedDelivery === null ||
