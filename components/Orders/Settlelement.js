@@ -26,9 +26,9 @@ const Settlelement = ({
   setCityDelivery,
 }) => {
   const dispatch = useDispatch();
-  const [locality, setLocality] = useState(
-    isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCityLegal
-  );
+  // const [locality, setLocality] = useState(
+  //   isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCityLegal
+  // );
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -43,8 +43,8 @@ const Settlelement = ({
 
   // Get list of cities
   useEffect(() => {
-    dispatch(fetchSettlements(locality));
-  }, [dispatch, locality]);
+    dispatch(fetchSettlements(cityDelivery));
+  }, [dispatch, cityDelivery]);
 
   // useEffect(() => {
   //   if (isClientStatus) {
@@ -60,7 +60,7 @@ const Settlelement = ({
   // ]);
 
   const removeCity = () => {
-    setLocality('');
+    setCityDelivery('');
     setIsListOpen(false);
     if (isClientStatus) {
       dispatch(addToCheckout({ field: 'deliveryCity', value: '' }));
@@ -76,7 +76,7 @@ const Settlelement = ({
 
   const handleInputChangeLocality = event => {
     const searchLocality = event.target.value;
-    setLocality(searchLocality);
+    setCityDelivery(searchLocality);
     setIsListOpen(true);
     if (!searchLocality) {
       removeCity();
@@ -84,7 +84,7 @@ const Settlelement = ({
   };
 
   const handleSelection = selectedItem => {
-    setLocality(selectedItem.Present);
+    setCityDelivery(selectedItem.Present);
 
     onCityChange(selectedItem.Present);
     onSelectCity(selectedItem.DeliveryCity);
@@ -96,7 +96,7 @@ const Settlelement = ({
 
   const closeByClickOutside = () => {
     if (!selectedItem && isListOpen) {
-      setLocality('');
+      setCityDelivery('');
       setIsListOpen(false);
     }
   };
@@ -117,14 +117,14 @@ const Settlelement = ({
         <input
           ref={refInput}
           type="text"
-          value={locality}
+          value={cityDelivery}
           onChange={handleInputChangeLocality}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву міста..'}
           className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
         />
-        {locality !== '' && (
+        {cityDelivery !== '' && (
           <button
             type="button"
             onClick={removeCity}
@@ -142,13 +142,13 @@ const Settlelement = ({
         ) : (
           <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
         )} */}
-        {isEmptyDataIndividual && checkoutData.deliveryCity === '' && (
+        {isEmptyDataIndividual && cityDelivery === '' && (
           <p className="text-textError text-[12px]">
             Заповніть місто доставки
             <span className="text-textError">*</span>
           </p>
         )}
-        {isEmptyDataLegal && userLegalData.deliveryCityLegal === '' && (
+        {isEmptyDataLegal && cityDelivery === '' && (
           <p className="text-textError text-[12px]">
             Заповніть місто доставки
             <span className="text-textError">*</span>
@@ -157,7 +157,7 @@ const Settlelement = ({
       </div>
 
       {localityPlaceInfo &&
-        locality &&
+        cityDelivery &&
         localityPlaceInfo.length !== 0 &&
         isListOpen && (
           <ul

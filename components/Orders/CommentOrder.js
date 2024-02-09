@@ -1,7 +1,6 @@
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CommentOrder = ({
@@ -12,13 +11,15 @@ const CommentOrder = ({
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
   const userLegalData = useSelector(selectCheckoutLegal);
+  const comment = isClientStatus
+    ? checkoutData.userComment
+    : userLegalData.userCommentLegal;
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = value => {
     if (!isClientStatus) {
-      dispatch(addToCheckoutLegal({ field, value }));
-    }
-    if (isClientStatus) {
-      dispatch(addToCheckout({ field: field, value }));
+      dispatch(addToCheckoutLegal({ field: 'userCommentLegal', value }));
+    } else {
+      dispatch(addToCheckout({ field: 'userComment', value }));
     }
   };
   return (
@@ -34,22 +35,20 @@ const CommentOrder = ({
         name="comment"
         rows="5"
         cols="33"
-        minLength="10"
-        value={
-          isClientStatus
-            ? checkoutData.userComment
-            : userLegalData.userCommentLegal
-        }
-        onChange={e => handleInputChange('userComment', e.target.value)}
+        value={comment}
+        onChange={e => handleInputChange(e.target.value)}
         className="resize-none w-full h-[140px] border border-borderDefault rounded-minimal px-[12px] py-[16px] focus:outline-none focus:border-borderDefaultBlue placeholder:text-textInputActive"
       />
-      {isEmptyDataIndividual &&
-        checkoutData.userComment !== '' &&
-        checkoutData.userComment.length < 10 && (
-          <p className="text-textError text-[12px]">
-            Коментар має містити не менше 10 символів
-          </p>
-        )}
+      {isEmptyDataIndividual && comment !== '' && comment.length < 10 && (
+        <p className="text-textError text-[12px]">
+          Коментар має містити не менше 10 символів
+        </p>
+      )}
+      {isEmptyDataLegal && comment !== '' && comment.length < 10 && (
+        <p className="text-textError text-[12px]">
+          Коментар має містити не менше 10 символів
+        </p>
+      )}
     </div>
   );
 };
