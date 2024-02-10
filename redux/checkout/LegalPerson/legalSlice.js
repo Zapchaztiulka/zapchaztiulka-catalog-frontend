@@ -26,6 +26,7 @@ const checkoutSliceLegal = createSlice({
     userCommentLegal: '',
     selectedCityLegal: '',
     cityRefLegal: '',
+    deliveryStreetLegal: '',
   },
   reducers: {
     addToCheckoutLegal(state, action) {
@@ -71,6 +72,7 @@ const checkoutSliceLegal = createSlice({
         userCommentLegal: '',
         selectedCityLegal: '',
         cityRefLegal: '',
+        deliveryStreetLegal: '',
       };
     },
   },

@@ -16,7 +16,9 @@ const DeliveryCourier = ({
   isClientStatus,
 }) => {
   const dispatch = useDispatch();
-  const [street, setStreet] = useState('');
+  const [street, setStreet] = useState( isClientStatus
+    ? checkoutData?.deliveryStreet || ''
+    : userLegalData?.deliveryStreetLegal || '');
   const [houseNumber, setHouseNumber] = useState('');
   const [apartment, setApartment] = useState('');
 
@@ -25,8 +27,8 @@ const DeliveryCourier = ({
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const cityRef = isClientStatus
-    ? checkoutData?.cityRef
-    : userLegalData?.cityRefLegal;
+    ? checkoutData?.cityRef || ''
+    : userLegalData?.cityRefLegal || '';
   const streetsInfo = useSelector(selectStreets);
 
   const streetName =
@@ -118,6 +120,9 @@ const DeliveryCourier = ({
     setStreet(selectedItem);
     setSelectedItem(selectedItem);
     setIsListOpen(false);
+            dispatch(
+              addToCheckout({ field: 'deliveryStreet', value: selectedItem })
+            );
   };
 
   const closeByClickOutside = () => {

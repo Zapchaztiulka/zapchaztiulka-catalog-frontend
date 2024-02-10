@@ -19,6 +19,7 @@ const checkoutSlice = createSlice({
     userComment: '',
     selectedCity: '',
     cityRef: '',
+    deliveryStreet:''
   },
   reducers: {
     addToCheckout(state, action) {
@@ -48,6 +49,7 @@ const checkoutSlice = createSlice({
         userComment: '',
         selectedCity: '',
         cityRef: '',
+        deliveryStreet: '',
       };
     },
   },

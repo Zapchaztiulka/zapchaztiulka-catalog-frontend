@@ -55,7 +55,7 @@ const DeliveryBySelf = ({
           className="flex justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full"
         >
           <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
-            {selfAddress || address[0]}
+            {selfAddress || 'Оберіть значення...'}
           </div>
           {isOpen ? (
             <ArrowUpIcon color={theme.extend.colors.iconSecondary} />

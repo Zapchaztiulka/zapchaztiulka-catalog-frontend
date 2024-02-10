@@ -203,30 +203,30 @@ const Сheckout = () => {
 
   //Валідація довжини значень властивостей в тілі запиту
 const userNameLength =
-  username !== '' && username.length >= min.user && username.length <= max.user;
+  username.length < min.user || username.length > max.user;
   const userMiddleNameLength =
-    userMiddleName!=='' && userMiddleName.length >= min.user &&
-    userMiddleName.length <= max.user;
+    userMiddleName.length < min.user ||
+    userMiddleName.length > max.user;
   const userSurNameLength =
-    userSurname!=='' && userSurname.length >= min.user && userSurname.length <= max.user;
+    userSurname.length < min.user || userSurname.length > max.user;
   const userCommentLength =
-    userComment!=='' && userComment.length >= min.description &&
-    userComment.length <= max.description;
+    userComment.length < min.description ||
+    userComment.length > max.description;
 
   const userNameLegalLength =
-    usernameLegal?.length >= min.user && usernameLegal?.length <= max.user;
+    usernameLegal?.length < min.user || usernameLegal?.length > max.user;
   const userNameMiddleLegalLength =
-    userMiddleNameLegal?.length >= min.user &&
-    userMiddleNameLegal?.length <= max.user;
+    userMiddleNameLegal?.length < min.user ||
+    userMiddleNameLegal?.length > max.user;
   const userSurNameLegalLength =
-    userSurnameLegal?.length >= min.user &&
-    userSurnameLegal?.length <= max.user;
+    userSurnameLegal?.length < min.user ||
+    userSurnameLegal?.length > max.user;
   const userCommentLegalLength =
-    userCommentLegal?.length >= min.description &&
-    userCommentLegal?.length <= max.description;
+    userCommentLegal?.length < min.description ||
+    userCommentLegal?.length > max.description;
   const companyAddressLength =
-    companyAddress?.length >= min.companyAddress &&
-    companyAddress?.length <= max.companyAddress;
+    companyAddress?.length < min.companyAddress ||
+    companyAddress?.length > max.companyAddress;
 
   // перевірка пустоти та валідації даних для фізичних осіб
 const isFormValid = () => {
@@ -238,7 +238,11 @@ const isFormValid = () => {
       email === '' ||
       username === '' ||
       userSurname === '' ||
-      deliveryCity === '' 
+      deliveryCity === '' ||
+      userNameLength ||
+      userSurNameLength ||
+      (userMiddleName !== '' && userMiddleNameLength) ||
+      (userComment !== '' && userCommentLength)
     ) {
       setIsEmptyDataIndividual(true);
       return false;
@@ -249,13 +253,9 @@ const isFormValid = () => {
   return true;
 };
  
-  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery);
-  
-  console.log('TCL: Сheckout ->selfAddress ', selfAddress);
-
-  
-  console.log('TCL: Сheckout ->addressDelivery ', addressDelivery);
-  
+  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery); 
+  console.log('TCL: Сheckout ->selfAddress ', selfAddress); 
+  console.log('TCL: Сheckout ->addressDelivery ', addressDelivery); 
   console.log('TCL: Сheckout -> deliveryCity ', deliveryCity);
 
   // перевірка пустоти та валідації даних для юридичних осіб
@@ -272,7 +272,12 @@ const isFormValidLegal = () => {
       companyCode === '' ||
       companyCity === '' ||
       companyAddress === '' ||
-      companyRegion === ''
+      companyRegion === '' ||
+      userNameLegalLength ||
+      userSurNameLegalLength ||
+      companyAddressLength ||
+      (userMiddleNameLegal !== '' && userNameMiddleLegalLength) ||
+      (userCommentLegal !== '' && userCommentLegalLength)
     ) {
       setIsEmptyDataLegal(true);
       return false;
