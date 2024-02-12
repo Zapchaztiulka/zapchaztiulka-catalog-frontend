@@ -12,7 +12,7 @@ const checkoutSliceLegal = createSlice({
     legalEntityData: {
       companyName: '',
       companyCode: '',
-      companyRegion: '',
+      entrepreneurCode: '',
       companyCity: '',
       companyAddress: '',
     },
@@ -27,6 +27,7 @@ const checkoutSliceLegal = createSlice({
     selectedCityLegal: '',
     cityRefLegal: '',
     deliveryStreetLegal: '',
+    deliverHouseLegal: '',
   },
   reducers: {
     addToCheckoutLegal(state, action) {
@@ -58,6 +59,7 @@ const checkoutSliceLegal = createSlice({
         legalEntityData: {
           companyName: '',
           companyCode: '',
+          entrepreneurCode: '',
           companyRegion: '',
           companyCity: '',
           companyAddress: '',
@@ -73,6 +75,7 @@ const checkoutSliceLegal = createSlice({
         selectedCityLegal: '',
         cityRefLegal: '',
         deliveryStreetLegal: '',
+        deliverHouseLegal: '',
       };
     },
   },

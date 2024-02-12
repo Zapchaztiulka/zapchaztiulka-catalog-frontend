@@ -20,6 +20,7 @@ const Legal = ({
   const {
     companyName,
     companyCode,
+    entrepreneurCode,
     companyAddress,
     companyCity,
     companyRegion,
@@ -28,7 +29,9 @@ const Legal = ({
   const [userTypeEntity, setUserTypeEntity] = useState('');
   const [companyNameInfo, setCompanyNameInfo] = useState(companyName || '');
   const [companyCodeInfo, setCompanyCodeInfo] = useState(companyCode || '');
-  const [entrepreneurCode, setEntrepreneurCode] = useState(companyCode || '');
+  const [entrepreneurCodeInfo, setEntrepreneurCodeInfo] = useState(
+    entrepreneurCode || ''
+  );
   const [legalAddress, setLegalAddress] = useState(companyAddress || '');
   const [cityRegistration, setCityRegistration] = useState(companyCity || '');
   const [regionRegistration, setRegionRegistration] = useState(
@@ -57,7 +60,7 @@ const Legal = ({
     let setStateFunction;
     if (userTypeEntity === 'entrepreneur') {
       maxLength = 10;
-      setStateFunction = setEntrepreneurCode;
+      setStateFunction = setEntrepreneurCodeInfo;
     } else {
       setStateFunction = setCompanyCodeInfo;
     }
@@ -79,14 +82,12 @@ const Legal = ({
     if (isLegalPerson === 'ФОП') {
       setUserTypeEntity('entrepreneur');
       setCompanyCodeInfo('');
-      setEntrepreneurCode('');
       dispatch(
         addToCheckoutLegal({ field: 'legalEntityData.companyCode', value: '' })
       );
     } else if (isLegalPerson === 'Юридична особа') {
       setUserTypeEntity('company');
-      setEntrepreneurCode('');
-      setCompanyCodeInfo('');
+      setEntrepreneurCodeInfo('');
       dispatch(
         addToCheckoutLegal({ field: 'legalEntityData.companyCode', value: '' })
       );
@@ -162,12 +163,12 @@ const Legal = ({
         <label>
           ІПН <span className="text-textError">*</span>
           <input
-            value={entrepreneurCode}
+            value={entrepreneurCodeInfo}
             disabled={userTypeEntity === 'company'}
             onChange={e => {
-              setEntrepreneurCode(e.target.value);
+              setEntrepreneurCodeInfo(e.target.value);
               handleInputChangeCode(
-                'legalEntityData.companyCode',
+                'legalEntityData.entrepreneurCode',
                 e.target.value
               );
             }}
@@ -177,7 +178,7 @@ const Legal = ({
             <span className="text-textWarning text-[12px]">{errorMessage}</span>
           )}
           {isEmptyDataLegal &&
-            companyCodeInfo === '' &&
+            entrepreneurCodeInfo === '' &&
             userTypeEntity === 'entrepreneur' && (
               <p className="text-textError text-[12px]">Заповніть ІПН</p>
             )}
@@ -233,8 +234,10 @@ const Legal = ({
           )}
           {isEmptyDataLegal &&
             companyNameInfo !== '' &&
-            companyNameInfo.length<10 && (
-              <p className="text-textError text-[12px]">Адреса має містити не менше 10 символів/літер</p>
+            companyNameInfo.length < 10 && (
+              <p className="text-textError text-[12px]">
+                Адреса має містити не менше 10 символів/літер
+              </p>
             )}
         </label>
       </div>

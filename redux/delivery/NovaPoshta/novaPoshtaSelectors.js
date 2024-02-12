@@ -1,6 +1,29 @@
-export const getDepartmentsLoading = (state) => state.departments.isLoading;
-export const getDepartmentsError = (state) => state.departments.error;
+export const selectDepartmentsError = (state) => state.departments.error;
 export const selectSettlements = (state) => state.departments.settlements
-export const selectWaherousesNP = (state) => state.departments.warehousesNP;
-export const selectStreets = state => state.departments.streets;
-export const selectRegions = state => state.departments.regions;
+import { createSelector } from '@reduxjs/toolkit';
+export const selectDepartments = state => state.departments;
+
+export const selectWaherousesNP = createSelector(
+  selectDepartments,
+  departments => departments.warehousesNP
+);
+
+export const selectStreets = createSelector(
+  selectDepartments,
+  departments => departments.streets
+);
+
+export const selectRegions = createSelector(
+  selectDepartments,
+  departments => departments.regions
+);
+
+export const selectDepartmentsLoading = createSelector(
+  selectDepartments,
+  departments => ({
+    settlements: departments.isLoadingSettlements,
+    warehouses: departments.isLoadingWarehouses,
+    streets: departments.isLoadingStreets,
+    regions: departments.isLoadingRegions,
+  })
+);

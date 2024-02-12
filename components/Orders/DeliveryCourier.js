@@ -2,7 +2,10 @@ import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { fetchStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
-import { selectStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
+import {
+  selectDepartmentsLoading,
+  selectStreets,
+} from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
@@ -14,14 +17,22 @@ const DeliveryCourier = ({
   isErrorMessage,
   userLegalData,
   isClientStatus,
+  setIsErrorMessage,
 }) => {
   const dispatch = useDispatch();
-  const [street, setStreet] = useState( isClientStatus
-    ? checkoutData?.deliveryStreet || ''
-    : userLegalData?.deliveryStreetLegal || '');
-  const [houseNumber, setHouseNumber] = useState('');
+  const [street, setStreet] = useState(
+    isClientStatus
+      ? checkoutData?.deliveryStreet || ''
+      : userLegalData?.deliveryStreetLegal || ''
+  );
+  const [houseNumber, setHouseNumber] = useState(
+    isClientStatus
+      ? checkoutData?.deliverHouse || ''
+      : userLegalData?.deliverHouseLegal || ''
+  );
   const [apartment, setApartment] = useState('');
 
+  console.log('TCL: addressDelivery ', addressDelivery);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -30,6 +41,7 @@ const DeliveryCourier = ({
     ? checkoutData?.cityRef || ''
     : userLegalData?.cityRefLegal || '';
   const streetsInfo = useSelector(selectStreets);
+  const isLoadingStreets = useSelector(selectDepartmentsLoading).streets;
 
   const streetName =
     streetsInfo?.data?.[0]?.Addresses?.map(address => address.Present) || [];
@@ -39,17 +51,10 @@ const DeliveryCourier = ({
 
   const removeStreet = () => {
     setStreet('');
-    setApartment('');
-    setHouseNumber('');
+    // setApartment('');
+    // setHouseNumber('');
     setIsListOpen(false);
   };
-
-  useEffect(() => {
-    if (street !== '' && houseNumber !== '') {
-      const fullAddress = `${street}, ${houseNumber}, ${apartment}`;
-      setAddressDelivery(fullAddress);
-    }
-  }, [street, houseNumber, apartment, setAddressDelivery]);
 
   // Get list of streets
   useEffect(() => {
@@ -58,22 +63,36 @@ const DeliveryCourier = ({
     }
   }, [dispatch, street, cityRef]);
 
+  useEffect(() => {
+    if (street !== '' && houseNumber !== '') {
+      const fullAddress =
+        `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
+      if (isClientStatus) {
+        dispatch(
+          addToCheckout({ field: 'deliveryAddress', value: fullAddress })
+        );
+      } else {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryAddressLegal',
+            value: fullAddress,
+          })
+        );
+      }
+    } else {
+      if (isClientStatus) {
+        dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
+      } else {
+        dispatch(
+          addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+        );
+      }
+    }
+  }, [dispatch, isClientStatus, street, houseNumber, apartment]);
+
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
-      if (isClientStatus) {
-         dispatch(
-           addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-         );
-      }
-      if (!isClientStatus) {
-         dispatch(
-           addToCheckoutLegal({
-             field: 'deliveryAddressLegal',
-             value: addressDelivery,
-           })
-         );
-      }   
     setIsListOpen(true);
     if (!searchStreet) {
       removeStreet();
@@ -83,46 +102,46 @@ const DeliveryCourier = ({
   const handleInputChangeHouse = event => {
     const house = event.target.value;
     setHouseNumber(house);
+
     if (isClientStatus) {
       dispatch(
-        addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-      );
-    }
-    if (!isClientStatus) {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliveryAddressLegal',
-          value: addressDelivery,
+        addToCheckout({
+          field: 'deliverHouse',
+          value: house,
         })
       );
-    }   
+    } else {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliverHouseLegal',
+          value: house,
+        })
+      );
+    }
   };
+
+  console.log('TCL: addressDelivery', addressDelivery);
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;
     setApartment(apartment);
-    if (isClientStatus) {
-      dispatch(
-        addToCheckout({ field: 'deliveryAddress', value: addressDelivery })
-      );
-    }
-    if (!isClientStatus) {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliveryAddressLegal',
-          value: addressDelivery,
-        })
-      );
-    }   
   };
 
   const handleSelection = selectedItem => {
     setStreet(selectedItem);
     setSelectedItem(selectedItem);
     setIsListOpen(false);
-            dispatch(
-              addToCheckout({ field: 'deliveryStreet', value: selectedItem })
-            );
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryStreet', value: selectedItem }));
+    }
+    if (!isClientStatus) {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryStreetLegal',
+          value: selectedItem,
+        })
+      );
+    }
   };
 
   const closeByClickOutside = () => {
@@ -181,22 +200,25 @@ const DeliveryCourier = ({
           <p className="text-textError text-[12px]">Заповніть назву вулиці</p>
         )}
 
-        {streetName && streetName.length !== 0 && isListOpen && (
-          <ul
-            ref={refList}
-            className="absolute tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
-          >
-            {streetName?.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelection(item)}
-                className="relative cursor-pointer select-none p-2 hover:text-textBrand"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        )}
+        {streetName &&
+          streetName.length !== 0 &&
+          isListOpen &&
+          !isLoadingStreets && (
+            <ul
+              ref={refList}
+              className="absolute tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"
+            >
+              {streetName?.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSelection(item)}
+                  className="relative cursor-pointer select-none p-2 hover:text-textBrand"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
       </div>
 
       <div className="flex gap-2 mt-2">
@@ -212,7 +234,7 @@ const DeliveryCourier = ({
             type="text"
             onChange={handleInputChangeHouse}
           />
-          {isErrorMessage && street === '' && (
+          {isErrorMessage && houseNumber === '' && (
             <div className="text-textError text-[12px]">
               Заповніть номер будинку
             </div>

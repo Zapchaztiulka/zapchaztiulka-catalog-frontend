@@ -1,7 +1,7 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { addToCheckout } from '@/redux/checkout/checkoutSlice';
 import { fetchSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
-import { selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
+import { selectDepartmentsLoading, selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,23 +16,20 @@ const Settlelement = ({
   onSelectCity,
   onCityChange,
   onSelectCityRef,
-  checkoutData,
   isEmptyDataIndividual,
   isEmptyDataLegal,
-  selectedDelivery,
-  userLegalData,
   isClientStatus,
   cityDelivery,
   setCityDelivery,
 }) => {
   const dispatch = useDispatch();
-  // const [locality, setLocality] = useState(
-  //   isClientStatus ? checkoutData.deliveryCity : userLegalData.deliveryCityLegal
-  // );
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const settlements = useSelector(selectSettlements);
+  const isLoadingSettlements = useSelector(
+    selectDepartmentsLoading
+  ).settlements;
 
   const localityPlaceInfo = settlements?.data?.flatMap(
     entry => entry.Addresses
@@ -45,19 +42,6 @@ const Settlelement = ({
   useEffect(() => {
     dispatch(fetchSettlements(cityDelivery));
   }, [dispatch, cityDelivery]);
-
-  // useEffect(() => {
-  //   if (isClientStatus) {
-  //     setLocality(checkoutData.deliveryCity);
-  //   }
-  //   if (!isClientStatus) {
-  //     setLocality(userLegalData.deliveryCityLegal);
-  //   }
-  // }, [
-  //   checkoutData.deliveryCity,
-  //   userLegalData.deliveryCityLegal,
-  //   isClientStatus,
-  // ]);
 
   const removeCity = () => {
     setCityDelivery('');
@@ -84,13 +68,13 @@ const Settlelement = ({
   };
 
   const handleSelection = selectedItem => {
-    setCityDelivery(selectedItem.Present);
+    setCityDelivery(selectedItem.MainDescription);
 
-    onCityChange(selectedItem.Present);
+    onCityChange(selectedItem.MainDescription);
     onSelectCity(selectedItem.DeliveryCity);
     onSelectCityRef(selectedItem.Ref);
 
-    setSelectedItem(selectedItem.Present);
+    setSelectedItem(selectedItem.MainDescription);
     setIsListOpen(false);
   };
 
@@ -113,7 +97,7 @@ const Settlelement = ({
 
   return (
     <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
-      <div className="flex items-center gap-3 relative">
+      <div className="relative">
         <input
           ref={refInput}
           type="text"
@@ -143,23 +127,22 @@ const Settlelement = ({
           <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
         )} */}
         {isEmptyDataIndividual && cityDelivery === '' && (
-          <p className="text-textError text-[12px]">
-            Заповніть місто доставки
-            <span className="text-textError">*</span>
-          </p>
+          <span className="text-textError text-[12px]">
+            Оберіть місто доставки
+          </span>
         )}
         {isEmptyDataLegal && cityDelivery === '' && (
-          <p className="text-textError text-[12px]">
-            Заповніть місто доставки
-            <span className="text-textError">*</span>
-          </p>
+          <span className="text-textError text-[12px]">
+            Оберіть місто доставки
+          </span>
         )}
       </div>
 
       {localityPlaceInfo &&
         cityDelivery &&
         localityPlaceInfo.length !== 0 &&
-        isListOpen && (
+        isListOpen &&
+        !isLoadingSettlements && (
           <ul
             ref={refList}
             className="absolute tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs z-10"

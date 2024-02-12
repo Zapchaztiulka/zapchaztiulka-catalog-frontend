@@ -58,6 +58,7 @@ const Сheckout = () => {
     legalEntityData: {
       companyName,
       companyCode,
+      entrepreneurCode,
       companyRegion,
       companyCity,
       companyAddress,
@@ -70,7 +71,8 @@ const Сheckout = () => {
   } = userLegalData;
 
   const patterns = useSelector(selectPatterns);
-  const { min, max } = patterns;
+  const min = patterns?.min;
+  const max = patterns?.max;
 
   const productsInfo = orderInfoData?.map(item => ({
     productId: item.id,
@@ -84,6 +86,8 @@ const Сheckout = () => {
     aviabilityProduct,
     backToHomeUrl,
   } = useContext(StatusContext);
+  
+  console.log('TCL: Сheckout -> deliveryAddress', deliveryAddress);
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
@@ -104,10 +108,8 @@ const Сheckout = () => {
   );
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isEmptyDataIndividual, setIsEmptyDataIndividual] = useState(false);
-  console.log("TCL: Сheckout -> [isEmptyDataIndividual", isEmptyDataIndividual)
 
   const [isEmptyDataLegal, setIsEmptyDataLegal] = useState(false);
-  console.log("TCL: Сheckout -> isEmptyDataLegal", isEmptyDataLegal)
 
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
@@ -252,11 +254,6 @@ const isFormValid = () => {
   }
   return true;
 };
- 
-  console.log('TCL: Сheckout ->selectedDelivery ', selectedDelivery); 
-  console.log('TCL: Сheckout ->selfAddress ', selfAddress); 
-  console.log('TCL: Сheckout ->addressDelivery ', addressDelivery); 
-  console.log('TCL: Сheckout -> deliveryCity ', deliveryCity);
 
   // перевірка пустоти та валідації даних для юридичних осіб
 const isFormValidLegal = () => {
@@ -269,7 +266,8 @@ const isFormValidLegal = () => {
       usernameLegal === '' ||
       userSurnameLegal === '' ||
       companyName === '' ||
-      companyCode === '' ||
+      (userTypeLegal==='company' ? companyCode === '' : entrepreneurCode === '')
+       ||     
       companyCity === '' ||
       companyAddress === '' ||
       companyRegion === '' ||
@@ -337,7 +335,8 @@ const isFormValidLegal = () => {
         ? undefined
         : {
             companyName: companyName,
-            companyCode: companyCode,
+            companyCode:
+              userTypeLegal === 'company' ? companyCode : entrepreneurCode,
             companyRegion: companyRegion,
             companyCity: companyCity,
             companyAddress: companyAddress,
@@ -622,6 +621,7 @@ const isFormValidLegal = () => {
                         checkoutData={userData}
                         isClientStatus={isClientStatus}
                         userLegalData={userLegalData}
+                        setIsErrorMessage={setIsErrorMessage}
                       />
                     )}
                   </div>
@@ -659,6 +659,7 @@ const isFormValidLegal = () => {
                         checkoutData={userData}
                         isClientStatus={isClientStatus}
                         userLegalData={userLegalData}
+                        setIsErrorMessage={setIsErrorMessage}
                       />
                     )}
                   </div>

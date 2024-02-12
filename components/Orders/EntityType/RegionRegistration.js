@@ -1,7 +1,8 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
+import { selectDepartmentsLoading } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
 const RegionRegistration = ({
@@ -15,6 +16,9 @@ const RegionRegistration = ({
   const dispatch = useDispatch();
   const { companyRegion } = checkoutData.legalEntityData;
   const dataListRegion = regionsData?.data;
+    const isLoadingRegions = useSelector(
+      selectDepartmentsLoading
+    ).regions;
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -111,7 +115,8 @@ const RegionRegistration = ({
       {filteredRegions &&
         regionRegistration &&
         filteredRegions.length !== 0 &&
-        isListOpen && (
+        isListOpen &&
+        !isLoadingRegions && (
           <ul
             ref={refList}
             className="absolute w-auto z-20 tablet1024:max-h-60 tablet1024:border tablet1024:border-borderDefault overflow-auto text-base text-textInputDefault tablet1024:rounded-lg bg-bgWhite focus:outline-none p-xs"
