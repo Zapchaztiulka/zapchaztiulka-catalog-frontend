@@ -96,7 +96,7 @@ const Settlelement = ({
   };
 
   return (
-    <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
+    <div className="search w-[343px] relative">
       <div className="relative">
         <input
           ref={refInput}

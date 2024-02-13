@@ -12,27 +12,34 @@ import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
 const DeliveryCourier = ({
   addressDelivery,
-  setAddressDelivery,
   checkoutData,
   isErrorMessage,
   userLegalData,
   isClientStatus,
-  setIsErrorMessage,
+  selectedDelivery,
 }) => {
   const dispatch = useDispatch();
   const [street, setStreet] = useState(
     isClientStatus
-      ? checkoutData?.deliveryStreet || ''
-      : userLegalData?.deliveryStreetLegal || ''
+      ? selectedDelivery === 'courier'
+        ? checkoutData?.deliveryStreet || ''
+        : checkoutData?.deliveryStreetNP || ''
+      : selectedDelivery === 'courier'
+      ? userLegalData?.deliveryStreetLegal || ''
+      : userLegalData?.deliveryStreetLegalNP || ''
   );
+
   const [houseNumber, setHouseNumber] = useState(
     isClientStatus
-      ? checkoutData?.deliverHouse || ''
-      : userLegalData?.deliverHouseLegal || ''
+      ? selectedDelivery === 'courier'
+        ? checkoutData?.deliverHouse || ''
+        : checkoutData?.deliverHouseNP || ''
+      : selectedDelivery === 'courier'
+      ? userLegalData?.deliverHouseLegal || ''
+      : userLegalData?.deliverHouseLegalNP || ''
   );
-  const [apartment, setApartment] = useState('');
 
-  console.log('TCL: addressDelivery ', addressDelivery);
+  const [apartment, setApartment] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -51,8 +58,6 @@ const DeliveryCourier = ({
 
   const removeStreet = () => {
     setStreet('');
-    // setApartment('');
-    // setHouseNumber('');
     setIsListOpen(false);
   };
 
@@ -63,36 +68,96 @@ const DeliveryCourier = ({
     }
   }, [dispatch, street, cityRef]);
 
-  useEffect(() => {
-    if (street !== '' && houseNumber !== '') {
-      const fullAddress =
-        `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
-      if (isClientStatus) {
+useEffect(() => {
+  if (street !== '' && houseNumber !== '') {
+    const fullAddress =
+      `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
+    
+    if (isClientStatus) {
+      if (selectedDelivery === 'courier') {
         dispatch(
           addToCheckout({ field: 'deliveryAddress', value: fullAddress })
         );
       } else {
+        dispatch(
+          addToCheckout({ field: 'deliveryAddressNP', value: fullAddress })
+        );
+      }
+    } else {
+      if (selectedDelivery === 'courier') {
         dispatch(
           addToCheckoutLegal({
             field: 'deliveryAddressLegal',
             value: fullAddress,
           })
         );
-      }
-    } else {
-      if (isClientStatus) {
-        dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
       } else {
         dispatch(
-          addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+          addToCheckoutLegal({
+            field: 'deliveryAddressLegalNP',
+            value: fullAddress,
+          })
         );
       }
     }
-  }, [dispatch, isClientStatus, street, houseNumber, apartment]);
+  } else {
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryAddressNP', value: '' }));
+    } else {
+      dispatch(
+        addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+      );
+      dispatch(
+        addToCheckoutLegal({ field: 'deliveryAddressLegalNP', value: '' })
+      );
+    }
+  }
+}, [
+  dispatch,
+  isClientStatus,
+  selectedDelivery,
+  street,
+  houseNumber,
+  apartment,
+]);
 
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
+      if (isClientStatus) {
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckout({
+              field: 'deliveryStreet',
+              value: searchStreet,
+            })
+          );
+        } else {
+          dispatch(
+            addToCheckout({
+              field: 'deliveryStreetNP',
+              value: searchStreet,
+            })
+          );
+        }
+      } else {
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryStreetLegal',
+              value: searchStreet,
+            })
+          );
+        } else {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryStreetLegalNP',
+              value: searchStreet,
+            })
+          );
+        }
+      }
     setIsListOpen(true);
     if (!searchStreet) {
       removeStreet();
@@ -104,21 +169,40 @@ const DeliveryCourier = ({
     setHouseNumber(house);
 
     if (isClientStatus) {
-      dispatch(
-        addToCheckout({
-          field: 'deliverHouse',
-          value: house,
-        })
-      );
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckout({
+            field: 'deliverHouse',
+            value: house,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckout({
+            field: 'deliverHouseNP',
+            value: house,
+          })
+        );
+      }
     } else {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliverHouseLegal',
-          value: house,
-        })
-      );
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliverHouseLegal',
+            value: house,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliverHouseLegalNP',
+            value: house,
+          })
+        );
+      }
     }
   };
+
 
   console.log('TCL: addressDelivery', addressDelivery);
 
@@ -127,22 +211,37 @@ const DeliveryCourier = ({
     setApartment(apartment);
   };
 
-  const handleSelection = selectedItem => {
-    setStreet(selectedItem);
-    setSelectedItem(selectedItem);
-    setIsListOpen(false);
-    if (isClientStatus) {
+const handleSelection = selectedItem => {
+  setStreet(selectedItem);
+  setSelectedItem(selectedItem);
+  setIsListOpen(false);
+  if (isClientStatus) {
+    if (selectedDelivery === 'courier') {
       dispatch(addToCheckout({ field: 'deliveryStreet', value: selectedItem }));
+    } else {
+      dispatch(
+        addToCheckout({ field: 'deliveryStreetNP', value: selectedItem })
+      );
     }
-    if (!isClientStatus) {
+  } else {
+    if (selectedDelivery === 'courier') {
       dispatch(
         addToCheckoutLegal({
           field: 'deliveryStreetLegal',
           value: selectedItem,
         })
       );
+    } else {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryStreetLegalNP',
+          value: selectedItem,
+        })
+      );
     }
-  };
+  }
+};
+
 
   const closeByClickOutside = () => {
     if (!selectedItem && isListOpen) {
@@ -167,7 +266,7 @@ const DeliveryCourier = ({
         <span className="text-textError">*</span>
       </p>
 
-      <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
+      <div className="search w-full relative">
         <div className="flex items-center gap-3">
           <input
             ref={refInput}
@@ -191,7 +290,7 @@ const DeliveryCourier = ({
             </button>
           )}
         </div>
-        {cityRef === '' && street === '' && (
+        {cityRef === '' && street === '' && isInputFocused && (
           <span className="text-textError text-[12px]">
             Ви не обрали місто доставки
           </span>
@@ -221,15 +320,15 @@ const DeliveryCourier = ({
           )}
       </div>
 
-      <div className="flex gap-2 mt-2">
-        <div className="checkout-contacts-input search">
+      <div className="flex gap-3 mt-2">
+        <div className=" search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер будинку
             <span className="text-textError">*</span>
           </p>
           <input
-            className="search-input w-full "
+            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             value={houseNumber}
             type="text"
             onChange={handleInputChangeHouse}
@@ -241,14 +340,14 @@ const DeliveryCourier = ({
           )}
         </div>
 
-        <div className="checkout-contacts-input search">
+        <div className=" search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер квартири
             <span className="text-textError">*</span>
           </p>
           <input
-            className="search-input w-full "
+            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             type="text"
             value={apartment}
             onChange={handleInputChangeApartment}

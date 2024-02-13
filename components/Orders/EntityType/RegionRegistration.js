@@ -22,13 +22,19 @@ const RegionRegistration = ({
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const regionRegistrationValue = regionRegistration || '';
+
 
   const refInput = useRef(null);
   const refList = useRef(null);
 
-  const filteredRegions = dataListRegion?.filter(item =>
-    item.Description.toLowerCase().includes(regionRegistration.toLowerCase())
-  );
+const filteredRegions = dataListRegion?.filter(
+  item =>
+    item &&
+    item.Description &&
+    item.Description.toLowerCase().includes(regionRegistration?.toLowerCase())
+);
+
 
   useEffect(() => {
     setRegionRegistration(companyRegion);
@@ -86,15 +92,15 @@ const RegionRegistration = ({
         <input
           ref={refInput}
           type="text"
-          value={regionRegistration}
-          disabled={cityRegistration !== '' && regionRegistration !== ''}
+          value={regionRegistrationValue}
+          disabled={cityRegistration !== '' && regionRegistrationValue !== ''}
           onChange={handleInputChangeRegion}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву області..'}
           className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
         />
-        {regionRegistration !== '' && cityRegistration === '' && (
+        {regionRegistrationValue !== '' && cityRegistration === '' && (
           <button
             type="button"
             onClick={removeRegion}
@@ -108,12 +114,12 @@ const RegionRegistration = ({
           </button>
         )}
       </div>
-      {isEmptyData && regionRegistration === '' && (
+      {isEmptyData && regionRegistrationValue === '' && (
         <p className="text-textError text-[12px]">Оберіть область</p>
       )}
 
       {filteredRegions &&
-        regionRegistration &&
+        regionRegistrationValue &&
         filteredRegions.length !== 0 &&
         isListOpen &&
         !isLoadingRegions && (

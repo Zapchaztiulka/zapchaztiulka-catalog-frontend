@@ -13,24 +13,27 @@ const checkoutSlice = createSlice({
     deliveryRegion: '',
     deliveryDistrict: '',
     deliveryOffice: '',
+    deliverySelf: '',
     deliveryCity: '',
     deliveryAddress: '',
+    deliveryAddressNP: '',
     deliveryRate: '',
     userComment: '',
     selectedCity: '',
     cityRef: '',
     deliveryStreet: '',
-    deliverHouse:''
+    deliverHouse: '',
+    deliveryStreetNP: '',
+    deliverHouseNP: '',
   },
   reducers: {
     addToCheckout(state, action) {
       const { field, value } = action.payload;
 
-        return {
-          ...state,
-          [field]: value,
-        };
-      
+      return {
+        ...state,
+        [field]: value,
+      };
     },
     clearCheckout(state) {
       return {
@@ -44,14 +47,18 @@ const checkoutSlice = createSlice({
         deliveryRegion: '',
         deliveryDistrict: '',
         deliveryOffice: '',
+        deliverySelf: '',
         deliveryCity: '',
         deliveryAddress: '',
+        deliveryAddressNP: '',
         deliveryRate: '',
         userComment: '',
         selectedCity: '',
         cityRef: '',
         deliveryStreet: '',
         deliverHouse: '',
+        deliveryStreetNP: '',
+        deliverHouseNP: '',
       };
     },
   },
