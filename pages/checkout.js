@@ -3,9 +3,6 @@ import { ArrowLeftIcon } from 'universal-components-frontend/src/components/icon
 import { useContext, useState, useEffect } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import Settlelement from '@/components/Orders/Settlelement';
-import DeliveryNova from '@/components/Orders/DeliveryNova';
-import DeliveryCourier from '@/components/Orders/DeliveryCourier';
-import DeliveryBySelf from '@/components/Orders/DeliveryBySelf';
 import TotalOrder from '@/components/Orders/TotalOrder';
 import Legal from '@/components/Orders/EntityType/Legal';
 import Individual from '@/components/Orders/EntityType/Individual';
@@ -27,16 +24,15 @@ import {
   clearCheckoutLegal,
 } from '@/redux/checkout/LegalPerson/legalSlice';
 import DeliveryComponents from '@/components/Orders/DeliveryComponents/DeliveryComponents';
+import { scrollToTop } from '@/helpers/scrollToTop';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
-  console.log("TCL: userData", userData)
   const userLegalData = useSelector(selectCheckoutLegal);
   const {
-    userType,
     phone,
     email,
     username,
@@ -44,9 +40,11 @@ const Сheckout = () => {
     userMiddleName,
     deliveryMethodId,
     deliveryOffice,
+    deliverySelf,
     userComment,
     deliveryCity,
     deliveryAddress,
+    deliveryAddressNP,
   } = userData;
   const {
     emailLegal,
@@ -65,8 +63,10 @@ const Сheckout = () => {
     },
     deliveryMethodIdLegal,
     deliveryOfficeLegal,
+    deliverySelfLegal,
     deliveryCityLegal,
     deliveryAddressLegal,
+    deliveryAddressLegalNP,
     userCommentLegal,
   } = userLegalData;
 
@@ -93,13 +93,13 @@ const Сheckout = () => {
     isClientStatus ? deliveryCity || '' : deliveryCityLegal || ''
   );
   const [selfAddress, setSelfAddress] = useState(
-    isClientStatus ? deliveryOffice || '' : deliveryOfficeLegal || ''
+    isClientStatus ? deliverySelf || '' : deliverySelfLegal || ''
   );
   const [addressDelivery, setAddressDelivery] = useState(
     isClientStatus ? deliveryAddress || '' : deliveryAddressLegal || ''
   );
   const [addressDeliveryNP, setAddressDeliveryNP] = useState(
-    isClientStatus ? deliveryAddress || '' : deliveryAddressLegal || ''
+    isClientStatus ? deliveryAddressNP || '' : deliveryAddressLegalNP || ''
   );
   const [warehouses, setWarehouses] = useState(
     isClientStatus ? deliveryOffice || '' : deliveryOfficeLegal || ''
@@ -112,10 +112,7 @@ const Сheckout = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
-  
-  console.log('TCL: selfAddress', selfAddress);
-  
-  console.log('TCL: selectedDelivery', selectedDelivery);
+
 
   useEffect(() => {
     if (isClientStatus) {
@@ -174,24 +171,22 @@ const Сheckout = () => {
   const handleDeliveryChange = event => {
     const selectedDeliveryValue = event.target.value;
     setSelectedDelivery(selectedDeliveryValue);
-    // if (!isClientStatus) {
-    //   dispatch(
-    //     addToCheckoutLegal({
-    //       field: 'deliveryMethodIdLegal',
-    //       value: selectedDeliveryValue,
-    //     })
-    //   );
-    //   dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' }));
-    // }
-    // if (isClientStatus) {
-    //   dispatch(
-    //     addToCheckout({
-    //       field: 'deliveryMethodId',
-    //       value: selectedDeliveryValue,
-    //     })
-    //   );
-    //   dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
-    // }
+    if (!isClientStatus) {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryMethodIdLegal',
+          value: selectedDeliveryValue,
+        })
+      );
+    }
+    if (isClientStatus) {
+      dispatch(
+        addToCheckout({
+          field: 'deliveryMethodId',
+          value: selectedDeliveryValue,
+        })
+      );
+    }
     setIsErrorMessage(false);
   };
 
@@ -287,10 +282,29 @@ const Сheckout = () => {
     return true;
   };
 
+  const deliveryOfficeMap = {
+    courier: '',
+    np_courier: '',
+    self: isClientStatus ? deliverySelf : deliverySelfLegal,
+    np: isClientStatus ? deliveryOffice : deliveryOfficeLegal,
+  };
+
+  const deliveryAddressMap = {
+    self: '',
+    np: '',
+    courier: isClientStatus ? deliveryAddress : deliveryAddressLegal,
+    np_courier: isClientStatus ? deliveryAddressNP : deliveryAddressLegalNP,
+  };
+
   // Сабміт форми з відправкою тіла запиту та перевіркою на помилки
   const handleSubmit = event => {
     event.preventDefault();
-    if (!isFormValid() || !isFormValidLegal()) {
+    const isIndividualFormValid = isFormValid();
+    const isLegalFormValid = isFormValidLegal();
+
+    if (!isIndividualFormValid || !isLegalFormValid) {
+      setIsEmptyDataIndividual(true);
+      setIsEmptyDataLegal(true);
       return;
     }
 
@@ -311,9 +325,6 @@ const Сheckout = () => {
       return;
     }
 
-    setIsEmptyDataIndividual(false);
-    setIsEmptyDataLegal(false);
-
     const requestBody = {
       products: productsInfo,
       userType: isClientStatus ? 'individual' : userTypeLegal,
@@ -327,10 +338,10 @@ const Сheckout = () => {
       deliveryMethodId: isClientStatus
         ? deliveryMethodId
         : deliveryMethodIdLegal,
-      deliveryOffice: isClientStatus ? deliveryOffice : deliveryOfficeLegal,
+      deliveryOffice: deliveryOfficeMap[selectedDelivery],
       userComment: isClientStatus ? userComment : userCommentLegal,
       deliveryCity: isClientStatus ? deliveryCity : deliveryCityLegal,
-      deliveryAddress: isClientStatus ? deliveryAddress : deliveryAddressLegal,
+      deliveryAddress: deliveryAddressMap[selectedDelivery],
       legalEntityData: isClientStatus
         ? undefined
         : {
@@ -344,6 +355,8 @@ const Сheckout = () => {
     };
     try {
       setShowModalOrderSuccessful(true);
+      setIsEmptyDataIndividual(false);
+      setIsEmptyDataLegal(false);
       dispatch(fetchOrders(requestBody));
       dispatch(clearCheckout());
       dispatch(clearCheckoutLegal());
@@ -544,6 +557,8 @@ const Сheckout = () => {
                                 isErrorMessage,
                                 setAddressDelivery,
                                 addressDelivery,
+                                setAddressDeliveryNP,
+                                addressDeliveryNP,
                                 setIsErrorMessage,
                               })}
                           </div>
@@ -567,6 +582,7 @@ const Сheckout = () => {
 
                       <button
                         type="submit"
+                        onClick={scrollToTop}
                         className="state-button flex justify-center justify-self-end w-full mobile480:w-[432px] tablet600:w-[285px] py-[14px] 
                 font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
                       >

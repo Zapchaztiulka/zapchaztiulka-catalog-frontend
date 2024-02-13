@@ -68,11 +68,6 @@ const Individual = ({
      }
    };
 
-  const validateEmail = email => {
-    const emailPattern = new RegExp(patterns.emailPattern);
-    return emailPattern.test(email);
-  };
-
   const handlePhoneInputChange = event => {
     const inputPhoneNumber = event.target.value;
     if (inputPhoneNumber[0] !== '0') {

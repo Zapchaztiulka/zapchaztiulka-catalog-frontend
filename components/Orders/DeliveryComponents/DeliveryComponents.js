@@ -1,7 +1,7 @@
 import React from 'react';
-import DeliveryNova from '../DeliveryNova';
-import DeliveryBySelf from '../DeliveryBySelf';
-import DeliveryCourier from '../DeliveryCourier';
+import DeliveryNova from './DeliveryNova';
+import DeliveryBySelf from './DeliveryBySelf';
+import DeliveryCourier from './DeliveryCourier';
 
 const DeliveryComponents = {
   np: {
@@ -42,6 +42,7 @@ const DeliveryComponents = {
         isClientStatus={props.isClientStatus}
         userLegalData={props.userLegalData}
         setIsErrorMessage={props.setIsErrorMessage}
+        selectedDelivery={props.selectedDelivery}
       />
     ),
   },
@@ -51,8 +52,9 @@ const DeliveryComponents = {
       <DeliveryCourier
         {...props}
         isErrorMessage={props.isErrorMessage}
-        addressDelivery={props.addressDelivery}
-        setAddressDelivery={props.setAddressDelivery}
+        addressDelivery={props.addressDeliveryNP}
+        setAddressDelivery={props.setAddressDeliveryNP}
+        selectedDelivery={props.selectedDelivery}
         checkoutData={props.userData}
         isClientStatus={props.isClientStatus}
         userLegalData={props.userLegalData}

@@ -32,8 +32,6 @@ const DeliveryNova = ({
   const warehousesInfo = useSelector(selectWaherousesNP);
 const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
 
-console.log('TCL: warehouses', warehouses);
-
   const warehousesList = warehousesInfo?.data?.flatMap(
     entry => entry.Description
   );

@@ -16,18 +16,29 @@ const DeliveryCourier = ({
   isErrorMessage,
   userLegalData,
   isClientStatus,
+  selectedDelivery,
 }) => {
   const dispatch = useDispatch();
   const [street, setStreet] = useState(
     isClientStatus
-      ? checkoutData?.deliveryStreet || ''
-      : userLegalData?.deliveryStreetLegal || ''
+      ? selectedDelivery === 'courier'
+        ? checkoutData?.deliveryStreet || ''
+        : checkoutData?.deliveryStreetNP || ''
+      : selectedDelivery === 'courier'
+      ? userLegalData?.deliveryStreetLegal || ''
+      : userLegalData?.deliveryStreetLegalNP || ''
   );
+
   const [houseNumber, setHouseNumber] = useState(
     isClientStatus
-      ? checkoutData?.deliverHouse || ''
-      : userLegalData?.deliverHouseLegal || ''
+      ? selectedDelivery === 'courier'
+        ? checkoutData?.deliverHouse || ''
+        : checkoutData?.deliverHouseNP || ''
+      : selectedDelivery === 'courier'
+      ? userLegalData?.deliverHouseLegal || ''
+      : userLegalData?.deliverHouseLegalNP || ''
   );
+
   const [apartment, setApartment] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
@@ -47,8 +58,6 @@ const DeliveryCourier = ({
 
   const removeStreet = () => {
     setStreet('');
-    // setApartment('');
-    // setHouseNumber('');
     setIsListOpen(false);
   };
 
@@ -59,36 +68,96 @@ const DeliveryCourier = ({
     }
   }, [dispatch, street, cityRef]);
 
-  useEffect(() => {
-    if (street !== '' && houseNumber !== '') {
-      const fullAddress =
-        `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
-      if (isClientStatus) {
+useEffect(() => {
+  if (street !== '' && houseNumber !== '') {
+    const fullAddress =
+      `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
+    
+    if (isClientStatus) {
+      if (selectedDelivery === 'courier') {
         dispatch(
           addToCheckout({ field: 'deliveryAddress', value: fullAddress })
         );
       } else {
+        dispatch(
+          addToCheckout({ field: 'deliveryAddressNP', value: fullAddress })
+        );
+      }
+    } else {
+      if (selectedDelivery === 'courier') {
         dispatch(
           addToCheckoutLegal({
             field: 'deliveryAddressLegal',
             value: fullAddress,
           })
         );
-      }
-    } else {
-      if (isClientStatus) {
-        dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
       } else {
         dispatch(
-          addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+          addToCheckoutLegal({
+            field: 'deliveryAddressLegalNP',
+            value: fullAddress,
+          })
         );
       }
     }
-  }, [dispatch, isClientStatus, street, houseNumber, apartment]);
+  } else {
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryAddressNP', value: '' }));
+    } else {
+      dispatch(
+        addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+      );
+      dispatch(
+        addToCheckoutLegal({ field: 'deliveryAddressLegalNP', value: '' })
+      );
+    }
+  }
+}, [
+  dispatch,
+  isClientStatus,
+  selectedDelivery,
+  street,
+  houseNumber,
+  apartment,
+]);
 
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
+      if (isClientStatus) {
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckout({
+              field: 'deliveryStreet',
+              value: searchStreet,
+            })
+          );
+        } else {
+          dispatch(
+            addToCheckout({
+              field: 'deliveryStreetNP',
+              value: searchStreet,
+            })
+          );
+        }
+      } else {
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryStreetLegal',
+              value: searchStreet,
+            })
+          );
+        } else {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryStreetLegalNP',
+              value: searchStreet,
+            })
+          );
+        }
+      }
     setIsListOpen(true);
     if (!searchStreet) {
       removeStreet();
@@ -100,21 +169,40 @@ const DeliveryCourier = ({
     setHouseNumber(house);
 
     if (isClientStatus) {
-      dispatch(
-        addToCheckout({
-          field: 'deliverHouse',
-          value: house,
-        })
-      );
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckout({
+            field: 'deliverHouse',
+            value: house,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckout({
+            field: 'deliverHouseNP',
+            value: house,
+          })
+        );
+      }
     } else {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliverHouseLegal',
-          value: house,
-        })
-      );
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliverHouseLegal',
+            value: house,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliverHouseLegalNP',
+            value: house,
+          })
+        );
+      }
     }
   };
+
 
   console.log('TCL: addressDelivery', addressDelivery);
 
@@ -123,22 +211,37 @@ const DeliveryCourier = ({
     setApartment(apartment);
   };
 
-  const handleSelection = selectedItem => {
-    setStreet(selectedItem);
-    setSelectedItem(selectedItem);
-    setIsListOpen(false);
-    if (isClientStatus) {
+const handleSelection = selectedItem => {
+  setStreet(selectedItem);
+  setSelectedItem(selectedItem);
+  setIsListOpen(false);
+  if (isClientStatus) {
+    if (selectedDelivery === 'courier') {
       dispatch(addToCheckout({ field: 'deliveryStreet', value: selectedItem }));
+    } else {
+      dispatch(
+        addToCheckout({ field: 'deliveryStreetNP', value: selectedItem })
+      );
     }
-    if (!isClientStatus) {
+  } else {
+    if (selectedDelivery === 'courier') {
       dispatch(
         addToCheckoutLegal({
           field: 'deliveryStreetLegal',
           value: selectedItem,
         })
       );
+    } else {
+      dispatch(
+        addToCheckoutLegal({
+          field: 'deliveryStreetLegalNP',
+          value: selectedItem,
+        })
+      );
     }
-  };
+  }
+};
+
 
   const closeByClickOutside = () => {
     if (!selectedItem && isListOpen) {

@@ -28,10 +28,10 @@ const DeliveryBySelf = ({
     setSelfAddress(value);
     setIsOpen(false);
     if (!isClientStatus) {
-      dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value }));
+      dispatch(addToCheckoutLegal({ field: 'deliverySelfLegal', value }));
     }
     if (isClientStatus) {
-      dispatch(addToCheckout({ field: 'deliveryOffice', value }));
+      dispatch(addToCheckout({ field: 'deliverySelf', value }));
     }
   };
 
