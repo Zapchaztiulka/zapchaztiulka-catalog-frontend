@@ -12,12 +12,10 @@ import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
 const DeliveryCourier = ({
   addressDelivery,
-  setAddressDelivery,
   checkoutData,
   isErrorMessage,
   userLegalData,
   isClientStatus,
-  setIsErrorMessage,
 }) => {
   const dispatch = useDispatch();
   const [street, setStreet] = useState(
@@ -31,8 +29,6 @@ const DeliveryCourier = ({
       : userLegalData?.deliverHouseLegal || ''
   );
   const [apartment, setApartment] = useState('');
-
-  console.log('TCL: addressDelivery ', addressDelivery);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -167,7 +163,7 @@ const DeliveryCourier = ({
         <span className="text-textError">*</span>
       </p>
 
-      <div className="search tablet600:w-[400px] tablet768:w-[600px] relative">
+      <div className="search w-full relative">
         <div className="flex items-center gap-3">
           <input
             ref={refInput}
@@ -191,7 +187,7 @@ const DeliveryCourier = ({
             </button>
           )}
         </div>
-        {cityRef === '' && street === '' && (
+        {cityRef === '' && street === '' && isInputFocused && (
           <span className="text-textError text-[12px]">
             Ви не обрали місто доставки
           </span>
@@ -221,15 +217,15 @@ const DeliveryCourier = ({
           )}
       </div>
 
-      <div className="flex gap-2 mt-2">
-        <div className="checkout-contacts-input search">
+      <div className="flex gap-3 mt-2">
+        <div className=" search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер будинку
             <span className="text-textError">*</span>
           </p>
           <input
-            className="search-input w-full "
+            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             value={houseNumber}
             type="text"
             onChange={handleInputChangeHouse}
@@ -241,14 +237,14 @@ const DeliveryCourier = ({
           )}
         </div>
 
-        <div className="checkout-contacts-input search">
+        <div className=" search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер квартири
             <span className="text-textError">*</span>
           </p>
           <input
-            className="search-input w-full "
+            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             type="text"
             value={apartment}
             onChange={handleInputChangeApartment}

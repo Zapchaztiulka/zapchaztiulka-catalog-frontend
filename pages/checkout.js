@@ -26,15 +26,15 @@ import {
   addToCheckoutLegal,
   clearCheckoutLegal,
 } from '@/redux/checkout/LegalPerson/legalSlice';
+import DeliveryComponents from '@/components/Orders/DeliveryComponents/DeliveryComponents';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
-  console.log("TCL: Сheckout -> userData", userData)
+  console.log("TCL: userData", userData)
   const userLegalData = useSelector(selectCheckoutLegal);
-  console.log("TCL: Сheckout -> userLegalData", userLegalData)
   const {
     userType,
     phone,
@@ -86,8 +86,6 @@ const Сheckout = () => {
     aviabilityProduct,
     backToHomeUrl,
   } = useContext(StatusContext);
-  
-  console.log('TCL: Сheckout -> deliveryAddress', deliveryAddress);
 
   const [isClientStatus, setIsClientStatus] = useState(true);
   const [isLegalPerson, setIsLegalPerson] = useState('ФОП');
@@ -114,15 +112,19 @@ const Сheckout = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
+  
+  console.log('TCL: selfAddress', selfAddress);
+  
+  console.log('TCL: selectedDelivery', selectedDelivery);
 
-    useEffect(() => {
-      if (isClientStatus) {
-        setCityDelivery(deliveryCity);
-      }
-      if (!isClientStatus) {
-        setCityDelivery(deliveryCityLegal);
-      }
-    }, [deliveryCity, deliveryCityLegal, isClientStatus]);
+  useEffect(() => {
+    if (isClientStatus) {
+      setCityDelivery(deliveryCity);
+    }
+    if (!isClientStatus) {
+      setCityDelivery(deliveryCityLegal);
+    }
+  }, [deliveryCity, deliveryCityLegal, isClientStatus]);
 
   const handleCitySelection = cityDeliverRef => {
     if (!isClientStatus) {
@@ -172,24 +174,24 @@ const Сheckout = () => {
   const handleDeliveryChange = event => {
     const selectedDeliveryValue = event.target.value;
     setSelectedDelivery(selectedDeliveryValue);
-    if (!isClientStatus) {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliveryMethodIdLegal',
-          value: selectedDeliveryValue,
-        })
-      );
-      dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' }));
-    }
-    if (isClientStatus) {
-      dispatch(
-        addToCheckout({
-          field: 'deliveryMethodId',
-          value: selectedDeliveryValue,
-        })
-      );
-      dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
-    }
+    // if (!isClientStatus) {
+    //   dispatch(
+    //     addToCheckoutLegal({
+    //       field: 'deliveryMethodIdLegal',
+    //       value: selectedDeliveryValue,
+    //     })
+    //   );
+    //   dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' }));
+    // }
+    // if (isClientStatus) {
+    //   dispatch(
+    //     addToCheckout({
+    //       field: 'deliveryMethodId',
+    //       value: selectedDeliveryValue,
+    //     })
+    //   );
+    //   dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+    // }
     setIsErrorMessage(false);
   };
 
@@ -204,11 +206,10 @@ const Сheckout = () => {
   }, [deliveryMethodId, deliveryMethodIdLegal, isClientStatus]);
 
   //Валідація довжини значень властивостей в тілі запиту
-const userNameLength =
-  username.length < min.user || username.length > max.user;
+  const userNameLength =
+    username.length < min.user || username.length > max.user;
   const userMiddleNameLength =
-    userMiddleName.length < min.user ||
-    userMiddleName.length > max.user;
+    userMiddleName.length < min.user || userMiddleName.length > max.user;
   const userSurNameLength =
     userSurname.length < min.user || userSurname.length > max.user;
   const userCommentLength =
@@ -221,8 +222,7 @@ const userNameLength =
     userMiddleNameLegal?.length < min.user ||
     userMiddleNameLegal?.length > max.user;
   const userSurNameLegalLength =
-    userSurnameLegal?.length < min.user ||
-    userSurnameLegal?.length > max.user;
+    userSurnameLegal?.length < min.user || userSurnameLegal?.length > max.user;
   const userCommentLegalLength =
     userCommentLegal?.length < min.description ||
     userCommentLegal?.length > max.description;
@@ -231,68 +231,68 @@ const userNameLength =
     companyAddress?.length > max.companyAddress;
 
   // перевірка пустоти та валідації даних для фізичних осіб
-const isFormValid = () => {
-  if (isClientStatus) {
-    if (
-      selectedDelivery === '' ||
-      selectedDelivery === null ||
-      phone === '' ||
-      email === '' ||
-      username === '' ||
-      userSurname === '' ||
-      deliveryCity === '' ||
-      userNameLength ||
-      userSurNameLength ||
-      (userMiddleName !== '' && userMiddleNameLength) ||
-      (userComment !== '' && userCommentLength)
-    ) {
-      setIsEmptyDataIndividual(true);
-      return false;
+  const isFormValid = () => {
+    if (isClientStatus) {
+      if (
+        selectedDelivery === '' ||
+        selectedDelivery === null ||
+        phone === '' ||
+        email === '' ||
+        username === '' ||
+        userSurname === '' ||
+        deliveryCity === '' ||
+        userNameLength ||
+        userSurNameLength ||
+        (userMiddleName !== '' && userMiddleNameLength) ||
+        (userComment !== '' && userCommentLength)
+      ) {
+        setIsEmptyDataIndividual(true);
+        return false;
+      }
+    } else {
+      setIsEmptyDataIndividual(false);
     }
-  } else {
-    setIsEmptyDataIndividual(false); 
-  }
-  return true;
-};
+    return true;
+  };
 
   // перевірка пустоти та валідації даних для юридичних осіб
-const isFormValidLegal = () => {
-  if (!isClientStatus) {
-    if (
-      selectedDelivery === '' ||
-      selectedDelivery === null ||
-      phoneLegal === '' ||
-      emailLegal === '' ||
-      usernameLegal === '' ||
-      userSurnameLegal === '' ||
-      companyName === '' ||
-      (userTypeLegal==='company' ? companyCode === '' : entrepreneurCode === '')
-       ||     
-      companyCity === '' ||
-      companyAddress === '' ||
-      companyRegion === '' ||
-      userNameLegalLength ||
-      userSurNameLegalLength ||
-      companyAddressLength ||
-      (userMiddleNameLegal !== '' && userNameMiddleLegalLength) ||
-      (userCommentLegal !== '' && userCommentLegalLength)
-    ) {
-      setIsEmptyDataLegal(true);
-      return false;
+  const isFormValidLegal = () => {
+    if (!isClientStatus) {
+      if (
+        selectedDelivery === '' ||
+        selectedDelivery === null ||
+        phoneLegal === '' ||
+        emailLegal === '' ||
+        usernameLegal === '' ||
+        userSurnameLegal === '' ||
+        companyName === '' ||
+        (userTypeLegal === 'company'
+          ? companyCode === ''
+          : entrepreneurCode === '') ||
+        companyCity === '' ||
+        companyAddress === '' ||
+        companyRegion === '' ||
+        userNameLegalLength ||
+        userSurNameLegalLength ||
+        companyAddressLength ||
+        (userMiddleNameLegal !== '' && userNameMiddleLegalLength) ||
+        (userCommentLegal !== '' && userCommentLegalLength)
+      ) {
+        setIsEmptyDataLegal(true);
+        return false;
+      }
+    } else {
+      setIsEmptyDataLegal(false);
     }
-  } else {
-    setIsEmptyDataLegal(false); 
-  }
-  return true;
-};
-
+    return true;
+  };
 
   // Сабміт форми з відправкою тіла запиту та перевіркою на помилки
   const handleSubmit = event => {
     event.preventDefault();
-   if (!isFormValid() || !isFormValidLegal()) {
-     return;
-   }
+    if (!isFormValid() || !isFormValidLegal()) {
+      return;
+    }
 
     if (selectedDelivery === 'self' && selfAddress === '') {
       setIsErrorMessage(true);
@@ -311,8 +311,8 @@ const isFormValidLegal = () => {
       return;
     }
 
-        setIsEmptyDataIndividual(false);
-        setIsEmptyDataLegal(false);
+    setIsEmptyDataIndividual(false);
+    setIsEmptyDataLegal(false);
 
     const requestBody = {
       products: productsInfo,
@@ -376,6 +376,13 @@ const isFormValidLegal = () => {
     }
   }, [isClientStatus]);
 
+  // Сортуємо опції з вибору доставки, обрана опція рендериться першою
+  const sortedComponents = Object.keys(DeliveryComponents).sort((a, b) => {
+    if (a === selectedDelivery) return -1;
+    if (b === selectedDelivery) return 1;
+    return 0;
+  });
+
   return (
     <>
       {orderInfoData.length === 0 &&
@@ -412,283 +419,171 @@ const isFormValidLegal = () => {
             <h1 className="font-medium text-[36px]/[46.8px] text-textPrimary mt-3 mb-6">
               Оформлення замовлення
             </h1>
-            <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
-              <button
-                className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
-                  isClientStatus ? 'activeButton' : ''
-                }`}
-                onClick={() => {
-                  setIsClientStatus(true);
-                }}
-              >
-                Фізична особа
-              </button>
-              <button
-                className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
-                  !isClientStatus ? 'activeButton' : ''
-                }`}
-                onClick={() => {
-                  setIsClientStatus(false);
-                }}
-              >
-                Юридична особа
-              </button>
-            </div>
-
-            <form className="flex flex-col" onSubmit={handleSubmit}>
-              <div className="flex justify-between">
-                <div className="flex flex-col tablet1024:w-[644px] desktop1200:w-[698px]">
-                  <div>
-                    <h2 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
-                      Контактні дані
-                    </h2>
-                    {!isClientStatus ? (
-                      <Legal
-                        isLegalPerson={isLegalPerson}
-                        setIsLegalPerson={setIsLegalPerson}
-                        orderInfoTotal={orderInfoTotal}
-                        isEmptyDataLegal={isEmptyDataLegal}
-                        checkoutData={userData}
-                        patterns={patterns}
-                        userLegalData={userLegalData}
-                        userType={userTypeLegal}
-                        isClientStatus={isClientStatus}
-                      />
-                    ) : (
-                      <div className="flex flex-wrap gap-3">
-                        <Individual
-                          patterns={patterns}
-                          isEmptyData={isEmptyDataIndividual}
-                          checkoutData={userData}
-                          isClientStatus={isClientStatus}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="hidden tablet1024:block tablet1024:w-[300px] desktop1200:w-[470px]  desktop1920:w-[588px] ">
-                  {/* Підсумок замовлення */}
-                  <TotalOrder
-                    orderInfoTotal={orderInfoTotal}
-                    selectedDelivery={selectedDelivery}
-                  />
-                </div>
-              </div>
-
-              <div className="grid">
-                {/* Дані доставки */}
-                <div className="flex flex-col gap-[16px] mt-6 mb-6">
-                  <h3 className="font-medium text-[18px] leading-[25.2px]">
-                    Спосіб та дані доставки
-                  </h3>
-                  <div>
-                    <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
-                      Оберіть місто доставки{' '}
-                      <span className="text-textError">*</span>
-                    </p>
-
-                    <Settlelement
-                      onSelectCity={handleCitySelection}
-                      onCityChange={handleCityChange}
-                      onSelectCityRef={handleStreetSelection}
-                      checkoutData={userData}
-                      userLegalData={userLegalData}
-                      isEmptyDataLegal={isEmptyDataLegal}
-                      isEmptyDataIndividual={isEmptyDataIndividual}
-                      selectedDelivery={selectedDelivery}
-                      isClientStatus={isClientStatus}
-                      cityDelivery={cityDelivery}
-                      setCityDelivery={setCityDelivery}
-                    />
-                  </div>
-
-                  {/* Нова пошта відділення */}
-                  <div
-                    className={`flex flex-col gap-[8px] ${
-                      selectedDelivery === 'np'
-                        ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
-                        : ''
-                    } `}
+            <div className="flex tablet1024:gap-6 desktop1200:gap-8 desktop1920:gap-[112px]">
+              <div className="tablet1024:w-[644px] desktop12000:w-[698px]">
+                <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
+                  <button
+                    className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
+                      isClientStatus ? 'activeButton' : ''
+                    }`}
+                    onClick={() => {
+                      setIsClientStatus(true);
+                    }}
                   >
-                    <div className="flex items-center gap-[8px] h-[44px]">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        id="np"
-                        value="np"
-                        className="w-[16px] h-[16px] ml-[14px]"
-                        checked={selectedDelivery === 'np'}
-                        onChange={handleDeliveryChange}
-                      />
-                      <label
-                        htmlFor="np"
-                        className="flex items-center justify-between w-full"
-                      >
-                        <span>Нова пошта</span>
-                      </label>
+                    Фізична особа
+                  </button>
+                  <button
+                    className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
+                      !isClientStatus ? 'activeButton' : ''
+                    }`}
+                    onClick={() => {
+                      setIsClientStatus(false);
+                    }}
+                  >
+                    Юридична особа
+                  </button>
+                </div>
+                <form className="flex flex-col" onSubmit={handleSubmit}>
+                  <div className="flex justify-between">
+                    <div className="flex flex-col tablet1024:w-[644px] desktop1200:w-[698px]">
+                      <div>
+                        <h2 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
+                          Контактні дані
+                        </h2>
+                        {!isClientStatus ? (
+                          <Legal
+                            isLegalPerson={isLegalPerson}
+                            setIsLegalPerson={setIsLegalPerson}
+                            orderInfoTotal={orderInfoTotal}
+                            isEmptyDataLegal={isEmptyDataLegal}
+                            checkoutData={userData}
+                            patterns={patterns}
+                            userLegalData={userLegalData}
+                            userType={userTypeLegal}
+                            isClientStatus={isClientStatus}
+                          />
+                        ) : (
+                          <div className="flex flex-wrap gap-3">
+                            <Individual
+                              patterns={patterns}
+                              isEmptyData={isEmptyDataIndividual}
+                              checkoutData={userData}
+                              isClientStatus={isClientStatus}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    {selectedDelivery === 'np' && (
-                      <div className="pl-[32px] pr-[12px]">
+                  </div>
+
+                  <div className="grid">
+                    {/* Дані доставки */}
+                    <div className="flex flex-col gap-[16px] mt-6 mb-6 tablet1024:w-[644px] desktop12000:w-[698px]">
+                      <h3 className="font-medium text-[18px] leading-[25.2px]">
+                        Спосіб та дані доставки
+                      </h3>
+                      <div>
                         <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
-                          Оберіть поштове відділення{' '}
+                          Оберіть місто доставки{' '}
                           <span className="text-textError">*</span>
                         </p>
-                        <DeliveryNova
-                          onWarehouseChange={handleWarehouseChange}
-                          isErrorMessage={isErrorMessage}
-                          warehouses={warehouses}
-                          setWarehouses={setWarehouses}
+                        <Settlelement
+                          onSelectCity={handleCitySelection}
+                          onCityChange={handleCityChange}
+                          onSelectCityRef={handleStreetSelection}
                           checkoutData={userData}
-                          isClientStatus={isClientStatus}
                           userLegalData={userLegalData}
+                          isEmptyDataLegal={isEmptyDataLegal}
+                          isEmptyDataIndividual={isEmptyDataIndividual}
+                          selectedDelivery={selectedDelivery}
+                          isClientStatus={isClientStatus}
+                          cityDelivery={cityDelivery}
+                          setCityDelivery={setCityDelivery}
                         />
                       </div>
-                    )}
-                  </div>
 
-                  {/* Самовивіз */}
-                  <div
-                    className={`flex flex-col gap-[8px] ${
-                      selectedDelivery === 'self'
-                        ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
-                        : ''
-                    } `}
-                  >
-                    <div className="flex items-center gap-[8px] h-[44px]">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        id="self"
-                        value="self"
-                        className="w-[16px] h-[16px] ml-[14px]"
-                        checked={selectedDelivery === 'self'}
-                        onChange={handleDeliveryChange}
-                      />
-                      <label
-                        htmlFor="self"
-                        className="flex items-center justify-between w-full"
-                      >
-                        <span>Самовивіз</span>
-                        <span className="flex items-center justify-center w-[116px] h-[28px] bg-bgGreyLigth rounded-medium3 font-medium text-[14px] leading-[19.6px]">
-                          Безкоштовно
-                        </span>
-                      </label>
-                    </div>
-                    {selectedDelivery === 'self' && (
-                      <DeliveryBySelf
-                        setSelfAddress={setSelfAddress}
-                        selfAddress={selfAddress}
-                        isErrorMessage={isErrorMessage}
+                      {/* Способи доставки - опції */}
+                      <div className="w-full">
+                        {sortedComponents.map(key => (
+                          <div
+                            key={key}
+                            className={`flex flex-col gap-[8px] ${
+                              selectedDelivery === key
+                                ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
+                                : ''
+                            } `}
+                          >
+                            <div className="flex items-center gap-[8px] h-[44px]">
+                              <input
+                                type="radio"
+                                name="delivery"
+                                id={key}
+                                value={key}
+                                className="w-[16px] h-[16px] ml-[14px]"
+                                checked={selectedDelivery === key}
+                                onChange={handleDeliveryChange}
+                              />
+                              <label
+                                htmlFor={key}
+                                className="flex items-center justify-between w-full"
+                              >
+                                <span>{DeliveryComponents[key].name}</span>
+                              </label>
+                            </div>
+                            {selectedDelivery === key &&
+                              DeliveryComponents[key].component({
+                                selectedDelivery,
+                                handleWarehouseChange,
+                                warehouses,
+                                setWarehouses,
+                                userData,
+                                isClientStatus,
+                                userLegalData,
+                                setSelfAddress,
+                                selfAddress,
+                                isErrorMessage,
+                                setAddressDelivery,
+                                addressDelivery,
+                                setIsErrorMessage,
+                              })}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Залишити коментар */}
+                      <CommentOrder
+                        isEmptyDataLegal={isEmptyDataLegal}
+                        isEmptyDataIndividual={isEmptyDataIndividual}
                         isClientStatus={isClientStatus}
                       />
-                    )}
-                  </div>
 
-                  {/* Кур'єр запчастюлькі */}
-                  <div
-                    className={`flex flex-col gap-[8px] ${
-                      selectedDelivery === 'courier'
-                        ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
-                        : ''
-                    } `}
-                  >
-                    <div className="flex items-center gap-[8px] h-[44px]">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        id="courier"
-                        value="courier"
-                        className="w-[16px] h-[16px] ml-[14px]"
-                        checked={selectedDelivery === 'courier'}
-                        onChange={handleDeliveryChange}
-                      />
-                      <label
-                        htmlFor="courier"
-                        className="flex items-center justify-between w-full"
-                      >
-                        <span>Кур'єр Запчастюлька</span>
-                        <span className="flex items-center justify-center w-[89px] h-[28px] bg-bgGreyLigth rounded-medium3 font-medium text-[14px] leading-[19.6px]">
-                          Від 220 ₴
-                        </span>
-                      </label>
-                    </div>
-                    {selectedDelivery === 'courier' && (
-                      <DeliveryCourier
-                        isErrorMessage={isErrorMessage}
-                        addressDelivery={addressDelivery}
-                        setAddressDelivery={setAddressDelivery}
-                        checkoutData={userData}
-                        isClientStatus={isClientStatus}
-                        userLegalData={userLegalData}
-                        setIsErrorMessage={setIsErrorMessage}
-                      />
-                    )}
-                  </div>
+                      <div className=" tablet1024:hidden mt-6">
+                        {/* Підсумок замовлення */}
+                        <TotalOrder
+                          orderInfoTotal={orderInfoTotal}
+                          selectedDelivery={selectedDelivery}
+                        />
+                      </div>
 
-                  {/* Кур'єр Нової Пошти */}
-                  <div
-                    className={`flex flex-col gap-[8px] ${
-                      selectedDelivery === 'np_courier'
-                        ? 'border border-borderDefaultBlue rounded-minimal pt-s pb-m'
-                        : ''
-                    } `}
-                  >
-                    <div className="flex items-center gap-[8px] h-[44px]">
-                      <input
-                        type="radio"
-                        name="delivery"
-                        id="np_courier"
-                        value="np_courier"
-                        className="w-[16px] h-[16px] ml-[14px]"
-                        checked={selectedDelivery === 'np_courier'}
-                        onChange={handleDeliveryChange}
-                      />
-                      <label
-                        htmlFor="np_courier"
-                        className="flex items-center justify-between w-full"
-                      >
-                        <span>Кур'єр Нова Пошта</span>
-                      </label>
-                    </div>
-                    {selectedDelivery === 'np_courier' && (
-                      <DeliveryCourier
-                        isErrorMessage={isErrorMessage}
-                        addressDelivery={addressDeliveryNP}
-                        setAddressDelivery={setAddressDeliveryNP}
-                        checkoutData={userData}
-                        isClientStatus={isClientStatus}
-                        userLegalData={userLegalData}
-                        setIsErrorMessage={setIsErrorMessage}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                {/* Залишити коментар */}
-                <CommentOrder
-                  isEmptyDataLegal={isEmptyDataLegal}
-                  isEmptyDataIndividual={isEmptyDataIndividual}
-                  isClientStatus={isClientStatus}
-                />
-
-                <div className=" tablet1024:hidden mt-6">
-                  {/* Підсумок замовлення */}
-                  <TotalOrder
-                    orderInfoTotal={orderInfoTotal}
-                    selectedDelivery={selectedDelivery}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="state-button flex justify-center justify-self-end w-full mobile480:w-[432px] tablet600:w-[285px] py-[14px] 
+                      <button
+                        type="submit"
+                        className="state-button flex justify-center justify-self-end w-full mobile480:w-[432px] tablet600:w-[285px] py-[14px] 
                 font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
-                >
-                  Оформити замовлення
-                </button>
+                      >
+                        Оформити замовлення
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-            </form>
+              <div className="hidden tablet1024:block tablet1024:w-[300px] desktop1200:w-[470px]  desktop1920:w-[588px] ">
+                {/* Підсумок замовлення */}
+                <TotalOrder
+                  orderInfoTotal={orderInfoTotal}
+                  selectedDelivery={selectedDelivery}
+                />
+              </div>
+            </div>
           </div>
           {/* Modal for Successful Order*/}
           {showModalOrderSuccessful && (
