@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import Modal from '../Modal';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 import { fetchAbsentOrders } from '@/redux/orders/ordersOperations';
+import { useState } from 'react';
 
 const ModalAbsentOrder = ({
   onClose,
@@ -11,16 +12,35 @@ const ModalAbsentOrder = ({
   preOrderId
 }) => {
   const dispatch = useDispatch();
+  const [emailError, setEmailError] = useState('');
+  const [submitError, setSubmitError] = useState(false)
+  console.log("TCL: submitError", submitError)
+   const [email, setEmail] = useState('');
+
+   const handleChangeEmail = event => {
+     const { value } = event.target;
+     setEmail(value);
+     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
+     if (!emailRegex.test(value)) {
+       setEmailError('Приклад example@mail.com');
+     } else {
+       setEmailError('');
+     }
+   };
 
   const handleSubmitAbsentOrder = async event => {
     event.preventDefault();
-    const mail = event.target.elements.mail.value;
-    
+
+    if (emailError) {
+    setSubmitError(true);
+    return; 
+  }  
     const requestBody = {
       productId: preOrderId,
-      email: mail
+      email: email,
     };
-
+setSubmitError(false);
     try {
       dispatch(fetchAbsentOrders(requestBody))
       setShowModalAbsentOrder(false);
@@ -28,8 +48,7 @@ const ModalAbsentOrder = ({
     } 
     catch (error) {
       console.error('Error submitting order:', error);
-    }
-    
+    }   
   };
 
   return (
@@ -57,14 +76,28 @@ const ModalAbsentOrder = ({
           лист
         </p>
         <form className="flex flex-col" onSubmit={handleSubmitAbsentOrder}>
-          <span id="errorMessage" className="text-textWarning"></span>
-          <input
-            className="mb-[16px] p-[12px] mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal"
-            name="mail"
-            type="email"
-            title="example@mail.com"
-            required
-          />
+          <div className="mb-[16px]">
+            <input
+              className={`p-[12px] ${
+                submitError ? 'border border-borderError' : ''
+              } mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] border-[1px] border-borderDefault rounded-minimal`}
+              name="mail"
+              type="email"
+              title="Приклад example@mail.com"
+              required
+              value={email}
+              onChange={handleChangeEmail}
+            />
+            {!submitError && (
+              <span className="text-textWarning text-[12px]">{emailError}</span>
+            )}
+            {submitError &&
+              emailError!=='' && (
+                <span className="text-textError text-[12px]">
+                  Невірний формат, приклад example@mail.com
+                </span>
+              )}
+          </div>
           <button
             type="submit"
             className="mobile320:w-[258px] mobile375:w-[313px] desktop1440:w-[404px] h-[48px] font-medium text-[16px] leading-[22.4px] state-button text-textContrast"
@@ -78,3 +111,4 @@ const ModalAbsentOrder = ({
 };
 
 export default ModalAbsentOrder;
+
