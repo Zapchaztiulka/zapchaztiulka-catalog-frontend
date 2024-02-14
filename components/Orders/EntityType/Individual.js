@@ -1,42 +1,41 @@
 import { formatPhoneNumber } from '@/helpers/formatPhoneNumber';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
-import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import {
+  selectCheckout,
+  selectCheckoutLegal,
+} from '@/redux/checkout/checkoutSelector';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { useState } from 'react';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Individual = ({
-  patterns,
-  isEmptyData,
-  isClientStatus,
-}) => {
+const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
   const dispatch = useDispatch();
   const checkoutData = useSelector(selectCheckout);
-  const {phone,
-    email,
-    username,
-    userSurname,
-    userMiddleName} = checkoutData
+  const { phone, email, username, userSurname, userMiddleName } = checkoutData;
   const userLegalData = useSelector(selectCheckoutLegal);
-  const {emailLegal,
+  const {
+    emailLegal,
     phoneLegal,
     usernameLegal,
     userSurnameLegal,
-    userMiddleNameLegal}= userLegalData
+    userMiddleNameLegal,
+  } = userLegalData;
   const [errorMessage, setErrorMessage] = useState('');
   const [emailError, setEmailError] = useState('');
   const userNameValue = isClientStatus ? username : usernameLegal;
   const userSurNameValue = isClientStatus ? userSurname : userSurnameLegal;
-  const userMiddleNameValue = isClientStatus ? userMiddleName : userMiddleNameLegal;
+  const userMiddleNameValue = isClientStatus
+    ? userMiddleName
+    : userMiddleNameLegal;
   const phoneValue = isClientStatus ? phone : phoneLegal;
   const emailValue = isClientStatus ? email : emailLegal;
 
   const handleInputChangeName = value => {
-     const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
-     if (!regex.test(value)) {
-       value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
-     }
+    const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+    if (!regex.test(value)) {
+      value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+    }
     if (!isClientStatus) {
       dispatch(addToCheckoutLegal({ field: 'usernameLegal', value }));
     } else {
@@ -45,10 +44,10 @@ const Individual = ({
   };
 
   const handleInputChangeNameMiddle = value => {
-     const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
-     if (!regex.test(value)) {
-       value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
-     }
+    const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+    if (!regex.test(value)) {
+      value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+    }
     if (!isClientStatus) {
       dispatch(addToCheckoutLegal({ field: 'userMiddleNameLegal', value }));
     } else {
@@ -57,16 +56,16 @@ const Individual = ({
   };
 
   const handleInputChangeNameSur = value => {
-      const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
-      if (!regex.test(value)) {
-        value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
-      }
-     if (!isClientStatus) {
-       dispatch(addToCheckoutLegal({ field: 'userSurnameLegal', value }));
-     } else {
-       dispatch(addToCheckout({ field: 'userSurname', value }));
-     }
-   };
+    const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+    if (!regex.test(value)) {
+      value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
+    }
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'userSurnameLegal', value }));
+    } else {
+      dispatch(addToCheckout({ field: 'userSurname', value }));
+    }
+  };
 
   const handlePhoneInputChange = event => {
     const inputPhoneNumber = event.target.value;
@@ -93,23 +92,21 @@ const Individual = ({
   };
 
   const handleEmailInputChange = event => {
-     const inputEmail = event.target.value;
-     const emailPattern = new RegExp(
-       '^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$'
-     );
-     if (!emailPattern.test(inputEmail)) {
-       setEmailError('Невірний формат електронної пошти');
-     } else {
-       setEmailError('');
-     }
+    const inputEmail = event.target.value;
+    const emailPattern = new RegExp(
+      '^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$'
+    );
+    if (!emailPattern.test(inputEmail)) {
+      setEmailError('Невірний формат електронної пошти');
+    } else {
+      setEmailError('');
+    }
 
-      if (!isClientStatus) {
-        dispatch(
-          addToCheckoutLegal({ field: 'emailLegal', value: inputEmail })
-        );
-      } else {
-        dispatch(addToCheckout({ field: 'email', value: inputEmail }));
-      }
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'emailLegal', value: inputEmail }));
+    } else {
+      dispatch(addToCheckout({ field: 'email', value: inputEmail }));
+    }
   };
 
   return (
@@ -122,7 +119,11 @@ const Individual = ({
             type="text"
             value={userNameValue}
             onChange={e => handleInputChangeName(e.target.value)}
-            className="w-full border border-borderDefault rounded-minimal p-3"
+            className={`w-full ${
+              isEmptyData && userNameValue === ''
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {isEmptyData && userNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть ім'я</p>
@@ -142,7 +143,11 @@ const Individual = ({
             type="text"
             value={userSurNameValue}
             onChange={e => handleInputChangeNameSur(e.target.value)}
-            className="w-full border border-borderDefault rounded-minimal p-3"
+            className={`w-full ${
+              isEmptyData && userSurNameValue === ''
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {isEmptyData && userSurNameValue === '' && (
             <p className="text-textError text-[12px]">Заповніть прізвище</p>
@@ -165,7 +170,13 @@ const Individual = ({
             type="text"
             value={userMiddleNameValue}
             onChange={e => handleInputChangeNameMiddle(e.target.value)}
-            className="w-full border border-borderDefault rounded-minimal p-3"
+            className={`w-full ${
+              isEmptyData &&
+              userMiddleNameValue !== '' &&
+              userMiddleNameValue.length < 3
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {isEmptyData &&
             userMiddleNameValue !== '' &&
@@ -186,7 +197,11 @@ const Individual = ({
             title="Приклад example@mail.com"
             value={emailValue}
             onChange={handleEmailInputChange}
-            className="w-full border border-borderDefault rounded-minimal p-3"
+            className={`w-full ${
+              isEmptyData && emailValue === ''
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           <span className="text-textWarning text-[12px]">{emailError}</span>
           {isEmptyData && emailValue === '' && (
@@ -202,7 +217,13 @@ const Individual = ({
             +38
           </span>
           <input
-            className="pl-[53px] text-base/[24px]  w-full h-[48px]  border border-borderDefault rounded-minimal"
+            className={`pl-[53px] ${
+              (isEmptyData && phoneValue === '') ||
+              (phoneValue !== '' &&
+                !/0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}/.test(phoneValue))
+                ? 'border border-borderError'
+                : ''
+            }   text-base/[24px]  w-full h-[48px]  border border-borderDefault rounded-minimal`}
             name="phone"
             type="tel"
             id="phone"

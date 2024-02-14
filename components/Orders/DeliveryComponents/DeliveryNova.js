@@ -1,6 +1,9 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { fetchWarehouses } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
-import { selectDepartmentsLoading, selectWaherousesNP } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
+import {
+  selectDepartmentsLoading,
+  selectWaherousesNP,
+} from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,7 +12,7 @@ import {
   ArrowDownIcon,
 } from 'universal-components-frontend/src/components/icons';
 import theme from '@/presets';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
 const DeliveryNova = ({
@@ -30,7 +33,7 @@ const DeliveryNova = ({
     : userLegalData?.selectedCityLegal;
 
   const warehousesInfo = useSelector(selectWaherousesNP);
-const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
+  const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
 
   const warehousesList = warehousesInfo?.data?.flatMap(
     entry => entry.Description
@@ -46,15 +49,13 @@ const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
   const removeWarehouse = () => {
     setWarehouses('');
     setIsOpen(false);
-     setIsInputEmpty(false);
-        if (isClientStatus) {
-           dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
-        }
-        if (!isClientStatus) {
-           dispatch(
-             addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' })
-           );
-        }   
+    setIsInputEmpty(false);
+    if (isClientStatus) {
+      dispatch(addToCheckout({ field: 'deliveryOffice', value: '' }));
+    }
+    if (!isClientStatus) {
+      dispatch(addToCheckoutLegal({ field: 'deliveryOfficeLegal', value: '' }));
+    }
   };
 
   // Get list of warehouses NP
@@ -95,13 +96,19 @@ const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
     setIsInputEmpty(true);
   };
 
+    useEffect(() => {
+      if (!selectedItem && !isInputEmpty && warehouses !== '')
+        setWarehouses('');
+    }, [selectedItem, isInputEmpty, warehouses]);
+
   const closeByClickOutside = () => {
     if (!selectedItem && isOpen) {
       setWarehouses('');
       setIsOpen(false);
+      setSelectedItem(null);
     }
   };
-
+  
   useOutsideClick(refList, refInput, closeByClickOutside);
 
   const handleInputFocus = () => {
@@ -121,7 +128,8 @@ const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
         </p>
         {filteredWarehouses?.length === 0 &&
         cityRef !== '' &&
-        !isLoadingWarehouses ? (
+        !isLoadingWarehouses &&
+        warehouses === '' ? (
           <p className="text-textWarning text-[14px]">
             На жаль, в цьому населеному пункті немає відділення Нової Пошти.
             Оберіть інший спосіб доставки.
@@ -130,7 +138,12 @@ const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
           <>
             <div className=" w-[347px] relative">
               <div className="flex items-center ">
-                <div className="w-full items-center flex p-xs gap-1 justify-between border border-borderDefault rounded-minimal">
+                <div
+                    className={`w-full ${isErrorMessage && warehouses === ''
+                        ? 'border border-borderError'
+                        : ''
+                      }  items-center flex p-xs gap-1 justify-between border border-borderDefault rounded-minimal`}
+                >
                   <input
                     ref={refInput}
                     type="text"

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { useDispatch } from 'react-redux';
 import { useOnKeyDown, useOutsideClick } from '@/hooks/useOnClickOutside';
 import {
@@ -52,7 +52,11 @@ const DeliveryBySelf = ({
       <div ref={refSelect} className="relative">
         <div
           onClick={toggling}
-          className="flex justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full"
+          className={`flex ${
+            isErrorMessage && selfAddress === ''
+              ? 'border border-borderError'
+              : ''
+          }  justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full`}
         >
           <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
             {selfAddress || 'Оберіть значення...'}

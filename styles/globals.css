@@ -78,11 +78,11 @@ a {
 }
 
 .search-input {
-  @apply w-full h-[48px] relative p-3 tablet1024:w-[275px] desktop1200:w-[240px] desktop1440:w-[343px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault;
+  @apply w-full p-3 relative tablet1024:w-[275px] desktop1200:w-[240px] desktop1440:w-[343px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault;
 }
 
 .search .search-icon {
-  @apply border border-borderDefaultBlue rounded-r p-xs absolute h-[48px] right-0 top-0 cursor-pointer bg-bgBrandDark;
+  @apply border border-borderDefaultBlue rounded-r absolute p-3 right-0 top-0 cursor-pointer bg-bgBrandDark;
 }
 
 .search .close-btn {

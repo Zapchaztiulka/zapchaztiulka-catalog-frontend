@@ -1,7 +1,10 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { fetchSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
-import { selectDepartmentsLoading, selectSettlements } from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
+import {
+  selectDepartmentsLoading,
+  selectSettlements,
+} from '@/redux/delivery/NovaPoshta/novaPoshtaSelectors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -53,7 +56,7 @@ const Settlelement = ({
     }
     if (!isClientStatus) {
       dispatch(addToCheckoutLegal({ field: 'deliveryCityLegal', value: '' }));
-      dispatch(addToCheckoutLegal({ field: 'cityRcityRefLegalef', value: '' }));
+      dispatch(addToCheckoutLegal({ field: 'cityRefLegal', value: '' }));
       dispatch(addToCheckoutLegal({ field: 'selectedCityLegal', value: '' }));
     }
   };
@@ -106,7 +109,11 @@ const Settlelement = ({
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву міста..'}
-          className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+          className={`${
+            (isEmptyDataLegal || isEmptyDataIndividual) && cityDelivery === ''
+              ? 'border border-borderError'
+              : ''
+          }  flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary`}
         />
         {cityDelivery !== '' && (
           <button
@@ -126,12 +133,12 @@ const Settlelement = ({
         ) : (
           <ArrowDownIcon color={theme.extend.colors.iconSecondary} />
         )} */}
-        {isEmptyDataIndividual && cityDelivery === '' && (
+        {isEmptyDataIndividual && cityDelivery === '' && isClientStatus && (
           <span className="text-textError text-[12px]">
             Оберіть місто доставки
           </span>
         )}
-        {isEmptyDataLegal && cityDelivery === '' && (
+        {isEmptyDataLegal && cityDelivery === '' && !isClientStatus && (
           <span className="text-textError text-[12px]">
             Оберіть місто доставки
           </span>

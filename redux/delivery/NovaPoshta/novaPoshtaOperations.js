@@ -33,10 +33,12 @@ export const fetchWarehouses = createAsyncThunk(
         apiKey: apiKey,
         modelName: 'Address',
         calledMethod: 'getWarehouses',
-       methodProperties: {
-          CityRef: CityRef,         
+        methodProperties: {
+          CityRef: CityRef,
           Page: 1,
-          FindByString: FindByString,
+          FindByString: FindByString
+          // TypeOfWarehouseRef: '841339c7-591a-42e2-8233-7a0a00f0ed6f',
+          // TypeOfWarehouseRef: '9a68df70-0267-42a8-bb5c-37f427e36ee4',
         },
       });
       return data;

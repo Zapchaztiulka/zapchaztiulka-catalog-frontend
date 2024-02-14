@@ -119,7 +119,11 @@ const Legal = ({
         <label>
           Назва <span className="text-textError">*</span>
           <input
-            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+            className={`w-full ${
+              isEmptyDataLegal && companyNameInfo === ''
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
             type="text"
             value={companyNameInfo}
             onChange={e => {
@@ -146,7 +150,13 @@ const Legal = ({
                 e.target.value
               );
             }}
-            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+            className={`w-full ${
+              isEmptyDataLegal &&
+              companyCodeInfo === '' &&
+              userTypeEntity === 'company'
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {userTypeEntity === 'company' && (
             <span className="text-textWarning text-[12px]">{errorMessage}</span>
@@ -172,7 +182,13 @@ const Legal = ({
                 e.target.value
               );
             }}
-            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+            className={`w-full ${
+              isEmptyDataLegal &&
+              entrepreneurCodeInfo === '' &&
+              userTypeEntity === 'entrepreneur'
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {userTypeEntity === 'entrepreneur' && (
             <span className="text-textWarning text-[12px]">{errorMessage}</span>
@@ -225,7 +241,13 @@ const Legal = ({
                 e.target.value
               );
             }}
-            className="w-full h-[48px] border border-borderDefault rounded-minimal p-[12px]"
+            className={`w-full ${
+              isEmptyDataLegal &&
+              (companyAddress === '' ||
+                (companyAddress !== '' && companyAddress.length < 10))
+                ? 'border border-borderError'
+                : ''
+            } border border-borderDefault rounded-minimal p-3`}
           />
           {isEmptyDataLegal && companyAddress === '' && (
             <p className="text-textError text-[12px]">
@@ -233,8 +255,8 @@ const Legal = ({
             </p>
           )}
           {isEmptyDataLegal &&
-            companyNameInfo !== '' &&
-            companyNameInfo.length < 10 && (
+            companyAddress !== '' &&
+            companyAddress.length < 10 && (
               <p className="text-textError text-[12px]">
                 Адреса має містити не менше 10 символів/літер
               </p>

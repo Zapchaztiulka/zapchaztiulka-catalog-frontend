@@ -98,7 +98,11 @@ const filteredRegions = dataListRegion?.filter(
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву області..'}
-          className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+          className={`flex-grow ${
+            isEmptyData && regionRegistrationValue === ''
+              ? 'border border-borderError'
+              : ''
+          } border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary`}
         />
         {regionRegistrationValue !== '' && cityRegistration === '' && (
           <button

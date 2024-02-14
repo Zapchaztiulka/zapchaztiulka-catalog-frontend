@@ -1,6 +1,9 @@
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
-import { selectCheckout, selectCheckoutLegal } from '@/redux/checkout/checkoutSelector';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import {
+  selectCheckout,
+  selectCheckoutLegal,
+} from '@/redux/checkout/checkoutSelector';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 

@@ -87,7 +87,11 @@ const CityRegistration = ({
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           placeholder={isInputFocused ? null : 'Введіть назву міста..'}
-          className=" flex-grow border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary"
+          className={`flex-grow ${
+            isEmptyData && cityRegistration === ''
+              ? 'border border-borderError'
+              : ''
+          } border border-borderDefault rounded-minimal p-3 w-full placeholder:text-textInputDefault text-textPrimary`}
         />
         {cityRegistration !== '' && (
           <button

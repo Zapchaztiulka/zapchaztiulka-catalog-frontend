@@ -9,11 +9,6 @@ import Individual from '@/components/Orders/EntityType/Individual';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCart } from '@/redux/cart/cartSelector';
 import { fetchOrders } from '@/redux/orders/ordersOperations';
-import { addToCheckout, clearCheckout } from '@/redux/checkout/checkoutSlice';
-import {
-  selectCheckout,
-  selectCheckoutLegal,
-} from '@/redux/checkout/checkoutSelector';
 import CommentOrder from '@/components/Orders/CommentOrder';
 import { clearTheCart } from '@/redux/cart/cartSlice';
 import { ModalOrderSuccessful } from '@/components';
@@ -25,6 +20,14 @@ import {
 } from '@/redux/checkout/LegalPerson/legalSlice';
 import DeliveryComponents from '@/components/Orders/DeliveryComponents/DeliveryComponents';
 import { scrollToTop } from '@/helpers/scrollToTop';
+import {
+  selectCheckout,
+  selectCheckoutLegal,
+} from '@/redux/checkout/checkoutSelector';
+import {
+  addToCheckout,
+  clearCheckout,
+} from '@/redux/checkout/IndividualPerson/checkoutSlice';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
@@ -112,7 +115,6 @@ const Сheckout = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
-
 
   useEffect(() => {
     if (isClientStatus) {
@@ -229,8 +231,6 @@ const Сheckout = () => {
   const isFormValid = () => {
     if (isClientStatus) {
       if (
-        selectedDelivery === '' ||
-        selectedDelivery === null ||
         phone === '' ||
         email === '' ||
         username === '' ||
@@ -254,13 +254,12 @@ const Сheckout = () => {
   const isFormValidLegal = () => {
     if (!isClientStatus) {
       if (
-        selectedDelivery === '' ||
-        selectedDelivery === null ||
         phoneLegal === '' ||
         emailLegal === '' ||
         usernameLegal === '' ||
         userSurnameLegal === '' ||
         companyName === '' ||
+        deliveryCityLegal === '' ||
         (userTypeLegal === 'company'
           ? companyCode === ''
           : entrepreneurCode === '') ||
@@ -269,7 +268,7 @@ const Сheckout = () => {
         companyRegion === '' ||
         userNameLegalLength ||
         userSurNameLegalLength ||
-        companyAddressLength ||
+         companyAddressLength ||
         (userMiddleNameLegal !== '' && userNameMiddleLegalLength) ||
         (userCommentLegal !== '' && userCommentLegalLength)
       ) {
@@ -281,6 +280,7 @@ const Сheckout = () => {
     }
     return true;
   };
+
 
   const deliveryOfficeMap = {
     courier: '',
@@ -302,12 +302,15 @@ const Сheckout = () => {
     const isIndividualFormValid = isFormValid();
     const isLegalFormValid = isFormValidLegal();
 
-    if (!isIndividualFormValid || !isLegalFormValid) {
+    if (!isIndividualFormValid && isClientStatus) {
       setIsEmptyDataIndividual(true);
-      setIsEmptyDataLegal(true);
       return;
     }
 
+    if (!isLegalFormValid && !isClientStatus) {
+      setIsEmptyDataLegal(true);
+      return;
+    }
     if (selectedDelivery === 'self' && selfAddress === '') {
       setIsErrorMessage(true);
       return;
@@ -441,6 +444,7 @@ const Сheckout = () => {
                     }`}
                     onClick={() => {
                       setIsClientStatus(true);
+                      setIsEmptyDataLegal(false);
                     }}
                   >
                     Фізична особа
@@ -451,6 +455,7 @@ const Сheckout = () => {
                     }`}
                     onClick={() => {
                       setIsClientStatus(false);
+                      setIsEmptyDataIndividual(false);
                     }}
                   >
                     Юридична особа

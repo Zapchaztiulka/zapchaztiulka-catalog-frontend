@@ -1,6 +1,6 @@
 import { useOutsideClick } from '@/hooks/useOnClickOutside';
 import { addToCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
-import { addToCheckout } from '@/redux/checkout/checkoutSlice';
+import { addToCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 import { fetchStreets } from '@/redux/delivery/NovaPoshta/novaPoshtaOperations';
 import {
   selectDepartmentsLoading,
@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CloseIcon } from 'universal-components-frontend/src/components/icons';
 
 const DeliveryCourier = ({
-  addressDelivery,
   checkoutData,
   isErrorMessage,
   userLegalData,
@@ -19,34 +18,75 @@ const DeliveryCourier = ({
   selectedDelivery,
 }) => {
   const dispatch = useDispatch();
+  const {
+    deliveryAddress,
+    deliveryAddressNP,
+    deliveryStreet,
+    deliveryStreetNP,
+    deliverHouse,
+    deliverHouseNP,
+    cityRef,
+  } = checkoutData;
+  const {
+    deliveryAddressLegal,
+    deliveryAddressLegalNP,
+    deliveryStreetLegal,
+    deliveryStreetLegalNP,
+    deliverHouseLegal,
+    deliverHouseLegalNP,
+    cityRefLegal,
+  } = userLegalData;
+  const [fullAddress, setFullAddress] = useState(
+    isClientStatus
+      ? selectedDelivery === 'courier'
+        ? deliveryAddress || ''
+        : deliveryAddressNP || ''
+      : selectedDelivery === 'courier'
+      ? deliveryAddressLegal || ''
+      : deliveryAddressLegalNP || ''
+  );
   const [street, setStreet] = useState(
     isClientStatus
       ? selectedDelivery === 'courier'
-        ? checkoutData?.deliveryStreet || ''
-        : checkoutData?.deliveryStreetNP || ''
+        ? deliveryStreet || ''
+        :deliveryStreetNP || ''
       : selectedDelivery === 'courier'
-      ? userLegalData?.deliveryStreetLegal || ''
-      : userLegalData?.deliveryStreetLegalNP || ''
+      ? deliveryStreetLegal || ''
+      : deliveryStreetLegalNP || ''
   );
 
   const [houseNumber, setHouseNumber] = useState(
     isClientStatus
       ? selectedDelivery === 'courier'
-        ? checkoutData?.deliverHouse || ''
-        : checkoutData?.deliverHouseNP || ''
+        ? deliverHouse || ''
+        : deliverHouseNP || ''
       : selectedDelivery === 'courier'
-      ? userLegalData?.deliverHouseLegal || ''
-      : userLegalData?.deliverHouseLegalNP || ''
+      ? deliverHouseLegal || ''
+      : deliverHouseLegalNP || ''
   );
+
 
   const [apartment, setApartment] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const cityRef = isClientStatus
-    ? checkoutData?.cityRef || ''
-    : userLegalData?.cityRefLegal || '';
+    useEffect(() => {
+      // Встановлюємо нове значення вулиці в залежності від обраного способу доставки
+      setStreet(
+        isClientStatus
+          ? selectedDelivery === 'courier'
+            ? deliveryStreet || ''
+            : deliveryStreetNP || ''
+          : selectedDelivery === 'courier'
+          ? deliveryStreetLegal || ''
+          : deliveryStreetLegalNP || ''
+      );
+    }, [selectedDelivery, isClientStatus, checkoutData, userLegalData]);
+
+  const cityRefData = isClientStatus
+    ? cityRef || ''
+    : cityRefLegal || '';
   const streetsInfo = useSelector(selectStreets);
   const isLoadingStreets = useSelector(selectDepartmentsLoading).streets;
 
@@ -59,105 +99,109 @@ const DeliveryCourier = ({
   const removeStreet = () => {
     setStreet('');
     setIsListOpen(false);
+    setSelectedItem(null);
   };
 
   // Get list of streets
   useEffect(() => {
-    if (street !== '' && cityRef !== '') {
-      dispatch(fetchStreets({ SettlementRef: cityRef, StreetName: street }));
+    if (street !== '' && cityRefData !== '') {
+      dispatch(
+        fetchStreets({ SettlementRef: cityRefData, StreetName: street })
+      );
     }
-  }, [dispatch, street, cityRef]);
+  }, [dispatch, street, cityRefData]);
 
-useEffect(() => {
-  if (street !== '' && houseNumber !== '') {
-    const fullAddress =
-      `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
-    
-    if (isClientStatus) {
-      if (selectedDelivery === 'courier') {
-        dispatch(
-          addToCheckout({ field: 'deliveryAddress', value: fullAddress })
-        );
+  // Ефект для оновлення поля deliveryAddress
+  useEffect(() => {
+    if (street !== '' && houseNumber !== '') {
+      const fullAddressData =
+        `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
+      setFullAddress(fullAddressData);
+
+      if (isClientStatus) {
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckout({ field: 'deliveryAddress', value: fullAddressData })
+          );
+        } else {
+          dispatch(
+            addToCheckout({
+              field: 'deliveryAddressNP',
+              value: fullAddressData,
+            })
+          );
+        }
       } else {
-        dispatch(
-          addToCheckout({ field: 'deliveryAddressNP', value: fullAddress })
-        );
-      }
-    } else {
-      if (selectedDelivery === 'courier') {
-        dispatch(
-          addToCheckoutLegal({
-            field: 'deliveryAddressLegal',
-            value: fullAddress,
-          })
-        );
-      } else {
-        dispatch(
-          addToCheckoutLegal({
-            field: 'deliveryAddressLegalNP',
-            value: fullAddress,
-          })
-        );
+        if (selectedDelivery === 'courier') {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryAddressLegal',
+              value: fullAddressData,
+            })
+          );
+        } else {
+          dispatch(
+            addToCheckoutLegal({
+              field: 'deliveryAddressLegalNP',
+              value: fullAddressData,
+            })
+          );
+        }
       }
     }
-  } else {
-    if (isClientStatus) {
-      dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
-      dispatch(addToCheckout({ field: 'deliveryAddressNP', value: '' }));
-    } else {
-      dispatch(
-        addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
-      );
-      dispatch(
-        addToCheckoutLegal({ field: 'deliveryAddressLegalNP', value: '' })
-      );
-    }
-  }
-}, [
-  dispatch,
-  isClientStatus,
-  selectedDelivery,
-  street,
-  houseNumber,
-  apartment,
-]);
+  }, [
+    dispatch,
+    isClientStatus,
+    selectedDelivery,
+    street,
+    houseNumber,
+    apartment,
+  ]);
+
+
+  
+
+
+  useEffect(() => {
+    if (!selectedItem && !isInputFocused && street !== '') removeStreet();
+  }, [selectedItem, isInputFocused, street]);
 
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
     setStreet(searchStreet);
-      if (isClientStatus) {
-        if (selectedDelivery === 'courier') {
-          dispatch(
-            addToCheckout({
-              field: 'deliveryStreet',
-              value: searchStreet,
-            })
-          );
-        } else {
-          dispatch(
-            addToCheckout({
-              field: 'deliveryStreetNP',
-              value: searchStreet,
-            })
-          );
-        }
+    if (isClientStatus) {
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckout({
+            field: 'deliveryStreet',
+            value: searchStreet,
+          })
+        );
       } else {
-        if (selectedDelivery === 'courier') {
-          dispatch(
-            addToCheckoutLegal({
-              field: 'deliveryStreetLegal',
-              value: searchStreet,
-            })
-          );
-        } else {
-          dispatch(
-            addToCheckoutLegal({
-              field: 'deliveryStreetLegalNP',
-              value: searchStreet,
-            })
-          );
-        }
+        dispatch(
+          addToCheckout({
+            field: 'deliveryStreetNP',
+            value: searchStreet,
+          })
+        );
       }
+    } else {
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryStreetLegal',
+            value: searchStreet,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryStreetLegalNP',
+            value: searchStreet,
+          })
+        );
+      }
+    }
     setIsListOpen(true);
     if (!searchStreet) {
       removeStreet();
@@ -204,48 +248,49 @@ useEffect(() => {
   };
 
 
-  console.log('TCL: addressDelivery', addressDelivery);
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;
     setApartment(apartment);
   };
 
-const handleSelection = selectedItem => {
-  setStreet(selectedItem);
-  setSelectedItem(selectedItem);
-  setIsListOpen(false);
-  if (isClientStatus) {
-    if (selectedDelivery === 'courier') {
-      dispatch(addToCheckout({ field: 'deliveryStreet', value: selectedItem }));
+  const handleSelection = selectedItem => {
+    setStreet(selectedItem);
+    setSelectedItem(selectedItem);
+    setIsListOpen(false);
+    if (isClientStatus) {
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckout({ field: 'deliveryStreet', value: selectedItem })
+        );
+      } else {
+        dispatch(
+          addToCheckout({ field: 'deliveryStreetNP', value: selectedItem })
+        );
+      }
     } else {
-      dispatch(
-        addToCheckout({ field: 'deliveryStreetNP', value: selectedItem })
-      );
+      if (selectedDelivery === 'courier') {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryStreetLegal',
+            value: selectedItem,
+          })
+        );
+      } else {
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryStreetLegalNP',
+            value: selectedItem,
+          })
+        );
+      }
     }
-  } else {
-    if (selectedDelivery === 'courier') {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliveryStreetLegal',
-          value: selectedItem,
-        })
-      );
-    } else {
-      dispatch(
-        addToCheckoutLegal({
-          field: 'deliveryStreetLegalNP',
-          value: selectedItem,
-        })
-      );
-    }
-  }
-};
-
+  };
 
   const closeByClickOutside = () => {
     if (!selectedItem && isListOpen) {
       removeStreet();
+       setSelectedItem(null);
     }
   };
 
@@ -258,6 +303,7 @@ const handleSelection = selectedItem => {
   const handleInputBlur = () => {
     setIsInputFocused(false);
   };
+  
 
   return (
     <div className="pl-[32px] pr-[12px]">
@@ -278,7 +324,9 @@ const handleSelection = selectedItem => {
             placeholder={
               isInputFocused ? '' : 'Оберіть значення або введіть назву..'
             }
-            className="flex-grow search-input w-full placeholder:text-textInputDefault text-textPrimary"
+            className={`p-3 w-full ${
+              isErrorMessage && street === '' ? 'border border-borderError' : ''
+            } rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault `}
           />
           {street !== '' && (
             <button
@@ -290,7 +338,7 @@ const handleSelection = selectedItem => {
             </button>
           )}
         </div>
-        {cityRef === '' && street === '' && isInputFocused && (
+        {cityRefData === '' && street === '' && isInputFocused && (
           <span className="text-textError text-[12px]">
             Ви не обрали місто доставки
           </span>
@@ -328,7 +376,11 @@ const handleSelection = selectedItem => {
             <span className="text-textError">*</span>
           </p>
           <input
-            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
+            className={`p-3 w-[172px] ${
+              isErrorMessage && houseNumber === ''
+                ? 'border border-borderError'
+                : ''
+            } rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault `}
             value={houseNumber}
             type="text"
             onChange={handleInputChangeHouse}
@@ -347,7 +399,7 @@ const handleSelection = selectedItem => {
             <span className="text-textError">*</span>
           </p>
           <input
-            className="h-[48px] w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
+            className="p-3 w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             type="text"
             value={apartment}
             onChange={handleInputChangeApartment}

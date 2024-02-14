@@ -19,7 +19,7 @@ import selectedReducer from './sortProduct/selectOptionReducer';
 import { patternsReducer } from './patterns/patternsSlice';
 import { departmentsReducer } from './delivery/NovaPoshta/novaPoshtaSlice';
 import { ordersReducer } from './orders/ordersSlice';
-import { checkoutReducer } from './checkout/checkoutSlice';
+import { checkoutReducer } from './checkout/IndividualPerson/checkoutSlice';
 import { checkoutReducerLegal } from './checkout/LegalPerson/legalSlice';
 
 const rootReducer = combineReducers({
