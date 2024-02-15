@@ -20,7 +20,7 @@ const ModalAbsentOrder = ({
    const handleChangeEmail = event => {
      const { value } = event.target;
      setEmail(value);
-     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.[a-zA-Z]{2,3})+$/;
 
      if (!emailRegex.test(value)) {
        setEmailError('Приклад example@mail.com');

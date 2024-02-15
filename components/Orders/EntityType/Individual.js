@@ -93,9 +93,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
 
   const handleEmailInputChange = event => {
     const inputEmail = event.target.value;
-    const emailPattern = new RegExp(
-      '^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$'
-    );
+    const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.[a-zA-Z]{2,3})+$/;
     if (!emailPattern.test(inputEmail)) {
       setEmailError('Невірний формат електронної пошти');
     } else {
