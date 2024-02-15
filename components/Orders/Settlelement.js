@@ -99,7 +99,7 @@ const Settlelement = ({
   };
 
   return (
-    <div className="search w-[343px] relative">
+    <div className="search checkout-contacts-input relative">
       <div className="relative">
         <input
           ref={refInput}

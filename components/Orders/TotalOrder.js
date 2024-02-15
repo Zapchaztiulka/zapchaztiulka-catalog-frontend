@@ -40,7 +40,7 @@ const getDelivery = (selectedDelivery) => {
 
   return (
     <>
-      <div className="flex mb-6 flex-col gap-[16px] bg-bgGreyLigth tablet1024:p-xs desktop1200:p-m desktop1920:p-m2">
+      <div className="flex mb-6 flex-col gap-[16px] bg-bgGreyLigth p-xs tablet600:p-m tablet1024:p-xs desktop1200:p-m desktop1920:p-m2">
         <h4 className="font-medium text-[18px] leading-[25.2px]">
           Ваше замовлення
         </h4>

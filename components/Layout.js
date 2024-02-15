@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCategories } from '@/redux/categories/categoriesSelector';
 import { fetchPatterns } from '@/redux/patterns/patternsAction';
 import { selectPatterns } from '@/redux/patterns/patternsSelectors';
+import LoadingPage from './LoadingPage';
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const Layout = ({ children }) => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-    // get patterns of product`s options
+  // get patterns of product`s options
   useEffect(() => {
     dispatch(fetchPatterns());
   }, [dispatch]);
@@ -115,9 +116,9 @@ const Layout = ({ children }) => {
         className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
       >
         <Navbar categories={categories} patterns={patterns} />
-        <main className="main-container mt-[50px]">{children}</main>
-        <div id="modal-cart"></div>
-        <div id="modal-root"></div>
+          <main className="main-container mt-[50px]">{children}</main>
+          <div id="modal-cart"></div>
+          <div id="modal-root"></div>
         <Footer categories={categories} patterns={patterns} />
       </div>
       <div

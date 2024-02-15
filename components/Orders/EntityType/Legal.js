@@ -103,7 +103,7 @@ const Legal = ({
   return (
     <div className="flex flex-wrap gap-3">
       <div className="checkout-contacts-input search">
-        <p className="">
+        <p className="text-[14px]/[19.6px] text-textSecondary">
           Тип рестрації <span className="text-textError">*</span>
         </p>
         <Dropdown
@@ -116,7 +116,7 @@ const Legal = ({
       </div>
       <div className="checkout-contacts-input search">
         {' '}
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           Назва <span className="text-textError">*</span>
           <input
             className={`w-full ${
@@ -138,7 +138,7 @@ const Legal = ({
       </div>
       <div className="checkout-contacts-input search">
         {' '}
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           ЄДРПОУ <span className="text-textError">*</span>
           <input
             value={companyCodeInfo}
@@ -170,7 +170,7 @@ const Legal = ({
       </div>
       <div className="checkout-contacts-input search">
         {' '}
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           ІПН <span className="text-textError">*</span>
           <input
             value={entrepreneurCodeInfo}
@@ -201,7 +201,7 @@ const Legal = ({
         </label>
       </div>
       <div className="checkout-contacts-input search">
-        <p className="mb-[4px]">
+        <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
           Область реєстрації <span className="text-textError">*</span>
         </p>
         <RegionRegistration
@@ -216,7 +216,7 @@ const Legal = ({
 
       <div className="checkout-contacts-input search">
         {' '}
-        <p className="mb-[4px]">
+        <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
           Місто реєстрації <span className="text-textError">*</span>
         </p>
         <CityRegistration
@@ -230,7 +230,7 @@ const Legal = ({
 
       <div className="checkout-contacts-input search">
         {' '}
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           Юридична адреса <span className="text-textError">*</span>
           <input
             value={legalAddress}

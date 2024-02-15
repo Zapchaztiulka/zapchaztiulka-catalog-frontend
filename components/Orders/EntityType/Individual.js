@@ -110,7 +110,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
   return (
     <>
       <div className="checkout-contacts-input search">
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           Ім'я <span className="text-textError">*</span>
           <input
             name="username"
@@ -134,7 +134,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
         </label>
       </div>
       <div className="checkout-contacts-input search">
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           Прізвище <span className="text-textError">*</span>
           <input
             name="userSurname"
@@ -161,7 +161,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
       </div>
 
       <div className="checkout-contacts-input search">
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           По батькові <span className="text-textError">*</span>
           <input
             name="userMiddleName"
@@ -187,7 +187,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
       </div>
 
       <div className="checkout-contacts-input search">
-        <label>
+        <label className="text-[14px]/[19.6px] text-textSecondary">
           E-mail <span className="text-textError">*</span>
           <input
             name="mail"
@@ -209,7 +209,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
       </div>
 
       <div className="checkout-contacts-input search">
-        <label className="relative">
+        <label className="text-[14px]/[19.6px] text-textSecondary relative">
           Номер телефону <span className="text-textError">*</span>
           <span className="absolute grid items-center z-10 top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-base/[24px] text-textTertiary">
             +38

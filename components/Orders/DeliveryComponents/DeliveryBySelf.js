@@ -43,7 +43,7 @@ const DeliveryBySelf = ({
   useOnKeyDown(close);
 
   return (
-    <div className="pl-[32px] pr-[12px] w-[299px] tablet600:w-[347px]">
+    <div className="pl-[32px] pr-[12px] ">
       <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
         Оберіть адресу магазину
         <span className="text-textError">*</span>
@@ -56,7 +56,7 @@ const DeliveryBySelf = ({
             isErrorMessage && selfAddress === ''
               ? 'border border-borderError'
               : ''
-          }  justify-between cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full`}
+          }  justify-between checkout-delivery-input cursor-pointer search border border-borderDefault rounded-minimal p-3 w-full`}
         >
           <div className="text-textPrimary font-medium text-[16px]/[22.4px] -tracking-[0.24px] w-[155px]">
             {selfAddress || 'Оберіть значення...'}
@@ -98,8 +98,8 @@ const DeliveryBySelf = ({
           <p>Cб</p>
         </div>
         <div>
-          <p>8:00-18:00</p>
-          <p>10:00-18:00</p>
+          <p>9:00-18:00</p>
+          <p>9:00-13:00</p>
         </div>
       </div>
     </div>

@@ -1,12 +1,14 @@
-import React from "react";
-import Head from "next/head";
-import { Layout } from "@/components";
-import "../styles/globals.css";
-import { Inter } from "next/font/google";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import { persistor, store } from "@/redux/store";
-import { StatusProvider } from "@/context/statusContext";
+import React, { useState } from 'react';
+import Head from 'next/head';
+import Router from 'next/router';
+import { Layout } from '@/components';
+import '../styles/globals.css';
+import { Inter } from 'next/font/google';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { persistor, store } from '@/redux/store';
+import { StatusProvider } from '@/context/statusContext';
+import LoadingPage from '@/components/LoadingPage';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -16,6 +18,15 @@ const inter = Inter({
 });
 
 function MyApp({ Component, pageProps }) {
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+  
+  Router.events.on('routeChangeStart', (url) => {
+    setIsLoadingPage(true);
+  });
+  Router.events.on('routeChangeComplete', url => {
+    setIsLoadingPage(false);
+  });
+
   return (
     <>
       <Head>
@@ -43,6 +54,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:type" content="website" />
       </Head>
+      {isLoadingPage && <LoadingPage />}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <StatusProvider>

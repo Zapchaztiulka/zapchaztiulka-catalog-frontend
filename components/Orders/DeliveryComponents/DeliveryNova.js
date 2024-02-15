@@ -136,13 +136,14 @@ const DeliveryNova = ({
           </p>
         ) : (
           <>
-            <div className=" w-[347px] relative">
+            <div className="checkout-delivery-input relative">
               <div className="flex items-center ">
                 <div
-                    className={`w-full ${isErrorMessage && warehouses === ''
-                        ? 'border border-borderError'
-                        : ''
-                      }  items-center flex p-xs gap-1 justify-between border border-borderDefault rounded-minimal`}
+                  className={`w-full ${
+                    isErrorMessage && warehouses === ''
+                      ? 'border border-borderError'
+                      : ''
+                  }  items-center flex p-xs gap-1 justify-between border border-borderDefault rounded-minimal`}
                 >
                   <input
                     ref={refInput}

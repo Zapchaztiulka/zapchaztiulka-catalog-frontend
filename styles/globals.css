@@ -182,7 +182,7 @@ a {
 }
 
 .modal-overlay {
-  @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-10;
+  @apply fixed flex top-0 left-0 w-full h-screen justify-center items-center bg-bgModal z-20;
 }
 .modal-header {
   @apply absolute top-[16px] right-[16px];
@@ -311,4 +311,8 @@ a {
 
 .checkout-contacts-input {
   @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet768:w-[343px] tablet1024:w-[316px] desktop1200:w-[343px];
+}
+
+.checkout-delivery-input {
+  @apply w-[244px] mobile375:w-[299px] mobile480:w-[388px]  tablet600:w-[508px] tablet768:w-[676px] tablet1024:w-[347px] desktop1200:w-[343px];
 }

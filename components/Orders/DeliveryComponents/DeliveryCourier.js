@@ -322,11 +322,11 @@ const DeliveryCourier = ({
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
             placeholder={
-              isInputFocused ? '' : 'Оберіть значення або введіть назву..'
+              isInputFocused ? '' : 'Введіть назву та оберіть значення..'
             }
-            className={`p-3 w-full ${
+            className={`p-3 ${
               isErrorMessage && street === '' ? 'border border-borderError' : ''
-            } rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault `}
+            } rounded border border-borderDefault checkout-delivery-input text-base leading-6 placeholder:text-textInputDefault `}
           />
           {street !== '' && (
             <button
@@ -368,7 +368,7 @@ const DeliveryCourier = ({
           )}
       </div>
 
-      <div className="flex gap-3 mt-2">
+      <div className="flex gap-2 tablet600:gap-3 mt-2">
         <div className=" search">
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
@@ -376,7 +376,7 @@ const DeliveryCourier = ({
             <span className="text-textError">*</span>
           </p>
           <input
-            className={`p-3 w-[172px] ${
+            className={`p-3 w-[118px] mobile375:w-[145.5px] tablet600:w-[172px] ${
               isErrorMessage && houseNumber === ''
                 ? 'border border-borderError'
                 : ''
@@ -399,7 +399,7 @@ const DeliveryCourier = ({
             <span className="text-textError">*</span>
           </p>
           <input
-            className="p-3 w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
+            className="p-3 w-[118px] mobile375:w-[145.5px] tablet600:w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "
             type="text"
             value={apartment}
             onChange={handleInputChangeApartment}

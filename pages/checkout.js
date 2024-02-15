@@ -281,7 +281,6 @@ const Сheckout = () => {
     return true;
   };
 
-
   const deliveryOfficeMap = {
     courier: '',
     np_courier: '',
@@ -432,7 +431,7 @@ const Сheckout = () => {
             >
               <ArrowLeftIcon size="24px" /> Назад до кошика
             </button>
-            <h1 className="font-medium text-[36px]/[46.8px] text-textPrimary mt-3 mb-6">
+            <h1 className="font-medium text-[28px]/[33.6px] tablet600:text-[36px]/[46.8px] text-textPrimary mt-3 mb-6">
               Оформлення замовлення
             </h1>
             <div className="flex tablet1024:gap-6 desktop1200:gap-8 desktop1920:gap-[112px]">
@@ -496,7 +495,7 @@ const Сheckout = () => {
 
                   <div className="grid">
                     {/* Дані доставки */}
-                    <div className="flex flex-col gap-[16px] mt-6 mb-6 tablet1024:w-[644px] desktop12000:w-[698px]">
+                    <div className="grid flex-col gap-[16px] mt-6 mb-6 tablet1024:w-[644px] desktop12000:w-[698px]">
                       <h3 className="font-medium text-[18px] leading-[25.2px]">
                         Спосіб та дані доставки
                       </h3>
@@ -577,23 +576,22 @@ const Сheckout = () => {
                         isClientStatus={isClientStatus}
                       />
 
-                      <div className=" tablet1024:hidden mt-6">
+                      <div className="tablet768:w-[566px] tablet768:justify-self-center tablet1024:hidden mt-6">
                         {/* Підсумок замовлення */}
                         <TotalOrder
                           orderInfoTotal={orderInfoTotal}
                           selectedDelivery={selectedDelivery}
                         />
                       </div>
-
-                      <button
-                        type="submit"
-                        onClick={scrollToTop}
-                        className="state-button flex justify-center justify-self-end w-full mobile480:w-[432px] tablet600:w-[285px] py-[14px] 
-                font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
-                      >
-                        Оформити замовлення
-                      </button>
                     </div>
+                    <button
+                      type="submit"
+                      onClick={scrollToTop}
+                      className="state-button flex justify-center tablet768:justify-self-center tablet1024:justify-self-end w-full tablet768:w-[432px] tablet1024:w-[285px] py-[14px] 
+                font-medium text-[16px] leading-[22.4px] tablet600:text-[14px] tablet600:leading-[19.6px] text-textContrast"
+                    >
+                      Оформити замовлення
+                    </button>
                   </div>
                 </form>
               </div>
