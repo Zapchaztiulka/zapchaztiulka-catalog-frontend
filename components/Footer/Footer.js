@@ -20,10 +20,13 @@ const Footer = ({ categories, patterns }) => {
     backToHomeUrl();
   };
 
-  const clickByCategory = category => {
+  const clickByCategory = idCategory => {
     router.push({
       pathname: '/',
-      query: { query: category.toLowerCase() },
+      query: {
+        page: 1,
+        categories: idCategory,
+      },
     });
   };
 

@@ -10,7 +10,7 @@ const Catalog = ({clickByCategory, categories}) => {
                   <li
                     key={el._id}
                     className=" footer-items"
-                    onClick={() => clickByCategory(el.categoryName)}
+                    onClick={() => clickByCategory(el._id)}
                   >
                     {el.categoryName}
                   </li>
