@@ -76,7 +76,7 @@ setSubmitError(false);
           лист
         </p>
         <form className="flex flex-col" onSubmit={handleSubmitAbsentOrder}>
-          <div className="mb-[16px]">
+          <div className="mb-[16px] flex flex-col">
             <input
               className={`p-[12px] ${
                 submitError ? 'border border-borderError' : ''
