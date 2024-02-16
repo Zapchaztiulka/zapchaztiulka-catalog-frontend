@@ -34,7 +34,9 @@ const Сheckout = () => {
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
+  console.log("TCL: userData", userData)
   const userLegalData = useSelector(selectCheckoutLegal);
+  console.log("TCL: userLegalData", userLegalData)
   const {
     phone,
     email,
@@ -115,6 +117,9 @@ const Сheckout = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
+  
+  console.log('TCL: selectedDelivery', selectedDelivery);
+
 
   useEffect(() => {
     if (isClientStatus) {
@@ -195,10 +200,10 @@ const Сheckout = () => {
   // Скидання обраного методу доставки при зміні вибору
   useEffect(() => {
     if (!isClientStatus) {
-      setSelectedDelivery(deliveryMethodIdLegal || null);
+      setSelectedDelivery(deliveryMethodIdLegal || '');
     }
     if (isClientStatus) {
-      setSelectedDelivery(deliveryMethodId || null);
+      setSelectedDelivery(deliveryMethodId || '');
     }
   }, [deliveryMethodId, deliveryMethodIdLegal, isClientStatus]);
 

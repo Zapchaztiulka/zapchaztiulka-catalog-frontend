@@ -1,10 +1,10 @@
 import { StatusContext } from '@/context/statusContext';
 import React, { useContext } from 'react'
-import { Notification } from 'universal-components-frontend/src/components/notifications';
 import ModalOneClickOrder from './ModalOneClickOrder';
 import ModalPreOrder from './ModalPreOrder';
 import ModalAbsentOrder from './ModalAbsentOrder';
 import ModalOrderSuccessful from './ModalOrderSuccessful';
+import Notifications from '../Notifications';
 
 const MergedModals = ({ product }) => {
     const {
@@ -62,11 +62,9 @@ const MergedModals = ({ product }) => {
         />
       )}
       {showCartNotification && (
-        <Notification
-          message="Товар додано до кошика"
-          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2"
-          size="small"
-        />
+        <div className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+          <Notifications message={'Товар додано до кошика'} />
+        </div>
       )}
     </>
   );

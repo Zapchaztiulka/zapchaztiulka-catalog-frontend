@@ -5,10 +5,10 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import ModalPreOrder from '@/components/Modals/ModalPreOrder';
 import ModalOrderSuccessful from '@/components/Modals/ModalOrderSuccessful';
-import { Notification } from 'universal-components-frontend/src/components/notifications';
 import NotFoundProduct from './NotFoundProduct';
 import ModalSpecialOrder from '../Modals/ModalSpecialOrder';
 import ModalAbsentOrder from '../Modals/ModalAbsentOrder';
+import Notifications from '../Notifications';
 
 const CardsList = ({ products, size, limit }) => {
   const indexOfSpecialCards = getNumberOfSpecialCard(size);
@@ -27,7 +27,7 @@ const CardsList = ({ products, size, limit }) => {
   } = useContext(StatusContext);
 
   return (
-    <>
+    <div className="grid">
       <div className="z-10">
         <ul className="flex flex-wrap gap-[7px] tablet600:gap-xs tablet1024:gap-s desktop1200:gap-sPlus mb-5">
           {products &&
@@ -112,12 +112,11 @@ const CardsList = ({ products, size, limit }) => {
         />
       )}
       {showCartNotification && (
-        <Notification
-          message="Товар додано до кошика"
-          className="fixed z-20 bottom-6 left-1/2 transform -translate-x-1/2 rounded-lg border-borderSuccess"
-        />
+        <div className="fixed z-20 bottom-6 whitespace-nowrap left-[50%] tablet1024:left-[60%] transform -translate-x-1/2">
+          <Notifications message={'Товар додано до кошика'} />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -54,6 +54,7 @@ const DeliveryCourier = ({
       ? deliveryStreetLegal || ''
       : deliveryStreetLegalNP || ''
   );
+    console.log('TCL: selectedDelivery', selectedDelivery);
 
   const [houseNumber, setHouseNumber] = useState(
     isClientStatus
@@ -148,7 +149,7 @@ const DeliveryCourier = ({
           );
         }
       }
-    }
+    } 
   }, [
     dispatch,
     isClientStatus,
@@ -157,10 +158,6 @@ const DeliveryCourier = ({
     houseNumber,
     apartment,
   ]);
-
-
-  
-
 
   useEffect(() => {
     if (!selectedItem && !isInputFocused && street !== '') removeStreet();
@@ -246,8 +243,6 @@ const DeliveryCourier = ({
       }
     }
   };
-
-
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;

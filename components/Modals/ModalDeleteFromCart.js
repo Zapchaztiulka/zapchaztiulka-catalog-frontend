@@ -6,6 +6,8 @@ import {
   removeFromCart,
   getCartTotal,
 } from '../../redux/cart/cartSlice';
+import { clearCheckout } from '@/redux/checkout/IndividualPerson/checkoutSlice';
+import { clearCheckoutLegal } from '@/redux/checkout/LegalPerson/legalSlice';
 
 const ModalDeleteFromCart = ({
   onClose,
@@ -49,10 +51,13 @@ const ModalDeleteFromCart = ({
             className="border-[1px] border-borderDefault rounded-minimal bg-bgDefaultDestructive
             w-[120px] mobile375:w-[151px] tablet600:w-[182px] h-[48px] font-medium text-[12px] leading-[20px] mobile375:text-[16px] mobile375:leading-[22.4px] text-textContrast"
             onClick={() => {
-              {
-                id
-                  ? (dispatch(removeFromCart({ id })), dispatch(getCartTotal()))
-                  : dispatch(clearTheCart());
+              if (id) {
+                dispatch(removeFromCart({ id }));
+                dispatch(getCartTotal());
+              } else {
+                dispatch(clearTheCart());
+                dispatch(clearCheckout());
+                dispatch(clearCheckoutLegal());
               }
               onClose();
             }}
