@@ -112,9 +112,48 @@ const DeliveryCourier = ({
     }
   }, [dispatch, street, cityRefData]);
 
+    useEffect(() => {
+      if (!selectedItem) {
+        removeStreet();
+        if (isClientStatus) {
+          if (selectedDelivery === 'courier') {
+            dispatch(
+              addToCheckout({
+                field: 'deliveryAddress',
+                value: '',
+              })
+            );
+          } else {
+            dispatch(
+              addToCheckout({
+                field: 'deliveryAddressNP',
+                value: '',
+              })
+            );
+          }
+        } else {
+          if (selectedDelivery === 'courier') {
+            dispatch(
+              addToCheckoutLegal({
+                field: 'deliveryAddressLegal',
+                value: '',
+              })
+            );
+          } else {
+            dispatch(
+              addToCheckoutLegal({
+                field: 'deliveryAddressLegalNP',
+                value: '',
+              })
+            );
+          }
+        }
+      }
+    }, [selectedItem]);
+
   // Ефект для оновлення поля deliveryAddress
   useEffect(() => {
-    if (street !== '' && houseNumber !== '') {
+    if (street !== '' && houseNumber !== '' && selectedItem) {
       const fullAddressData =
         `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
       setFullAddress(fullAddressData);
@@ -159,9 +198,7 @@ const DeliveryCourier = ({
     apartment,
   ]);
 
-  useEffect(() => {
-    if (!selectedItem && !isInputFocused && street !== '') removeStreet();
-  }, [selectedItem, isInputFocused, street]);
+
 
   const handleInputChangeStreet = event => {
     const searchStreet = event.target.value;
