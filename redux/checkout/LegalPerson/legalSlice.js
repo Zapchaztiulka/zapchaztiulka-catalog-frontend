@@ -32,6 +32,7 @@ const checkoutSliceLegal = createSlice({
     deliverHouseLegal: '',
     deliveryStreetLegalNP: '',
     deliverHouseLegalNP: '',
+    deliveryApartmentLegalNP: '',
   },
   reducers: {
     addToCheckoutLegal(state, action) {
@@ -84,6 +85,8 @@ const checkoutSliceLegal = createSlice({
         deliverHouseLegal: '',
         deliveryStreetLegalNP: '',
         deliverHouseLegalNP: '',
+        deliveryApartmentLegal: '',
+        deliveryApartmentLegalNP: '',
       };
     },
   },

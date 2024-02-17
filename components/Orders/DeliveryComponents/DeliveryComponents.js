@@ -1,7 +1,8 @@
 import React from 'react';
 import DeliveryNova from './DeliveryNova';
 import DeliveryBySelf from './DeliveryBySelf';
-import DeliveryCourier from './DeliveryCourier';
+import Courier from './Courier';
+import NPCourier from './NPCourier';
 
 const DeliveryComponents = {
   np: {
@@ -33,32 +34,24 @@ const DeliveryComponents = {
   courier: {
     name: "Кур'єр Запчастюлька",
     component: props => (
-      <DeliveryCourier
+      <Courier
         {...props}
         isErrorMessage={props.isErrorMessage}
-        addressDelivery={props.addressDelivery}
-        setAddressDelivery={props.setAddressDelivery}
         checkoutData={props.userData}
         isClientStatus={props.isClientStatus}
         userLegalData={props.userLegalData}
-        setIsErrorMessage={props.setIsErrorMessage}
-        selectedDelivery={props.selectedDelivery}
       />
     ),
   },
   np_courier: {
     name: "Кур'єр Нова Пошта",
     component: props => (
-      <DeliveryCourier
+      <NPCourier
         {...props}
         isErrorMessage={props.isErrorMessage}
-        addressDelivery={props.addressDeliveryNP}
-        setAddressDelivery={props.setAddressDeliveryNP}
-        selectedDelivery={props.selectedDelivery}
         checkoutData={props.userData}
         isClientStatus={props.isClientStatus}
         userLegalData={props.userLegalData}
-        setIsErrorMessage={props.setIsErrorMessage}
       />
     ),
   },
