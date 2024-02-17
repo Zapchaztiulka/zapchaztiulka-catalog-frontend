@@ -25,6 +25,8 @@ const checkoutSlice = createSlice({
     deliverHouse: '',
     deliveryStreetNP: '',
     deliverHouseNP: '',
+    deliveryApartment: '',
+    deliveryApartmentNP:''
   },
   reducers: {
     addToCheckout(state, action) {
@@ -59,6 +61,8 @@ const checkoutSlice = createSlice({
         deliverHouse: '',
         deliveryStreetNP: '',
         deliverHouseNP: '',
+        deliveryApartment: '',
+        deliveryApartmentNP: '',
       };
     },
   },
