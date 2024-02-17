@@ -51,7 +51,7 @@ const BtnAddToCart = ({
             setShowCartNotification(!showCartNotification);
             setTimeout(() => {
               setShowCartNotification(false);
-            }, 200000);
+            }, 2000);
             dispatch(getCartTotal());
           }}
           className="tablet600:py-xs py-xs2 px-m w-full text-[14px]/[24px] tablet600:text-base/[24px] text-textContrast state-button"
