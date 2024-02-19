@@ -38,7 +38,7 @@ const ModalCart = () => {
         onClick={e => {
           e.stopPropagation();
         }}
-        className="z-11 bg-white tablet1024:fixed tablet1024:top-1/2 tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
+        className="z-11 bg-white tablet1024:fixed tablet1024:top-[55%] tablet1024:left-1/2 tablet1024:transform tablet1024:-translate-x-1/2 tablet1024:-translate-y-1/2
         flex flex-col items-center 
         w-full tablet1024:w-[976px] tablet1024:h-[546px] desktop1440:h-[555px] tablet1024:rounded-lg"
       >
