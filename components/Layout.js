@@ -116,10 +116,13 @@ const Layout = ({ children }) => {
         className={`${isChatOpen && windowWidth < breakpoint ? 'hidden' : ''}`}
       >
         <Navbar categories={categories} patterns={patterns} />
-          <main className="main-container mt-[50px]">{children}</main>
-          <div id="modal-cart"></div>
-          <div id="modal-root"></div>
-        <Footer categories={categories} patterns={patterns} />
+        <main className="main-container mt-[50px]">{children}</main>
+        <div id="modal-cart"></div>
+        <div id="modal-root"></div>
+        <Footer
+          categories={categories}
+          patterns={patterns}
+          handleChatButtonClick={handleChatButtonClick} />
       </div>
       <div
         className={`fixed bottom-s right-s z-40 ${isChatOpen ? 'hidden' : ''}`}

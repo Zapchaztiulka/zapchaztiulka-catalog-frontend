@@ -15,11 +15,7 @@ const ContactList = ({ patterns }) => {
 
     useEffect(() => {
     if (patterns) {
-      setPhone([
-        patterns.companyData?.firstPhone,
-        patterns.companyData?.secondPhone,
-        patterns.companyData?.thirdPhone,
-      ]);
+      setPhone(['+38 (096) 361 83 98', '+38 (063) 507 12 31']);
     }
   }, [patterns]);
 

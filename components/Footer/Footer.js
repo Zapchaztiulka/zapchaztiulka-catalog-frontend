@@ -10,7 +10,7 @@ import Contacts from './Contacts';
 import Address from './Address';
 import Catalog from './Catalog';
 
-const Footer = ({ categories, patterns }) => {
+const Footer = ({ categories, patterns, handleChatButtonClick }) => {
   const router = useRouter();
   const current_year = new Date().getFullYear();
   const { resetLocalStorage, backToHomeUrl } = useContext(StatusContext);
@@ -53,11 +53,11 @@ const Footer = ({ categories, patterns }) => {
             >
               <LogoIconWithText />
             </div>
-          </div>         
+          </div>
           <Catalog clickByCategory={clickByCategory} categories={categories} />
-          <ForCustomers />
+          <ForCustomers handleChatButtonClick={handleChatButtonClick} />
           <Contacts patterns={patterns} />
-          <Address patterns={patterns}/>
+          <Address patterns={patterns} />
         </div>
         <div>
           {' '}
