@@ -15,8 +15,12 @@ const Contacts = ({patterns}) => {
     <div className="flex flex-col gap-3">
       <h4 className="text-textTertiary text-lg">Контакти</h4>
       <ul className="text-textPrimary text-base">
-        <li className="footer-items ">+38 (096) 361 83 98</li>
-        <li className="footer-items ">+38 (063) 507 12 31</li>
+        <li className="footer-items ">
+          <a href="tel:+380963618398">+38 (096) 361 83 98</a>
+        </li>
+        <li className="footer-items ">
+          <a href="tel:+380635071231">+38 (063) 507 12 31</a>
+        </li>
       </ul>
     </div>
   );

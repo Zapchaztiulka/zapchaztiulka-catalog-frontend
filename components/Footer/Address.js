@@ -2,6 +2,15 @@ import React from 'react';
 
 const Address = ({patterns}) => {
   // const address = patterns.companyData?.addressCompany
+  const handleLinkClick = event => {
+    const confirmed = window.confirm(
+      'Ви впевнені, що хочете перейти за посиланням?'
+    );
+    if (!confirmed) {
+      event.preventDefault(); // Скасувати перехід за посиланням, якщо користувач відмовиться
+    }
+  };
+
 
   return (
     <div className="flex flex-col gap-3">
@@ -15,6 +24,7 @@ const Address = ({patterns}) => {
             href="https://maps.app.goo.gl/dTJm1YpuDDHzd9Dj9"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleLinkClick}
           >
             Адреса магазину
           </a>
