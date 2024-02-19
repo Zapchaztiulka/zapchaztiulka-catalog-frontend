@@ -11,14 +11,24 @@ import {
 const ContactList = ({ patterns }) => {
   const [selected, setSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [phone, setPhone] = useState([]);
+  const [phone, setPhone] = useState([
+    '+38 (096) 361 83 98',
+    '+38 (063) 507 12 31',
+  ]);
 
-    useEffect(() => {
-    if (patterns) {
-      setPhone(['+38 (096) 361 83 98', '+38 (063) 507 12 31']);
-    }
-  }, [patterns]);
+  // useEffect(() => {
+  //   if (patterns) {
+  //     setPhone(['+38 (096) 361 83 98', '+38 (063) 507 12 31']);
+  //   }
+  // }, [patterns]);
 
+      const renderPhoneNumberLink = phoneNumber => {
+        return (
+          <a href={`tel:${phoneNumber}`} key={phoneNumber}>
+            {phoneNumber}
+          </a>
+        );
+      };
 
   const refOption = useRef(null);
   const refSelect = useRef(null);
@@ -63,11 +73,11 @@ const ContactList = ({ patterns }) => {
             {phone &&
               phone?.map(item => (
                 <li
-                  key={Math.random()}
+                  key={item}
                   onClick={onOptionClicked(item)}
                   className="cursor-pointer pl-10 py-2 hover:text-textBrand"
                 >
-                  {item}
+                  {renderPhoneNumberLink(item)}
                 </li>
               ))}
           </ul>
