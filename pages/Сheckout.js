@@ -29,11 +29,12 @@ import {
   clearCheckout,
 } from '@/redux/checkout/IndividualPerson/checkoutSlice';
 
-const Сheckout = () => {
+export const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
+  console.log('TCL: userData', userData);
   const userLegalData = useSelector(selectCheckoutLegal);
   const {
     phone,
@@ -113,14 +114,13 @@ const Сheckout = () => {
   );
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isEmptyDataIndividual, setIsEmptyDataIndividual] = useState(false);
+  // console.log("TCL: isEmptyDataIndividual", isEmptyDataIndividual)
   const [isEmptyDataLegal, setIsEmptyDataLegal] = useState(false);
+
   const [selectedDelivery, setSelectedDelivery] = useState(
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
-  
-  console.log('TCL:selectedDelivery ', selectedDelivery);
 
-  // Оновлення значення міста
   useEffect(() => {
     if (isClientStatus) {
       setCityDelivery(deliveryCity);
@@ -130,7 +130,6 @@ const Сheckout = () => {
     }
   }, [deliveryCity, deliveryCityLegal, isClientStatus]);
 
-  // Оновлення значення адресу для кур'єрскої доставки Запчастюлькі
   useEffect(() => {
     if (isClientStatus) {
       setAddressDelivery(deliveryAddress);
@@ -140,17 +139,6 @@ const Сheckout = () => {
     }
   }, [deliveryAddress, deliveryAddressLegal, isClientStatus]);
 
-  // Оновлення значення адресу для кур'єрскої доставки Нової Пошти
-  useEffect(() => {
-    if (isClientStatus) {
-      setAddressDeliveryNP(deliveryAddressNP);
-    }
-    if (!isClientStatus) {
-      setAddressDeliveryNP(deliveryAddressLegalNP);
-    }
-  }, [deliveryAddressNP, deliveryAddressLegalNP, isClientStatus]);
-
-  // Збереження ІД міста для передачі в апі нової пошти
   const handleCitySelection = cityDeliverRef => {
     if (!isClientStatus) {
       dispatch(
@@ -165,7 +153,6 @@ const Сheckout = () => {
     }
   };
 
-  // Збереження значення обраного міста для отримання відповідниго списку вулиць
   const handleStreetSelection = cityRef => {
     if (!isClientStatus) {
       dispatch(addToCheckoutLegal({ field: 'cityRefLegal', value: cityRef }));
@@ -175,7 +162,6 @@ const Сheckout = () => {
     }
   };
 
-  // Збереження значення обраного міста
   const handleCityChange = newCity => {
     if (!isClientStatus) {
       dispatch(
@@ -187,7 +173,6 @@ const Сheckout = () => {
     }
   };
 
-  // Збереження до редаксу значення відділення НП
   const handleWarehouseChange = warehouse => {
     if (!isClientStatus) {
       dispatch(
@@ -199,7 +184,6 @@ const Сheckout = () => {
     }
   };
 
-  // Отримання значення способу доставки 
   const handleDeliveryChange = event => {
     const selectedDeliveryValue = event.target.value;
     setSelectedDelivery(selectedDeliveryValue);
@@ -222,7 +206,7 @@ const Сheckout = () => {
     setIsErrorMessage(false);
   };
 
-  // Оновлення обраного методу доставки при зміні вибору
+  // Скидання обраного методу доставки при зміні вибору
   useEffect(() => {
     if (!isClientStatus) {
       setSelectedDelivery(deliveryMethodIdLegal || '');
@@ -478,8 +462,8 @@ const Сheckout = () => {
             <h1 className="font-medium text-[28px]/[33.6px] tablet600:text-[36px]/[46.8px] text-textPrimary mt-3 mb-6">
               Оформлення замовлення
             </h1>
-            <div className="flex tablet1024:gap-6 desktop1440:gap-8 desktop1920:gap-[112px]">
-              <div className="tablet1024:w-[644px] desktop1440:w-[698px]">
+            <div className="flex tablet1024:gap-6 desktop1200:gap-8 desktop1920:gap-[112px]">
+              <div className="tablet1024:w-[644px] desktop12000:w-[698px]">
                 <div className="flex gap-2 text-[14px]/[19.6px] mb-6 tablet600:mb-5">
                   <button
                     className={`w-[140px] mobile375:w-[167.5px] py-3 border border-borderDefault rounded-medium3 hover:bg-bgBrandLight3 focus:bg-bgBrandLight3 hover:text-textContrast focus:text-textContrast ${
@@ -506,7 +490,7 @@ const Сheckout = () => {
                 </div>
                 <form className="flex flex-col" onSubmit={handleSubmit}>
                   <div className="flex justify-between">
-                    <div className="flex flex-col tablet1024:w-[644px] desktop1440:w-[698px]">
+                    <div className="flex flex-col tablet1024:w-[644px] desktop1200:w-[698px]">
                       <div>
                         <h2 className="mb-[16px] font-medium text-[18px] leading-[25.2px]">
                           Контактні дані
@@ -539,7 +523,7 @@ const Сheckout = () => {
 
                   <div className="grid">
                     {/* Дані доставки */}
-                    <div className="grid flex-col gap-[16px] mt-6 mb-6 tablet1024:w-[644px] desktop1440:w-[698px]">
+                    <div className="grid flex-col gap-[16px] mt-6 mb-6 tablet1024:w-[644px] desktop12000:w-[698px]">
                       <h3 className="font-medium text-[18px] leading-[25.2px]">
                         Спосіб та дані доставки
                       </h3>
@@ -609,12 +593,6 @@ const Сheckout = () => {
                               })}
                           </div>
                         ))}
-                        {selectedDelivery === '' &&
-                          (isEmptyDataLegal || isEmptyDataIndividual) && (
-                            <span className="text-textError text-[12px]">
-                              Оберіть способ доставки
-                            </span>
-                          )}
                       </div>
 
                       {/* Залишити коментар */}
@@ -643,7 +621,7 @@ const Сheckout = () => {
                   </div>
                 </form>
               </div>
-              <div className="hidden tablet1024:block tablet1024:w-[300px] desktop1440:w-[470px]  desktop1920:w-[588px] ">
+              <div className="hidden tablet1024:block tablet1024:w-[300px] desktop1200:w-[470px]  desktop1920:w-[588px] ">
                 {/* Підсумок замовлення */}
                 <TotalOrder
                   orderInfoTotal={orderInfoTotal}
@@ -665,5 +643,3 @@ const Сheckout = () => {
     </>
   );
 };
-
-export default Сheckout;

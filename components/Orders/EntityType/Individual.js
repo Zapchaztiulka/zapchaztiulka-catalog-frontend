@@ -33,6 +33,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
 
   const handleInputChangeName = value => {
     const regex = /^[A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]*$/u;
+
     if (!regex.test(value)) {
       value = value.replace(/[^A-Za-zА-Яа-яёЁЇїІіЄєҐґ\s'’\-,.]/gu, '');
     }
@@ -162,7 +163,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
 
       <div className="checkout-contacts-input search">
         <label className="text-[14px]/[19.6px] text-textSecondary">
-          По батькові <span className="text-textError">*</span>
+          По батькові
           <input
             name="userMiddleName"
             type="text"
@@ -211,7 +212,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
       <div className="checkout-contacts-input search">
         <label className="text-[14px]/[19.6px] text-textSecondary relative">
           Номер телефону <span className="text-textError">*</span>
-          <span className="absolute grid items-center z-10 top-[29px] left-[12px] w-[32px] h-[28px] border-r-[1px] border-textInputDefault text-base/[24px] text-textTertiary">
+          <span className="absolute grid items-center z-10 top-[33px] left-[12px] w-[32px] h-[24px] border-r-[1px] border-textInputDefault text-base/[24px] text-textTertiary">
             +38
           </span>
           <input
@@ -221,7 +222,7 @@ const Individual = ({ patterns, isEmptyData, isClientStatus }) => {
                 !/0[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}/.test(phoneValue))
                 ? 'border border-borderError'
                 : ''
-            }   text-base/[24px]  w-full h-[48px]  border border-borderDefault rounded-minimal`}
+            }   text-base/[24px]  w-full  p-3  border border-borderDefault rounded-minimal`}
             name="phone"
             type="tel"
             id="phone"

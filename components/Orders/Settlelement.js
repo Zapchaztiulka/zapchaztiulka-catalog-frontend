@@ -53,11 +53,15 @@ const Settlelement = ({
       dispatch(addToCheckout({ field: 'deliveryCity', value: '' }));
       dispatch(addToCheckout({ field: 'cityRef', value: '' }));
       dispatch(addToCheckout({ field: 'selectedCity', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryRegion', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryDistrict', value: '' }));
     }
     if (!isClientStatus) {
       dispatch(addToCheckoutLegal({ field: 'deliveryCityLegal', value: '' }));
       dispatch(addToCheckoutLegal({ field: 'cityRefLegal', value: '' }));
       dispatch(addToCheckoutLegal({ field: 'selectedCityLegal', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryRegionLegal', value: '' }));
+      dispatch(addToCheckout({ field: 'deliveryDistrictLegal', value: '' }));
     }
   };
 
@@ -72,12 +76,39 @@ const Settlelement = ({
 
   const handleSelection = selectedItem => {
     setCityDelivery(selectedItem.MainDescription);
-
     onCityChange(selectedItem.MainDescription);
     onSelectCity(selectedItem.DeliveryCity);
     onSelectCityRef(selectedItem.Ref);
+    const deliveryRegionValue =
+      selectedItem.Area !== '' ? `${selectedItem.Area} обл.` : '';
+    const deliveryDistrictValue =
+      selectedItem.Region !== '' ? `${selectedItem.Region} р-н` : '';
 
     setSelectedItem(selectedItem.MainDescription);
+     if (isClientStatus) {
+       dispatch(
+         addToCheckout({ field: 'deliveryRegion', value: deliveryRegionValue })
+       );
+       dispatch(
+         addToCheckout({
+           field: 'deliveryDistrict',
+           value: deliveryDistrictValue,
+         })
+       );
+     } else {
+       dispatch(
+         addToCheckout({
+           field: 'deliveryRegionLegal',
+           value: deliveryRegionValue,
+         })
+       );
+       dispatch(
+         addToCheckout({
+           field: 'deliveryDistrictLegal',
+           value: deliveryDistrictValue,
+         })
+       );
+     }
     setIsListOpen(false);
   };
 

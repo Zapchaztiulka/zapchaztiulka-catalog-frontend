@@ -32,6 +32,7 @@ const Courier = ({
     deliveryApartmentLegal,
   } = userLegalData;
 
+// console.log('TCL: isErrorMessage', isErrorMessage);
   const [fullAddress, setFullAddress] = useState(
     isClientStatus ? deliveryAddress || '' : deliveryAddressLegal || ''
   );
@@ -56,13 +57,11 @@ const Courier = ({
 
   useEffect(() => {
     if (isClientStatus) {
-      // setFullAddress(deliveryAddress);
       setStreet(deliveryStreet);
       setHouseNumber(deliverHouse);
       setApartment(deliveryApartment);
     }
     if (!isClientStatus) {
-      // setFullAddress(deliveryAddressLegal);
       setStreet(deliveryStreetLegal);
       setHouseNumber(deliverHouseLegal);
       setApartment(deliveryApartmentLegal);
@@ -71,9 +70,43 @@ const Courier = ({
 
   const streetName =
     streetsInfo?.data?.[0]?.Addresses?.map(address => address.Present) || [];
+  
+    const removeStreet = () => {
+      setStreet('');
+      setFullAddress('');
+      setIsListOpen(false);
+      if (isClientStatus) {
+        dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
+        dispatch(addToCheckout({ field: 'deliveryStreet', value: '' }));
+        dispatch(addToCheckout({ field: 'deliverHouse', value: '' }));
+        dispatch(addToCheckout({ field: 'deliveryApartment', value: '' }));
+      }
+      if (!isClientStatus) {
+        dispatch(
+          addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
+        );
+        dispatch(
+          addToCheckoutLegal({ field: 'deliveryStreetLegal', value: '' })
+        );
+        dispatch(addToCheckoutLegal({ field: 'deliverHouseLegal', value: '' }));
+        dispatch(
+          addToCheckoutLegal({
+            field: 'deliveryApartmentLegal',
+            value: '',
+          })
+        );
+      }
+    };
 
   // Get list of streets
   useEffect(() => {
+     if (cityRefData === '') {
+       setStreet('');
+       setHouseNumber('');
+       setApartment('');
+       removeStreet();
+       return;
+     }
     if (street !== '' && cityRefData !== '') {
       dispatch(
         fetchStreets({ SettlementRef: cityRefData, StreetName: street })
@@ -85,7 +118,7 @@ const Courier = ({
   useEffect(() => {
     if (street !== '' && houseNumber !== '' && selectedItem !== '') {
       const fullAddressData =
-        `${street}, ${houseNumber}` + (apartment ? `, ${apartment}` : '');
+        `${street}, ${houseNumber}` + (apartment ? `, кв. ${apartment}` : '');
       setFullAddress(fullAddressData);
       if (isClientStatus) {
         dispatch(
@@ -120,6 +153,10 @@ const Courier = ({
   }, [houseNumber, street, isClientStatus, dispatch]);
 
   const handleInputChangeStreet = event => {
+    if (cityRefData === '') {
+      setStreet('');
+      return;
+    }
     const searchStreet = event.target.value;
     setStreet(searchStreet);
     setIsListOpen(true);
@@ -130,6 +167,10 @@ const Courier = ({
 
   const handleInputChangeHouse = event => {
     const house = event.target.value;
+    if (cityRefData === '') {
+      setHouseNumber('');
+      return;
+    }
     if (!isClientStatus) {
       dispatch(
         addToCheckoutLegal({ field: 'deliverHouseLegal', value: house })
@@ -142,6 +183,10 @@ const Courier = ({
 
   const handleInputChangeApartment = event => {
     const apartment = event.target.value;
+    if (cityRefData === '') {
+      setApartment('');
+      return;
+    }
     if (!isClientStatus) {
       dispatch(
         addToCheckoutLegal({
@@ -174,22 +219,6 @@ const Courier = ({
     setSelectedItem(selectedItem);
     handleAddressDispatch(selectedItem);
     setIsListOpen(false);
-  };
-
-  const removeStreet = () => {
-    setStreet('');
-    setFullAddress('');
-    setIsListOpen(false);
-    if (isClientStatus) {
-      dispatch(addToCheckout({ field: 'deliveryAddress', value: '' }));
-      dispatch(addToCheckout({ field: 'deliveryStreet', value: '' }));
-    }
-    if (!isClientStatus) {
-      dispatch(
-        addToCheckoutLegal({ field: 'deliveryAddressLegal', value: '' })
-      );
-      dispatch(addToCheckoutLegal({ field: 'deliveryStreetLegal', value: '' }));
-    }
   };
 
   const closeByClickOutside = () => {

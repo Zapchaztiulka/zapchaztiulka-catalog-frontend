@@ -115,7 +115,6 @@ const CouriersDelivery = ({
           {' '}
           <p className="mb-[4px] text-[14px]/[19.6px] text-textSecondary">
             Номер квартири
-            <span className="text-textError">*</span>
           </p>
           <input
             className="p-3 w-[118px] mobile375:w-[145.5px] tablet600:w-[172px] rounded border border-borderDefault text-base leading-6 placeholder:text-textInputDefault "

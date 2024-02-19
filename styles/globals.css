@@ -310,9 +310,9 @@ a {
 }
 
 .checkout-contacts-input {
-  @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet768:w-[343px] tablet1024:w-[316px] desktop1200:w-[343px];
+  @apply w-[288px] mobile375:w-[343px] mobile480:w-[432px] tablet768:w-[343px] tablet1024:w-[316px] desktop1440:w-[343px];
 }
 
 .checkout-delivery-input {
-  @apply w-[244px] mobile375:w-[299px] mobile480:w-[388px]  tablet600:w-[508px] tablet768:w-[676px] tablet1024:w-[347px] desktop1200:w-[343px];
+  @apply w-[244px] mobile375:w-[299px] mobile480:w-[388px]  tablet600:w-[508px] tablet768:w-[676px] tablet1024:w-[347px] desktop1440:w-[343px];
 }
