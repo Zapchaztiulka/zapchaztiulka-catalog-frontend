@@ -24,7 +24,7 @@ const Address = ({patterns}) => {
             href="https://maps.app.goo.gl/dTJm1YpuDDHzd9Dj9"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={handleLinkClick}
+            // onClick={handleLinkClick}
           >
             Адреса магазину
           </a>
