@@ -3,7 +3,12 @@ import { useContext } from 'react';
 import { StatusContext } from '@/context/statusContext';
 import { CheckCircleIcon } from 'universal-components-frontend/src/components/icons';
 
-const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
+const ModalOrderSuccessful = ({
+  onClose,
+  hideCloseBtn,
+  availability,
+  orderID,
+}) => {
   const {
     showModalOrderSuccessful,
     setShowModalOrderSuccessful,
@@ -35,17 +40,25 @@ const ModalOrderSuccessful = ({ onClose, hideCloseBtn, availability }) => {
           className="mobile320:mb-[12px] desktop1440:mb-[8px] mobile320:font-medium mobile320:text-[24px] mobile320:leading-[28.8px] 
                   desktop1440:font-normal desktop1440:text-[28px] desktop1440:leading-[36.4px] text-textPrimary"
         >
-          {availability !== 'відсутній' ? (
+          {availability !== 'відсутній' || orderID ? (
             <span>Замовлення успішне!</span>
           ) : (
             <span>Ваша заявка прийнята!</span>
           )}
         </h5>
+        {orderID && (
+          <p
+            className="text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
+                  desktop1440:text-[16px] desktop1440:leading-[24px] text-textSecondary"
+          >
+            Номер вашого замовлення #{orderID?.slice(-6)}
+          </p>
+        )}
         <p
           className="mobile320:mb-[24px] desktop1440:mb-[32px] text-center mobile320:w-[258px] desktop1440:w-[632px] mobile320:text-[15px] mobile320:leading-[21px] 
                   desktop1440:text-[16px] desktop1440:leading-[24px] text-textSecondary"
         >
-          {availability !== 'відсутній' ? (
+          {availability !== 'відсутній' || orderID ? (
             <span>Очікуйте дзвінка нашого менеджера протягом 5 хвилин</span>
           ) : (
             <span>Ми сповістимо Вас, коли товар з'явиться в продажі</span>

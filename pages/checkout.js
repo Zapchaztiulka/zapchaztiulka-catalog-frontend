@@ -28,9 +28,12 @@ import {
   addToCheckout,
   clearCheckout,
 } from '@/redux/checkout/IndividualPerson/checkoutSlice';
+import { selectDetailsOrder } from '@/redux/orders/ordersSelectors';
 
 const Сheckout = () => {
   const orderInfoTotal = useSelector(selectCart);
+  const orderDetail = useSelector(selectDetailsOrder);
+  const orderID = orderDetail?._id;
   const dispatch = useDispatch();
   const orderInfoData = orderInfoTotal?.data;
   const userData = useSelector(selectCheckout);
@@ -118,8 +121,6 @@ const Сheckout = () => {
     isClientStatus ? deliveryMethodId || '' : deliveryMethodIdLegal || ''
   );
   
-  console.log('TCL:selectedDelivery ', selectedDelivery);
-
   // Оновлення значення міста
   useEffect(() => {
     if (isClientStatus) {
@@ -281,7 +282,6 @@ const Сheckout = () => {
     return true;
   };
 
-  console.log('TCL:addressDelivery ', addressDelivery);
 
   // перевірка пустоти та валідації даних для юридичних осіб
   const isFormValidLegal = () => {
@@ -365,7 +365,6 @@ const Сheckout = () => {
     }
 
     setIsErrorMessage(false);
-    console.log('TCL:addressDelivery ', addressDelivery);
     const requestBody = {
       products: productsInfo,
       userType: isClientStatus ? 'individual' : userTypeLegal,
@@ -658,6 +657,7 @@ const Сheckout = () => {
               onClose={closeModal}
               hideCloseBtn
               availability={aviabilityProduct}
+              orderID={orderID}
             />
           )}
         </>

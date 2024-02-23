@@ -32,7 +32,6 @@ const Courier = ({
     deliveryApartmentLegal,
   } = userLegalData;
 
-// console.log('TCL: isErrorMessage', isErrorMessage);
   const [fullAddress, setFullAddress] = useState(
     isClientStatus ? deliveryAddress || '' : deliveryAddressLegal || ''
   );

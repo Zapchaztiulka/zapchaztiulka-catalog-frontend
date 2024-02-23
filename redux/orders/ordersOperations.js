@@ -38,3 +38,15 @@ export const fetchUserRequest = createAsyncThunk(
     }
   }
 );
+
+export const fetchDetailsOrder = createAsyncThunk(
+  'orders/fetchDetailsOrder',
+  async id => {
+    try {
+      const { data } = await axios.get(`/api/orders/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);

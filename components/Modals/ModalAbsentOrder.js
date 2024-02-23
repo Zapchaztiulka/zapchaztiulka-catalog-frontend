@@ -14,7 +14,6 @@ const ModalAbsentOrder = ({
   const dispatch = useDispatch();
   const [emailError, setEmailError] = useState('');
   const [submitError, setSubmitError] = useState(false)
-  console.log("TCL: submitError", submitError)
    const [email, setEmail] = useState('');
 
    const handleChangeEmail = event => {
