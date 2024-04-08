@@ -1,11 +1,9 @@
-import { StatusContext } from '@/context/statusContext';
 import {
   getCategoryName,
   getSubCategoryName,
 } from '@/helpers/getNameOfCategory';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React, { useContext } from 'react';
 
 const Breadcrumbs = props => {
   const {
@@ -18,7 +16,7 @@ const Breadcrumbs = props => {
     searchValue,
   } = props;
   const router = useRouter();
-  const { backToHomeUrl, resetLocalStorage } = useContext(StatusContext);
+
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
 
@@ -42,11 +40,6 @@ const Breadcrumbs = props => {
   );
   const nameOfCategoryWithId = getCategoryName(categories, findCategoryId);
 
-  const backToHome = () => {
-    backToHomeUrl();
-    resetLocalStorage();
-  };
-
   const handleBreadCrumbsCategory = event => {
     event.preventDefault();
     router.push({
@@ -69,6 +62,7 @@ const Breadcrumbs = props => {
     });
   };
 
+console.log('TCL: nameOfCategoryForIDPage', props);
   return (
     <div className=" mb-3 text-textTertiary">
       {searchValue && (

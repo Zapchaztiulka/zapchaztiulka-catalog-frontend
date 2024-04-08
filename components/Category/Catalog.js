@@ -16,7 +16,7 @@ const Catalog = ({ categories }) => {
 
   const router = useRouter();
   const [index, setIndex] = useState();
-
+  
   const refBtn = useRef();
   const refCategory = useRef();
 

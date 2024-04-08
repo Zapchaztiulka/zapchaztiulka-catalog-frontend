@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:type" content="website" />
       </Head>
-      {isLoadingPage && <LoadingPage />}
+      {isLoadingPage  && <LoadingPage />}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <StatusProvider>
