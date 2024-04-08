@@ -74,7 +74,7 @@ const Breadcrumbs = props => {
       {searchValue && (
         <>
           {' '}
-          <Link href="/" passHref className="breadcrumbs" onClick={backToHome}>
+          <Link href="/" passHref className="breadcrumbs" >
             Каталог
           </Link>
           <span className="p-xs3">{' / '}</span>
@@ -85,7 +85,7 @@ const Breadcrumbs = props => {
       )}
       {(nameOfCategory || nameOfCategoryForIDPage) && (
         <>
-          <Link href="/" passHref className="breadcrumbs" onClick={backToHome}>
+          <Link href="/" passHref className="breadcrumbs" >
             Каталог
           </Link>
           <span className="p-xs3">{' / '}</span>
@@ -108,7 +108,7 @@ const Breadcrumbs = props => {
                 href="/"
                 passHref
                 className="breadcrumbs"
-                onClick={backToHome}
+                
               >
                 Каталог
               </Link>
