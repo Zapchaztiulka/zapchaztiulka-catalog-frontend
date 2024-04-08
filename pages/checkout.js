@@ -365,6 +365,10 @@ const Сheckout = () => {
     }
 
     setIsErrorMessage(false);
+    const city = isClientStatus ? deliveryCity : deliveryCityLegal;
+    const concatenatedDeliveryOffice =
+      city + ', ' + deliveryOfficeMap[selectedDelivery];
+
     const requestBody = {
       products: productsInfo,
       userType: isClientStatus ? 'individual' : userTypeLegal,
@@ -378,9 +382,9 @@ const Сheckout = () => {
       deliveryMethodId: isClientStatus
         ? deliveryMethodId
         : deliveryMethodIdLegal,
-      deliveryOffice: deliveryOfficeMap[selectedDelivery],
+      deliveryOffice: concatenatedDeliveryOffice,
       userComment: isClientStatus ? userComment : userCommentLegal,
-      deliveryCity: isClientStatus ? deliveryCity : deliveryCityLegal,
+      deliveryCity: city,
       deliveryRegion: isClientStatus ? deliveryRegion : deliveryRegionLegal,
       deliveryDistrict: isClientStatus
         ? deliveryDistrict

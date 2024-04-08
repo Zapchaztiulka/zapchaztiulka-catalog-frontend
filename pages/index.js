@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import {
   selectIsLoading,
-  selectCountryPriceTrademark,
   selectProducts,
 } from '@/redux/products/productsSelectors';
 import BtnPrimary from '@/components/Buttons/BtnPrimary';
@@ -50,9 +49,7 @@ const StartPage = () => {
   const router = useRouter();
   const isLoading = useSelector(selectIsLoading);
   const [isProductsLoading, setIsProductsLoading] = useState(false);
-  console.log("TCL: StartPage -> isProductsLoading", isProductsLoading)
   const data = useSelector(selectProducts);
-  const productInfo = useSelector(selectCountryPriceTrademark);
   const { categories } = useSelector(selectCategories);
   let startPage = router.query.page ? Number(router.query.page) : 1;
   let searchValue = router.query.query || '';
@@ -218,134 +215,101 @@ const StartPage = () => {
   };
 
   // call effect to receive all products
-  // useEffect(() => {
-  //   if (
-  //     countries.length === 0 &&
-  //     trademark.length === 0 &&
-  //     minPrice === undefined &&
-  //     maxPrice === undefined &&
-  //     limit &&
-  //     router.isReady
-  //   ) {
-  //     setIsProductsLoading(true);
-  //     const fetchData = async () => {
-  //       dispatch(
-  //         fetchProducts({
-  //           page: router.query.page ? startPage : 1,
-  //           query: searchValue ? searchValue : [],
-  //           limit: limit,
-  //           countries: countriesUrlArray,
-  //           trademarks: trademarkUrlArray,
-  //           minPrice: minPrice,
-  //           maxPrice: maxPrice,
-  //           categories: caterogyUrl,
-  //           subcategories: subcategoryUrl,
-  //           sortBy: router.query.sortType ? 'price' : [],
-  //           sortType: router.query.sortType ? router.query.sortType : [],
-  //         })
-  //       );
-  //     };
-  //     fetchData();
-  //     setCurrentPage(startPage);
-  //   }
-  // }, [
-  //   dispatch,
-  //   startPage,
-  //   countries.length,
-  //   trademark.length,
-  //   limit,
-  //   caterogyUrl[0],
-  //   subcategoryUrl[0],
-  //   router,
-  // ]);
+useEffect(() => {
+  if (
+    countries.length === 0 &&
+    trademark.length === 0 &&
+    minPrice === undefined &&
+    maxPrice === undefined &&
+    limit &&
+    router.isReady
+  ) {
+    setIsProductsLoading(true);
 
-  useEffect(() => {
-    if (
-      countries.length === 0 &&
-      trademark.length === 0 &&
-      minPrice === undefined &&
-      maxPrice === undefined &&
-      limit &&
-      router.isReady
-    ) {
-      setIsProductsLoading(true); // Встановлення isProductsLoading в true перед відправленням запиту
-
-      const fetchData = async () => {
-        try {
-          await dispatch(
-            fetchProducts({
-              page: router.query.page ? startPage : 1,
-              query: searchValue ? searchValue : [],
-              limit: limit,
-              countries: countriesUrlArray,
-              trademarks: trademarkUrlArray,
-              minPrice: minPrice,
-              maxPrice: maxPrice,
-              categories: caterogyUrl,
-              subcategories: subcategoryUrl,
-              sortBy: router.query.sortType ? 'price' : [],
-              sortType: router.query.sortType ? router.query.sortType : [],
-            })
-          );
-          setCurrentPage(startPage);
-        } catch (error) {
-          // Обробляйте помилку тут, якщо потрібно
-        } finally {
-          setIsProductsLoading(false); // Скидання isProductsLoading в false після отримання відповіді від сервера або виникнення помилки
-        }
-      };
-
-      fetchData();
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    limit,
-    caterogyUrl[0],
-    subcategoryUrl[0],
-    router,
-  ]);
-
+    dispatch(
+      fetchProducts({
+        page: router.query.page ? startPage : 1,
+        query: searchValue ? searchValue : [],
+        limit: limit,
+        countries: countriesUrlArray,
+        trademarks: trademarkUrlArray,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        categories: caterogyUrl,
+        subcategories: subcategoryUrl,
+        sortBy: router.query.sortType ? 'price' : [],
+        sortType: router.query.sortType ? router.query.sortType : [],
+      })
+    )
+      .then(() => {
+        setCurrentPage(startPage);
+      })
+      .catch(error => {
+        console.log('Some error:', error);
+      })
+      .finally(() => {
+        setIsProductsLoading(false);
+      });
+  }
+}, [
+  dispatch,
+  startPage,
+  countries.length,
+  trademark.length,
+  limit,
+  caterogyUrl[0],
+  subcategoryUrl[0],
+  router,
+]);
 
   // call effect to receive the selected products (by the filter`s options)
-  useEffect(() => {
-    if (
-      (countries.length !== 0 ||
-        trademark.length !== 0 ||
-        minPrice ||
-        maxPrice) &&
-      limit
-    ) {
-      setCountry(countriesUrlArray);
-      setTrademarks(trademarkUrlArray);
-      dispatch(
-        fetchProducts({
-          page: router.query.page ? startPage : 1,
-          query: searchValue ? searchValue : [],
-          limit: limit,
-          countries: updatedCountries,
-          trademarks: updatedTrademarks,
-          minPrice: minPrice,
-          maxPrice: maxPrice,
-          sortBy: router.query.sortType ? 'price' : [],
-          sortType: router.query.sortType ? router.query.sortType : [],
-        })
-      );
-      setCurrentPage(startPage);
-    }
-  }, [
-    dispatch,
-    startPage,
-    countries.length,
-    trademark.length,
-    minPrice,
-    maxPrice,
-    searchValue,
-    limit,
-    router,
-  ]);
+useEffect(() => {
+  if (
+    (countries.length !== 0 ||
+      trademark.length !== 0 ||
+      minPrice ||
+      maxPrice) &&
+    limit
+  ) {
+    setIsProductsLoading(true); 
+
+    setCountry(countriesUrlArray);
+    setTrademarks(trademarkUrlArray);
+    dispatch(
+      fetchProducts({
+        page: router.query.page ? startPage : 1,
+        query: searchValue ? searchValue : [],
+        limit: limit,
+        countries: updatedCountries,
+        trademarks: updatedTrademarks,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        sortBy: router.query.sortType ? 'price' : [],
+        sortType: router.query.sortType ? router.query.sortType : [],
+      })
+    )
+      .then(() => {
+        setCurrentPage(startPage);
+      })
+      .catch(error => {
+        console.log('Some error:', error);
+      })
+      .finally(() => {
+        setIsProductsLoading(false); 
+      });
+  }
+}, [
+  dispatch,
+  startPage,
+  countries.length,
+  trademark.length,
+  minPrice,
+  maxPrice,
+  searchValue,
+  limit,
+  router,
+]);
+
 
   const handleChange = (event, value) => {
     event.preventDefault();
@@ -484,11 +448,8 @@ const StartPage = () => {
             >
               <div className="cards-container">
                 {isProductsLoading && (
-
                     <LoadingPage />
-
                 )}
-
                 <CardsList
                   isLoading={isLoading}
                   products={data.products}

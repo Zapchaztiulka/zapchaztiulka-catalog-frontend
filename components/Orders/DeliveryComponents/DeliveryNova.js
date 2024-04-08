@@ -33,6 +33,7 @@ const DeliveryNova = ({
     : userLegalData?.selectedCityLegal;
 
   const warehousesInfo = useSelector(selectWaherousesNP);
+
   const isLoadingWarehouses = useSelector(selectDepartmentsLoading).warehouses;
 
   const warehousesList = warehousesInfo?.data?.flatMap(
@@ -88,6 +89,7 @@ const DeliveryNova = ({
     }
   };
 
+  
   const handleSelection = selectedItem => {
     setWarehouses(selectedItem);
     setSelectedItem(selectedItem);

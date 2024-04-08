@@ -4,6 +4,8 @@ import {
 } from '@/helpers/getNameOfCategory';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { StatusContext } from '@/context/statusContext';
 
 const Breadcrumbs = props => {
   const {
@@ -16,6 +18,7 @@ const Breadcrumbs = props => {
     searchValue,
   } = props;
   const router = useRouter();
+    const { resetLocalStorage } = useContext(StatusContext);
 
   const nameOfCategory = getCategoryName(categories, idCategory);
   const nameOfSubCategory = getSubCategoryName(categories, idSubCategory);
@@ -49,6 +52,7 @@ const Breadcrumbs = props => {
         categories: idCategory.length !== 0 ? idCategory : findCategoryId,
       },
     });
+    resetLocalStorage();
   };
 
   const handleBreadCrumbsSubCategory = event => {
@@ -60,15 +64,20 @@ const Breadcrumbs = props => {
         subcategories: idSubCategory,
       },
     });
+    resetLocalStorage();
   };
 
-console.log('TCL: nameOfCategoryForIDPage', props);
   return (
     <div className=" mb-3 text-textTertiary">
       {searchValue && (
         <>
           {' '}
-          <Link href="/" passHref className="breadcrumbs" >
+          <Link
+            href="/"
+            passHref
+            className="breadcrumbs"
+            onClick={resetLocalStorage}
+          >
             Каталог
           </Link>
           <span className="p-xs3">{' / '}</span>
@@ -79,7 +88,12 @@ console.log('TCL: nameOfCategoryForIDPage', props);
       )}
       {(nameOfCategory || nameOfCategoryForIDPage) && (
         <>
-          <Link href="/" passHref className="breadcrumbs" >
+          <Link
+            href="/"
+            passHref
+            className="breadcrumbs"
+            onClick={resetLocalStorage}
+          >
             Каталог
           </Link>
           <span className="p-xs3">{' / '}</span>
@@ -102,25 +116,31 @@ console.log('TCL: nameOfCategoryForIDPage', props);
                 href="/"
                 passHref
                 className="breadcrumbs"
-                
+                onClick={resetLocalStorage}
               >
                 Каталог
               </Link>
               <span className="p-xs3">{' / '}</span>
-              <Link href="/" passHref className="breadcrumbs"
-                  onClick={handleBreadCrumbsCategory}>
-                  {nameOfCategoryWithId}
+              <Link
+                href="/"
+                passHref
+                className="breadcrumbs"
+                onClick={handleBreadCrumbsCategory}
+              >
+                {nameOfCategoryWithId}
               </Link>
             </>
           )}
           <>
             <span className="p-xs3">{' / '}</span>
-            <Link href="/" passHref className="breadcrumbs"
-                onClick={handleBreadCrumbsSubCategory}>
-
-                {categories && nameOfSubCategory}
-                {product && nameOfSubCategoryForIDPage}
- 
+            <Link
+              href="/"
+              passHref
+              className="breadcrumbs"
+              onClick={handleBreadCrumbsSubCategory}
+            >
+              {categories && nameOfSubCategory}
+              {product && nameOfSubCategoryForIDPage}
             </Link>
           </>
         </>
@@ -128,9 +148,7 @@ console.log('TCL: nameOfCategoryForIDPage', props);
       {product && (
         <>
           <span className="p-xs3">{' / '}</span>
-          <span className="breadcrumbs">
-            {product?.name}
-          </span>
+          <span className="breadcrumbs">{product?.name}</span>
         </>
       )}
     </div>

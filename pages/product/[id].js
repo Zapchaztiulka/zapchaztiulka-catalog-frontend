@@ -14,6 +14,7 @@ import {
 import SkeletonProductDetail from '@/components/Skeleton/SkeletonProductDetail.js';
 import SkeletonProducts from '@/components/Skeleton/SkeletonProducts.js';
 import { useWindowSize } from '@/hooks/useWindowSize.js';
+import { Button } from 'universal-components-frontend/src/components/buttons';
 
 const ProductDetail = lazy(() =>
   import('../../components/Products/ProductDetail.js')
@@ -35,6 +36,14 @@ const ProductID = () => {
   let arrViewProduct = JSON.parse(
     localStorage.getItem('ProductViewed') || '[]'
   );
+    const backToHomeUrl = () => {
+      router.push({
+        pathname: '/',
+        query: {
+          page: 1,
+        },
+      });
+    };
 
   useEffect(() => {
     if (id) {
@@ -108,24 +117,47 @@ const ProductID = () => {
         <meta name="description" content={product?.description} />
         <meta name="keywords" content={product?.keywords} />
       </Head>
-      <Suspense fallback={<SkeletonProductDetail />}>
-        <ProductDetail
-          setShowModal={setShowModal}
-          showModal={showModal}
-          product={product}
-          isOpen={isOpen}
-          toggle={toggle}
-          mainRef={mainRef}
-          handleThumbs={handleThumbs}
-          indexThumb={indexThumb}
-        />
-      </Suspense>
+      {product === null ? (
+        <div className="flex flex-col items-center container mt-[200px] mb-[100px]">
+          <h1 className="text-lg">
+            Товар з <b>{id}</b> не знайдений.
+          </h1>
+          <p className="text-lg mb-4">
+            Будь ласка, перевірте правильність URL або поверніться на головну
+            сторінку.
+          </p>
+          <Button
+            buttonType="primary"
+            type="submit"
+            text="Повернутися на головну сторінку"
+            className="bg-bgBrandDark py-2 px-m w-auto"
+            size="small"
+            onClick={() => backToHomeUrl()}
+          />
+        </div>
+      ) : (
+        <Suspense fallback={<SkeletonProductDetail />}>
+          <ProductDetail
+            setShowModal={setShowModal}
+            showModal={showModal}
+            product={product}
+            isOpen={isOpen}
+            toggle={toggle}
+            mainRef={mainRef}
+            handleThumbs={handleThumbs}
+            indexThumb={indexThumb}
+          />
+        </Suspense>
+      )}
+
       <h2 className="mb-s text-textPrimary text-lg/[25.2px] tablet600:text-2xl/[28.8px] desktop1200:text-2xl/[36.4px] -tracking-[0.36px] desktop1200:-tracking-[0.42px] container">
         Найбільш популярні
       </h2>
       {data && (
         <div className="pl-s mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-          <Suspense fallback={<SkeletonProducts numberOfElements={numberOfElements} />}>
+          <Suspense
+            fallback={<SkeletonProducts numberOfElements={numberOfElements} />}
+          >
             <PopularProducts products={data.products} isLoading={isLoading} />
           </Suspense>
         </div>
@@ -136,7 +168,11 @@ const ProductID = () => {
             Переглянуті товари
           </h2>
           <div className="pl-xs mt-6 tablet600:mt-0 mobile480:pl-m tablet1024:px-m desktop1440:px-[120px] desktop1920:px-[207.5px] tablet1024:container tablet1024:flex tablet1024:flex-col tablet1024:products-start mx-auto">
-            <Suspense fallback={<SkeletonProducts numberOfElements={numberOfElements}/>}>
+            <Suspense
+              fallback={
+                <SkeletonProducts numberOfElements={numberOfElements} />
+              }
+            >
               <RecentlyViewProducts
                 productFromLocalStorage={productFromLocalStorage}
               />
