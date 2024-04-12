@@ -1,4 +1,4 @@
-const SITE_URL = 'https://zapchaztiulka-catalog-frontend.vercel.app/';
+const SITE_URL = process.env.NEXT_PUBLIC_URL_SITE;
 
 // Save crawling budget by not fetching SSG meta files
 const NEXT_SSG_FILES = [

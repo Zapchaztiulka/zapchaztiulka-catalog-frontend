@@ -17,6 +17,8 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+const siteURL = process.env.NEXT_PUBLIC_URL_SITE;
+
 function MyApp({ Component, pageProps }) {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   
@@ -48,13 +50,10 @@ function MyApp({ Component, pageProps }) {
           property="og:description"
           content="Запчастини для авто та сільгосптехніки"
         />
-        <meta
-          property="og:url"
-          content="https://zapchaztiulka-catalog-frontend.vercel.app/"
-        />
+        <meta property="og:url" content={siteURL} />
         <meta property="og:type" content="website" />
       </Head>
-      {isLoadingPage  && <LoadingPage />}
+      {isLoadingPage && <LoadingPage />}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <StatusProvider>
